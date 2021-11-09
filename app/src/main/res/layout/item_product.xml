@@ -2,37 +2,30 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="170dp"
-    android:layout_height="wrap_content"
+    android:layout_height="180dp"
     android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp">
+    android:layout_marginStart="15dp"
+    app:cardElevation="0dp"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp">
-
-
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="72dp">-->
-
-        <!--            &lt;!&ndash;name product&ndash;&gt;-->
-
-        <!--        </LinearLayout>-->
-
+        android:layout_height="180dp"
+        >
 
         <!--image product-->
         <ImageView
-            android:id="@+id/img_product"
+            android:id="@+id/imgv_itemProduct"
             android:layout_width="170dp"
             android:layout_height="132dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="2dp"
-            android:src="@drawable/product" />
+            android:src="" />
 
 
         <!--icon heart-->
         <ImageView
+            android:id="@+id/imgv_itemProduct_heart"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignParentEnd="true"
@@ -43,6 +36,7 @@
 
         <!--icon circle-->
         <ImageView
+            android:id="@+id/imgv_itemProduct_circle"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignParentStart="true"
@@ -57,14 +51,15 @@
 
         <!--product name-->
         <TextView
+            android:id="@+id/tv_itemProduct_name"
             android:layout_width="match_parent"
             android:layout_height="21dp"
-            android:layout_below="@+id/img_product"
+            android:layout_below="@+id/imgv_itemProduct"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="0dp"
             android:gravity="center_horizontal"
-            android:text="@string/app_name"
+            android:text=""
             android:textColor="@android:color/black"
             android:textSize="14sp">
 
@@ -72,12 +67,13 @@
 
         <!--product cost-->
         <TextView
+            android:id="@+id/tv_itemProduct_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:text="2015$"
+            android:text=""
             android:textColor="#262626"
             android:textSize="10dp">
 
