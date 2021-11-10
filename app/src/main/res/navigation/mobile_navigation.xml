@@ -12,14 +12,19 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.project.kicksdrop.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_wishlist"
+        android:name="com.project.kicksdrop.ui.wishlist.WishlistFragment"
+        android:label="@string/title_wishlist"
+        tools:layout="@layout/fragment_wishlist" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.project.kicksdrop.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.project.kicksdrop.ui.notifications.NotificationsFragment"
+        android:label="@string/title_profile"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

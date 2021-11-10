@@ -3,10 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/KicksDrop/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.3828125" />
+        <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.3828125" />
+        <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.3828125" />
+        <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3828125" />
+        <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />
+        <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3828125" />
+        <entry key="..\:/KicksDrop/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/KicksDrop/app/src/main/res/layout/fragment_dashboard.xml" value="0.20520833333333333" />
         <entry key="..\:/KicksDrop/app/src/main/res/layout/fragment_home.xml" value="0.20520833333333333" />
         <entry key="..\:/KicksDrop/app/src/main/res/layout/fragment_notifications.xml" value="0.20520833333333333" />
+        <entry key="..\:/KicksDrop/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
+        <entry key="..\:/KicksDrop/app/src/main/res/layout/fragment_wishlist.xml" value="0.20416666666666666" />
+        <entry key="..\:/KicksDrop/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>
