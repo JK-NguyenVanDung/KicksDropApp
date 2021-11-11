@@ -60,8 +60,8 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="14dp"
                     android:layout_weight="1"
-                    android:background=""
-                    android:drawableRight=""
+                    android:background="@drawable/border_radius"
+                    android:drawableRight="@drawable/ic_baseline_search_24"
                     android:hint="Search..."
                     android:inputType="text"
                     android:maxLines="1"
@@ -73,14 +73,14 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="13dp"
-                    android:src="" />
+                    android:src="@drawable/ic_shoppingbag" />
 
                 <ImageView
                     android:id="@+id/imgv_home_message"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="12dp"
-                    android:src="" />
+                    android:src="@drawable/ic_message" />
 
             </LinearLayout>
 
@@ -100,7 +100,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src=""
+                        android:src="@drawable/hinhthumb"
+                        android:layout_marginRight="3dp"
+                        />
+                    <ImageView
+                        android:id="@+id/imgv_home_imageProductGallery_product2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/hinhthumb"
+                        android:layout_marginRight="3dp"
+                        />
+                    <ImageView
+                        android:id="@+id/imgv_home_imageProductGallery_product3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/hinhthumb"
+                        android:layout_marginRight="3dp"
+                        />
+                    <ImageView
+                        android:id="@+id/imgv_home_imageProductGallery_product4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/hinhthumb"
                         android:layout_marginRight="3dp"
                         />
 
@@ -112,21 +136,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:src="" />
+                android:src="@drawable/hinhba" />
 
             <ImageView
                 android:id="@+id/imgv_productSectionTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:src="" />
+                android:src="@drawable/hinhhai" />
 
             <ImageView
                 android:id="@+id/imgv_productSectionThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:src="" />
+                android:src="@drawable/hinhhai" />
 
             <TextView
                 android:id="@+id/tv_home_titleContentThree"

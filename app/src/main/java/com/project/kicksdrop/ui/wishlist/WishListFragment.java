@@ -1,4 +1,4 @@
-package com.project.kicksdrop.ui.dashboard;
+package com.project.kicksdrop.ui.wishlist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,24 +10,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import com.project.kicksdrop.R;
-import com.project.kicksdrop.databinding.FragmentDashboardBinding;
 
-public class DashboardFragment extends Fragment {
+import com.project.kicksdrop.databinding.FragmentWishlistBinding;
+import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 
-    private DashboardViewModel dashboardViewModel;
-private FragmentDashboardBinding binding;
+public class WishListFragment extends Fragment {
+
+    private WishListViewModel wishListViewModel;
+private FragmentWishlistBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        wishListViewModel =
+                new ViewModelProvider(this).get(WishListViewModel.class);
 
-    binding = FragmentDashboardBinding.inflate(inflater, container, false);
+    binding = FragmentWishlistBinding.inflate(inflater, container, false);
     View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textWishlish;
+        wishListViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
