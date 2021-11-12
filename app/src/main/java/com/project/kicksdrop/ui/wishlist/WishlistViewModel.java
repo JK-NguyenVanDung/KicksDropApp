@@ -10,7 +10,7 @@ public class WishlistViewModel extends ViewModel {
 
     public WishlistViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is wishlist fragment");
     }
 
     public LiveData<String> getText() {
