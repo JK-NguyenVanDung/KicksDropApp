@@ -26,7 +26,7 @@ public class WishlistFragment extends Fragment {
     binding = FragmentWishlistBinding.inflate(inflater, container, false);
     View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
+        final TextView textView = binding.textWishlist;
         wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

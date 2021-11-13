@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="com.project.kicksdrop.ui.wishlist.WishListFragment"
+        android:name="com.project.kicksdrop.ui.wishlist.WishlistFragment"
         android:label="@string/title_wishlist"
         tools:layout="@layout/fragment_wishlist" />
 
