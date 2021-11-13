@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="com.project.kicksdrop.ui.wishlist.WishlistFragment"
+        android:name="com.project.kicksdrop.ui.wishlist.WishListFragment"
         android:label="@string/title_wishlist"
         tools:layout="@layout/fragment_wishlist" />
 
@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.project.kicksdrop.ui.notifications.NotificationsFragment"
+        android:name="com.project.kicksdrop.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_profile" />
 </navigation>

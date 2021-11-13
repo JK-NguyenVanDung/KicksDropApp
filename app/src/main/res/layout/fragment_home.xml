@@ -16,8 +16,189 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="22dp"
+                android:baselineAligned="false">
+
+                <!--<EditText
+                    android:id="@+id/editTextTextPersonName"
+                    android:layout_width="292dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_radius"
+                    android:ems="10"
+                    android:hint="Search..."
+                    android:inputType="textPersonName" />-->
+
+                <EditText
+                    android:id="@+id/et_home_search"
+                    android:layout_width="265dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_radius"
+                    android:drawableRight="@drawable/ic_baseline_search_24"
+                    android:hint="Search..."
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="20dp"
+                    android:paddingRight="20dp" />
+
+                <ImageView
+                    android:id="@+id/imgv_home_shoppingBag"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="13dp"
+                    android:src="@drawable/ic_shoppingbag" />
+
+                <ImageView
+                    android:id="@+id/imgv_home_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/ic_message" />
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/imgv_home_imageProductGallery"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="41dp"
+                tools:ignore="SpeakableTextPresentCheck">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/imgv_home_imageProductGallery_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/hinhthumb"
+                        android:layout_marginRight="3dp"
+                        />
+                    <ImageView
+                        android:id="@+id/imgv_home_imageProductGallery_product2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/hinhthumb"
+                        android:layout_marginRight="3dp"
+                        />
+                    <ImageView
+                        android:id="@+id/imgv_home_imageProductGallery_product3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/hinhthumb"
+                        android:layout_marginRight="3dp"
+                        />
+                    <ImageView
+                        android:id="@+id/imgv_home_imageProductGallery_product4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/hinhthumb"
+                        android:layout_marginRight="3dp"
+                        />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <ImageView
+                android:id="@+id/imgv_productSectionOne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/hinhba" />
+
+            <ImageView
+                android:id="@+id/imgv_productSectionTwo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/hinhhai" />
+
+            <ImageView
+                android:id="@+id/imgv_productSectionThree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/hinhhai" />
+
+            <TextView
+                android:id="@+id/tv_home_titleContentThree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:text="THE NEWLY FRESH DROPS"
+                android:textColor="#262626"
+                android:textSize="20sp" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow android:gravity="center_horizontal">
+
+                    <include
+                        layout="@layout/item_product"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="21dp" />
+
+                    <include layout="@layout/item_product" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="193dp"
+                    android:gravity="center_horizontal">
+
+                    <include
+                        layout="@layout/item_product"
+                        android:layout_width="170dp"
+                        android:layout_height="250dp" />
+
+                    <include
+                        layout="@layout/item_product"
+                        android:layout_width="170dp"
+                        android:layout_height="match_parent" />
+                </TableRow>
+
+            </TableLayout>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
