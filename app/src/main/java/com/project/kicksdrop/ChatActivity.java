@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.project.kicksdrop.ui.chat.ChatFragment;
 
 public class ChatActivity extends AppCompatActivity {
 
+    FirebaseUser fUser;
+    //DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
