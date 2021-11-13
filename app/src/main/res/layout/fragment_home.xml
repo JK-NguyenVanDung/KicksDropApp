@@ -58,8 +58,8 @@
                     android:id="@+id/et_home_search"
                     android:layout_width="265dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="14dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="14dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_radius"
                     android:drawableRight="@drawable/ic_baseline_search_24"
@@ -69,19 +69,25 @@
                     android:paddingStart="20dp"
                     android:paddingRight="20dp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/imgv_home_shoppingBag"
-                    android:layout_width="25dp"
+                    android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="13dp"
-                    android:src="@drawable/ic_shoppingbag" />
+                    android:background="?android:selectableItemBackground"
+                    android:radius="20dp"
+                    android:src="@drawable/ic_shoppingbag"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/imgv_home_message"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="12dp"
-                    android:src="@drawable/ic_message" />
+                    android:background="?android:selectableItemBackground"
+                    android:minWidth="48dp"
+                    android:radius="20dp"
+                    android:src="@drawable/ic_message"
+                    android:paddingTop="5dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
 
@@ -96,64 +102,79 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/imgv_home_imageProductGallery_product"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
                         android:layout_weight="1"
                         android:src="@drawable/hinhthumb"
                         android:layout_marginRight="3dp"
+                        tools:ignore="SpeakableTextPresentCheck"
                         />
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/imgv_home_imageProductGallery_product2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/hinhthumb"
                         android:layout_marginRight="3dp"
+                        android:background="?android:selectableItemBackground"
+                        tools:ignore="SpeakableTextPresentCheck"
                         />
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/imgv_home_imageProductGallery_product3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/hinhthumb"
+                        android:background="?android:selectableItemBackground"
                         android:layout_marginRight="3dp"
+                        tools:ignore="SpeakableTextPresentCheck"
                         />
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/imgv_home_imageProductGallery_product4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/hinhthumb"
+                        android:background="?android:selectableItemBackground"
                         android:layout_marginRight="3dp"
+                        tools:ignore="SpeakableTextPresentCheck"
                         />
 
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/imgv_productSectionOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
                 android:layout_marginBottom="4dp"
-                android:src="@drawable/hinhba" />
+                android:src="@drawable/hinhba"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
-            <ImageView
+
+            <ImageButton
                 android:id="@+id/imgv_productSectionTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:src="@drawable/hinhhai" />
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/hinhhai"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/imgv_productSectionThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:src="@drawable/hinhhai" />
+                android:src="@drawable/hinhhai"
+                android:background="?android:selectableItemBackground"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
-            <TextView
+            <ImageButton
                 android:id="@+id/tv_home_titleContentThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,7 +182,9 @@
                 android:gravity="center_horizontal"
                 android:text="THE NEWLY FRESH DROPS"
                 android:textColor="#262626"
-                android:textSize="20sp" />
+                android:background="?android:selectableItemBackground"
+                android:textSize="20sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
             <TableLayout
                 android:layout_width="match_parent"
