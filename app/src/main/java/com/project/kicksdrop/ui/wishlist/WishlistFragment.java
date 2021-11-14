@@ -14,20 +14,19 @@ import androidx.lifecycle.ViewModelProvider;
 import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 
 public class WishlistFragment extends Fragment {
-
-    private WishListViewModel wishlistViewModel;
-    private FragmentWishlistBinding binding;
+    private WishListViewModel wishListViewModel;
+private FragmentWishlistBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-        wishlistViewModel =
+        wishListViewModel =
                 new ViewModelProvider(this).get(WishListViewModel.class);
 
     binding = FragmentWishlistBinding.inflate(inflater, container, false);
     View root = binding.getRoot();
 
         final TextView textView = binding.textWishlist;
-        wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        wishListViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
