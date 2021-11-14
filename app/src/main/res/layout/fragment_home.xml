@@ -16,12 +16,12 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintBottom_toBottomOf="@+id/navigation_bar_home_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/navigation_bar_home_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
@@ -42,60 +42,51 @@
                 android:layout_marginBottom="22dp"
                 android:baselineAligned="false">
 
-                <!--<EditText
-                    android:id="@+id/editTextTextPersonName"
-                    android:layout_width="292dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_radius"
-                    android:ems="10"
-                    android:hint="Search..."
-                    android:inputType="textPersonName" />-->
 
                 <EditText
                     android:id="@+id/et_home_search"
-                    android:layout_width="265dp"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="14dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_radius"
-                    android:drawableRight="@drawable/ic_baseline_search_24"
+                    android:drawableEnd="@drawable/ic_baseline_search_24"
                     android:hint="Search..."
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="20dp"
-                    android:paddingRight="20dp" />
+                    android:paddingEnd="20dp"
+                    android:importantForAutofill="no" />
 
                 <ImageButton
-                    android:id="@+id/imgv_home_shoppingBag"
+                    android:id="@+id/ibtn_home_shoppingBag"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
-                    android:radius="20dp"
+                    android:layout_marginEnd="13dp"
+                    android:backgroundTint="#00FFFFFF"
+                    android:contentDescription="TODO"
                     android:src="@drawable/ic_shoppingbag"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
                 <ImageButton
-                    android:id="@+id/imgv_home_message"
+                    android:id="@+id/ibtn_home_message"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
-                    android:minWidth="48dp"
-                    android:radius="20dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#00FFFFFF"
                     android:src="@drawable/ic_message"
-                    android:paddingTop="5dp"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    tools:ignore="SpeakableTextPresentCheck"
+                    android:contentDescription="TODO" />
 
             </LinearLayout>
 
             <HorizontalScrollView
-                android:id="@+id/imgv_home_imageProductGallery"
+                android:id="@+id/hs_home_imageProductGallery"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="41dp"
+                android:scrollbars="none"
                 tools:ignore="SpeakableTextPresentCheck">
 
                 <LinearLayout
@@ -103,78 +94,79 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product"
+                        android:id="@+id/ibtn_home_imageProductGallery_product"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="?android:selectableItemBackground"
+                        android:layout_marginEnd="3dp"
                         android:layout_weight="1"
+                        android:backgroundTint="#00FFFFFF"
                         android:src="@drawable/hinhthumb"
-                        android:layout_marginRight="3dp"
                         tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:contentDescription="TODO" />
+
                     <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product2"
+                        android:id="@+id/ibtn_home_imageProductGallery_product2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
                         android:layout_weight="1"
+                        android:backgroundTint="#00FFFFFF"
                         android:src="@drawable/hinhthumb"
-                        android:layout_marginRight="3dp"
-                        android:background="?android:selectableItemBackground"
                         tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:contentDescription="TODO" />
+
                     <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product3"
+                        android:id="@+id/ibtn_home_imageProductGallery_product3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
                         android:layout_weight="1"
+                        android:backgroundTint="#00FFFFFF"
                         android:src="@drawable/hinhthumb"
-                        android:background="?android:selectableItemBackground"
-                        android:layout_marginRight="3dp"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:contentDescription="TODO" />
+
                     <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product4"
+                        android:id="@+id/ibtn_home_imageProductGallery_product4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
                         android:layout_weight="1"
+                        android:backgroundTint="#00FFFFFF"
                         android:src="@drawable/hinhthumb"
-                        android:background="?android:selectableItemBackground"
-                        android:layout_marginRight="3dp"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:contentDescription="TODO" />
 
                 </LinearLayout>
             </HorizontalScrollView>
 
             <ImageButton
-                android:id="@+id/imgv_productSectionOne"
+                android:id="@+id/ibtn_home_sectionProductBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
                 android:layout_marginBottom="4dp"
+                android:backgroundTint="#00FFFFFF"
                 android:src="@drawable/hinhba"
-                tools:ignore="SpeakableTextPresentCheck"/>
-
+                tools:ignore="SpeakableTextPresentCheck"
+                android:contentDescription="TODO" />
 
             <ImageButton
-                android:id="@+id/imgv_productSectionTwo"
+                android:id="@+id/ibtn_home_sectionProductBranchTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:background="?android:selectableItemBackground"
+                android:backgroundTint="#00FFFFFF"
                 android:src="@drawable/hinhhai"
-                tools:ignore="SpeakableTextPresentCheck"/>
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <ImageButton
-                android:id="@+id/imgv_productSectionThree"
+                android:id="@+id/ibtn_home_sectionProductBranchThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
+                android:backgroundTint="#00FFFFFF"
                 android:src="@drawable/hinhhai"
-                android:background="?android:selectableItemBackground"
-                tools:ignore="SpeakableTextPresentCheck"/>
+                tools:ignore="SpeakableTextPresentCheck" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/tv_home_titleContentThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,9 +174,7 @@
                 android:gravity="center_horizontal"
                 android:text="THE NEWLY FRESH DROPS"
                 android:textColor="#262626"
-                android:background="?android:selectableItemBackground"
-                android:textSize="20sp"
-                tools:ignore="SpeakableTextPresentCheck"/>
+                android:textSize="20sp" />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -196,7 +186,7 @@
                         layout="@layout/item_product"
                         android:layout_width="170dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="21dp" />
 
                     <include layout="@layout/item_product" />
