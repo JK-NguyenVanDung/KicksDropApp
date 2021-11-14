@@ -4,4 +4,13 @@
     <string name="title_wishlist">Wishlist</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
+    <string name="todo">TODO</string>
+    <string name="nike_air_force_1_07">Nike Air Force 1 \'07</string>
+    <string name="_90_00">90.00$</string>
+    <string name="men_shoes">Men Shoes</string>
+    <string name="size">Size</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="search">Search...</string>
+    <string name="wishlist">WISHLIST</string>
+    <string name="_7_items">7 ITEMS</string>
 </resources>

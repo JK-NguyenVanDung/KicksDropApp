@@ -15,18 +15,18 @@ import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 
 public class WishlistFragment extends Fragment {
 
-    private WishlistViewModel wishlistViewModel;
+    private WishListViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         wishlistViewModel =
-                new ViewModelProvider(this).get(WishlistViewModel.class);
+                new ViewModelProvider(this).get(WishListViewModel.class);
 
     binding = FragmentWishlistBinding.inflate(inflater, container, false);
     View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
+        final TextView textView = binding.textWishlist;
         wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
