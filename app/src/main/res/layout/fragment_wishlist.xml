@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.wishlist.WishListFragment" >
+    tools:context=".ui.wishlist.WishlistFragment" >
+
     <TextView
         android:id="@+id/text_wishlist"
         android:layout_width="match_parent"
@@ -15,8 +16,125 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/navigation_bar_wishlist_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/navigation_bar_wishlist_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="22dp"
+                android:baselineAligned="false">
+
+                <EditText
+                    android:id="@+id/et_wishlist_search"
+
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/border_radius"
+                    android:drawableEnd="@drawable/ic_baseline_search_24"
+
+                    android:hint="search..."
+                    android:inputType="text"
+                    android:maxLines="1"
+
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:importantForAutofill="no" />
+
+                <ImageButton
+                    android:id="@+id/ibtn_wishlist_shoppingBag"
+
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_marginEnd="13dp"
+
+                    android:backgroundTint="#00FFFFFF"
+
+                    android:src="@drawable/ic_shoppingbag"
+                    tools:ignore="SpeakableTextPresentCheck"/>
+
+                <ImageButton
+                    android:id="@+id/ibtn_home_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:layout_marginEnd="12dp"
+
+                    android:backgroundTint="#00FFFFFF"
+                    android:src="@drawable/ic_message"
+                    tools:ignore="SpeakableTextPresentCheck"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_wishlish_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:fontFamily="@font/work_sans_light"
+                android:textAllCaps="true"
+                android:text="wishlist"
+                android:textColor="#333333"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_wishlish_AmountOfItems"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="7 ITEMS"
+                android:textColor="#444444"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_cart_product_add" />
+
+                <include layout="@layout/item_cart_product_add" />
+
+                <include layout="@layout/item_cart_product_add" />
+
+                <include layout="@layout/item_cart_product_add" />
+
+                <include layout="@layout/item_cart_product_add" />
+
+                <include layout="@layout/item_cart_product_add" />
+
+                <include layout="@layout/item_cart_product_add" />
+
+            </LinearLayout>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

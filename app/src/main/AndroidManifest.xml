@@ -10,10 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KicksDrop">
         <activity
+            android:name=".ui.profileuser.EditProfileUser"
+            android:exported="true" />
+        <activity
+            android:name=".ui.promocode.CouponProduct"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cart.CartListView"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cart.CartProductOrder"
+            android:exported="true" />
+        <activity
+            android:name=".ui.product.ProductInfo"
+            android:exported="true" />
+        <activity
             android:name=".ChatActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -24,6 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
