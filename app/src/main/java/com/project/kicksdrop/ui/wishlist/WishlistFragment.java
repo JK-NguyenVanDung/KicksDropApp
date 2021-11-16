@@ -12,22 +12,22 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.project.kicksdrop.databinding.FragmentWishlistBinding;
+import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 
-public class WishlistFragment extends Fragment {
-
-    private WishlistViewModel wishlistViewModel;
-    private FragmentWishlistBinding binding;
+class WishListFragment extends Fragment {
+    private WishListViewModel wishListViewModel;
+private FragmentWishlistBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-        wishlistViewModel =
-                new ViewModelProvider(this).get(WishlistViewModel.class);
+        wishListViewModel =
+                new ViewModelProvider(this).get(WishListViewModel.class);
 
     binding = FragmentWishlistBinding.inflate(inflater, container, false);
     View root = binding.getRoot();
 
         final TextView textView = binding.textWishlist;
-        wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        wishListViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
