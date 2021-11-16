@@ -203,21 +203,6 @@
 
                 </TableRow>
 
-                <TableRow
-                    android:layout_height="193dp"
-                    android:gravity="center_horizontal">
-
-                    <include
-                        layout="@layout/item_product"
-                        android:layout_width="170dp"
-                        android:layout_height="250dp" />
-
-                    <include
-                        layout="@layout/item_product"
-                        android:layout_width="170dp"
-                        android:layout_height="match_parent" />
-                </TableRow>
-
             </TableLayout>
 
 
