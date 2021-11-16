@@ -30,6 +30,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +42,13 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.databinding.ActivityMainBinding;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,19 +92,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navCo = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(binding.navView, navCo);
 
-        loadProduct("PD1");
+        //loadProduct("PD1");
 
 
         //addProductCart("AC3","PD1",5,"#333",42);
         //addProductCart("AC3","PD2",5,"#333",42);
-        delProductCart("AC3","PD1");
+        //delProductCart("AC3","PD1");
 
         //
-        getCart(user_id);
+        //getCart(user_id);
         //getProduct();
-        String temp = coupon;
-        Toast.makeText(MainActivity.this, coupon,Toast.LENGTH_LONG).show();
-
 
 
     }
@@ -211,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
@@ -225,7 +231,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
 
     private void loadProduct(String id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -294,22 +302,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void loadImage(ImageView image, String imageName){
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
-        try {
-            File file = File.createTempFile("tmp",".jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    image.setImageBitmap(bitmap);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
 
