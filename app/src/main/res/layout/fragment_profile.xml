@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50dp"
                     android:gravity="center_horizontal"
+                    android:fontFamily="@font/work_sans_semibold"
                     android:text="KICKS DROP"
                     android:textColor="#333333"
                     android:textSize="36sp" />
@@ -53,6 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
+                    android:fontFamily="@font/work_sans_semibold"
                     android:layout_marginTop="14dp"
                     android:gravity="center_horizontal"
 

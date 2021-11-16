@@ -4,4 +4,31 @@
     <string name="title_wishlist">Wishlist</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
+
+    <string name="search">Search...</string>
+    <string name="btn_add_cart_item">Add to cart</string>
+
+
+    <string name="items_upper_case">ITEMS</string>
+    <string name="coupon_upper_case">COUPON</string>
+    <string name="logo_app_upper_case">KICKS DROP</string>
+    <string name="cart_upper_case">CART</string>
+    <string name="todo">TODO</string>
+    <string name="size">Size:</string>
+    <string name="product">product</string>
+    <string name="_42">42</string>
+    <string name="_150_reviews">(150 reviews)</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="total_amount_of_goods">Total amount of goods</string>
+    <string name="total">Total</string>
+    <string name="discount">Discount</string>
+    <string name="total_shipping_fee">Total shipping fee</string>
+    <string name="promote_code">Promote Code</string>
+    <string name="time_shipping">Time Shipping</string>
+    <string name="apply">Apply</string>
+    <string name="summary">Summary</string>
+    <string name="separate">|</string>
+    <string name="cart">cart</string>
+    <string name="amount">Amount</string>
+    <string name="the_newly_fresh_drops">THE NEWLY FRESH DROPS</string>
 </resources>
