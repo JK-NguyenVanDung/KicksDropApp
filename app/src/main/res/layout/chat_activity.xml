@@ -5,74 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="#000000">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
+        <ImageButton
+            android:id="@+id/chat_ib_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:srcCompat="@drawable/ic_baseline_go_back"
+            tools:ignore="SpeakableTextPresentCheck" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:contentDescription="TODO"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                app:srcCompat="@drawable/ic_baseline_go_back"
-                tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/tv_header_chat"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/title_user_chat"
+            android:textColor="#333333"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tv_header_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/title_user_chat"
-                android:textColor="#333333"
-                android:textSize="20sp" />
-
-            <ImageButton
-                android:id="@+id/ib_dots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:background="?android:selectableItemBackground"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                app:srcCompat="@drawable/ic_dots"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </LinearLayout>
-
-    </androidx.appcompat.widget.Toolbar>
+        <ImageButton
+            android:id="@+id/chat_ib_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="?android:selectableItemBackground"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:srcCompat="@drawable/ic_dots"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
 
 
     <ScrollView
-        android:id="@+id/scrollView3"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_width="0dp"
+        android:layout_height="633dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:ignore="SpeakableTextPresentCheck">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <LinearLayout
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_rv_chatArea"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
     </ScrollView>
 
     <androidx.cardview.widget.CardView
@@ -92,8 +81,7 @@
         app:contentPadding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,13 +89,12 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/input_edit_text"
+                android:id="@+id/chat_et_input"
                 android:layout_width="359dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
                 android:hint="@string/default_input_hint"
-                android:hintTextColor="#757575"
                 android:inputType="text"
                 android:maxLines="5"
                 android:minHeight="48dp"
@@ -116,11 +103,11 @@
                 android:paddingRight="8dp"
                 android:paddingBottom="4dp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/main_color_gray"
+                android:textColorHint="@color/black"
                 android:textSize="16dp" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/chat_ib_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
