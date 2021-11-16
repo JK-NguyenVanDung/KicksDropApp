@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeChild.sectionProductBranchOne">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/navigation_bar_home_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/ibtn_profile_editProfile_prev"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#00FFFFFF"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_previous"
+                        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
+
+                    <TextView
+                        android:id="@+id/tv_home_sectionProductBranchOne_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="49dp"
+
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+
+                        android:layout_marginTop="-1dp"
+                        android:layout_marginEnd="1dp"
+
+                        android:layout_marginBottom="0dp"
+                        android:fontFamily="@font/work_sans_semibold"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="NIKE"
+                        android:textAllCaps="true"
+                        android:textColor="#333333"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="22dp"
+                android:baselineAligned="false"
+
+                >
+
+
+                <EditText
+                    android:id="@+id/et_home_search"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_radius"
+                    android:drawableEnd="@drawable/ic_baseline_search_24"
+                    android:hint="@string/search"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textColor="#757575"
+                    tools:ignore="TextContrastCheck" />
+
+                <ImageButton
+                    android:id="@+id/ibtn_home_shoppingBag"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="13dp"
+                    android:backgroundTint="#00FFFFFF"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/ic_shoppingbag"
+                    tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
+
+                <ImageButton
+                    android:id="@+id/ibtn_home_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#00FFFFFF"
+                    android:src="@drawable/ic_message"
+                    tools:ignore="SpeakableTextPresentCheck"
+                    android:contentDescription="@string/todo" />
+
+            </LinearLayout>
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TableRow android:gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    >
+
+                    <include
+                        android:layout_marginEnd="10dp"
+                        layout="@layout/item_product"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <include layout="@layout/item_product"
+
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    >
+
+                    <include
+                        layout="@layout/item_product"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        layout="@layout/item_product"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    >
+
+                    <include
+                        layout="@layout/item_product"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        layout="@layout/item_product"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        />
+                </TableRow>
+
+            </TableLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

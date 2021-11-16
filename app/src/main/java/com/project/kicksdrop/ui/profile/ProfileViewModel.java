@@ -13,6 +13,8 @@ public class ProfileViewModel extends ViewModel {
         mText.setValue("This is profile fragment");
     }
 
+
+
     public LiveData<String> getText() {
         return mText;
     }

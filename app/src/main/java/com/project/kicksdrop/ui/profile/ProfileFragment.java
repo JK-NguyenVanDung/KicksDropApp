@@ -20,12 +20,14 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         profileViewModel =
                 new ViewModelProvider(this).get(ProfileViewModel.class);
 
-    binding = FragmentProfileBinding.inflate(inflater, container, false);
-    View root = binding.getRoot();
+
+
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
         final TextView textView = binding.textProfile;
         profileViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -36,7 +38,7 @@ public class ProfileFragment extends Fragment {
         return root;
     }
 
-@Override
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
