@@ -38,6 +38,22 @@
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/main_fragment.xml" value="0.2" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/pop_up_chat.xml" value="0.20520833333333333" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/menu/popup_menu.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/border_radius.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/default_button.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/edittext.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_baseline_shopping_bag_24.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_dots.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_heart.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_icongoogle.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_message.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3828125" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/layout/chat_activity.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Administrator/StudioProjects/KicksDropApp/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/KicksDropApp/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/KicksDropApp/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/KicksDropApp/app/src/main/res/layout/fragment_notifications.xml" value="0.36666666666666664" />
