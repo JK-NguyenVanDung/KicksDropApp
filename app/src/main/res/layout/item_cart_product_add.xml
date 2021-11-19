@@ -32,14 +32,14 @@
                     android:id="@+id/iv_item_productCart_addToCart_image"
 
                     android:layout_width="160dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="140dp"
 
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="0dp"
                     android:layout_marginBottom="0dp"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/product" />
+                    android:src="@drawable/product_version_adidas_new" />
 
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/navigation_itemproductCart_addToCart_viewList_color"
