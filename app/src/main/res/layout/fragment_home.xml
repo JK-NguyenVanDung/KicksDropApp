@@ -23,7 +23,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -52,11 +52,11 @@
                     android:background="@drawable/border_radius"
                     android:drawableRight="@drawable/ic_baseline_search_24"
                     android:hint="@string/search"
+                    android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="20dp"
-                    android:paddingRight="20dp"
-                    android:importantForAutofill="no" />
+                    android:paddingRight="20dp" />
 
                 <ImageButton
                     android:id="@+id/home_btn_cart"
@@ -81,15 +81,15 @@
             </LinearLayout>
 
             <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="41dp"
                 android:scrollbars="none"
                 tools:ignore="SpeakableTextPresentCheck">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -100,9 +100,7 @@
                         <ImageButton
                             android:id="@+id/ibtn_home_imageProductGallery_product"
                             android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_marginEnd="3dp"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:backgroundTint="#00FFFFFF"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/hinhthumb"
@@ -128,7 +126,6 @@
                             android:id="@+id/ibtn_home_imageProductGallery_product2"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:layout_marginEnd="3dp"
                             android:layout_weight="1"
                             android:backgroundTint="#00FFFFFF"
                             android:contentDescription="@string/todo"
@@ -241,39 +238,40 @@
                 android:textSize="20sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-            <TableLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-                <TableRow android:gravity="center_horizontal">
-
-                    <include
-                        layout="@layout/item_product"
-                        android:layout_width="170dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="21dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp">
 
                     <include layout="@layout/item_product" />
 
-                </TableRow>
+                    <Space
+                        android:layout_width="25dp"
+                        android:layout_height="10dp" />
 
-                <TableRow
-                    android:layout_height="193dp"
-                    android:gravity="center_horizontal">
+                    <include layout="@layout/item_product" />
+                </LinearLayout>
 
-                    <include
-                        layout="@layout/item_product"
-                        android:layout_width="170dp"
-                        android:layout_height="250dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <include
-                        layout="@layout/item_product"
-                        android:layout_width="170dp"
-                        android:layout_height="match_parent" />
-                </TableRow>
+                    <include layout="@layout/item_product" />
 
-            </TableLayout>
+                    <Space
+                        android:layout_width="25dp"
+                        android:layout_height="10dp" />
+
+                    <include layout="@layout/item_product" />
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

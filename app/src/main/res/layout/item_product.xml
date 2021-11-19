@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="160dp"
-    android:layout_height="180dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginStart="15dp"
+    android:layout_height="200dp"
     app:cardElevation="0dp"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="200dp"
         >
 
         <!--image product-->
@@ -21,46 +19,48 @@
 
         <ImageView
             android:id="@+id/imgv_itemProduct"
-            android:layout_width="160dp"
-            android:layout_height="140dp"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:src="@drawable/product_version_adidas_new" />
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/product_version_adidas_new_second" />
+
+        <!--icon circle-->
 
         <ImageView
             android:id="@+id/imgv_itemProduct_heart"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="159dp"
-            android:src="@drawable/ic_heart" />
-
-        <!--icon circle-->
-        <ImageView
-            android:id="@+id/imgv_itemProduct_circle"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_heart" />
+
+        <!--product name-->
+
+        <ImageView
+            android:id="@+id/imgv_itemProduct_circle"
+            android:layout_width="12dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="140dp"
-            android:layout_marginBottom="157dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/ic_icon_circle"
             tools:ignore="ImageContrastCheck" />
 
-        <!--product name-->
         <TextView
             android:id="@+id/tv_itemProduct_name"
             android:layout_width="match_parent"
             android:layout_height="21dp"
             android:layout_below="@+id/imgv_itemProduct"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="0dp"
             android:gravity="center_horizontal"
             android:text="Nike Jogger 3"
@@ -74,8 +74,10 @@
             android:id="@+id/tv_itemProduct_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemProduct_name"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:text="99.00$"
             android:textColor="#262626"
