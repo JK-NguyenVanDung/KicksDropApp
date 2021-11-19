@@ -1,4 +1,4 @@
-package com.project.kicksdrop.ui.wishlist;
+package com.project.kicksdrop.ui.wistlist;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
