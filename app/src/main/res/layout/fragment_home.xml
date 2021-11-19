@@ -95,7 +95,8 @@
                 android:id="@+id/imgv_home_imageProductGallery"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="41dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="40dp"
                 tools:ignore="SpeakableTextPresentCheck">
 
                 <LinearLayout
@@ -106,42 +107,41 @@
                         android:id="@+id/imgv_home_imageProductGallery_product"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="?android:selectableItemBackground"
-                        android:layout_weight="1"
-                        android:src="@drawable/hinhthumb"
                         android:layout_marginRight="3dp"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:layout_weight="1"
+                        android:background="?android:selectableItemBackground"
+                        android:src="@drawable/hinhthumb"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
                     <ImageButton
                         android:id="@+id/imgv_home_imageProductGallery_product2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@drawable/hinhthumb"
                         android:layout_marginRight="3dp"
+                        android:layout_weight="1"
                         android:background="?android:selectableItemBackground"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:src="@drawable/hinhthumb"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
                     <ImageButton
                         android:id="@+id/imgv_home_imageProductGallery_product3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@drawable/hinhthumb"
-                        android:background="?android:selectableItemBackground"
                         android:layout_marginRight="3dp"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:layout_weight="1"
+                        android:background="?android:selectableItemBackground"
+                        android:src="@drawable/hinhthumb"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
                     <ImageButton
                         android:id="@+id/imgv_home_imageProductGallery_product4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@drawable/hinhthumb"
-                        android:background="?android:selectableItemBackground"
                         android:layout_marginRight="3dp"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        />
+                        android:layout_weight="1"
+                        android:background="?android:selectableItemBackground"
+                        android:src="@drawable/hinhthumb"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </LinearLayout>
             </HorizontalScrollView>
@@ -150,10 +150,10 @@
                 android:id="@+id/imgv_productSectionOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
                 android:layout_marginBottom="4dp"
+                android:background="?android:selectableItemBackground"
                 android:src="@drawable/hinhba"
-                tools:ignore="SpeakableTextPresentCheck"/>
+                tools:ignore="SpeakableTextPresentCheck" />
 
 
             <ImageButton
@@ -186,24 +186,12 @@
                 android:textSize="20sp"
                 tools:ignore="SpeakableTextPresentCheck"/>
 
-            <TableLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_rv_products"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TableRow android:gravity="center_horizontal">
-
-                    <include
-                        layout="@layout/item_product"
-                        android:layout_width="170dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="21dp" />
-
-                    <include layout="@layout/item_product" />
-
-                </TableRow>
-
-            </TableLayout>
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:paddingBottom="50dp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
