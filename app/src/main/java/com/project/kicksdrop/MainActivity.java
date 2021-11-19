@@ -11,7 +11,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.databinding.ActivityMainBinding;
+import com.project.kicksdrop.ui.auth.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     String user_id = "AC1";
     HashMap<String,Object> hashMap;
     String coupon="";
+
+    ImageButton test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         //loadProduct("PD1");
 
 
+
+
         //addProductCart("AC3","PD1",5,"#333",42);
         //addProductCart("AC3","PD2",5,"#333",42);
         //delProductCart("AC3","PD1");
@@ -101,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
         //getCart(user_id);
         //getProduct();
 
+        test = (ImageButton) findViewById(R.id.ibtn_home_imageProductGallery_product);
+        Intent intent = new Intent(this, LoginActivity.class);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent);
+            }
+        });
 
     }
 

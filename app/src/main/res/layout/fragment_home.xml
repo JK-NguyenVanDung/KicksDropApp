@@ -52,11 +52,11 @@
                     android:background="@drawable/border_radius"
                     android:drawableRight="@drawable/ic_baseline_search_24"
                     android:hint="@string/search"
+                    android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="20dp"
-                    android:paddingRight="20dp"
-                    android:importantForAutofill="no" />
+                    android:paddingRight="20dp" />
 
                 <ImageButton
                     android:id="@+id/home_btn_cart"
@@ -81,8 +81,8 @@
             </LinearLayout>
 
             <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:scrollbars="none"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="40dp"
