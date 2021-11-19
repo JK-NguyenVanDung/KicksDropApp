@@ -108,14 +108,14 @@ public class MainActivity extends AppCompatActivity {
         //getCart(user_id);
         //getProduct();
 
-        test = (ImageButton) findViewById(R.id.ibtn_home_imageProductGallery_product);
-        Intent intent = new Intent(this, LoginActivity.class);
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(intent);
-            }
-        });
+//        test = (ImageButton) findViewById(R.id.ibtn_home_imageProductGallery_product);
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        test.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(intent);
+//            }
+//        });
 
     }
 
