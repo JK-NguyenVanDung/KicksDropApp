@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment" >
+    tools:context=".ui.home.HomeFragment">
 
     <TextView
         android:id="@+id/text_home"
@@ -42,32 +41,22 @@
                 android:layout_marginBottom="22dp"
                 android:baselineAligned="false">
 
-                <!--<EditText
-                    android:id="@+id/editTextTextPersonName"
-                    android:layout_width="292dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_radius"
-                    android:ems="10"
-                    android:hint="Search..."
-                    android:inputType="textPersonName" />-->
 
                 <EditText
                     android:id="@+id/et_home_search"
-                    android:layout_width="265dp"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="14dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_radius"
                     android:drawableRight="@drawable/ic_baseline_search_24"
-                    android:hint="Search..."
+                    android:hint="@string/search"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="20dp"
-                    android:paddingRight="20dp" />
+                    android:paddingRight="20dp"
+                    android:importantForAutofill="no" />
 
                 <ImageButton
                     android:id="@+id/home_btn_cart"
@@ -84,17 +73,17 @@
                     android:layout_height="match_parent"
                     android:background="?android:selectableItemBackground"
                     android:minWidth="48dp"
+                    android:paddingTop="5dp"
                     android:radius="20dp"
                     android:src="@drawable/ic_message"
-                    android:paddingTop="5dp"
                     tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
 
             <HorizontalScrollView
-                android:id="@+id/imgv_home_imageProductGallery"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbars="none"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="40dp"
                 tools:ignore="SpeakableTextPresentCheck">
@@ -103,45 +92,112 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="?android:selectableItemBackground"
-                        android:src="@drawable/hinhthumb"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
-                    <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="?android:selectableItemBackground"
-                        android:src="@drawable/hinhthumb"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        <ImageButton
+                            android:id="@+id/ibtn_home_imageProductGallery_product"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="3dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="@string/todo"
+                            android:src="@drawable/hinhthumb"
+                            tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
-                    <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="?android:selectableItemBackground"
-                        android:src="@drawable/hinhthumb"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        <TextView
+                            android:id="@+id/tv_home_imageProductGallery_text1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/work_sans_medium"
+                            android:text="The Big Annual Sale | Day 1"
+                            android:textColor="#262626"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
-                    <ImageButton
-                        android:id="@+id/imgv_home_imageProductGallery_product4"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="?android:selectableItemBackground"
-                        android:src="@drawable/hinhthumb"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ibtn_home_imageProductGallery_product2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="3dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="@string/todo"
+                            android:src="@drawable/hinhthumb"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                        <TextView
+                            android:id="@+id/tv_home_imageProductGallery_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/work_sans_medium"
+                            android:text="The Big Annual Sale | Day 1"
+                            android:textColor="#262626"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ibtn_home_imageProductGallery_product3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="3dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="@string/todo"
+                            android:src="@drawable/hinhthumb"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                        <TextView
+                            android:id="@+id/tv_home_imageProductGallery_text3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/work_sans_medium"
+                            android:text="The Big Annual Sale | Day 1"
+                            android:textColor="#262626"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ibtn_home_imageProductGallery_product4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="@string/todo"
+                            android:src="@drawable/hinhthumb"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                        <TextView
+                            android:id="@+id/tv_home_imageProductGallery_text4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/work_sans_medium"
+                            android:text="The Big Annual Sale | Day 1"
+                            android:textColor="#262626"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </HorizontalScrollView>
@@ -150,10 +206,10 @@
                 android:id="@+id/imgv_productSectionOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:background="?android:selectableItemBackground"
+                android:layout_marginBottom="4dp"
                 android:src="@drawable/hinhba"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck"/>
 
 
             <ImageButton

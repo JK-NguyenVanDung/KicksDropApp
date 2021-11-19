@@ -7,4 +7,20 @@
 
     <string name="title_user_chat">Kicks Drop Customer Support</string>
     <string name="default_input_hint">Enter a message</string>
+
+    <string name="todo">TODO</string>
+    <string name="search">Search...</string>
+
+    <string name="total_amount_of_goods">Total amount of goods</string>
+    <string name="total">Total</string>
+    <string name="discount">Discount</string>
+    <string name="total_shipping_fee">Total shipping fee</string>
+    <string name="promote_code">Promote Code</string>
+    <string name="time_shipping">Time Shipping</string>
+    <string name="apply">Apply</string>
+    <string name="summary">Summary</string>
+    <string name="separate">|</string>
+    <string name="cart">cart</string>
+    <string name="amount">Amount</string>
+
 </resources>
