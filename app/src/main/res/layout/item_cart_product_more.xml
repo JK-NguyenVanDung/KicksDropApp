@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="365dp"
+    android:layout_height="160dp"
+    android:layout_marginBottom="20dp"
+    app:cardElevation="0dp"
+
+    >
+
+
+    <RelativeLayout
+        android:layout_width="412dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_item_product_cart_image"
+
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/product" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_image"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_item_product_cart_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="35dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_vertical"
+                android:text='Nike Air Force 1 "07'
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_item_product_cart_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:layout_marginTop="0dp"
+                android:gravity="center_vertical"
+                android:text="90.00$"
+                android:textColor="#777777"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_item_product_cart_type"
+
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+
+
+            android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_marginStart="10dp"
+
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="128dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_image"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:text="men shoes"
+            android:textColor="#444444"
+            android:textSize="10sp" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_itemProductCart_sectionTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_item_product_cart_type"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="0dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_image">
+
+            <TextView
+                android:id="@+id/tv_item_product_cart_size"
+
+                android:layout_width="31dp"
+                android:layout_height="21dp"
+
+                android:gravity="center_vertical"
+                android:text="size"
+                android:textColor="#444444"
+                android:textSize="10sp" />
+
+            <Spinner
+                android:id="@+id/sp_item_product_cart_dropDownSize"
+
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+
+
+                android:background="@drawable/border_radius_gray_light"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearlayout_itemProductCart_sectionThree"
+            android:layout_width="90dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/linearlayout_itemProductCart_sectionTwo"
+            android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="104dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_image">
+
+            <TextView
+                android:id="@+id/tv_item_product_cart_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Amount"
+                android:textColor="#444444"
+                android:textSize="10sp" />
+
+            <Spinner
+                android:id="@+id/sp_item_product_cart_dropDownAmount"
+
+                android:layout_width="45dp"
+                android:layout_height="20dp"
+
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="51dp"
+
+                android:layout_marginBottom="108dp"
+                android:background="@drawable/border_radius_gray_light"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/navigation_bar_item_viewList_color"
+            android:layout_width="168dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/linearlayout_itemProductCart_sectionThree"
+            android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:id="@+id/hs_item_viewList_color"
+
+
+                    android:layout_width="168dp"
+                    android:layout_height="33dp"
+
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+
+                    android:layout_marginEnd="243dp"
+                    android:layout_marginBottom="0dp"
+
+                    android:scrollbars="none"
+
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <LinearLayout
+                        android:layout_width="186dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginBottom="1dp"
+
+                        android:divider="@android:color/transparent"
+                        android:scrollbars="none">
+
+                        <ImageButton
+                            android:id="@+id/ibtn_item_product_cart_yellowColor"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:backgroundTint="#00FFFFFF"
+                            android:src="@drawable/ic_yellow_color"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <ImageButton
+                            android:id="@+id/ibtn_item_product_cart_greenColor"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:backgroundTint="#00FFFFFF"
+                            android:src="@drawable/ic_green_color"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <ImageButton
+                            android:id="@+id/ibtn_item_product_cart_grayColor"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_gray_color"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <ImageButton
+                            android:id="@+id/ibtn_item_product_cart_blueColor"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_blue_color"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <ImageButton
+                            android:id="@+id/ibtn_item_product_cart_whiteColor"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_white_color"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                        <ImageButton
+                            android:id="@+id/ibtn_item_product_cart_orangeColor"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/orange_color"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/btn_item_product_cart_AddToCart"
+
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+
+            android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_alignParentBottom="true"
+
+
+            android:layout_marginStart="59dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="1dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_image"
+            android:backgroundTint="@android:color/black"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="More Option"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

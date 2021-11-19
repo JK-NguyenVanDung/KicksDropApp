@@ -300,7 +300,86 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void addCoupon(String cp_id, String code, String duration, String max_price, String name, String percent, String time){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("coupon");
 
+        myRef.child(cp_id).child("coupon_code").setValue(code);
+        myRef.child(cp_id).child("coupon_duration").setValue(duration);
+        myRef.child(cp_id).child("coupon_max_price").setValue(max_price);
+        myRef.child(cp_id).child("coupon_name").setValue(name);
+        myRef.child(cp_id).child("coupon_percent").setValue(percent);
+        myRef.child(cp_id).child("coupon_time").setValue(time);
+
+    }
+    private void addOrder(String cp_id, String date, String details, String price, String user_id, String order_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order");
+
+
+        myRef.child(order_id).child("coupon_id").setValue(cp_id);
+        myRef.child(order_id).child("coupon_create_date").setValue(date);
+        myRef.child(order_id).child("coupon_details").setValue(details);
+        myRef.child(order_id).child("coupon_price").setValue(price);
+        myRef.child(order_id).child("user_id").setValue(user_id);
+
+    }
+    private void  loadCoupon(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("coupon");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for (DataSnapshot item : dataSnapshot.getChildren()){
+                    item.toString();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("Load Product", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void delCoupon(String coupon_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("coupon");
+
+
+        myRef.child(coupon_id).removeValue();
+
+
+    }
+
+
+    private void  loadOrder(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for (DataSnapshot item : dataSnapshot.getChildren()){
+                    item.toString();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("Load Product", "Failed to read value.", error.toException());
+            }
+        });
+    }
 
 
 
