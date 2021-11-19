@@ -23,7 +23,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -83,13 +83,14 @@
             <HorizontalScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="41dp"
                 android:scrollbars="none"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="40dp"
                 tools:ignore="SpeakableTextPresentCheck">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -100,7 +101,9 @@
                         <ImageButton
                             android:id="@+id/ibtn_home_imageProductGallery_product"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="3dp"
+                            android:layout_weight="1"
                             android:backgroundTint="#00FFFFFF"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/hinhthumb"
@@ -126,6 +129,7 @@
                             android:id="@+id/ibtn_home_imageProductGallery_product2"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
+                            android:layout_marginEnd="3dp"
                             android:layout_weight="1"
                             android:backgroundTint="#00FFFFFF"
                             android:contentDescription="@string/todo"
@@ -202,10 +206,10 @@
                 android:id="@+id/imgv_productSectionOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:background="?android:selectableItemBackground"
+                android:layout_marginBottom="4dp"
                 android:src="@drawable/hinhba"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck"/>
 
 
             <ImageButton
@@ -215,63 +219,35 @@
                 android:layout_marginBottom="4dp"
                 android:background="?android:selectableItemBackground"
                 android:src="@drawable/hinhhai"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck"/>
 
             <ImageButton
                 android:id="@+id/imgv_productSectionThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:background="?android:selectableItemBackground"
                 android:src="@drawable/hinhhai"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:background="?android:selectableItemBackground"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
             <ImageButton
                 android:id="@+id/tv_home_titleContentThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:background="?android:selectableItemBackground"
                 android:gravity="center_horizontal"
                 android:text="THE NEWLY FRESH DROPS"
                 android:textColor="#262626"
+                android:background="?android:selectableItemBackground"
                 android:textSize="20sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck"/>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_rv_products"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp">
-
-                    <include layout="@layout/item_product" />
-
-                    <Space
-                        android:layout_width="25dp"
-                        android:layout_height="10dp" />
-
-                    <include layout="@layout/item_product" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <include layout="@layout/item_product" />
-
-                    <Space
-                        android:layout_width="25dp"
-                        android:layout_height="10dp" />
-
-                    <include layout="@layout/item_product" />
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:paddingBottom="50dp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
