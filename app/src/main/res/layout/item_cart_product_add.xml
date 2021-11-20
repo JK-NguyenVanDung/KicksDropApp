@@ -43,7 +43,7 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/todo"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/productTest" />
+                    android:src="@drawable/produc_test" />
 
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/navigation_itemproductCart_addToCart_viewList_color"

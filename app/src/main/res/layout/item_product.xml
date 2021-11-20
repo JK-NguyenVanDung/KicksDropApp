@@ -26,11 +26,12 @@
             <!--icon circle-->
 
             <ImageView
+                android:id="@+id/imgv_productImg"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/productTest" />
+                android:src="@drawable/produc_test" />
 
             <LinearLayout
                 android:layout_marginTop="5dp"
