@@ -150,7 +150,7 @@
                 android:paddingBottom="20dp"
                 android:text="Nov 12 - tue - Nov 16"
                 android:textColor="#757575"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck" />
 
             <LinearLayout

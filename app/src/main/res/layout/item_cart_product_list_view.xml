@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="365dp"
+    android:layout_width="wrap_content"
     android:layout_height="160dp"
     android:layout_marginBottom="10dp"
     app:cardElevation="0dp"
@@ -11,8 +11,8 @@
 
 
     <RelativeLayout
-        android:layout_width="412dp"
-        android:layout_height="160dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,27 +23,27 @@
 
             android:layout_width="160dp"
             android:layout_height="160dp"
-
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="0dp"
             android:layout_marginBottom="0dp"
-            android:src="@drawable/product_version_adidas_new_second" />
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/airforcepink_1" />
 
 
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionOne"
-            android:layout_width="192dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_image"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_item_productCart_listView_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="35dp"
                 android:layout_weight="1"
@@ -51,12 +51,12 @@
                 android:gravity="center_vertical"
                 android:text='Nike Air Force 1 "07'
                 android:textColor="@color/black"
-                android:textSize="10sp" />
+                android:textSize="14sp" />
 
             <ImageButton
                 android:id="@+id/ibtn_item_productCart_listView_remove"
                 android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:layout_height="20dp"
                 android:layout_marginTop="0dp"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
@@ -85,7 +85,7 @@
             android:gravity="center_vertical"
             android:text="men shoes"
             android:textColor="#444444"
-            android:textSize="10sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionTwo"
@@ -103,11 +103,11 @@
                 android:layout_width="31dp"
                 android:layout_height="21dp"
 
-                android:layout_marginEnd="7dp"
+                android:layout_marginEnd="20dp"
                 android:gravity="center_vertical"
                 android:text="size"
                 android:textColor="#444444"
-                android:textSize="10sp" />
+                android:textSize="14sp" />
 
             <Spinner
                 android:id="@+id/sp_item_productCart_listView_dropDownSize"
@@ -145,7 +145,7 @@
 
                 android:text="amount"
                 android:textColor="#444444"
-                android:textSize="10sp" />
+                android:textSize="14sp" />
 
             <Spinner
                 android:id="@+id/sp_item_productCart_listView_dropDownAmount"
@@ -165,7 +165,7 @@
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/navigation_item_productCart_listView_viewList_color"
-            android:layout_width="168dp"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
 
             android:layout_below="@+id/linearlayout_itemProductCart_sectionThree"
@@ -200,7 +200,7 @@
                     tools:ignore="SpeakableTextPresentCheck">
 
                     <LinearLayout
-                        android:layout_width="186dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
                         android:layout_marginBottom="1dp"

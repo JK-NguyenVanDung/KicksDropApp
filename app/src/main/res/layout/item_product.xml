@@ -1,69 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="170dp"
-    android:layout_height="180dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="10dp"
-    android:layout_marginStart="15dp"
     app:cardElevation="0dp"
     android:background="?android:selectableItemBackground"
     >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         >
 
         <!--image product-->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/img_cardView"
-            android:layout_width="170dp"
-            android:layout_height="132dp"
-            app:cardCornerRadius="10dp"
-            >
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
 
-
-            <ImageView
-                android:id="@+id/imgv_productImg"
-                android:layout_width="170dp"
-                android:layout_height="132dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="2dp"
-                 />
-            <ImageButton
-                android:id="@+id/btn_itemProduct_heart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="145dp"
-                android:layout_marginTop="5dp"
-                android:background="?android:selectableItemBackground"
-                android:src="@drawable/ic_heart"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <!--icon circle-->
 
             <ImageView
-                android:id="@+id/imgv_itemProduct_circle"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                tools:ignore="ImageContrastCheck"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="147dp"
-                android:layout_marginBottom="158dp"
-                android:background="@drawable/color_circle" />
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/productTest" />
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                android:gravity="center_vertical"
+
+                >
+
+                <ImageButton
+                    android:id="@+id/btn_itemProduct_heart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?android:selectableItemBackground"
+                    android:src="@drawable/ic_heart"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5" />
+
+                <ImageButton
+                    android:id="@+id/imgv_itemProduct_circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/color_circle"
+                    tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
         <!--icon heart-->
-
 
 
         <!--product cost-->
@@ -72,9 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="21dp"
             android:layout_below="@+id/img_cardView"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="7dp"
-            android:layout_marginEnd="0dp"
             android:gravity="center_horizontal"
             android:text="Nike Jogger 3"
             android:textColor="@android:color/black"
@@ -86,17 +89,19 @@
             android:id="@+id/tv_itemProduct_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="1dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="0dp"
             android:gravity="center"
             android:text="99.00$"
             android:textColor="#262626"
-            android:textSize="10sp">
+            android:textSize="14sp">
 
         </TextView>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

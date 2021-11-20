@@ -35,15 +35,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
 
-                    <!--                    Sử dụng view paper để làm slide thumb
-                                            Còn ở dưới chỉ là demo cho có
-                    -->
-                    <!--                    <android.support.v4.view.ViewPager-->
-                    <!--                        android:id="@+id/viewPage"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="match_parent" />-->
 
-                    <!--                    Ví dụ-->
                     <ImageView
                         style="?android:textAppearanceMedium"
                         android:layout_width="match_parent"
@@ -55,14 +47,16 @@
 
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="0dp"
-                        android:layout_marginTop="0dp"
+                        android:layout_marginTop="50dp"
 
                         android:layout_marginEnd="0dp"
                         android:layout_marginBottom="0dp"
+                        android:adjustViewBounds="true"
                         android:contentDescription="@string/todo"
                         android:lineSpacingMultiplier="1.2"
                         android:padding="0dp"
-                        android:src="@drawable/product_info" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/airforcepink_1" />
 
                     <ImageButton
                         android:id="@+id/ibtn_productInfo_prev"
@@ -245,7 +239,7 @@
                                     android:gravity="center_vertical"
                                     android:text="Size"
                                     android:textColor="@color/black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
                                 <TextView
                                     android:id="@+id/tv_productInfo_reviews"
@@ -267,7 +261,7 @@
                                     android:gravity="center_vertical|end"
                                     android:text="150 reviews"
                                     android:textColor="#757575"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
 
                                 <TextView
@@ -285,7 +279,7 @@
                                     android:fontFamily="@font/work_sans"
                                     android:text="42"
                                     android:textColor="#757575"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     tools:ignore="TextContrastCheck,TextContrastCheck" />
 
                             </RelativeLayout>
@@ -492,7 +486,7 @@
                                     android:layout_marginTop="3dp"
                                     android:layout_marginEnd="3dp"
 
-                                    android:background="@drawable/blue_radius_corner"
+                                    android:backgroundTint="@color/black"
 
                                     android:text="Add to cart"
                                     android:textAllCaps="false" />

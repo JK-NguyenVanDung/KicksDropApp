@@ -56,7 +56,8 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="20dp"
-                    android:paddingRight="20dp" />
+                    android:paddingRight="20dp"
+                    tools:ignore="TextContrastCheck" />
 
                 <ImageButton
                     android:id="@+id/home_btn_cart"
@@ -228,18 +229,6 @@
                 android:layout_marginBottom="32dp"
                 android:src="@drawable/hinhhai"
                 android:background="?android:selectableItemBackground"
-                tools:ignore="SpeakableTextPresentCheck"/>
-
-            <ImageButton
-                android:id="@+id/tv_home_titleContentThree"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_horizontal"
-                android:text="THE NEWLY FRESH DROPS"
-                android:textColor="#262626"
-                android:background="?android:selectableItemBackground"
-                android:textSize="20sp"
                 tools:ignore="SpeakableTextPresentCheck"/>
 
             <androidx.recyclerview.widget.RecyclerView
