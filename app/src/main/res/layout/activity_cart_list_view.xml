@@ -45,9 +45,9 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="0dp"
+                    android:layout_marginStart="1dp"
                     android:layout_marginTop="0dp"
-                    android:layout_marginEnd="0dp"
+                    android:layout_marginEnd="-1dp"
                     android:fontFamily="@font/work_sans_semibold"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="@string/cart"
@@ -70,7 +70,7 @@
                 android:text="4 item"
                 android:textAllCaps="true"
                 android:textColor="#444444"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                 android:text="360.00$"
                 android:textAllCaps="true"
                 android:textColor="#444444"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -178,7 +178,7 @@
                     android:gravity="center_vertical"
                     android:text="Coupon"
                     android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    android:textSize="16dp" />
 
             </LinearLayout>
 
@@ -198,7 +198,7 @@
                 android:text="Select coupon here"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
 
         </LinearLayout>
@@ -206,14 +206,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal">
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginEnd="35dp"
+                android:gravity="right"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -238,6 +241,7 @@
 
             <Button
                 android:id="@+id/btn_productCartListViewItems_order"
+                android:layout_weight="1"
                 android:layout_width="155dp"
                 android:layout_height="60dp"
                 android:backgroundTint="@color/black"
