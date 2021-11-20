@@ -68,7 +68,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         String adminID = "ew0Zuldh3eMj13EEX4BK3XJoJ1m2";
         Log.d("user",fUser.getUid());
-//        reference = FirebaseDatabase.getInstance().getReference("Chat").child(adminID);
         readMessage(fUser.getUid(),adminID);
 
         send.setOnClickListener(new  View.OnClickListener(){
