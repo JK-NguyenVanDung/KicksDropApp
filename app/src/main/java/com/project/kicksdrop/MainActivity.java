@@ -44,12 +44,14 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.databinding.ActivityMainBinding;
+import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.ui.auth.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         //loadProduct("PD1");
 
-
+        getProduct();
 
 
         //addProductCart("AC3","PD1",5,"#333",42);
@@ -117,25 +119,31 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+        getCart("AC2");
+
     }
 
     private void getCart(String user_Id){
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("cart");
-            String i_id = user_Id;
+            DatabaseReference myRef = database.getReference("cart/"+user_Id);
+
 
 
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    for (DataSnapshot item : snapshot.getChildren()){
-//                        Log.d("data",item.getValue().get(i_id).toString());
-//                    }
+                    List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
                     HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                    HashMap<String,Object> list =(HashMap<String, Object>) hashMap.get(i_id);
-                    HashMap<String,Object> listProduct =  (HashMap<String, Object>) list.get("product");
-                    String coupon_id = list.get("coupon_id").toString();
-                    coupon = coupon_id;
+                    HashMap<String,Object> listProduct =(HashMap<String, Object>) hashMap.get("product");
+                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                        String key = entry.getKey();
+                        HashMap<String,String> item = (HashMap<String,String>) listProduct.get(key);
+                        item.put("productID",key);
+                        productsInCart.add(item);
+                    }
+
+
+                    Cart cart = new Cart(user_Id,hashMap.get("coupon_id").toString(),productsInCart);
 
                 }
 

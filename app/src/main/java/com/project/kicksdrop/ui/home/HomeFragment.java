@@ -1,7 +1,10 @@
 package com.project.kicksdrop.ui.home;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.product.ProductInfo;
 
 import java.util.ArrayList;
 
@@ -55,22 +59,22 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
         getProduct();
         final ImageButton button = binding.homeBtnChat;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+
+        button.setOnClickListener(new  View.OnClickListener(){
             @Override
-            public void onChanged(@Nullable String s) {
-                button.setOnClickListener(new  View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), ChatActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
-
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                startActivity(intent);
             }
         });
         return root;
 
+    }
+    @Override
+    public void onProductClick(int position, View view, String id) {
+        Intent intent = new Intent(getContext(), ProductInfo.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
     private void getProduct(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -83,40 +87,14 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 mProduct.clear();
                 for(DataSnapshot dtShot: snapshot.getChildren()){
                     Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+                    product.setProduct_id(dtShot.getKey());
+
                     mProduct.add(product);
                 }
-
-//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-//                Set<Map.Entry<String, Object> > entrySet = hashMap.entrySet();
-//                ArrayList<Map.Entry<String, Object> > listOfEntry = new ArrayList<Map.Entry<String, Object>>(entrySet);
-//                int i = 0;
-//                Object[] productArray = new Object[listOfEntry.size()];
-//                //Product[] objects = ArrayUtils.toObject(productArray);
-//
-//                for (Object item : listOfEntry){
-//                    productArray[i] = item;
-//                    mProduct.add((Product) productArray[i]);
-//                    i++;
-//                }
                 productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this );
                 recyclerView.setAdapter(productAdapter);
-                //Object temp = productArray[0];
-//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-//                Set<Map.Entry<String, Object> > entrySet = hashMap.entrySet();
-//                ArrayList<Map.Entry<String, Object> > listOfEntry = new ArrayList<Map.Entry<String, Object>>(entrySet);
-//                int i = 0;
-//                Object[] productArray = new Object[listOfEntry.size()];
-//                for (Object item : listOfEntry){
-//                    productArray[i] = item;
-//                    i++;
-//                }
-                //Object temp = productArray[0];
-                //Log.d("products",productArray[0].toString());
-
-
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -130,10 +108,6 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         binding = null;
     }
 
-    @Override
-    public void onProductClick(int position, View view, String id) {
-        Toast.makeText(getContext(),"yeah", Toast.LENGTH_SHORT).show();
 
-    }
 
 }

@@ -52,7 +52,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_item_productCart_listView_name"
+                android:id="@+id/itemProductCart_tv_listView_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="35dp"
@@ -64,7 +64,7 @@
                 android:textSize="14sp" />
 
             <ImageButton
-                android:id="@+id/ibtn_item_productCart_listView_remove"
+                android:id="@+id/itemProductCart_ibtn_listViewRemove"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
@@ -78,12 +78,10 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_item_productCart_listView_type"
+            android:id="@+id/itemProductCart_tv_listViewType"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="10dp"
 
@@ -99,7 +97,7 @@
             android:id="@+id/linearlayout_itemProductCart_sectionTwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_item_productCart_listView_type"
+            android:layout_below="@+id/itemProductCart_tv_listViewType"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="0dp"
@@ -118,7 +116,7 @@
                 android:textSize="14sp" />
 
             <Spinner
-                android:id="@+id/sp_item_productCart_listView_dropDownSize"
+                android:id="@+id/itemProductCart_sp_listViewDropDownSize"
                 android:layout_width="100dp"
                 android:layout_height="20dp"
 
@@ -154,7 +152,7 @@
                 android:textSize="14sp" />
 
             <Spinner
-                android:id="@+id/sp_item_productCart_listView_dropDownAmount"
+                android:id="@+id/itemProductCart_sp_listViewDropDownAmount"
 
                 android:layout_width="45dp"
                 android:layout_height="20dp"
@@ -217,7 +215,7 @@
                         android:scrollbars="none">
 
                         <ImageButton
-                            android:id="@+id/ibtn_item_productCart_listView_yellowColor"
+                            android:id="@+id/itemProductCart_ibtn__listViewYellowColor"
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -228,7 +226,7 @@
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck,DuplicateSpeakableTextCheck" />
 
                         <ImageButton
-                            android:id="@+id/ibtn_item_productCart_listView_greenColor"
+                            android:id="@+id/itemProductCart_ibtn_listViewGreenColor"
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -239,7 +237,7 @@
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <ImageButton
-                            android:id="@+id/ibtn_item_productCart_listView_grayColor"
+                            android:id="@+id/itemProductCart_ibtn_listViewGrayColor"
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -250,7 +248,7 @@
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
                         <ImageButton
-                            android:id="@+id/ibtn_item_productCart_listView_blueColor"
+                            android:id="@+id/itemProductCart_ibtn_listViewBlueColor"
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -261,7 +259,7 @@
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <ImageButton
-                            android:id="@+id/ibtn_item_productCart_listView_whiteColor"
+                            android:id="@+id/itemProductCart_ibtn_listViewWhiteColor"
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -272,7 +270,7 @@
                             tools:ignore="SpeakableTextPresentCheck" />
 
                         <ImageButton
-                            android:id="@+id/ibtn_item_productCart_listView_orangeColor"
+                            android:id="@+id/itemProductCart_ibtn_listViewOrangeColor"
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
