@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.List;
-public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder>{
 
 
     private Context context;
@@ -63,16 +63,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         String color = product.getProduct_images().get(1).get("color");
         String imageName = product.getProduct_images().get(1).get("image");
         //holder.colorCircle.getForeground().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP);
-        GradientDrawable foregroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
+        GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
 
-        foregroundGradient.setColor(Color.parseColor(color));
-        NumberFormat format = NumberFormat.getCurrencyInstance();
-        format.setMaximumFractionDigits(0);
-        format.setCurrency(Currency.getInstance("USD"));
+        backgroundGradient.setColor(Color.parseColor(color));
 
-        String price = format.format(product.getProduct_price());
+        java.util.Currency usd = java.util.Currency.getInstance("USD");
+        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+        format.setCurrency(usd);
+        String sPrice =format.format(product.getProduct_price());
+        holder.price.setText(sPrice);
+
         holder.name.setText(product.getProduct_name());
-        holder.price.setText(price);
         loadImage(holder.productImage,imageName);
 
         holder.heart.setOnClickListener(new View.OnClickListener()
@@ -122,13 +123,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         TextView name,price;
         ProductListAdapter.OnProductListener onProductListener;
 
-        public ViewHolder(@NonNull View itemView, OnProductListener mOnProductListener) {
+        public ViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
             super(itemView);
             heart = itemView.findViewById(R.id.btn_itemProduct_heart);
             colorCircle = itemView.findViewById(R.id.imgv_itemProduct_circle);
             productImage = itemView.findViewById(R.id.imgv_productImg);
             name = itemView.findViewById(R.id.tv_itemProduct_name);
             price = itemView.findViewById(R.id.tv_itemProduct_cost);
+            this.onProductListener = onProductListener;
+            itemView.setOnClickListener(this);
         }
 
         @Override

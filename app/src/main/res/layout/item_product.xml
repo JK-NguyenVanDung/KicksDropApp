@@ -28,7 +28,7 @@
             <ImageView
                 android:id="@+id/imgv_productImg"
                 android:layout_width="170dp"
-                android:layout_height="132dp"
+                android:layout_height="160dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="2dp"
                  />
@@ -78,7 +78,7 @@
             android:gravity="center_horizontal"
             android:text="Nike Jogger 3"
             android:textColor="@android:color/black"
-            android:textSize="14sp">
+            android:textSize="16sp">
 
         </TextView>
 
@@ -92,7 +92,7 @@
             android:gravity="center"
             android:text="99.00$"
             android:textColor="#262626"
-            android:textSize="10sp">
+            android:textSize="14sp">
 
         </TextView>
 
