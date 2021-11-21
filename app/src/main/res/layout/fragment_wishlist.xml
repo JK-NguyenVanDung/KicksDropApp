@@ -101,7 +101,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/tv_wishlish_AmountOfItems"
+                android:id="@+id/wishlist_tv_items"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
