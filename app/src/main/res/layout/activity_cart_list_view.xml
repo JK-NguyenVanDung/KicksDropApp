@@ -127,11 +127,6 @@
 
                 <include layout="@layout/item_cart_product_list_view" />
 
-                <include layout="@layout/item_cart_product_list_view" />
-
-                <include layout="@layout/item_cart_product_list_view" />
-
-                <include layout="@layout/item_cart_product_list_view" />
             </LinearLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

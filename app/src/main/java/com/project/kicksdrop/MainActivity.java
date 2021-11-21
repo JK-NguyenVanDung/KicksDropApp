@@ -119,59 +119,59 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        getCart("AC2");
+        //getCart("AC2");
 
     }
 
-    private void getCart(String user_Id){
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("cart/"+user_Id);
-
-
-
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
-                    HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                    HashMap<String,Object> listProduct =(HashMap<String, Object>) hashMap.get("product");
-                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
-                        String key = entry.getKey();
-                        HashMap<String,String> item = (HashMap<String,String>) listProduct.get(key);
-                        item.put("productID",key);
-                        productsInCart.add(item);
-                    }
-
-
-                    Cart cart = new Cart(user_Id,hashMap.get("coupon_id").toString(),productsInCart);
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-
-//        myRef.child(String.valueOf(i_id)).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                try {
+//    private void getCart(String user_Id){
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            DatabaseReference myRef = database.getReference("cart/"+user_Id);
+//
+//
+//
+//            myRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
 //                    HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-//                    Log.d("test", hashMap.toString());
-//                } catch (Exception e){
-//                    Log.d("Loi_js", e.toString());
+//                    HashMap<String,Object> listProduct =(HashMap<String, Object>) hashMap.get("product");
+//                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+//                        String key = entry.getKey();
+//                        HashMap<String,String> item = (HashMap<String,String>) listProduct.get(key);
+//                        item.put("productID",key);
+//                        productsInCart.add(item);
+//                    }
+//
+//
+//                    Cart cart = new Cart(user_Id,hashMap.get("coupon_id").toString(),productsInCart);
+//
 //                }
 //
-//            }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
 //
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
+//                }
+//            });
 //
-//            }
-//        });
-    }
+//
+////        myRef.child(String.valueOf(i_id)).addListenerForSingleValueEvent(new ValueEventListener() {
+////            @Override
+////            public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                try {
+////                    HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+////                    Log.d("test", hashMap.toString());
+////                } catch (Exception e){
+////                    Log.d("Loi_js", e.toString());
+////                }
+////
+////            }
+////
+////            @Override
+////            public void onCancelled(@NonNull DatabaseError error) {
+////
+////            }
+////        });
+//    }
     private void createAccount(EditText user, EditText password, TextView err, FirebaseAuth auth){
         String semail = user.getText().toString().trim();
         String spassword = password.getText().toString().trim();

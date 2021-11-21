@@ -88,6 +88,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 for(DataSnapshot dtShot: snapshot.getChildren()){
                     Product product = dtShot.getValue(Product.class);
                     assert product != null;
+
                     product.setProduct_id(dtShot.getKey());
 
                     mProduct.add(product);

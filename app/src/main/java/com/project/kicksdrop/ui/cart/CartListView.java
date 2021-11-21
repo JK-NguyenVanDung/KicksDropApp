@@ -12,5 +12,6 @@ public class CartListView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_list_view);
+
     }
 }
