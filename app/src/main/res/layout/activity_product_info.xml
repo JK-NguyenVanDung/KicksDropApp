@@ -118,7 +118,7 @@
 
                         android:background="?android:selectableItemBackground"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_sending_link"
+                        android:src="@drawable/ic_baseline_shopping_bag_24"
                         tools:ignore="SpeakableTextPresentCheck" />
 
 
@@ -170,8 +170,8 @@
                                 <TextView
                                     android:id="@+id/tv_productInfo_productName"
 
-                                    android:layout_width="178dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="230dp"
+                                    android:layout_height="wrap_content"
 
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"

@@ -46,6 +46,17 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
     private static List<String> mColor;
     private static List<Image> mImages;
     private static ViewPager mPager;
+
+    public static String getPickedColor() {
+        return pickedColor;
+    }
+
+    public static void setPickedColor(String pickedColor) {
+        ColorCircleAdapter.pickedColor = pickedColor;
+    }
+
+    private static String pickedColor;
+
     List<ImageView> borders;
     public ColorCircleAdapter(Context context, List<String> mColor, List<Image> images, ViewPager viewPager){
         this.context = context;
@@ -72,6 +83,7 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
         backgroundGradient.setColor(Color.parseColor(color));
         if(position ==0){
             holder.selected.setVisibility(View.VISIBLE);
+            setPickedColor(mColor.get(position));
         }
         if(holder.selected != null){
             ImageView iv = holder.selected;
@@ -85,6 +97,8 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
                         img.setVisibility(View.INVISIBLE);
                     }else{
                         holder.selected.setVisibility(View.VISIBLE);
+                        setPickedColor(mColor.get(holder.getAdapterPosition()));
+
                     }
                 }
 

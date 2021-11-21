@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
@@ -56,6 +59,8 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     ViewPager viewPager;
     ImageAdapter imageAdapter;
     TextView indexNumb;
+    FirebaseUser fUser;
+    Button cart;
 
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
@@ -98,7 +103,13 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
 
             }
         });
-
+        cart.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                startActivity(intent);
+            }
+        });
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
@@ -115,6 +126,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 product = snapshot.getValue(Product.class);
                 assert product != null;
+                product.setProduct_id(snapshot.getKey());
                 //Log.d("yeah",product.getProduct_sizes().toString());
                 String value = product.getProduct_sizes().get(1);
                 name.setText(product.getProduct_name());
@@ -173,10 +185,13 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                 addToCart.setOnClickListener(new  View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        String text = sizeSpinner.getSelectedItem().toString();
-
-                        Intent intent = new Intent(getApplicationContext(), CartListView.class);
-                        startActivity(intent);
+                        int pickedSize = Integer.parseInt(sizeSpinner.getSelectedItem().toString());
+                        int pickedAmount = Integer.parseInt(amount.getText().toString());
+                        String pickedColor = ColorCircleAdapter.getPickedColor();
+                        fUser = FirebaseAuth.getInstance().getCurrentUser();
+                        assert fUser != null;
+                        addProductCart(fUser.getUid(),product.getProduct_id(),pickedAmount,pickedColor,pickedSize);
+                        Toast.makeText(getApplicationContext(),"Product successfully added to cart",Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -187,11 +202,21 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
             }
         });
     }
+    private void addProductCart(String idUser,String idProduct,int amount, String color,int size){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart");
 
+
+        myRef.child(idUser).child("product").child(idProduct).child("amount").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct).child("color").setValue(color);
+        myRef.child(idUser).child("product").child(idProduct).child("size").setValue(size);
+
+
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        currentSize.setText(sizeSpinner.getSelectedItem().toString());
     }
 
     @Override
@@ -212,6 +237,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         goBack = findViewById(R.id.ibtn_productInfo_back);
         productImage = findViewById(R.id.productInfo_iv_image);
         viewPager = findViewById(R.id.productInfo_vp_image);
+        cart = findViewById(R.id.tv_productInfo_title);
     }
 
 }
