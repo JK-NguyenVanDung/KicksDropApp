@@ -8,13 +8,16 @@ public class Chat {
     private String message;
     private String id;
     private boolean edited;
-   public Chat(String sender, String receiver, String message,boolean edited){
+    public Chat(String sender, String receiver, String message,boolean edited){
        this.sender = sender;
        this.receiver = receiver;
        this.message = message;
        this.edited = edited;
-   }
+    }
 
+    public boolean isEdited() {
+        return edited;
+    }
 
     public Chat(){
 
