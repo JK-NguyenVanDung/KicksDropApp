@@ -3,9 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_add.xml" value="0.264" />
-        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_list_view.xml" value="0.1062058526740666" />
-        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_product.xml" value="0.2" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.3828125" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.3828125" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3828125" />
@@ -73,13 +70,20 @@
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/drawable/rounded_button.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/activity_cart_list_view.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/activity_cart_product_order.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/activity_coupon_product.xml" value="0.371875" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/activity_coupon_product.xml" value="0.25" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/activity_edit_profile_user.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/activity_main.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/activity_product_info.xml" value="0.371875" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/fragment_home.xml" value="0.371875" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/fragment_notifications.xml" value="0.371875" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/fragment_profile.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/fragment_wishlist.xml" value="0.33611691022964507" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/item_cart_product_add.xml" value="0.19310344827586207" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/image_container.xml" value="0.371875" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/item_cart_product_add.xml" value="0.33" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/item_cart_product_list_view.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/item_cart_product_more.xml" value="0.371875" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/item_circle_container.xml" value="0.371875" />
+        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/item_coupon.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropApp-20-11/app/src/main/res/layout/item_product.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/drawable-v24/blue_radius_corner.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/drawable-v24/border_coner_linear_layout.xml" value="0.3880208333333333" />

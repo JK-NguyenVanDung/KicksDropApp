@@ -44,7 +44,7 @@
                 android:baselineAligned="false">
 
                 <EditText
-                    android:id="@+id/et_wishlist_search"
+                    android:id="@+id/wishlist_et_search"
 
                     android:layout_width="0dp"
                     android:layout_height="50dp"
@@ -65,7 +65,7 @@
                     android:importantForAutofill="no" />
 
                 <ImageButton
-                    android:id="@+id/ibtn_wishlist_shoppingBag"
+                    android:id="@+id/wishlist_ibtn_cart"
 
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
@@ -78,7 +78,7 @@
                     tools:ignore="SpeakableTextPresentCheck"/>
 
                 <ImageButton
-                    android:id="@+id/ibtn_home_message"
+                    android:id="@+id/wishlist_ibtn_message"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
 
@@ -90,7 +90,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_wishlish_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|center_horizontal"
@@ -101,7 +100,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/wishlist_tv_items"
+                android:id="@+id/wishlist_tv_totalItems"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

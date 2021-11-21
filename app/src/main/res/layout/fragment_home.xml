@@ -43,7 +43,7 @@
 
 
                 <EditText
-                    android:id="@+id/et_home_search"
+                    android:id="@+id/home_et_search"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="12dp"
@@ -99,7 +99,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
-                            android:id="@+id/ibtn_home_imageProductGallery_product"
+                            android:id="@+id/home_ibtn_productView"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_marginEnd="3dp"
@@ -110,7 +110,7 @@
                             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
                         <TextView
-                            android:id="@+id/tv_home_imageProductGallery_text1"
+                            android:id="@+id/home_tv_productTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/work_sans_medium"
@@ -126,7 +126,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
-                            android:id="@+id/ibtn_home_imageProductGallery_product2"
+                            android:id="@+id/home_ibtn_productView2"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_marginEnd="3dp"
@@ -134,10 +134,10 @@
                             android:backgroundTint="#00FFFFFF"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/hinhthumb"
-                            tools:ignore="SpeakableTextPresentCheck" />
+                            tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
                         <TextView
-                            android:id="@+id/tv_home_imageProductGallery_text2"
+                            android:id="@+id/home_tv_productTitle2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/work_sans_medium"
@@ -146,64 +146,13 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
 
-                        <ImageButton
-                            android:id="@+id/ibtn_home_imageProductGallery_product3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_marginEnd="3dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#00FFFFFF"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/hinhthumb"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-                        <TextView
-                            android:id="@+id/tv_home_imageProductGallery_text3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/work_sans_medium"
-                            android:text="The Big Annual Sale | Day 1"
-                            android:textColor="#262626"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <ImageButton
-                            android:id="@+id/ibtn_home_imageProductGallery_product4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#00FFFFFF"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/hinhthumb"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-                        <TextView
-                            android:id="@+id/tv_home_imageProductGallery_text4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/work_sans_medium"
-                            android:text="The Big Annual Sale | Day 1"
-                            android:textColor="#262626"
-                            android:textSize="16sp" />
-                    </LinearLayout>
 
                 </LinearLayout>
             </HorizontalScrollView>
 
             <ImageButton
-                android:id="@+id/imgv_productSectionOne"
+                android:id="@+id/home_ibtn_newDrops"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
@@ -213,7 +162,7 @@
 
 
             <ImageButton
-                android:id="@+id/imgv_productSectionTwo"
+                android:id="@+id/home_ibtn_nikes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -222,7 +171,7 @@
                 tools:ignore="SpeakableTextPresentCheck"/>
 
             <ImageButton
-                android:id="@+id/imgv_productSectionThree"
+                android:id="@+id/home_ibtn_adidas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
