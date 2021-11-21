@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="365dp"
-    android:layout_height="160dp"
+    android:layout_height="143dp"
     android:layout_marginBottom="10dp"
     app:cardElevation="0dp"
 
@@ -18,18 +18,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_item_product_cart_image"
-
+        <androidx.cardview.widget.CardView
+            android:id="@+id/iv_item_product_cart_roundedImage"
             android:layout_width="160dp"
-            android:layout_height="160dp"
-
+            android:layout_height="143dp"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginBottom="0dp"
-            android:src="@drawable/product_version_adidas_new_second" />
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="10dp"
+            app:cardCornerRadius="8dp">
 
+            <ImageView
+                android:id="@+id/iv_item_product_cart_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                android:src="@drawable/product_version_adidas_new_second" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionOne"
@@ -37,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/iv_item_product_cart_image"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
             android:orientation="horizontal">
 
             <TextView
@@ -77,8 +87,8 @@
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="10dp"
 
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/iv_item_product_cart_image"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
             android:text="men shoes"
@@ -91,9 +101,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_item_productCart_listView_type"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="0dp"
-            android:layout_toEndOf="@+id/iv_item_product_cart_image">
+            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage">
 
             <TextView
                 android:id="@+id/tv_item_productCart_listView_size"
@@ -103,7 +113,7 @@
 
                 android:layout_marginEnd="20dp"
                 android:gravity="center_vertical"
-                android:text="size"
+                android:text="Size"
                 android:textColor="#444444"
                 android:textSize="14sp" />
 
@@ -122,16 +132,14 @@
 
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionThree"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
 
             android:layout_below="@+id/linearlayout_itemProductCart_sectionTwo"
-            android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"
 
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="104dp"
-            android:layout_toEndOf="@+id/iv_item_product_cart_image">
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage">
 
             <TextView
                 android:id="@+id/tv_item_productCart_listView_amount"
@@ -141,7 +149,7 @@
                 android:layout_marginEnd="5dp"
                 android:gravity="center_horizontal|center_vertical"
 
-                android:text="amount"
+                android:text="Amount"
                 android:textColor="#444444"
                 android:textSize="14sp" />
 
@@ -163,47 +171,49 @@
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/navigation_item_productCart_listView_viewList_color"
-            android:layout_width="168dp"
+            android:layout_width="0dp"
             android:layout_height="25dp"
 
             android:layout_below="@+id/linearlayout_itemProductCart_sectionThree"
             android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="2dp"
-            android:layout_toEndOf="@+id/iv_item_product_cart_image"
+            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
                 <HorizontalScrollView
                     android:id="@+id/hs_item_productCart_listView_listColor"
 
-                    android:layout_width="168dp"
-                    android:layout_height="33dp"
+                    android:layout_width="170dp"
+                    android:layout_height="match_parent"
 
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="243dp"
                     android:layout_marginBottom="0dp"
+                    android:background="@drawable/border_radius_gray_light"
 
                     android:scrollbars="none"
                     tools:ignore="SpeakableTextPresentCheck">
 
                     <LinearLayout
                         android:layout_width="186dp"
-                        android:layout_height="wrap_content"
-
+                        android:layout_height="match_parent"
                         android:layout_marginBottom="1dp"
-
                         android:divider="@android:color/transparent"
+                        android:gravity="center_vertical"
+
                         android:scrollbars="none">
 
                         <ImageButton
@@ -212,7 +222,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@android:color/transparent"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/ic_yellow_color"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck,DuplicateSpeakableTextCheck" />
@@ -223,7 +233,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@android:color/transparent"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/ic_green_color"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -234,7 +244,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@android:color/transparent"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/ic_gray_color"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
@@ -245,7 +255,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@android:color/transparent"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/ic_blue_color"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -256,7 +266,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@android:color/transparent"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/ic_white_color"
                             tools:ignore="SpeakableTextPresentCheck" />
@@ -267,7 +277,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@android:color/transparent"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/orange_color"
                             tools:ignore="SpeakableTextPresentCheck" />
