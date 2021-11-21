@@ -1,4 +1,4 @@
-package com.project.kicksdrop.ui.wistlist;
+package com.project.kicksdrop.ui.wishlist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

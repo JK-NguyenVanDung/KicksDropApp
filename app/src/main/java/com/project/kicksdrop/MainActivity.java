@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         //loadProduct("PD1");
 
-
+        getProduct();
 
 
         //addProductCart("AC3","PD1",5,"#333",42);

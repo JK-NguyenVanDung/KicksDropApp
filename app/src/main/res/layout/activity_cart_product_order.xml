@@ -332,7 +332,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/border_coner_bottom_linear_layout"
+                android:background="@drawable/border_corner_bottom_linear_layout"
                 android:orientation="vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">

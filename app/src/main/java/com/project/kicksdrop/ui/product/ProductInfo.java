@@ -1,16 +1,217 @@
 package com.project.kicksdrop.ui.product;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.R;
+import com.project.kicksdrop.adapter.ColorCircleAdapter;
+import com.project.kicksdrop.adapter.ImageAdapter;
+import com.project.kicksdrop.model.Image;
+import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 
-public class ProductInfo extends AppCompatActivity {
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+
+public class ProductInfo extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    TextView name,currentSize,price,amount,currentSizeSelector;
+    ImageButton increaseAmount,decreaseAmount,goBack;
+    Button addToCart;
+    Spinner sizeSpinner;
+    Product product;
+    ImageView productImage;
+    ViewPager viewPager;
+    ImageAdapter imageAdapter;
+    TextView indexNumb;
+
+    int currentAmount = 1;
+    ColorCircleAdapter circleAdapter;
+    RecyclerView mRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_info);
+
+        matching();
+        Intent intent = getIntent();
+
+        String id = intent.getStringExtra("id");
+        getProduct(id);
+
+        increaseAmount.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                currentAmount++;
+                amount.setText(Integer.toString(currentAmount));
+
+            }
+        });
+        decreaseAmount.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(currentAmount >1){
+                    currentAmount--;
+                    amount.setText(Integer.toString(currentAmount));
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Minimum amount is 1",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        goBack.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+
+
+        LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
+        mRecyclerView.setLayoutManager(layoutManager);
+
     }
+
+    private void getProduct(String id) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product").child(id);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                product = snapshot.getValue(Product.class);
+                assert product != null;
+                //Log.d("yeah",product.getProduct_sizes().toString());
+                String value = product.getProduct_sizes().get(1);
+                name.setText(product.getProduct_name());
+                currentSize.setText(value);
+                //currentSizeSelector.setText(value);
+                java.util.Currency usd = java.util.Currency.getInstance("USD");
+                java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+                format.setCurrency(usd);
+                String sPrice =format.format(product.getProduct_price());
+                price.setText(sPrice);
+                amount.setText(Integer.toString(currentAmount));
+
+
+                product.getProduct_images().remove(0);
+
+                int size =product.getProduct_images().size();
+                int count = 0;
+                List<Image> images = new ArrayList<>(size);
+                while (count < size){
+                    String tempImg = product.getProduct_images().get(count).get("image");
+                    String tempColor = product.getProduct_images().get(count).get("color");
+                    Image temp = new Image(tempImg,tempColor);
+                    images.add(temp);
+                    count++;
+                }
+
+                imageAdapter = new ImageAdapter(getApplicationContext(),images);
+                viewPager.setAdapter(imageAdapter);
+                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    public void onPageScrollStateChanged(int state) {}
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                        indexNumb = findViewById(R.id.tv_productInfo_productPage);
+
+                        String displayText = (position+1) + "/"+ size;
+                        indexNumb.setText(displayText);
+                    }
+
+                    public void onPageSelected(int position) {
+
+                    }
+                });
+
+                ArrayList<String> colors = product.getProduct_colors();
+                colors.remove(0);
+
+                circleAdapter = new ColorCircleAdapter(getApplicationContext(),colors,images,viewPager);
+                mRecyclerView.setAdapter(circleAdapter);
+
+                product.getProduct_sizes().remove(0);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                        android.R.layout.simple_spinner_dropdown_item, product.getProduct_sizes());
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                sizeSpinner.setAdapter(adapter);
+                sizeSpinner.setOnItemSelectedListener(ProductInfo.this);
+                addToCart.setOnClickListener(new  View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        String text = sizeSpinner.getSelectedItem().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), CartListView.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+    @SuppressLint("WrongViewCast")
+    private void matching(){
+        name = findViewById(R.id.tv_productInfo_productName);
+        currentSize = findViewById(R.id.tv_productInfo_productSize);
+        //currentSizeSelector = findViewById(R.id.productInfo_tv_selector_Size);
+        price = findViewById(R.id.tv_productInfo_product_price);
+        amount = findViewById(R.id.tv_productInfo_amoutOfProducts);
+        increaseAmount =  findViewById(R.id.ibtn_productInfo_increase);
+        decreaseAmount =  findViewById(R.id.ibtn_productInfo_decrease);
+        addToCart =  findViewById(R.id.btn_productInfo_addToCart);
+        sizeSpinner = findViewById(R.id.spinner_productInfo_product_Size);
+        goBack = findViewById(R.id.ibtn_productInfo_back);
+        productImage = findViewById(R.id.productInfo_iv_image);
+        viewPager = findViewById(R.id.productInfo_vp_image);
+    }
+
 }
