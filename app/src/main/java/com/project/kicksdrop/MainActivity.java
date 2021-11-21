@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         //loadProduct("PD1");
 
         //getProduct();
-        getAccount("AC2");
+
 
 
         //addProductCart("AC3","PD1",5,"#333",42);
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getAccount(String user_id){
+    private void getUser(String user_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account/"+user_id);
 
@@ -149,10 +149,6 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
 
                 getProduct(listWishlist);
-
-
-
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
