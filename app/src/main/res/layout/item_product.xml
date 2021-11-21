@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="170dp"
     android:layout_height="180dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="10dp"
     android:layout_marginStart="15dp"
     app:cardElevation="0dp"
+    android:background="?android:selectableItemBackground"
     >
 
     <RelativeLayout
@@ -14,47 +16,62 @@
         >
 
         <!--image product-->
-        <ImageView
-            android:id="@+id/imgv_itemProduct"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/img_cardView"
             android:layout_width="170dp"
             android:layout_height="132dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="2dp"
-            android:src="@drawable/product" />
+            app:cardCornerRadius="10dp"
+            >
 
+
+            <ImageView
+                android:id="@+id/imgv_productImg"
+                android:layout_width="170dp"
+                android:layout_height="132dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="2dp"
+                 />
+            <ImageButton
+                android:id="@+id/btn_itemProduct_heart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="145dp"
+                android:layout_marginTop="5dp"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/ic_heart"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            <!--icon circle-->
+
+            <ImageView
+                android:id="@+id/imgv_itemProduct_circle"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                tools:ignore="ImageContrastCheck"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="147dp"
+                android:layout_marginBottom="158dp"
+                android:background="@drawable/color_circle" />
+        </androidx.cardview.widget.CardView>
 
         <!--icon heart-->
-        <ImageView
-            android:id="@+id/imgv_itemProduct_heart"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="159dp"
-            android:src="@drawable/ic_heart" />
 
-        <!--icon circle-->
-        <ImageView
-            android:id="@+id/imgv_itemProduct_circle"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="140dp"
-            android:layout_marginBottom="157dp"
-            android:src="@drawable/ic_icon_circle" />
 
-        <!--product name-->
+
+        <!--product cost-->
         <TextView
             android:id="@+id/tv_itemProduct_name"
             android:layout_width="match_parent"
             android:layout_height="21dp"
-            android:layout_below="@+id/imgv_itemProduct"
+            android:layout_below="@+id/img_cardView"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="0dp"
@@ -65,17 +82,17 @@
 
         </TextView>
 
-        <!--product cost-->
         <TextView
             android:id="@+id/tv_itemProduct_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:text="99.00$"
             android:textColor="#262626"
-            android:textSize="10dp">
+            android:textSize="10sp">
 
         </TextView>
 
