@@ -43,9 +43,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.adapter.ProductListAdapter;
+import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.databinding.ActivityMainBinding;
+import com.project.kicksdrop.model.Account;
 import com.project.kicksdrop.model.Cart;
+import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.auth.LoginActivity;
+import com.project.kicksdrop.ui.home.HomeFragment;
+import com.project.kicksdrop.ui.home.HomeViewModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +63,12 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
+    WishlistAdapter wishlistAdapter;
+    private Product product;
+    private HomeViewModel homeViewModel;
+    private ArrayList<Product> mWishlist ;
     private ActivityMainBinding binding;
+    private
 
     FirebaseAuth auth;
 
@@ -99,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
 
         //loadProduct("PD1");
 
-        getProduct();
+        //getProduct();
+        getAccount("AC2");
 
 
         //addProductCart("AC3","PD1",5,"#333",42);
@@ -119,8 +131,72 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        getCart("AC2");
 
+
+    }
+
+    private void getAccount(String user_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+user_id);
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Product> wishlist = new  ArrayList<Product>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
+                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
+
+                getProduct(listWishlist);
+
+
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getProduct(ArrayList<String> wishlist){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mWishlist = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mWishlist.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+
+                        product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.setProduct_id(dtShot.getKey());
+
+
+                    for (int i = 0; i < wishlist.size(); i++) {
+                        if (wishlist.get(i).equals(dtShot.getKey())){
+                            mWishlist.add(product);
+                        }
+
+
+
+                    }
+
+                    wishlistAdapter = new WishlistAdapter(getApplicationContext(),mWishlist);
+                    //recyclerView.setAdapter(wishlistAdapter);
+                }
+                mWishlist.size();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getCart(String user_Id){
