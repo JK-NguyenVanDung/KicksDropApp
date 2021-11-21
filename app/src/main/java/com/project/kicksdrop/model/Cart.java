@@ -1,15 +1,16 @@
 package com.project.kicksdrop.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Cart {
 
     private String userID;
     private String couponID;
-    List<ProductsInCart> products ;
+    List<HashMap<String,String>> products ;
 
-    public Cart(String userID, String couponID, List<ProductsInCart> products) {
+    public Cart(String userID, String couponID, List<HashMap<String,String>> products) {
         this.userID = userID;
         this.couponID = couponID;
         this.products = products;
@@ -31,11 +32,11 @@ public class Cart {
         this.couponID = couponID;
     }
 
-    public List<ProductsInCart> getProducts() {
+    public List<HashMap<String, String>> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductsInCart> products) {
+    public void setProducts(List<HashMap<String, String>> products) {
         this.products = products;
     }
 }
