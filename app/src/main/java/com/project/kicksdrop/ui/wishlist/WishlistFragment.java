@@ -19,11 +19,11 @@ import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 
 public class WishlistFragment extends Fragment {
 
-    TextView wishListTotalItems, wishListProductName,
-            wishListProductCost, wishListProductType;
-    Spinner wishListDropDownSize;
-    Button wishListMoreOption;
-    ImageButton wishListYellow, wishListRemoveProduct;
+    TextView TotalItems, ProductName,
+            ProductCost, ProductType;
+    Spinner listDropDownSize;
+    Button addBtn;
+    ImageButton colorIBtn, removeIbtn;
 
     private WishlistViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
@@ -48,14 +48,14 @@ public class WishlistFragment extends Fragment {
 
 
 //    public void matching() {
-//        wishListTotalItems = (TextView) findViewById(R.id.wishlist_tv_items);
-//        wishListProductName = (TextView) findViewById(R.id.wishlist_tv_productName);
-//        wishListProductCost = (TextView) findViewById(R.id.wishlist_tv_productCost);
-//        wishListProductType = (TextView) findViewById(R.id.wishlist_tv_productType);
-//        wishListDropDownSize = (Spinner) findViewById(R.id.wishlist_spinner_dropDownSize);
-//        wishListMoreOption = (Button) findViewById(R.id.wishList_btn_moreOption);
-//        wishListYellow = (ImageButton) findViewById(R.id.wishlist_ibtn_yellow);
-//        wishListRemoveProduct = (ImageButton) findViewById(R.id.wishlist_ibtn_remove);
+//        TotalItems = (TextView) findViewById(R.id.wishlist_tv_totalItems);
+//        ProductName = (TextView) findViewById(R.id.wishlist_tv_productName);
+//        ProductCost = (TextView) findViewById(R.id.wishlist_tv_productCost);
+//        ProductType = (TextView) findViewById(R.id.wishlist_tv_productType);
+//        listDropDownSize = (Spinner) findViewById(R.id.wishlist_spinner_dropDownSize);
+//        addBtn = (Button) findViewById(R.id.wishList_btn_add);
+//        colorIBtn = (ImageButton) findViewById(R.id.wishlist_ibtn_yellow);
+//        removeIbtn = (ImageButton) findViewById(R.id.wishlist_ibtn_remove);
 //    }
 
     @Override

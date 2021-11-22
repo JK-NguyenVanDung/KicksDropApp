@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:id="@+id/ibtn_productCartListViewItems_prevButton"
+                    android:id="@+id/ibtn_CartListView_prev"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -184,7 +184,7 @@
 
 
             <Button
-                android:id="@+id/productCartListViewItems_btn_selectCouponHere"
+                android:id="@+id/cartListView_btn_selectCoupon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -229,7 +229,7 @@
 
                 <!--                        field total payment-->
                 <TextView
-                    android:id="@+id/productCartListViewItems_tv_totalPayment"
+                    android:id="@+id/cartListView_tv_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -253,7 +253,7 @@
                 app:cardCornerRadius="15dp">
 
                 <Button
-                    android:id="@+id/productCartListViewItems_btn_order"
+                    android:id="@+id/cartListView_btn_order"
                     android:layout_width="155dp"
                     android:layout_height="47dp"
                     android:backgroundTint="@color/black"

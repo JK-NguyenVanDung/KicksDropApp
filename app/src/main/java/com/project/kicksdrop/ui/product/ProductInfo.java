@@ -225,15 +225,15 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     }
     @SuppressLint("WrongViewCast")
     private void matching(){
-        name = findViewById(R.id.tv_productInfo_productName);
+        name = findViewById(R.id.productInfo_tv_name);
         currentSize = findViewById(R.id.tv_productInfo_productSize);
         //currentSizeSelector = findViewById(R.id.productInfo_tv_selector_Size);
-        price = findViewById(R.id.tv_productInfo_product_price);
-        amount = findViewById(R.id.tv_productInfo_amoutOfProducts);
-        increaseAmount =  findViewById(R.id.ibtn_productInfo_increase);
-        decreaseAmount =  findViewById(R.id.ibtn_productInfo_decrease);
-        addToCart =  findViewById(R.id.btn_productInfo_addToCart);
-        sizeSpinner = findViewById(R.id.spinner_productInfo_product_Size);
+        price = findViewById(R.id.productInfo_tv_price);
+        amount = findViewById(R.id.productInfo_tv_number);
+        increaseAmount =  findViewById(R.id.productInfo_ibtn_inscrease);
+        decreaseAmount =  findViewById(R.id.productInfo_ibtn_descrease);
+        addToCart =  findViewById(R.id.productInfo_btn_add);
+        sizeSpinner = findViewById(R.id.productInfo_spinner_dropDownSize);
         goBack = findViewById(R.id.ibtn_productInfo_back);
         productImage = findViewById(R.id.productInfo_iv_image);
         viewPager = findViewById(R.id.productInfo_vp_image);
