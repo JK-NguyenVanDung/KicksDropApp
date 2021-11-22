@@ -107,7 +107,12 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             avt = itemView.findViewById(R.id.iv_item_productCart_addToCart_image);
-
+            name = itemView.findViewById(R.id.wishlist_tv_productName);
+            price = itemView.findViewById(R.id.wishlist_tv_productCost);
+            type = itemView.findViewById(R.id.wishlist_tv_productType);
+            size = itemView.findViewById(R.id.wishlist_spinner_dropDownSize);
+            moreOption = itemView.findViewById(R.id.wishList_btn_moreOption);
+            remove = itemView.findViewById(R.id.wishlist_ibtn_remove);
 
         }
     }

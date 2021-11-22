@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        String username = "tdat1155@gmail.com";
+        String username = "jackiedekingv@gmail.com";
         String pass = "123456";
 
         auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
 //            }
 //        });
+
 
         //getCart("AC2");
 
@@ -187,6 +188,66 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mWishlist.size();
 
+    }
+
+    private void getUser(String user_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+user_id);
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Product> wishlist = new  ArrayList<Product>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
+                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
+
+                getProduct(listWishlist);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getProduct(ArrayList<String> wishlist){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mWishlist = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mWishlist.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+
+                        product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.setProduct_id(dtShot.getKey());
+
+
+                    for (int i = 0; i < wishlist.size(); i++) {
+                        if (wishlist.get(i).equals(dtShot.getKey())){
+                            mWishlist.add(product);
+                        }
+
+
+
+                    }
+
+                    wishlistAdapter = new WishlistAdapter(getApplicationContext(),mWishlist);
+                    //recyclerView.setAdapter(wishlistAdapter);
+                }
+                mWishlist.size();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
