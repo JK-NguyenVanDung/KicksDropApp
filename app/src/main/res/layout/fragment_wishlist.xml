@@ -111,27 +111,15 @@
                 android:textColor="#444444"
                 android:textSize="15sp" />
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_height="1000dp"
+                android:id="@+id/wishlist_rv_products"
+                >
 
-                <include layout="@layout/item_cart_product_add" />
 
-                <include layout="@layout/item_cart_product_add" />
 
-                <include layout="@layout/item_cart_product_add" />
-
-                <include layout="@layout/item_cart_product_add" />
-
-                <include layout="@layout/item_cart_product_add" />
-
-                <include layout="@layout/item_cart_product_add" />
-
-                <include layout="@layout/item_cart_product_add" />
-
-            </LinearLayout>
+            </androidx.recyclerview.widget.RecyclerView>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
