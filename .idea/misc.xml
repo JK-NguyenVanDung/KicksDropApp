@@ -3,8 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_coupon_1.xml" value="0.23958333333333334" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_coupon_2.xml" value="0.23958333333333334" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.12777777777777777" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_dots.xml" value="0.12777777777777777" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_heart.xml" value="0.12777777777777777" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_heart_activated.xml" value="0.12777777777777777" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.23958333333333334" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_icon_circle.xml" value="0.23958333333333334" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_icongoogle.xml" value="0.23958333333333334" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/fragment_wishlist.xml" value="0.125" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_add.xml" value="0.264" />
-        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_list_view.xml" value="0.1062058526740666" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_list_view.xml" value="0.16" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_product.xml" value="0.2" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.3828125" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.3828125" />
@@ -131,19 +141,10 @@
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/layout/item_product.xml" value="0.75" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/layout/main_fragment.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/layout/pop_up_chat.xml" value="0.20885416666666667" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/drawable-v24/border_radius_transparent.xml" value="0.225" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/activity_coupon_product.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/activity_edit_profile_user.xml" value="0.2942643391521197" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/activity_nike_products.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/fragment_home.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/fragment_profile.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/item_cart_product_add.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/item_cart_product_list_view.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/moinhathomnay/app/src/main/res/layout/item_coupon.xml" value="0.371875" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
