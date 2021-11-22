@@ -23,37 +23,38 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp"
+
+                >
 
                 <ImageButton
-                    android:id="@+id/ibtn_productCartListViewItems_prevButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/Cart_btn_back"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentTop="false"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="381dp"
-                    android:background="@android:color/transparent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="360dp"
+                    android:background="?android:selectableItemBackground"
+                    android:contentDescription="TODO"
                     android:src="@drawable/ic_previous"
                     tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="-1dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="0dp"
                     android:fontFamily="@font/work_sans_semibold"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="@string/cart"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="24sp" />
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
@@ -63,11 +64,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/productCartListViewItems_tv_amountOfGoods"
+                android:id="@+id/Cart_tv_total_products"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:text="4 item"
+                android:text="0 items"
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="16sp" />
@@ -85,11 +86,11 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/productCartListViewItems_tv_totalMoneyOfGoods"
+                android:id="@+id/Cart_tv_total_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:text="360.00$"
+                android:text="$00.00"
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="16sp" />
@@ -99,9 +100,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/navigation_bar_productCartListViewItems_view"
-        android:layout_width="412dp"
+        android:layout_width="match_parent"
         android:layout_height="672dp"
-        android:layout_marginTop="0dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,24 +115,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="0dp"
-            android:paddingBottom="140dp"
-            >
+            android:paddingBottom="140dp">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Cart_rv_products"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <include layout="@layout/item_cart_product_list_view" />
-
-                <include layout="@layout/item_cart_product_list_view" />
-
-                <include layout="@layout/item_cart_product_list_view" />
-
-                <include layout="@layout/item_cart_product_list_view" />
-            </LinearLayout>
+                android:orientation="vertical" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
@@ -172,6 +162,7 @@
                     android:src="@drawable/ic_coupon_2" />
 
                 <TextView
+                    android:id="@+id/Cart_coupon_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
@@ -184,10 +175,9 @@
 
 
             <Button
-                android:id="@+id/productCartListViewItems_btn_selectCouponHere"
+                android:id="@+id/Cart_btn_coupon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
                 android:drawableRight="@drawable/ic_btn_next"
                 android:fontFamily="@font/roboto_light"
                 android:paddingLeft="0dp"
@@ -196,6 +186,7 @@
                 android:paddingRight="0dp"
                 android:paddingBottom="0dp"
                 android:text="Select coupon here"
+                android:background="?android:selectableItemBackground"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
@@ -229,12 +220,12 @@
 
                 <!--                        field total payment-->
                 <TextView
-                    android:id="@+id/productCartListViewItems_tv_totalPayment"
+                    android:id="@+id/Cart_tv_totalPayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="84.00$"
+                    android:text="$00.00"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -253,7 +244,7 @@
                 app:cardCornerRadius="15dp">
 
                 <Button
-                    android:id="@+id/productCartListViewItems_btn_order"
+                    android:id="@+id/productCart_btn_order"
                     android:layout_width="155dp"
                     android:layout_height="47dp"
                     android:backgroundTint="@color/black"

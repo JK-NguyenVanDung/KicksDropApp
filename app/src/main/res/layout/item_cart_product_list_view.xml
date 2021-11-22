@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="365dp"
-    android:layout_height="143dp"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
     android:layout_marginBottom="10dp"
     app:cardElevation="0dp"
 
@@ -11,8 +11,8 @@
 
 
     <RelativeLayout
-        android:layout_width="412dp"
-        android:layout_height="160dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,39 +20,90 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/iv_item_product_cart_roundedImage"
-            android:layout_width="160dp"
-            android:layout_height="143dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="20dp"
             android:elevation="10dp"
             app:cardCornerRadius="8dp">
 
+
             <ImageView
-                android:id="@+id/iv_item_product_cart_image"
-                android:layout_width="match_parent"
+                android:id="@+id/productCart_iv_cart_image"
+                android:layout_width="160dp"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:scaleType="centerCrop"
-                android:src="@drawable/product_version_adidas_new_second" />
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="0dp"
+                android:contentDescription="@string/todo"
+                />
+
         </androidx.cardview.widget.CardView>
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/navigation_itemproductCart_addToCart_viewList_color"
+            android:layout_width="160dp"
+            android:layout_height="25dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="10pt">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <HorizontalScrollView
+                    android:id="@+id/hs_item_productCart_addToCart_viewListColor"
+
+
+                    android:layout_width="168dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+
+                    android:layout_marginEnd="243dp"
+                    android:layout_marginBottom="0dp"
+
+                    android:scrollbars="none"
+
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/productInfo_rv_circles"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+
+                        android:orientation="horizontal" />
+
+
+                </HorizontalScrollView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionOne"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/itemProductCart_tv_listView_name"
+                android:id="@+id/ProductCart_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="35dp"
@@ -61,14 +112,15 @@
                 android:gravity="center_vertical"
                 android:text='Nike Air Force 1 "07'
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:singleLine="true"
+                android:textSize="16sp" />
 
             <ImageButton
-                android:id="@+id/itemProductCart_ibtn_listViewRemove"
+                android:id="@+id/ProductCart_delete"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
-                android:background="@android:color/transparent"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:src="@drawable/ic_remove_product_cart"
                 android:textColor="#777777"
@@ -78,26 +130,57 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/itemProductCart_tv_listViewType"
+            android:id="@+id/ProductCart_tv_price"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:text="99"
+            android:textColor="#444444"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/ProductCart_brand"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="10dp"
 
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
-            android:text="men shoes"
+            android:text="Brand: "
             android:textColor="#444444"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/ProductCart_tv_category"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_marginStart="60dp"
+
+            android:layout_marginTop="27dp"
+            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:text="Nike"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionTwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemProductCart_tv_listViewType"
+            android:layout_below="@+id/ProductCart_tv_category"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="0dp"
@@ -106,19 +189,19 @@
             <TextView
                 android:id="@+id/tv_item_productCart_listView_size"
 
-                android:layout_width="31dp"
-                android:layout_height="21dp"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
 
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="10dp"
                 android:gravity="center_vertical"
                 android:text="Size"
                 android:textColor="#444444"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <Spinner
                 android:id="@+id/itemProductCart_sp_listViewDropDownSize"
                 android:layout_width="100dp"
-                android:layout_height="20dp"
+                android:layout_height="25dp"
 
                 android:background="@drawable/border_radius_gray_light"
 
@@ -131,159 +214,69 @@
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionThree"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
 
             android:layout_below="@+id/linearlayout_itemProductCart_sectionTwo"
 
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage">
 
             <TextView
-                android:id="@+id/tv_item_productCart_listView_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                android:layout_marginEnd="5dp"
-                android:gravity="center_horizontal|center_vertical"
-
-                android:text="Amount"
-                android:textColor="#444444"
-                android:textSize="14sp" />
-
-            <Spinner
-                android:id="@+id/itemProductCart_sp_listViewDropDownAmount"
-
-                android:layout_width="45dp"
-                android:layout_height="20dp"
-
-                android:layout_marginEnd="51dp"
-
-                android:layout_marginBottom="108dp"
-
-                android:background="@drawable/border_radius_gray_light"
-                android:spinnerMode="dropdown"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/navigation_item_productCart_listView_viewList_color"
-            android:layout_width="0dp"
-            android:layout_height="25dp"
-
-            android:layout_below="@+id/linearlayout_itemProductCart_sectionThree"
-            android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="2dp"
-            android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ProductCart_tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center_vertical"
+                android:text="Amount"
+                android:textColor="#444444"
+                android:textSize="16sp" />
 
-                <HorizontalScrollView
-                    android:id="@+id/hs_item_productCart_listView_listColor"
+            <LinearLayout
+                android:layout_width="126dp"
+                android:layout_height="30dp"
 
-                    android:layout_width="170dp"
+
+                android:background="@drawable/border_radius_gray_light"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/ProductCart_btn_decrease"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="?android:selectableItemBackground"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/ic_minus"
+                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="243dp"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/border_radius_gray_light"
+                <TextView
+                    android:id="@+id/ProductCart_tv_amount_numb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#F4F4F4"
+                    android:fontFamily="@font/work_sans_semibold"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
-                    android:scrollbars="none"
-                    tools:ignore="SpeakableTextPresentCheck">
-
-                    <LinearLayout
-                        android:layout_width="186dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="1dp"
-                        android:divider="@android:color/transparent"
-                        android:gravity="center_vertical"
-
-                        android:scrollbars="none">
-
-                        <ImageButton
-                            android:id="@+id/itemProductCart_ibtn__listViewYellowColor"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:backgroundTint="@android:color/transparent"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/ic_yellow_color"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck,DuplicateSpeakableTextCheck" />
-
-                        <ImageButton
-                            android:id="@+id/itemProductCart_ibtn_listViewGreenColor"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:backgroundTint="@android:color/transparent"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/ic_green_color"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                        <ImageButton
-                            android:id="@+id/itemProductCart_ibtn_listViewGrayColor"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:backgroundTint="@android:color/transparent"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/ic_gray_color"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
-
-                        <ImageButton
-                            android:id="@+id/itemProductCart_ibtn_listViewBlueColor"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:backgroundTint="@android:color/transparent"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/ic_blue_color"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                        <ImageButton
-                            android:id="@+id/itemProductCart_ibtn_listViewWhiteColor"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:backgroundTint="@android:color/transparent"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/ic_white_color"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-                        <ImageButton
-                            android:id="@+id/itemProductCart_ibtn_listViewOrangeColor"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:backgroundTint="@android:color/transparent"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/orange_color"
-                            tools:ignore="SpeakableTextPresentCheck" />
-                    </LinearLayout>
-                </HorizontalScrollView>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.core.widget.NestedScrollView>
-
+                <ImageButton
+                    android:id="@+id/ProductCart_btn_increase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="?android:selectableItemBackground"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/ic_plus"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
