@@ -77,8 +77,6 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
     @Override
     public void onBindViewHolder(@NonNull ColorCircleAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
-
-
         String color = mColor.get(position);
         backgroundGradient.setColor(Color.parseColor(color));
         if(position ==0){

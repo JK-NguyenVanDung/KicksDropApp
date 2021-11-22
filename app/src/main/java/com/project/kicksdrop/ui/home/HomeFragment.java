@@ -29,6 +29,7 @@ import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
 
 import java.util.ArrayList;
@@ -59,11 +60,18 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
         getProduct();
         final ImageButton button = binding.homeBtnChat;
-
         button.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChatActivity.class);
+                startActivity(intent);
+            }
+        });
+        final ImageButton cart = binding.homeBtnCart;
+        cart.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CartListView.class);
                 startActivity(intent);
             }
         });
@@ -88,9 +96,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 for(DataSnapshot dtShot: snapshot.getChildren()){
                     Product product = dtShot.getValue(Product.class);
                     assert product != null;
-
                     product.setProduct_id(dtShot.getKey());
-
                     mProduct.add(product);
                 }
                 productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this );
