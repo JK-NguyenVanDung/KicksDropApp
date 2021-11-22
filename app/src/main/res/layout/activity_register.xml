@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.RegisterActivity">
+    tools:context=".ui.auth.RegisterActivity"
+    android:isScrollContainer="true">
 
     <ImageView
         android:id="@+id/logo"
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="Welcome to Kicks Drop"
         android:textColor="@color/textColor"
-        android:textSize="35dp"
+        android:textSize="30dp"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,8 +104,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"
-            app:passwordToggleEnabled="true"
-            app:layout_constraintVertical_bias="0.03">
+            app:layout_constraintVertical_bias="0.03"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
 
@@ -160,7 +161,7 @@
                 android:layout_height="45dp"
                 android:background="@color/white"
                 android:hint="Full name"
-                android:inputType="textPassword"
+                android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -189,10 +190,10 @@
             android:text="female"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toEndOf="@+id/appCompatRadioButton"
             app:layout_constraintTop_toBottomOf="@+id/name"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintHorizontal_bias="0.2"/>
+            app:layout_constraintVertical_bias="0" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
@@ -201,10 +202,10 @@
             android:text="other"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
             app:layout_constraintStart_toEndOf="@+id/appCompatRadioButton2"
             app:layout_constraintTop_toBottomOf="@+id/name"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintHorizontal_bias="0.3"/>
+            app:layout_constraintVertical_bias="0" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/appCompatRadioButton3"
@@ -220,7 +221,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_singIn"
+            android:id="@+id/btn_signUp"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext"
@@ -232,7 +233,23 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatRadioButton3"
-            app:layout_constraintVertical_bias="0"/>
+            app:layout_constraintVertical_bias="0" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_signIn"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@null"
+            android:text="You already have an account, login me!"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_signUp"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/or"
@@ -245,10 +262,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_singIn" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_signUp"
+            app:layout_constraintVertical_bias="0.486" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_google"
@@ -258,10 +275,10 @@
             android:src="@drawable/ic_icongoogle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.278"
+            app:layout_constraintHorizontal_bias="0.259"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/or"
-            app:layout_constraintVertical_bias="0.428"
+            app:layout_constraintVertical_bias="1.0"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -274,11 +291,21 @@
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.137"
+            app:layout_constraintHorizontal_bias="0.092"
             app:layout_constraintStart_toEndOf="@+id/fab_google"
             app:layout_constraintTop_toBottomOf="@+id/or"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/linear"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,6 +25,7 @@ public class WishlistFragment extends Fragment {
     Button wishListMoreOption;
     ImageButton wishListYellow, wishListRemoveProduct;
 
+
     private WishlistViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
 
@@ -46,8 +47,7 @@ public class WishlistFragment extends Fragment {
         return root;
     }
 
-
-//    public void matching() {
+    //    public void matching() {
 //        wishListTotalItems = (TextView) findViewById(R.id.wishlist_tv_items);
 //        wishListProductName = (TextView) findViewById(R.id.wishlist_tv_productName);
 //        wishListProductCost = (TextView) findViewById(R.id.wishlist_tv_productCost);

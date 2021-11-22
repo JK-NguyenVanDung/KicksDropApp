@@ -122,7 +122,7 @@
             app:layout_constraintVertical_bias=".07" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_singIn"
+            android:id="@+id/btn_signUp"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext"
@@ -148,7 +148,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_singIn"
+            app:layout_constraintTop_toBottomOf="@+id/btn_signUp"
             app:layout_constraintVertical_bias="0.09" />
 
         <TextView
@@ -164,7 +164,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toEndOf="@+id/remember"
-            app:layout_constraintTop_toBottomOf="@+id/btn_singIn"
+            app:layout_constraintTop_toBottomOf="@+id/btn_signUp"
             app:layout_constraintVertical_bias="0.09" />
 
         <TextView
@@ -194,7 +194,8 @@
             app:layout_constraintHorizontal_bias="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/or"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintVertical_bias="0.2"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/ctn"

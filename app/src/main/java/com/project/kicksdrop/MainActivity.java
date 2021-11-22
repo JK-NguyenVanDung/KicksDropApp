@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -50,6 +51,7 @@ import com.project.kicksdrop.model.Account;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.auth.LoginActivity;
+import com.project.kicksdrop.ui.auth.RegisterActivity;
 import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.home.HomeViewModel;
 
@@ -68,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
     private ArrayList<Product> mWishlist ;
     private ActivityMainBinding binding;
-    private
+    Button testSignUn;
 
-    FirebaseAuth auth;
+//    FirebaseAuth auth;
 
     String user_id = "AC1";
     HashMap<String,Object> hashMap;
@@ -82,20 +84,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        auth = FirebaseAuth.getInstance();
+//        auth = FirebaseAuth.getInstance();
 
-        String username = "jackiedekingv@gmail.com";
-        String pass = "123456";
-
-        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
-
-            @Override
-            public void onComplete(@NonNull Task task) {
-            }
-        });
+//        String username = "jackiedekingv@gmail.com";
+//        String pass = "123456";
+//
+//        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
+//
+//            @Override
+//            public void onComplete(@NonNull Task task) {
+//            }
+//        });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -131,7 +134,14 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-
+        testSignUn = (Button) findViewById(R.id.testSignUp);
+        testSignUn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goTestSignUp = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(goTestSignUp);
+            }
+        });
 
     }
 
