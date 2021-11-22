@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -41,6 +42,9 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     ProductListAdapter productAdapter;
     private ArrayList<Product> mProduct;
     RecyclerView recyclerView;
+
+    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
+    Button productTitleBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +82,14 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         return root;
 
     }
+    //    public void matching() {
+//        productContentIbtn = (ImageButton) findViewById(R.id.home_ibtn_productContent);
+//        newDropsIBtn = (ImageButton) findViewById(R.id.home_ibtn_newDrops);
+//        nikesIbtn = (ImageButton) findViewById(R.id.home_ibtn_nikes);
+//        adidasIBtn = (ImageButton) findViewById(R.id.home_ibtn_adidas);
+//        productTitleBtn = (Button) findViewById(R.id.home_btn_productTitle);
+//
+//    }
     @Override
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getContext(), ProductInfo.class);
