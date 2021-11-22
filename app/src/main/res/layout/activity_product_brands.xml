@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.nikeProducts.NikeProducts">
+    tools:context=".ui.productBrands.ProductBrands">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:id="@+id/nikes_iBtn_prev"
+                    android:id="@+id/productBrands_iBtn_prev"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -32,6 +32,7 @@
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <TextView
+                    android:id="@+id/productBrands_tv_brand"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_alignParentStart="true"
@@ -60,7 +61,7 @@
 
 
             <EditText
-                android:id="@+id/nikes_iBtn_search"
+                android:id="@+id/productBrands_iBtn_search"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"
@@ -77,7 +78,7 @@
                 tools:ignore="TextContrastCheck" />
 
             <ImageButton
-                android:id="@+id/nikes_iBtn_cart"
+                android:id="@+id/productBrands_iBtn_cart"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:background="?android:selectableItemBackground"
@@ -86,7 +87,7 @@
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <ImageButton
-                android:id="@+id/nikes_iBtn_chat"
+                android:id="@+id/productBrands_iBtn_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="?android:selectableItemBackground"

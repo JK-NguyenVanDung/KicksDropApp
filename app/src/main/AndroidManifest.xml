@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KicksDrop">
         <activity
-            android:name=".ui.nikeProducts.NikeProducts"
+            android:name=".ui.productBrands.ProductBrands"
             android:exported="true" />
         <activity
             android:name=".ui.profileuser.EditProfileUser"
