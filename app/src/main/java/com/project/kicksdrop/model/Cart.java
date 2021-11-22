@@ -15,10 +15,9 @@ public class Cart {
     private String couponID;
 
     //product cart
-    TextView totalItems, totalMoney, productCartName, productCartType, totalPayment;
+    TextView amountOfGoods, totalMoneyOfGoods, productCartName, productCartType, totalPayment;
     Spinner productCartDropDownSize, productCartDropDownAmount;
     Button productCartSelectCouponHere, productCartOrder;
-    ImageButton productCartColor;
 
     List<HashMap<String, String>> products;
 
@@ -29,16 +28,15 @@ public class Cart {
     }
 
 //    public void matching() {
-//        totalItems = (TextView) findViewById(R.id.cartListView_tv_totalItems);
-//        totalMoney = (TextView) findViewById(R.id.cartListView_tv_totalMoney);
-//        productCartName = (TextView) findViewById(R.id.cartListView_tv_name);
-//        productCartType = (TextView) findViewById(R.id.cartListView_tv_type);
-//        productCartDropDownSize = (Spinner) findViewById(R.id.cartListView_spinner_dropDownSize);
-//        productCartDropDownAmount = (Spinner) findViewById(R.id.cartListView_spinner_dropDownAmount);
-//        productCartSelectCouponHere = (Button) findViewById(R.id.cartListView_btn_selectCoupon);
-//        productCartColor = (ImageButton) findViewById(R.id.cartListView_ibtn_yellow);
-//        productCartOrder = (Button) findViewById(R.id.cartListView_btn_order);
-//        totalPayment = (TextView) findViewById(R.id.cartListView_tv_payment);
+//        amountOfGoods = (TextView) findViewById(R.id.productCartListViewItems_tv_amountOfGoods);
+//        totalMoneyOfGoods = (TextView) findViewById(R.id.productCartListViewItems_tv_totalMoneyOfGoods);
+//        productCartName = (TextView) findViewById(R.id.itemProductCart_tv_listView_name);
+//        productCartType = (TextView) findViewById(R.id.itemProductCart_tv_listViewType);
+//        productCartDropDownSize = (Spinner) findViewById(R.id.itemProductCart_sp_listViewDropDownSize);
+//        productCartDropDownAmount = (Spinner) findViewById(R.id.itemProductCart_sp_listViewDropDownAmount);
+//        productCartSelectCouponHere = (Button) findViewById(R.id.productCartListViewItems_btn_selectCouponHere);
+//        productCartOrder = (Button) findViewById(R.id.productCartListViewItems_btn_order);
+//        totalPayment = (TextView) findViewById(R.id.productCartListViewItems_tv_totalPayment);
 //    }
 
     public String getUserID() {

@@ -52,7 +52,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/cartListView_tv_name"
+                android:id="@+id/itemProductCart_tv_listView_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="35dp"
@@ -64,7 +64,7 @@
                 android:textSize="14sp" />
 
             <ImageButton
-                android:id="@+id/cartListView_ibtn_remove"
+                android:id="@+id/itemProductCart_ibtn_listViewRemove"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
@@ -78,7 +78,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/cartListView_tv_type"
+            android:id="@+id/itemProductCart_tv_listViewType"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
             android:id="@+id/linearlayout_itemProductCart_sectionTwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cartListView_tv_type"
+            android:layout_below="@+id/itemProductCart_tv_listViewType"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="0dp"
@@ -116,7 +116,7 @@
                 android:textSize="14sp" />
 
             <Spinner
-                android:id="@+id/cartListView_spinner_dropDownSize"
+                android:id="@+id/itemProductCart_sp_listViewDropDownSize"
                 android:layout_width="100dp"
                 android:layout_height="20dp"
 
@@ -152,7 +152,7 @@
                 android:textSize="14sp" />
 
             <Spinner
-                android:id="@+id/cartListView_spinner_dropDownAmount"
+                android:id="@+id/itemProductCart_sp_listViewDropDownAmount"
 
                 android:layout_width="45dp"
                 android:layout_height="20dp"
@@ -215,7 +215,7 @@
                         android:scrollbars="none">
 
                         <ImageButton
-                            android:id="@+id/cartListView_ibtn_yellow"
+                            android:id="@+id/itemProductCart_ibtn__listViewYellowColor"
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
