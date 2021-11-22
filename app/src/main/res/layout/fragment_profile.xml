@@ -40,7 +40,7 @@
                     android:textSize="36sp" />
 
                 <ImageView
-                    android:id="@+id/imageview_profile_user_image"
+                    android:id="@+id/profile_iv_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
@@ -48,7 +48,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_profile_title" />
 
                 <TextView
-                    android:id="@+id/tv_profile_user_name"
+                    android:id="@+id/profile_tv_userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -68,7 +68,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageview_profile_user_image" />
 
                 <Button
-                    android:id="@+id/btn_profile_user_wishlist"
+                    android:id="@+id/profile_btn_wishlist"
                     android:layout_width="345dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="18dp"
@@ -96,7 +96,7 @@
                     app:srcCompat="@drawable/ic_line" />
 
                 <Button
-                    android:id="@+id/btn_profile_user_Profile"
+                    android:id="@+id/profile_btn_profile"
                     android:layout_width="345dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="18dp"
@@ -123,7 +123,7 @@
                     app:srcCompat="@drawable/ic_line" />
 
                 <Button
-                    android:id="@+id/tv_profile_user_notification"
+                    android:id="@+id/profile_btn_notification"
                     android:layout_width="345dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="18dp"
@@ -152,7 +152,7 @@
                     app:srcCompat="@drawable/ic_line" />
 
                 <Button
-                    android:id="@+id/btn_profile_user_address"
+                    android:id="@+id/profile_btn_address"
                     android:layout_width="345dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="18dp"
@@ -180,7 +180,7 @@
                     app:srcCompat="@drawable/ic_line" />
 
                 <Button
-                    android:id="@+id/tv_profile_user_signOut"
+                    android:id="@+id/profile_btn_signOut"
                     android:layout_width="345dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="18dp"

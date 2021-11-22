@@ -75,7 +75,7 @@
 
 
                     <ImageView
-                        android:id="@+id/iv_profile_editProfile_avatar"
+                        android:id="@+id/editProfile_iv_avatar"
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:layout_below="@+id/iv_profile_editProfile_avatar"
+                        android:layout_below="@+id/editProfile_iv_avatar"
                         android:layout_alignParentBottom="true"
                         android:layout_marginTop="67dp"
                         android:layout_marginBottom="24dp"
@@ -94,7 +94,7 @@
 
 
                         <Button
-                            android:id="@+id/btn_profile_editProfile_edit"
+                            android:id="@+id/editProfile_btn_edit"
                             android:layout_width="342dp"
                             android:layout_height="match_parent"
 
@@ -158,7 +158,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_profile_editProfile_user_name"
+                    android:id="@+id/editProfile_tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="16dp"
@@ -180,7 +180,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_profile_editProfile_user_gender"
+                    android:id="@+id/editProfile_tv_sex"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="16dp"
@@ -201,7 +201,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_profile_editProfile_user_emailAddress"
+                    android:id="@+id/editProfile_tv_email"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
@@ -213,7 +213,7 @@
                     android:textSize="20dp" />
 
                 <TextView
-                    android:id="@+id/tv_profile_editProfile_label_phoneNumbers"
+                    android:id="@+id/editProfile_tv_phone"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:fontFamily="@font/work_sans_semibold"
