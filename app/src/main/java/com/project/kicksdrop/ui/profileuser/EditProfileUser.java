@@ -21,13 +21,13 @@ public class EditProfileUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_user);
     }
-    //    private void matching() {
+//        private void matching() {
 //        profileAvatar= (ImageView) findViewById(R.id.editProfile_iv_avatar);
 //        editBtn = (Button) findViewById(R.id.editProfile_btn_edit);
 //        prevIBtn =(ImageButton) findViewById(R.id.editProfile_ibtn_prev);
-//        userName = (TextView) findViewById(R.id.editProfile_tv_name);
-//        userSex = (TextView) findViewById(R.id.editProfile_tv_sex);
-//        userEmail = (TextView) findViewById(R.id.editProfile_tv_email);
-//        userPhone = (TextView) findViewById(R.id.editProfile_tv_phone);
+//        userName = (TextView) findViewById(R.id.editProfile_et_name);
+//        userSex = (TextView) findViewById(R.id.editProfile_et_gender);
+//        userEmail = (TextView) findViewById(R.id.editProfile_et_address);
+//        userPhone = (TextView) findViewById(R.id.editProfile_et_phone);
 //    }
 }
