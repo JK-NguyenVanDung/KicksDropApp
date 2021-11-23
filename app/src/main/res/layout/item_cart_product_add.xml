@@ -45,8 +45,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="0dp"
                         android:layout_marginBottom="0dp"
-                        android:contentDescription="@string/todo"
-                        android:src="@drawable/product_version_adidas_new_second" />
+                        android:contentDescription="@string/todo"/>
+<!--                        android:src="@drawable/product_version_adidas_new_second"-->
+
 
                     <androidx.core.widget.NestedScrollView
                         android:id="@+id/navigation_itemproductCart_addToCart_viewList_color"
