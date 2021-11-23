@@ -30,8 +30,22 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        auth = FirebaseAuth.getInstance();
+//
+//        if (auth.getCurrentUser() != null) {
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
+//        }
         setContentView(R.layout.activity_login);
+
         createAcc = (Button) findViewById(R.id.btn_goRegister);
+        inputLoginEmail = (EditText) findViewById(R.id.et_loginEmail);
+        inputLoginPassword = (EditText) findViewById(R.id.et_loginPassword);
+        signIn = (Button) findViewById(R.id.btn_login_signIn);
+        progressBar = findViewById(R.id.progressBar2);
+
+        auth = FirebaseAuth.getInstance();
+
         createAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,19 +53,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(goSignUp);
             }
         });
-        inputLoginEmail = (EditText) findViewById(R.id.et_loginEmail);
-        inputLoginPassword = (EditText) findViewById(R.id.et_loginPassword);
-        signIn = (Button) findViewById(R.id.btn_login_signIn);
-
-
-        if(auth.getCurrentUser() != null){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
-
-        progressBar = findViewById(R.id.progressBar2);
-
-        auth = FirebaseAuth.getInstance();
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
