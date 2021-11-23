@@ -41,8 +41,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginBottom="0dp"
-                android:contentDescription="@string/todo"
-                />
+                android:contentDescription="@string/todo" />
 
         </androidx.cardview.widget.CardView>
 
@@ -92,6 +91,7 @@
                 </HorizontalScrollView>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
+
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_width="match_parent"
@@ -110,9 +110,9 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center_vertical"
+                android:singleLine="true"
                 android:text='Nike Air Force 1 "07'
                 android:textColor="@color/black"
-                android:singleLine="true"
                 android:textSize="16sp" />
 
             <ImageButton
@@ -198,15 +198,35 @@
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
-            <Spinner
-                android:id="@+id/itemProductCart_sp_listViewDropDownSize"
-                android:layout_width="100dp"
-                android:layout_height="25dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                android:background="@drawable/border_radius_gray_light"
+                <Spinner
+                    android:id="@+id/itemProductCart_sp_listViewDropDownSize"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
 
-                android:spinnerMode="dropdown"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    android:layout_alignParentStart="true"
+
+                    android:layout_marginStart="0dp"
+                    android:background="@drawable/border_radius_gray_light"
+                    android:spinnerMode="dropdown"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                <ImageButton
+                    android:layout_width="15dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+
+                    android:layout_marginStart="76dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/ic_drop_down"
+                    android:backgroundTint="#777777"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
