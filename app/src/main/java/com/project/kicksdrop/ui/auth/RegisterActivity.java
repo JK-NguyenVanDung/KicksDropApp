@@ -28,9 +28,20 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        inputEmail = (EditText) findViewById(R.id.et_regisEmail);
+        inputPassword = (EditText) findViewById(R.id.et_regisPassword);
+        btnSignIn = (Button) findViewById(R.id.btn_goSignIn);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btnSignUp = (Button) findViewById(R.id.btn_signUp);
+
+
         auth = FirebaseAuth.getInstance();
 
-        btnSignIn = (Button) findViewById(R.id.btn_signIn);
+//        if(auth.getCurrentUser() != null){
+//            startActivity(new Intent(getApplicationContext() , MainActivity.class));
+//            finish();
+//        }
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,50 +49,51 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(goLogin);
             }
         });
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignUp = (Button) findViewById(R.id.btn_signUp);
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-                String passAgain = cfPassword.getText().toString().trim();
-                String phone = numPhone.getText().toString().trim();
+//                String againPassword = cfPassword.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplicationContext(),"Enter email address !", Toast.LENGTH_SHORT).show();
+                    inputEmail.setError("Enter email address !");
                     return;
                 }
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(passAgain)){
-                    Toast.makeText(getApplicationContext(), "Enter again password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (password != passAgain){
-                    Toast.makeText(getApplicationContext(), "Password does not match, Please enter again!", Toast.LENGTH_SHORT).show();
+                    inputPassword.setError("Enter password !");
                     return;
                 }
                 if(password.length() < 6){
-                    Toast.makeText(getApplicationContext(),"Password too short, enter minimum 6 characters", Toast.LENGTH_SHORT).show();
+                    inputPassword.setError("Password too short, enter minimum 6 characters !");
                     return;
                 }
+
+
                 progressBar.setVisibility(View.VISIBLE);
+
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(),Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
+
+
                         if (!task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException(),
+                            Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            Toast.makeText(RegisterActivity.this, "User Created", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             finish();
                         }
                     }
+
                 });
+//                if(againPassword != password){
+//                    cfPassword.setError("Password does not match, Please enter again!");
+//                    return;
+//                }
             }
         });
     }
