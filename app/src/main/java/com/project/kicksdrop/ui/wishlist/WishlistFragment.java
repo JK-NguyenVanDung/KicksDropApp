@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,18 +35,13 @@ import java.util.HashMap;
 
 public class WishlistFragment extends Fragment {
 
-    TextView wishListTotalItems, wishListProductName,
-            wishListProductCost, wishListProductType;
-    Spinner wishListDropDownSize;
-    Button wishListMoreOption;
-    ImageButton wishListYellow, wishListRemoveProduct;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private ArrayList<Product> mWishlist ;
     private Product product;
 
     private WishlistViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
-    WishlistItemAdapter wishlistAdapter;
+    private WishlistAdapter wishlistAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +56,12 @@ public class WishlistFragment extends Fragment {
 
         //recycler view
         recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUser = fUser.getUid().toString();
@@ -122,7 +124,7 @@ public class WishlistFragment extends Fragment {
 
 
                 }
-                wishlistAdapter = new WishlistItemAdapter(getContext(),mWishlist);
+                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist);
                 recyclerView.setAdapter(wishlistAdapter);
                 mWishlist.size();
 
