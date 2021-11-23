@@ -43,9 +43,16 @@ public class LoginActivity extends AppCompatActivity {
         inputLoginPassword = (EditText) findViewById(R.id.et_loginPassword);
         signIn = (Button) findViewById(R.id.btn_login_signIn);
         progressBar = findViewById(R.id.progressBar2);
+        forgot = (Button) findViewById(R.id.btn_forgot);
 
         auth = FirebaseAuth.getInstance();
-
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goForgot = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivity(goForgot);
+            }
+        });
         createAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "erorr" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                        }else{
+                           Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
                            Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
                            startActivity(loginSuccess);
                            finish();
