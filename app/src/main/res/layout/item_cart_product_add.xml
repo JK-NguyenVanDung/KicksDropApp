@@ -278,7 +278,7 @@
             app:cardCornerRadius="10dp">
 
             <Button
-                android:id="@+id/wishList_btn_moreOption"
+                android:id="@+id/wishList_btn_addToCart"
 
                 android:layout_width="130dp"
                 android:layout_height="30dp"
@@ -288,7 +288,7 @@
 
                 android:backgroundTint="@android:color/black"
                 android:padding="0sp"
-                android:text="More Option"
+                android:text="Add To Cart"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="15sp"

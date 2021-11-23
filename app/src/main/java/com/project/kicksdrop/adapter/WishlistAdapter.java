@@ -3,9 +3,7 @@ package com.project.kicksdrop.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +45,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     public WishlistAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(context).inflate(R.layout.item_cart_product_add, parent, false);
-
         return new WishlistAdapter.ViewHolder(view);
     }
 
@@ -111,7 +108,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             price = itemView.findViewById(R.id.wishlist_tv_productCost);
             type = itemView.findViewById(R.id.wishlist_tv_productType);
             size = itemView.findViewById(R.id.wishlist_spinner_dropDownSize);
-            moreOption = itemView.findViewById(R.id.wishList_btn_moreOption);
+            moreOption = itemView.findViewById(R.id.wishList_btn_addToCart);
             remove = itemView.findViewById(R.id.wishlist_ibtn_remove);
 
         }
