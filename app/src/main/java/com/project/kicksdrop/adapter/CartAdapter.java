@@ -168,6 +168,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         calculateTotal(product.getProduct_price(), currentAmount[0]);
     }
+
+
     @SuppressLint("SetTextI18n")
     private void calculateTotal(double price, long amount){
         totalAmount += price * amount;

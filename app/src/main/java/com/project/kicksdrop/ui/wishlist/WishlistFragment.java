@@ -65,7 +65,7 @@ public class WishlistFragment extends Fragment {
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUser = fUser.getUid().toString();
-        getUser("AC2");
+        getUser(idUser);
 
         final TextView textView = binding.textWishlist;
         wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

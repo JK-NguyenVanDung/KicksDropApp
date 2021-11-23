@@ -1,5 +1,6 @@
 package com.project.kicksdrop.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,6 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -31,7 +37,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     private Context context;
     private  List<Product> mWishlist;
-
+    private Spinner sizeSpinner;
     public WishlistAdapter(Context context, List<Product> mWishlist) {
 
         this.context = context;
@@ -49,6 +55,83 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     }
 
 
+
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder holder, int position) {
+
+
+        final Product product = mWishlist.get(holder.getAdapterPosition());
+        String color = product.getProduct_images().get(1).get("color");
+        String imageName = product.getProduct_images().get(1).get("image");
+        //holder.colorCircle.getForeground().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP);
+
+
+        java.util.Currency usd = java.util.Currency.getInstance("USD");
+        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+        format.setCurrency(usd);
+        String sPrice =format.format(product.getProduct_price());
+        holder.price.setText(sPrice);
+
+        holder.name.setText(product.getProduct_name());
+        loadImage(holder.avt,imageName);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                android.R.layout.simple_spinner_dropdown_item, product.getProduct_sizes());
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //sizeSpinner.setAdapter(adapter);
+
+        holder.addCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                String idUser = fUser.getUid().toString();
+                addProductCart(idUser,product.getProduct_id(),1,"while",39);
+            }
+        });
+
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                String idUser = fUser.getUid().toString();
+                delProductWishlist(idUser,product.getProduct_id());
+            }
+        });
+
+
+
+
+
+    }
+    private void delProductWishlist(String idUser,String idProduct){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+idUser+"/wishlist");
+
+
+
+
+        //myRef.removeValue();
+
+
+    }
+
+    private void addProductCart(String idUser,String idProduct,int amount, String color,int size){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart");
+
+
+        myRef.child(idUser).child("product").child(idProduct).child("amount").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct).child("color").setValue(color);
+        myRef.child(idUser).child("product").child(idProduct).child("size").setValue(size);
+
+
+    }
 
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
@@ -68,27 +151,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         }
 
     }
-
-    @Override
-    public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder holder, int position) {
-
-
-        final Product product = mWishlist.get(position);
-        String color = product.getProduct_images().get(1).get("color");
-        String imageName = product.getProduct_images().get(1).get("image");
-        //holder.colorCircle.getForeground().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP);
-
-
-        java.util.Currency usd = java.util.Currency.getInstance("USD");
-        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-        format.setCurrency(usd);
-        String sPrice =format.format(product.getProduct_price());
-        holder.price.setText(sPrice);
-
-        holder.name.setText(product.getProduct_name());
-        loadImage(holder.avt,imageName);
-    }
-
     @Override
     public int getItemCount() {
         return mWishlist ==null? 0: mWishlist.size();
@@ -98,17 +160,17 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
         ImageView avt;
         TextView name,price,type;
-        Spinner size;
-        Button moreOption;
+
+        Button addCart;
         ImageButton remove;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            avt = itemView.findViewById(R.id.iv_item_productCart_addToCart_image);
+            avt =(ImageView) itemView.findViewById(R.id.iv_item_productCart_addToCart_image);
             name = itemView.findViewById(R.id.wishlist_tv_productName);
             price = itemView.findViewById(R.id.wishlist_tv_productCost);
             type = itemView.findViewById(R.id.wishlist_tv_productType);
-            size = itemView.findViewById(R.id.wishlist_spinner_dropDownSize);
-            moreOption = itemView.findViewById(R.id.wishList_btn_addToCart);
+            sizeSpinner =(Spinner) itemView.findViewById(R.id.wishlist_spinner_dropDownSize);
+            addCart = itemView.findViewById(R.id.wishList_btn_addToCart);
             remove = itemView.findViewById(R.id.wishlist_ibtn_remove);
 
         }
