@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -31,13 +35,14 @@ import com.project.kicksdrop.model.Product;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Array;
 import java.util.List;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder>{
 
     private Context context;
     private  List<Product> mWishlist;
-    private Spinner sizeSpinner;
+
     public WishlistAdapter(Context context, List<Product> mWishlist) {
 
         this.context = context;
@@ -80,8 +85,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_dropdown_item, product.getProduct_sizes());
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //sizeSpinner.setAdapter(adapter);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        holder.sizeSpinner.setAdapter(adapter);
 
         holder.addCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +94,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
                 String idUser = fUser.getUid().toString();
-                addProductCart(idUser,product.getProduct_id(),1,"while",39);
+                addProductCart(idUser,product.getProduct_id(),1,"ffffff","40");
             }
         });
 
@@ -107,31 +112,51 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
 
 
+//        private void  load(){
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            DatabaseReference myRef = database.getReference("account/"+idUser+"/wishlist");
+//
+//            myRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    // This method is called once with the initial value and again
+//                    // whenever data at this location is updated.
+//                    for (DataSnapshot item : dataSnapshot.getChildren()){
+//                        item.toString();
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError error) {
+//                    // Failed to read value
+//                    Log.w("Load Product", "Failed to read value.", error.toException());
+//                }
+//            });
+//        }
+
 
     }
     private void delProductWishlist(String idUser,String idProduct){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account/"+idUser+"/wishlist");
+        DatabaseReference myRef = database.getReference("wishlist/"+idUser);
 
 
-
-
-        //myRef.removeValue();
-
+        myRef.child(idProduct).removeValue();
 
     }
 
-    private void addProductCart(String idUser,String idProduct,int amount, String color,int size){
+
+    private void addProductCart(String idUser,String idProduct,int amount, String color,String size){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart");
-
-
-        myRef.child(idUser).child("product").child(idProduct).child("amount").setValue(amount);
-        myRef.child(idUser).child("product").child(idProduct).child("color").setValue(color);
-        myRef.child(idUser).child("product").child(idProduct).child("size").setValue(size);
-
-
+        String idColor = color.substring(1);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("color").setValue(color);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("size").setValue(size);
     }
+
 
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
@@ -160,7 +185,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
         ImageView avt;
         TextView name,price,type;
-
+        Spinner sizeSpinner;
         Button addCart;
         ImageButton remove;
         public ViewHolder(@NonNull View itemView) {
@@ -169,7 +194,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             name = itemView.findViewById(R.id.wishlist_tv_productName);
             price = itemView.findViewById(R.id.wishlist_tv_productCost);
             type = itemView.findViewById(R.id.wishlist_tv_productType);
-            sizeSpinner =(Spinner) itemView.findViewById(R.id.wishlist_spinner_dropDownSize);
+            sizeSpinner = (Spinner) itemView.findViewById(R.id.wishlist_spinner_dropDownSize);
             addCart = itemView.findViewById(R.id.wishList_btn_addToCart);
             remove = itemView.findViewById(R.id.wishlist_ibtn_remove);
 

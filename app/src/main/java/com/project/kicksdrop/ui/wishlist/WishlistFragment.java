@@ -65,7 +65,7 @@ public class WishlistFragment extends Fragment {
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUser = fUser.getUid().toString();
-        getUser(idUser);
+        getWishlist(idUser);
 
         final TextView textView = binding.textWishlist;
         wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -78,19 +78,24 @@ public class WishlistFragment extends Fragment {
     }
 
 
-    private void getUser(String user_id){
+    private void getWishlist(String user_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account/"+user_id);
+        DatabaseReference myRef = database.getReference("wishlist/"+user_id);
 
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Product> wishlist = new  ArrayList<Product>();
-                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
-                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
+//                ArrayList<Product> wishlist = new  ArrayList<Product>();
+//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+//                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
+//                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
 
+                ArrayList<String> listWishlist =new ArrayList<String>();
+
+                for (DataSnapshot item : snapshot.getChildren()){
+                    listWishlist.add(item.getKey());
+                }
                 getProduct(listWishlist);
             }
             @Override
