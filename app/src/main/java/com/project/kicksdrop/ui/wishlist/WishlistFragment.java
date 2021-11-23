@@ -124,7 +124,7 @@ public class WishlistFragment extends Fragment {
                 }
                 wishlistAdapter = new WishlistItemAdapter(getContext(),mWishlist);
                 recyclerView.setAdapter(wishlistAdapter);
-                mWishlist.size();
+
 
             }
             @Override
