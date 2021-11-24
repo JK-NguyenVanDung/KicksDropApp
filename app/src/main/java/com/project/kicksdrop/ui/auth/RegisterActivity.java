@@ -34,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.btn_goSignIn);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnSignUp = (Button) findViewById(R.id.btn_signUp);
+        numPhone = (EditText) findViewById(R.id.et_regisPhone);
+        fullName = (EditText) findViewById(R.id.et_regisName);
 
 
         auth = FirebaseAuth.getInstance();
