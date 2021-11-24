@@ -14,11 +14,6 @@ public class Cart {
     private String userID;
     private String couponID;
 
-    //product cart
-    TextView amountOfGoods, totalMoneyOfGoods, productCartName, productCartType, totalPayment;
-    Spinner productCartDropDownSize, productCartDropDownAmount;
-    Button productCartSelectCouponHere, productCartOrder;
-
     List<HashMap<String, String>> products;
 
     public Cart(String userID, String couponID, List<HashMap<String, String>> products) {
@@ -27,17 +22,7 @@ public class Cart {
         this.products = products;
     }
 
-//    public void matching() {
-//        amountOfGoods = (TextView) findViewById(R.id.productCartListViewItems_tv_amountOfGoods);
-//        totalMoneyOfGoods = (TextView) findViewById(R.id.productCartListViewItems_tv_totalMoneyOfGoods);
-//        productCartName = (TextView) findViewById(R.id.itemProductCart_tv_listView_name);
-//        productCartType = (TextView) findViewById(R.id.itemProductCart_tv_listViewType);
-//        productCartDropDownSize = (Spinner) findViewById(R.id.itemProductCart_sp_listViewDropDownSize);
-//        productCartDropDownAmount = (Spinner) findViewById(R.id.itemProductCart_sp_listViewDropDownAmount);
-//        productCartSelectCouponHere = (Button) findViewById(R.id.productCartListViewItems_btn_selectCouponHere);
-//        productCartOrder = (Button) findViewById(R.id.productCartListViewItems_btn_order);
-//        totalPayment = (TextView) findViewById(R.id.productCartListViewItems_tv_totalPayment);
-//    }
+
 
     public String getUserID() {
         return userID;

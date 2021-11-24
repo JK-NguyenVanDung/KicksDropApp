@@ -12,7 +12,6 @@ import com.google.android.gms.tasks.Task;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,7 +50,6 @@ import com.project.kicksdrop.model.Account;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.auth.LoginActivity;
-import com.project.kicksdrop.ui.auth.RegisterActivity;
 import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.home.HomeViewModel;
 
@@ -70,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
     private ArrayList<Product> mWishlist ;
     private ActivityMainBinding binding;
+    private
 
-//    FirebaseAuth auth;
+    FirebaseAuth auth;
 
     String user_id = "AC1";
     HashMap<String,Object> hashMap;
@@ -83,21 +82,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-//        String username = "jackiedekingv@gmail.com";
-//        String pass = "123456";
-//
-//        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
-//
-//            @Override
-//            public void onComplete(@NonNull Task task) {
-//            }
-//        });
+        String username = "tdat1155@gmail.com";
+        String pass = "123456";
+
+        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
+
+            @Override
+            public void onComplete(@NonNull Task task) {
+            }
+        });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -133,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+        //getCart("AC2");
 
     }
 
@@ -188,6 +188,66 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mWishlist.size();
 
+    }
+
+    private void getUser(String user_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+user_id);
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Product> wishlist = new  ArrayList<Product>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
+                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
+
+                getProduct(listWishlist);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getProduct(ArrayList<String> wishlist){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mWishlist = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mWishlist.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+
+                        product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.setProduct_id(dtShot.getKey());
+
+
+                    for (int i = 0; i < wishlist.size(); i++) {
+                        if (wishlist.get(i).equals(dtShot.getKey())){
+                            mWishlist.add(product);
+                        }
+
+
+
+                    }
+
+                    wishlistAdapter = new WishlistAdapter(getApplicationContext(),mWishlist);
+                    //recyclerView.setAdapter(wishlistAdapter);
+                }
+                mWishlist.size();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

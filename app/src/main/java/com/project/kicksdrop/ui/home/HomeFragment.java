@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
 
 import java.util.ArrayList;
@@ -40,6 +42,9 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     ProductListAdapter productAdapter;
     private ArrayList<Product> mProduct;
     RecyclerView recyclerView;
+
+    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
+    Button productTitleBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +64,6 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
         getProduct();
         final ImageButton button = binding.homeBtnChat;
-
         button.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -67,9 +71,25 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 startActivity(intent);
             }
         });
+        final ImageButton cart = binding.homeBtnCart;
+        cart.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CartListView.class);
+                startActivity(intent);
+            }
+        });
         return root;
 
     }
+    //    public void matching() {
+//        productContentIbtn = (ImageButton) findViewById(R.id.home_ibtn_productContent);
+//        newDropsIBtn = (ImageButton) findViewById(R.id.home_ibtn_newDrops);
+//        nikesIbtn = (ImageButton) findViewById(R.id.home_ibtn_nikes);
+//        adidasIBtn = (ImageButton) findViewById(R.id.home_ibtn_adidas);
+//        productTitleBtn = (Button) findViewById(R.id.home_btn_productTitle);
+//
+//    }
     @Override
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getContext(), ProductInfo.class);
@@ -89,7 +109,6 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                     Product product = dtShot.getValue(Product.class);
                     assert product != null;
                     product.setProduct_id(dtShot.getKey());
-
                     mProduct.add(product);
                 }
                 productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this );

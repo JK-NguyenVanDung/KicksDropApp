@@ -60,7 +60,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     ImageAdapter imageAdapter;
     TextView indexNumb;
     FirebaseUser fUser;
-    Button cart;
+    ImageButton cart;
 
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
@@ -77,14 +77,20 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         getProduct(id);
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                currentAmount++;
-                amount.setText(Integer.toString(currentAmount));
+                if(currentAmount < product.getProduct_quantity()){
+                    currentAmount++;
+                    amount.setText(Integer.toString(currentAmount));
 
+                }else{
+                    Toast.makeText(getApplicationContext(),"Reach maximum available product",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         decreaseAmount.setOnClickListener(new  View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 if(currentAmount >1){
@@ -106,7 +112,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CartListView.class);
                 startActivity(intent);
             }
         });
@@ -185,7 +191,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                 addToCart.setOnClickListener(new  View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        int pickedSize = Integer.parseInt(sizeSpinner.getSelectedItem().toString());
+                        String pickedSize = sizeSpinner.getSelectedItem().toString();
                         int pickedAmount = Integer.parseInt(amount.getText().toString());
                         String pickedColor = ColorCircleAdapter.getPickedColor();
                         fUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -202,16 +208,14 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
             }
         });
     }
-    private void addProductCart(String idUser,String idProduct,int amount, String color,int size){
+    private void addProductCart(String idUser,String idProduct,int amount, String color,String size){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart");
-
-
-        myRef.child(idUser).child("product").child(idProduct).child("amount").setValue(amount);
-        myRef.child(idUser).child("product").child(idProduct).child("color").setValue(color);
-        myRef.child(idUser).child("product").child(idProduct).child("size").setValue(size);
-
-
+        String idColor = color.substring(1);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("color").setValue(color);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("size").setValue(size);
     }
 
     @Override
@@ -237,7 +241,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         goBack = findViewById(R.id.ibtn_productInfo_back);
         productImage = findViewById(R.id.productInfo_iv_image);
         viewPager = findViewById(R.id.productInfo_vp_image);
-        cart = findViewById(R.id.tv_productInfo_title);
+        cart = findViewById(R.id.productInfo_btn_cart);
     }
 
 }

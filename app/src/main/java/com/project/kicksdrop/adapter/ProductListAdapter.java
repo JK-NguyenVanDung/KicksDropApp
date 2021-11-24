@@ -24,6 +24,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,6 +48,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private ProductListAdapter.OnProductListener mOnProductListener;
 
     public ProductListAdapter(Context context, List<Product> mProductList, ProductListAdapter.OnProductListener onProductListener){
+
         this.context = context;
         this.mProductList = mProductList;
         this.mOnProductListener = onProductListener;
@@ -82,11 +87,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             public void onClick(View v) {
                 if (holder.heart.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.ic_heart).getConstantState()){
                     holder.heart.setImageResource(R.drawable.ic_heart_activated);
+                    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String idUser = fUser.getUid().toString();
+                    addProductWishlist(idUser,product.getProduct_id());
                     Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
 
-            }else
+                }else
             {
                 holder.heart.setImageResource(R.drawable.ic_heart);
+                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                String idUser = fUser.getUid().toString();
+                delProductWishlist(idUser,product.getProduct_id());
                 Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_LONG).show();
 
             }
@@ -94,6 +105,25 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         }});
 
     }
+
+    private void addProductWishlist(String idUser,String idProduct){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+idUser);
+
+
+        myRef.child(idProduct).child("product_id").setValue(idProduct);
+
+    }
+
+    private void delProductWishlist(String idUser,String idProduct){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+idUser);
+
+
+        myRef.child(idProduct).removeValue();
+
+    }
+
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {

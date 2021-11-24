@@ -15,10 +15,6 @@ public class Chat {
        this.edited = edited;
     }
 
-    public boolean isEdited() {
-        return edited;
-    }
-
     public Chat(){
 
     }

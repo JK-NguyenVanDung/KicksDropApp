@@ -30,12 +30,11 @@
             app:cardCornerRadius="8dp">
 
             <ImageView
-                android:id="@+id/iv_item_product_cart_image"
+                android:id="@+id/productCart_iv_cart_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:scaleType="centerCrop"
-                android:src="@drawable/product_version_adidas_new_second" />
+                android:contentDescription="TODO"
+                tools:ignore="ImageContrastCheck" />
 
         </androidx.cardview.widget.CardView>
 
