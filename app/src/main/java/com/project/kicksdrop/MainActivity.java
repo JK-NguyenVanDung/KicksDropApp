@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
     private ArrayList<Product> mWishlist ;
     private ActivityMainBinding binding;
-    Button testSignUn;
 
 //    FirebaseAuth auth;
 
@@ -134,14 +133,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        testSignUn = (Button) findViewById(R.id.testSignUp);
-        testSignUn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goTestSignUp = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(goTestSignUp);
-            }
-        });
 
     }
 
