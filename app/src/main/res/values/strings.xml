@@ -23,4 +23,8 @@
     <string name="cart">cart</string>
     <string name="amount">Amount</string>
 
+    <string name="methodReceived">Pay when received package(s)</string>
+    <string name="methodCredit">Pay with credit card (Visa, Mastercard,...)</string>
+    <string name="methodDebit">Pay with debit card</string>
+
 </resources>
