@@ -43,7 +43,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logoutUI() {
-        logout = binding.btnProfileUserSignOut;
+        logout = binding.profileBtnSignOut;
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
