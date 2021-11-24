@@ -1,14 +1,14 @@
-package com.project.kicksdrop.ui.productBrands;
+package com.project.kicksdrop.ui.searchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -20,26 +20,27 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.productBrands.ProductBrands;
 
 import java.util.ArrayList;
 
-public class ProductBrands extends AppCompatActivity implements ProductListAdapter.OnProductListener {
-    private ArrayList<Product> mProduct;
-    ImageButton prevIBtn, cartIBtn, chatIBtn;
-    EditText searchProduct;
+public class SearchViewProduct extends AppCompatActivity implements ProductListAdapter.OnProductListener {
     ProductListAdapter productAdapter;
+    ArrayList<Product> mProduct;
+    ImageButton prevBtn, cartBtn, chatBtn;
+    EditText searchView;
     RecyclerView recyclerView;
-    String brand;
+    String keySearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_brands);
+        setContentView(R.layout.activity_search_view_product);
+
         matching();
         recyclerView.setHasFixedSize(true);
 
-        brand = getIntent().getStringExtra("brand");
+        keySearch = getIntent().getStringExtra("keySearch");
 
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
@@ -50,11 +51,11 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
     }
 
     private void matching() {
-        prevIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_prev);
-        cartIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_cart);
-        chatIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_chat);
-        searchProduct = (EditText) findViewById(R.id.productBrands_iBtn_search);
-        recyclerView = (RecyclerView) findViewById(R.id.brand_rv_products);
+        prevBtn = (ImageButton) findViewById(R.id.search_ibtn_prev);
+        cartBtn = (ImageButton) findViewById(R.id.search_ibtn_cart);
+        chatBtn = (ImageButton) findViewById(R.id.search_ibtn_chat);
+        searchView = (EditText) findViewById(R.id.search_et_searchView);
+        recyclerView = (RecyclerView) findViewById(R.id.search_rv_products);
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
@@ -74,12 +75,12 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
                     Product product = dtShot.getValue(Product.class);
                     assert product != null;
 
-                    if (product.getProduct_brand().equals(brand)){
-                    product.setProduct_id(dtShot.getKey());
-                    mProduct.add(product);
+                    if (product.getProduct_name().toLowerCase().contains(keySearch.toLowerCase())){
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
                     }
                 }
-                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this);
+                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, SearchViewProduct.this);
                 recyclerView.setAdapter(productAdapter);
             }
             @Override

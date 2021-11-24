@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ import com.project.kicksdrop.databinding.FragmentHomeBinding;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.productBrands.ProductBrands;
+import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
 
@@ -43,8 +47,8 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     private ArrayList<Product> mProduct;
     RecyclerView recyclerView;
 
-    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
-    Button productTitleBtn;
+//    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
+//    Button productTitleBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +67,25 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         recyclerView.setLayoutManager(gridLayoutManager);
 
         getProduct();
+        final ImageButton nikesIbtn = binding.homeIbtnNikes;
+        nikesIbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ProductBrands.class);
+                intent.putExtra("brand","Nike");
+                startActivity(intent);
+            }
+        });
+
+        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
+        adidasIbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ProductBrands.class);
+                intent.putExtra("brand","Adidas");
+                startActivity(intent);
+            }
+        });
         final ImageButton button = binding.homeBtnChat;
         button.setOnClickListener(new  View.OnClickListener(){
             @Override
@@ -79,6 +102,36 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 startActivity(intent);
             }
         });
+
+        final EditText search = binding.homeEtSearch;
+
+        search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= 630 && !search.getText().toString().matches("")) {
+
+                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                            intent.putExtra("keySearch",search.getText().toString());
+                            startActivity(intent);
+
+                            return true;
+
+                    }
+                }
+                return false;
+            }
+        });
+
+
+
+
+
         return root;
 
     }

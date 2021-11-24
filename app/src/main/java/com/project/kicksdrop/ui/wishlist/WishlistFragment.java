@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,18 +35,13 @@ import java.util.HashMap;
 
 public class WishlistFragment extends Fragment {
 
-    TextView wishListTotalItems, wishListProductName,
-            wishListProductCost, wishListProductType;
-    Spinner wishListDropDownSize;
-    Button wishListMoreOption;
-    ImageButton wishListYellow, wishListRemoveProduct;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private ArrayList<Product> mWishlist ;
     private Product product;
 
     private WishlistViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
-    WishlistItemAdapter wishlistAdapter;
+    private WishlistAdapter wishlistAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,10 +56,16 @@ public class WishlistFragment extends Fragment {
 
         //recycler view
         recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUser = fUser.getUid().toString();
-        getUser("AC2");
+        getWishlist(idUser);
 
         final TextView textView = binding.textWishlist;
         wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -76,19 +78,24 @@ public class WishlistFragment extends Fragment {
     }
 
 
-    private void getUser(String user_id){
+    private void getWishlist(String user_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account/"+user_id);
+        DatabaseReference myRef = database.getReference("wishlist/"+user_id);
 
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Product> wishlist = new  ArrayList<Product>();
-                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
-                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
+//                ArrayList<Product> wishlist = new  ArrayList<Product>();
+//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+//                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
+//                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
 
+                ArrayList<String> listWishlist =new ArrayList<String>();
+
+                for (DataSnapshot item : snapshot.getChildren()){
+                    listWishlist.add(item.getKey());
+                }
                 getProduct(listWishlist);
             }
             @Override
@@ -122,9 +129,9 @@ public class WishlistFragment extends Fragment {
 
 
                 }
-                wishlistAdapter = new WishlistItemAdapter(getContext(),mWishlist);
+                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist);
                 recyclerView.setAdapter(wishlistAdapter);
-                mWishlist.size();
+
 
             }
             @Override
