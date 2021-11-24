@@ -222,11 +222,10 @@
                 <EditText
                     android:id="@+id/editProfile_et_phone"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:textSize="20dp"
+                    android:layout_height="48dp"
                     android:background="@drawable/border_bottom_line"
                     android:text="0983028691"
-                    />
+                    android:textSize="20dp" />
 
 
 
