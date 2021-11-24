@@ -61,21 +61,11 @@
 
                     </RelativeLayout>
 
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/body_productCoupon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <include layout="@layout/item_coupon" />
-
-                        <include layout="@layout/item_coupon" />
-
-                        <include layout="@layout/item_coupon" />
-
-
-                    </LinearLayout>
+                        android:orientation="vertical" />
 
                 </LinearLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>

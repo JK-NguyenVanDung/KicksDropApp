@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -42,13 +43,17 @@ public class CartListView extends AppCompatActivity {
     CartAdapter cartAdapter;
     RecyclerView recyclerView;
     private ArrayList<Product> mProducts;
+    private String coupon_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_list_view);
         matching();
+        Intent intent = getIntent();
 
+        coupon_id = intent.getStringExtra("coupon_id");
+        Log.d("test","test" +coupon_id);
         //back
         back.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -58,12 +63,15 @@ public class CartListView extends AppCompatActivity {
 
             }
         });
+
         couponPage.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
+                double totalPrice = Double.parseDouble(totalPayment.getText().toString().substring(1));
                 Intent intent = new Intent(getApplicationContext(), CouponProduct.class);
-                startActivity(intent);
+                intent.putExtra("price", totalPrice);
+                startActivityForResult(intent, 1);
 
             }
         });
@@ -136,7 +144,7 @@ public class CartListView extends AppCompatActivity {
 
                     }
                 }
-                cartAdapter = new CartAdapter(getApplicationContext(),mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead);
+                cartAdapter = new CartAdapter(getApplicationContext(),mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id);
                 recyclerView.setAdapter(cartAdapter);
             }
             @Override
