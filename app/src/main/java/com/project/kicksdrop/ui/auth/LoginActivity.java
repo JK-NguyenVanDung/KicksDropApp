@@ -65,7 +65,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = inputLoginEmail.getText().toString().trim();
-                final String password = inputLoginEmail.getText().toString().trim();
+                String password = inputLoginPassword.getText().toString().trim();
+
                 if(TextUtils.isEmpty(email)){
                     inputLoginEmail.setError("Enter email address !");
                     return;
@@ -77,16 +78,18 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                        progressBar.setVisibility(View.GONE);
+                       String spass = password;
+                       String semail = email;
                        if(!task.isSuccessful()){
-                        if(password.length()<6){
-                            inputLoginPassword.setError("Password must be more than 6 characters");
-                        }else {
-                            Toast.makeText(LoginActivity.this, "erorr" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                        }
+                            if(password.length()<6){
+                                inputLoginPassword.setError("Password must be more than 6 characters");
+                            }else{
+                                Toast.makeText(LoginActivity.this, "erorr" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            }
                        }else{
                            Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
                            Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
