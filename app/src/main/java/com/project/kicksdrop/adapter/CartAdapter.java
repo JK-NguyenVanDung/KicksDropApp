@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Cart;
+import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.promocode.CouponProduct;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,13 +50,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Context context;
     private Cart cart;
     private List<Product> mCartProduct;
+    private List<Coupon> mCoupon;
     private List<HashMap<String,String>> productOptions;
     private Spinner sizeSpinner;
+    private Coupon coupon;
     //private long currentAmount = 1;
     private TextView totalPayment,totalProduct,totalPaymentHead;
     private double totalAmount = 0;
     private int totalProducts = 0;
-    public CartAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions, TextView totalPayment,TextView totalProduct,TextView totalPaymentHead) {
+    private String coupon_id;
+    private int maxprice = 0;
+    private int percent = 0;
+    public CartAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions, TextView totalPayment,TextView totalProduct,TextView totalPaymentHead,String coupon_id) {
         this.context = context;
         //this.cart = cart;
         this.mCartProduct = mCartProduct;
@@ -61,6 +69,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         this.totalPayment = totalPayment;
         this.totalProduct = totalProduct;
         this.totalPaymentHead = totalPaymentHead;
+        this.coupon_id = coupon_id;
     }
 
     @NonNull
@@ -166,7 +175,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });
 
+
         calculateTotal(product.getProduct_price(), currentAmount[0]);
+        if (coupon_id != null){
+            getCoupon(coupon_id);
+        }
+
+
     }
     @SuppressLint("SetTextI18n")
     private void calculateTotal(double price, long amount){
@@ -179,6 +194,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         totalPaymentHead.setText(sPrice);
 
     }
+    private void calculateTotalCoupon(int percent, int maxprice){
+        double discount = (totalAmount * percent) / 100;
+        if(discount > maxprice){
+            totalAmount = totalAmount - maxprice;
+        }else {
+            totalAmount = totalAmount - discount;
+        }
+        java.util.Currency usd = java.util.Currency.getInstance("USD");
+        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+        format.setCurrency(usd);
+        String sPrice =format.format(totalAmount);
+        totalPayment.setText(sPrice);
+    }
+
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
@@ -233,4 +262,34 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             productImage = itemView.findViewById(R.id.productCart_iv_cart_image);
         }
     }
+    private void getCoupon(String coupon_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("coupon");
+        mCoupon = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mCoupon.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+
+                    coupon = dtShot.getValue(Coupon.class);
+                    assert coupon != null;
+                    coupon.setCoupon_id(dtShot.getKey());
+                    if(coupon_id.equals(dtShot.getKey())){
+                        mCoupon.add(coupon);
+                        break;
+                    }
+                }
+                maxprice = Integer.parseInt(coupon.getCoupon_max_price());
+                percent = Integer.parseInt(coupon.getCoupon_percent());
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }
