@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         //getProduct();
 
-
+        createUser("ew0Zuldh3eMj13EEX4BK3XJoJ1m2","vandung31141@gmail.com","male","0909000999","Nguyen Van Dung");
 
         //addProductCart("AC3","PD1",5,"#333",42);
         //addProductCart("AC3","PD2",5,"#333",42);
@@ -511,6 +511,20 @@ public class MainActivity extends AppCompatActivity {
         myRef.child(coupon_id).removeValue();
 
 
+    }
+
+    private void createUser(String userID, String email, String gender,String mobile,String name){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account");
+
+
+        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
+        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
+
+        myRef.child(userID).child("email").setValue(email);
+        myRef.child(userID).child("gender").setValue(gender);
+        myRef.child(userID).child("mobile").setValue(mobile);
+        myRef.child(userID).child("name").setValue(name);
     }
 
 
