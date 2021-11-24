@@ -44,7 +44,7 @@
                         <TextView
                             android:id="@+id/tv_productCoupon_title"
                             android:layout_width="match_parent"
-                            android:layout_height="49dp"
+                            android:layout_height="50dp"
 
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
