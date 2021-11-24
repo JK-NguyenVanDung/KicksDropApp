@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         //getProduct();
 
-        createUser("ew0Zuldh3eMj13EEX4BK3XJoJ1m2","vandung31141@gmail.com","male","0909000999","Nguyen Van Dung");
+        //createUser("ew0Zuldh3eMj13EEX4BK3XJoJ1m2","vandung31141@gmail.com","male","0909000999","Nguyen Van Dung");
 
         //addProductCart("AC3","PD1",5,"#333",42);
         //addProductCart("AC3","PD2",5,"#333",42);
