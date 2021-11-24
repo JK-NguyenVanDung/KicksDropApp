@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KicksDrop">
         <activity
+            android:name=".ui.middle.Loading"
+            android:exported="true" />
+        <activity
+            android:name=".ui.searchView.SearchViewProduct"
+            android:exported="true" />
+        <activity
             android:name=".ui.productBrands.ProductBrands"
             android:exported="true" />
         <activity
