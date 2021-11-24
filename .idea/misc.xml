@@ -12,6 +12,9 @@
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.23958333333333334" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_icon_circle.xml" value="0.23958333333333334" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/drawable/ic_icongoogle.xml" value="0.23958333333333334" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/activity_product_brands.xml" value="0.1" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/chat_activity.xml" value="0.264" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/fragment_wishlist.xml" value="0.125" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_add.xml" value="0.264" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_list_view.xml" value="0.16" />
