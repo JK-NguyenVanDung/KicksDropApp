@@ -32,6 +32,7 @@ import com.project.kicksdrop.databinding.FragmentHomeBinding;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.productBrands.ProductBrands;
 
 import java.util.ArrayList;
 
@@ -43,8 +44,8 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     private ArrayList<Product> mProduct;
     RecyclerView recyclerView;
 
-    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
-    Button productTitleBtn;
+//    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
+//    Button productTitleBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +64,25 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         recyclerView.setLayoutManager(gridLayoutManager);
 
         getProduct();
+        final ImageButton nikesIbtn = binding.homeIbtnNikes;
+        nikesIbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ProductBrands.class);
+                intent.putExtra("brand","Nike");
+                startActivity(intent);
+            }
+        });
+
+        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
+        adidasIbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ProductBrands.class);
+                intent.putExtra("brand","Adidas");
+                startActivity(intent);
+            }
+        });
         final ImageButton button = binding.homeBtnChat;
         button.setOnClickListener(new  View.OnClickListener(){
             @Override
@@ -79,6 +99,9 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 startActivity(intent);
             }
         });
+
+
+
         return root;
 
     }
