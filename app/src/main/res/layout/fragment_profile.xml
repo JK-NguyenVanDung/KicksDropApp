@@ -180,7 +180,7 @@
                     app:srcCompat="@drawable/ic_line" />
 
                 <Button
-                    android:id="@+id/tv_profile_user_signOut"
+                    android:id="@+id/btn_profile_user_signOut"
                     android:layout_width="345dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="18dp"
