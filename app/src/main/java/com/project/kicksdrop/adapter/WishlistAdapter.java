@@ -103,7 +103,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             public void onClick(View view) {
 
                 FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-
                 String idUser = fUser.getUid().toString();
                 delProductWishlist(idUser,product.getProduct_id());
             }

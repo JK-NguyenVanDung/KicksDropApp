@@ -156,11 +156,6 @@
 
                     android:src="@drawable/ic_coupon_1" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_coupon_2" />
-
                 <TextView
                     android:id="@+id/Cart_coupon_code"
                     android:layout_width="wrap_content"
@@ -170,6 +165,11 @@
                     android:text="Coupon"
                     android:textColor="@color/black"
                     android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_coupon_2" />
 
             </LinearLayout>
 

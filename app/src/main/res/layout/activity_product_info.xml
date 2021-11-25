@@ -7,6 +7,14 @@
     android:background="#F6F6F6"
     tools:context=".ui.product.ProductInfo">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/navigation_bar_home_view" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/navigation_bar_home_view"
@@ -354,9 +362,9 @@
                                 android:layout_width="95dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/border_radius_gray_light"
-                                android:orientation="horizontal"
                                 android:elevation="1dp"
-                                >
+                                android:orientation="horizontal">
+
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
@@ -367,7 +375,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_marginBottom="3dp"
-                                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" android:elevation="1dp"/>
+                                    android:elevation="1dp"
+                                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
                             </LinearLayout>
 
