@@ -170,9 +170,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         });
 
 
-        calculateTotal(product.getProduct_price(), currentAmount[0]);
+
         if (coupon_id != null){
             getCoupon(coupon_id);
+        }else{
+            calculateTotal(product.getProduct_price(), currentAmount[0]);
         }
 
 
@@ -187,12 +189,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         String sPrice =format.format(totalAmount);
         totalPayment.setText(sPrice);
         totalPaymentHead.setText(sPrice);
-
     }
     private void calculateTotalCoupon(int percent, int maxprice){
         double discount = (totalAmount * percent) / 100;
         if(discount > maxprice){
-            totalAmount = totalAmount - maxprice;
+            totalAmount = totalAmount - (maxprice/5);
         }else {
             totalAmount = totalAmount - discount;
         }
@@ -267,6 +268,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             decrease = itemView.findViewById(R.id.ProductCart_btn_decrease);
             delete = itemView.findViewById(R.id.ProductCart_delete);
             productImage = itemView.findViewById(R.id.productCart_iv_cart_image);
+
         }
 
     }
