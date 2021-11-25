@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +24,8 @@ import com.project.kicksdrop.R;
 public class RegisterActivity extends AppCompatActivity {
     EditText inputEmail, inputPassword, cfPassword, numPhone, fullName;
     Button btnSignIn, btnSignUp;
+    RadioGroup groupCheck;
+    RadioButton checkMale, checkFemale, checkother, checkAccept;
     ProgressBar progressBar;
     FirebaseAuth auth;
     @Override
@@ -36,6 +40,11 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp = (Button) findViewById(R.id.btn_signUp);
         numPhone = (EditText) findViewById(R.id.et_regisPhone);
         fullName = (EditText) findViewById(R.id.et_regisName);
+        groupCheck = (RadioGroup) findViewById(R.id.group_Radio_checkbox);
+        checkMale = (RadioButton) findViewById(R.id.btn_check_male);
+        checkFemale= (RadioButton) findViewById(R.id.btn_check_female);
+        checkother = (RadioButton) findViewById(R.id.btn_check_other);
+        checkAccept = (RadioButton) findViewById(R.id.btn_check_accept);
 
 
         auth = FirebaseAuth.getInstance();
@@ -51,13 +60,15 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(goLogin);
             }
         });
+        int radioId = groupCheck.getCheckedRadioButtonId();
+        RadioButton groupCheck = findViewById(radioId);
+        String option = groupCheck.getText().toString();
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-//                String againPassword = cfPassword.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
                     inputEmail.setError("Enter email address !");
                     return;
@@ -70,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                     inputPassword.setError("Password too short, enter minimum 6 characters !");
                     return;
                 }
+
 
 
                 progressBar.setVisibility(View.VISIBLE);
@@ -90,14 +102,14 @@ public class RegisterActivity extends AppCompatActivity {
                             finish();
                         }
                     }
-
                 });
-//                if(againPassword != password){
-//                    cfPassword.setError("Password does not match, Please enter again!");
-//                    return;
-//                }
             }
+            String name = fullName.getText().toString().trim();
+            String phone = numPhone.getText().toString().trim();
+            String againPass = cfPassword.getText().toString().trim();
+
         });
+
     }
     @Override
     protected void onResume() {
