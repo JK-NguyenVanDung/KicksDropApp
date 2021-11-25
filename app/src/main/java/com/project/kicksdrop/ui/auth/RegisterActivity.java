@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 
@@ -28,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton checkMale, checkFemale, checkother, checkAccept;
     ProgressBar progressBar;
     FirebaseAuth auth;
+    FirebaseUser fUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +50,6 @@ public class RegisterActivity extends AppCompatActivity {
         checkother = (RadioButton) findViewById(R.id.btn_check_other);
         checkAccept = (RadioButton) findViewById(R.id.btn_check_accept);
 
-
         auth = FirebaseAuth.getInstance();
 
 //        if(auth.getCurrentUser() != null){
@@ -60,6 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(goLogin);
             }
         });
+
+
         int radioId = groupCheck.getCheckedRadioButtonId();
         RadioButton groupCheck = findViewById(radioId);
         String option = groupCheck.getText().toString();
@@ -69,6 +74,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+
+                String name = fullName.getText().toString().trim();
+                String phone = numPhone.getText().toString().trim();
+//                String againPass = cfPassword.getText().toString().trim();
+
+
                 if(TextUtils.isEmpty(email)){
                     inputEmail.setError("Enter email address !");
                     return;
@@ -83,7 +94,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-
                 progressBar.setVisibility(View.VISIBLE);
 
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -92,11 +102,20 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(),Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
 
-
                         if (!task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this,new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressBar.setVisibility(View.GONE);
+                                    if(task.isSuccessful()){
+                                        fUser = FirebaseAuth.getInstance().getCurrentUser();
+                                        createUser( fUser.getUid(),name,email, option, phone);
+                                    }
+                                }
+                            });
                             Toast.makeText(RegisterActivity.this, "User Created", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             finish();
@@ -104,12 +123,23 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
             }
-            String name = fullName.getText().toString().trim();
-            String phone = numPhone.getText().toString().trim();
-            String againPass = cfPassword.getText().toString().trim();
+
 
         });
 
+    }
+    private void createUser(String userID, String email, String gender,String mobile,String name){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account");
+
+
+        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
+        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
+
+        myRef.child(userID).child("email").setValue(email);
+        myRef.child(userID).child("gender").setValue(gender);
+        myRef.child(userID).child("mobile").setValue(mobile);
+        myRef.child(userID).child("name").setValue(name);
     }
     @Override
     protected void onResume() {

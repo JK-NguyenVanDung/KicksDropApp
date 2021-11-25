@@ -305,38 +305,38 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    private void createAccount(EditText user, EditText password, TextView err, FirebaseAuth auth){
-        String semail = user.getText().toString().trim();
-        String spassword = password.getText().toString().trim();
-        if (TextUtils.isEmpty(semail)){
-            err.setText("Please Enter Email");
-            return;
-        }
-        if (TextUtils.isEmpty(spassword)){
-            err.setText("Please Enter Password");
-            return;
-        }
-        if (spassword.length() <= 6){
-            err.setText("Please Enter Password more than 6 char");
-            return;
-        }
-        Activity RegisterActivity = new Activity();// lúc add thì xóa dòng này và thay RegisterActivity bên dưới thành RegisterActivity.thís
-        auth.createUserWithEmailAndPassword(semail,spassword).addOnCompleteListener(RegisterActivity,
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()){
-                            err.setText(task.getException().getMessage().toString());
-                        } else {
-                            Toast.makeText(getApplicationContext(),"Register Susscess", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity, MainActivity.class));
-                            finish();
-                        }
-
-                    };
-
-                });
-    }
+//    private void createAccount(EditText user, EditText password, TextView err, FirebaseAuth auth){
+//        String semail = user.getText().toString().trim();
+//        String spassword = password.getText().toString().trim();
+//        if (TextUtils.isEmpty(semail)){
+//            err.setText("Please Enter Email");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(spassword)){
+//            err.setText("Please Enter Password");
+//            return;
+//        }
+//        if (spassword.length() <= 6){
+//            err.setText("Please Enter Password more than 6 char");
+//            return;
+//        }
+//        Activity RegisterActivity = new Activity();// lúc add thì xóa dòng này và thay RegisterActivity bên dưới thành RegisterActivity.thís
+//        auth.createUserWithEmailAndPassword(semail,spassword).addOnCompleteListener(RegisterActivity,
+//                new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (!task.isSuccessful()){
+//                            err.setText(task.getException().getMessage().toString());
+//                        } else {
+//                            Toast.makeText(getApplicationContext(),"Register Susscess", Toast.LENGTH_SHORT).show();
+//                            startActivity(new Intent(RegisterActivity, MainActivity.class));
+//                            finish();
+//                        }
+//
+//                    };
+//
+//                });
+//    }
     private void getProduct(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
@@ -513,19 +513,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void createUser(String userID, String email, String gender,String mobile,String name){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account");
-
-
-        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
-        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
-
-        myRef.child(userID).child("email").setValue(email);
-        myRef.child(userID).child("gender").setValue(gender);
-        myRef.child(userID).child("mobile").setValue(mobile);
-        myRef.child(userID).child("name").setValue(name);
-    }
+//    private void createUser(String userID, String email, String gender,String mobile,String name){
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("account");
+//
+//
+//        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
+//        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
+//
+//        myRef.child(userID).child("email").setValue(email);
+//        myRef.child(userID).child("gender").setValue(gender);
+//        myRef.child(userID).child("mobile").setValue(mobile);
+//        myRef.child(userID).child("name").setValue(name);
+//    }
 
 
     private void  loadOrder(){
