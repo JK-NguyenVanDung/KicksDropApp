@@ -56,7 +56,6 @@
                     android:fontFamily="@font/work_sans_semibold"
                     android:gravity="center_horizontal"
 
-                    android:text="Bảo Nguyên"
                     android:textAllCaps="false"
                     android:textColor="#333333"
 
