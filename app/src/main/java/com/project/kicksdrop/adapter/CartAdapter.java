@@ -5,11 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -35,15 +33,12 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.product.ProductInfo;
-import com.project.kicksdrop.ui.promocode.CouponProduct;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
@@ -76,7 +71,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public CartAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(context).inflate(R.layout.item_cart_product_list_view, parent, false);
+        view = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false);
 
         return new CartAdapter.ViewHolder(view);
     }
@@ -94,11 +89,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             if(lower.equals(opColor)){
                 String imageName = temp.get("image");
                 loadImage(holder.productImage,imageName);
-
             }
         }
         totalProducts= productOptions.size();
-        totalProduct.setText(totalProducts + " ITEMS");
+        totalProduct.setText(totalProducts >1 ? totalProducts + " ITEMS" : totalProducts + "ITEM");
         holder.productCartName.setText(product.getProduct_name());
         holder.productCartType.setText(product.getProduct_brand());
 
@@ -171,7 +165,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.delete.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                deleteFromCart(productOptions.get(holder.getAdapterPosition()).get("cartProductID"));
+                deleteFromCart(productOptions.get(holder.getAdapterPosition()).get("cartProductID"),holder.getAdapterPosition());
             }
         });
 
@@ -185,7 +179,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
 
     }
-
 
     @SuppressLint("SetTextI18n")
     private void calculateTotal(double price, long amount){
@@ -236,17 +229,29 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         myRef.child("size").setValue(size);
 
     }
-    private void deleteFromCart(String cartProductId ){
+    @SuppressLint("SetTextI18n")
+    private void deleteFromCart(String cartProductId, int position ){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/product/" + cartProductId);
         myRef.removeValue();
+        if(!mCartProduct.isEmpty()&& mCartProduct.size() > position) {
+            mCartProduct.remove(position);
+            notifyItemRemoved(position);
+            notifyDataSetChanged();
+        }
+        if(mCartProduct.isEmpty()){
+            mCartProduct.clear();
+            totalPayment.setText("$00.00");
+            totalProduct.setText("0 ITEM");
+            totalPaymentHead.setText("$00.00");
 
+        }
     }
     @Override
     public int getItemCount() {
         return mCartProduct ==null? 0: mCartProduct.size();
     }
-
+    @SuppressLint("NotifyDataSetChanged")
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView productCartName, productCartType, productCartAmount, productCartPrice;
         ImageButton increase, decrease, delete;

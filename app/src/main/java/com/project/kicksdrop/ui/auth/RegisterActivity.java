@@ -92,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                 });
+
 //                if(againPassword != password){
 //                    cfPassword.setError("Password does not match, Please enter again!");
 //                    return;
@@ -99,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();

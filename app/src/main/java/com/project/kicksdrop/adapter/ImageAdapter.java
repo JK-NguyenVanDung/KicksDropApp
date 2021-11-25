@@ -61,7 +61,7 @@ public class ImageAdapter extends PagerAdapter {
     public void loadImage( String imageName, ImageView image){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
-            File file = File.createTempFile("tmp",".jpg");
+            File file = File.createTempFile("tmp",".png");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
