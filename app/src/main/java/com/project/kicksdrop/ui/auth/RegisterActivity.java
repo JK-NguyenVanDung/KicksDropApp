@@ -112,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         fUser = FirebaseAuth.getInstance().getCurrentUser();
-                                        createUser( fUser.getUid(),name,email, option, phone);
+                                        createUser( fUser.getUid(),email, option, phone, name);
                                     }
                                 }
                             });

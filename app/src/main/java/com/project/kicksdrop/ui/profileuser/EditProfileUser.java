@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +36,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
+import com.project.kicksdrop.adapter.CouponAdapter;
+import com.project.kicksdrop.model.Account;
+import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.promocode.CouponProduct;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,10 +55,12 @@ public class EditProfileUser extends AppCompatActivity {
     ImageButton prevIBtn;
     TextView userName,userSex,userEmail,userPhone;
     private FirebaseUser account;
+    private ArrayList<Account> mAccount;
     private DatabaseReference reference;
     private String accountID;
     private StorageReference storageReference;
-    String userID, name, imagesName, email, gender, mobile;
+    private Account Kaccount;
+    String name, imagesName, email, gender, mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +73,20 @@ public class EditProfileUser extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         accountID = account.getUid();
 
-        getAccount();
-
 
     }
 
-    private void getAccount() {
+    private void getAccount(String userID) {
         if (account != null){
             if(account == null){
                 return;
             }
         }
+        account = FirebaseAuth.getInstance().getCurrentUser();
+        assert account != null;
+
+        getAccount(account.getUid());
+
         name = account.getDisplayName();
         email = account.getEmail();
         gender = account.getDisplayName();
@@ -87,7 +98,8 @@ public class EditProfileUser extends AppCompatActivity {
         userSex.setText(gender);
         userPhone.setText(mobile);
 
-        loadImage(profileAvatar, "Avatar_defaul.png");
+//        Glide.with(this).load(profileAvatar).error("Avatar_defaul.png");
+                loadImage(profileAvatar, "Avatar_defaul.png");
     }
 
     private void loadImage(ImageView image, String imageName){
@@ -109,6 +121,28 @@ public class EditProfileUser extends AppCompatActivity {
 
     }
 
+    private void getAccount(String user_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account");
+        mAccount = new ArrayList<>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mAccount.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+                    Kaccount = dtShot.getValue(Account.class);
+                    assert Kaccount != null;
+                    Kaccount.setIdUser(dtShot.getKey());
+                    if (user_id.equals(dtShot.getKey())){
+                        mAccount.add(Kaccount);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
 
     private void matching() {
 
@@ -120,4 +154,5 @@ public class EditProfileUser extends AppCompatActivity {
         userEmail = (TextView) findViewById(R.id.editProfile_et_address);
         userPhone = (TextView) findViewById(R.id.editProfile_et_phone);
     }
+
 }

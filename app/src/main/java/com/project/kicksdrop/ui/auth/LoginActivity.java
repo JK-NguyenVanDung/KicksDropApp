@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,7 +26,6 @@ import com.project.kicksdrop.R;
 public class LoginActivity extends AppCompatActivity {
     EditText inputLoginEmail, inputLoginPassword;
     Button signIn, createAcc, forgot;
-    RadioButton checkMale, checkFemale, checkOther, checkAccept;
     ProgressBar progressBar;
     FirebaseAuth auth;
 
@@ -38,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 //            startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //            finish();
 //        }
+
+
         setContentView(R.layout.activity_login);
 
         createAcc = (Button) findViewById(R.id.btn_goRegister);
@@ -47,15 +49,19 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar2);
         forgot = (Button) findViewById(R.id.btn_forgot);
 
-        auth = FirebaseAuth.getInstance();
+        disableLayoutEditText(inputLoginEmail);
+        disableLayoutEditText(inputLoginPassword);
 
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goForgot = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                Intent goForgot = new Intent(getApplicationContext(), ResetPasswordActivity.class);
                 startActivity(goForgot);
             }
         });
+
+        auth = FirebaseAuth.getInstance();
+
         createAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,5 +107,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void disableLayoutEditText(EditText editText) {
+        editText.setBackgroundColor(Color.TRANSPARENT);
     }
 }
