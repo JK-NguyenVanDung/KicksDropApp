@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -45,6 +47,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     private FragmentHomeBinding binding;
     ProductListAdapter productAdapter;
     private ArrayList<Product> mProduct;
+    ArrayList<Product> sProduct;
     RecyclerView recyclerView;
 
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
@@ -128,6 +131,26 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
             }
         });
 
+//        search.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable edit) {
+//                if (edit.length() != 0) {
+//                    String keySearch = search.getText().toString();
+//                    searchProduct(keySearch);
+//                }
+//            }
+//        });
+
 
 
 
@@ -149,6 +172,35 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         intent.putExtra("id", id);
         startActivity(intent);
     }
+
+    private void searchProduct(String keySearch){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        sProduct =new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                sProduct.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+                    Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+
+                    if (product.getProduct_name().toLowerCase().contains(keySearch.toLowerCase())){
+                        product.setProduct_id(dtShot.getKey());
+                        sProduct.add(product);
+                    }
+                }
+//                productAdapter = new ProductListAdapter(getContext(),mProduct, SearchViewProduct.this);
+//                recyclerView.setAdapter(productAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void getProduct(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
