@@ -86,6 +86,9 @@ public class CartListView extends AppCompatActivity {
         assert fUser != null;
         getCart(fUser.getUid());
 
+        if (coupon_id != null) {
+            Discount(coupon_id);
+        }
     }
 
     private void getCart(String user_Id){
@@ -146,6 +149,8 @@ public class CartListView extends AppCompatActivity {
                 }
                 cartAdapter = new CartAdapter(getApplicationContext(),mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id);
                 recyclerView.setAdapter(cartAdapter);
+
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -162,5 +167,11 @@ public class CartListView extends AppCompatActivity {
         totalProducts = findViewById(R.id.Cart_tv_total_products);
         totalPaymentHead = findViewById(R.id.Cart_tv_total_head);
         back = findViewById(R.id.Cart_btn_back);
+    }
+    private void Discount(String coupon_id){
+        if (coupon_id != null){
+            String prices = totalPayment.getText().toString().trim();
+            Log.d("test", prices);
+        }
     }
 }
