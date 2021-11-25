@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:text="0 items"
+                android:text="0 item"
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="16sp" />
@@ -83,7 +83,7 @@
                 android:text="@string/separate"
                 android:textAllCaps="true"
                 android:textColor="#444444"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/Cart_tv_total_head"
@@ -101,8 +101,8 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/navigation_bar_productCartListViewItems_view"
         android:layout_width="match_parent"
-        android:layout_height="672dp"
-
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -110,21 +110,20 @@
         app:layout_constraintTop_toBottomOf="@+id/header_productCartListViewItems"
         app:layout_constraintVertical_bias="1.0">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="0dp"
-            android:paddingBottom="140dp">
+            android:paddingBottom="150dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/Cart_rv_products"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical" />
+                android:layout_gravity="center_horizontal"
+                />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
@@ -156,6 +155,12 @@
 
                     android:src="@drawable/ic_coupon_1" />
 
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_coupon_2" />
+
                 <TextView
                     android:id="@+id/Cart_coupon_code"
                     android:layout_width="wrap_content"
@@ -164,13 +169,8 @@
                     android:gravity="center_vertical"
                     android:text="Coupon"
                     android:textColor="@color/black"
+                    android:layout_marginLeft="10dp"
                     android:textSize="16dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_coupon_2" />
-
             </LinearLayout>
 
 
@@ -227,7 +227,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="$00.00"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
@@ -245,8 +245,8 @@
 
                 <Button
                     android:id="@+id/productCart_btn_order"
-                    android:layout_width="155dp"
-                    android:layout_height="47dp"
+                    android:layout_width="175dp"
+                    android:layout_height="50dp"
                     android:backgroundTint="@color/black"
                     android:text="Order"
                     android:textAllCaps="true"

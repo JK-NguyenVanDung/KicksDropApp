@@ -45,6 +45,7 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
     private static List<String> mColor;
     private static List<Image> mImages;
     private static ViewPager mPager;
+    private static String pickedColor;
 
     public static String getPickedColor() {
         return pickedColor;
@@ -54,7 +55,6 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
         ColorCircleAdapter.pickedColor = pickedColor;
     }
 
-    private static String pickedColor;
 
     List<ImageView> borders;
     public ColorCircleAdapter(Context context, List<String> mColor, List<Image> images, ViewPager viewPager){
@@ -64,6 +64,7 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
         this.borders = new ArrayList<>();
         this.mPager = viewPager;
     }
+
     @NonNull
     @Override
     public ColorCircleAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

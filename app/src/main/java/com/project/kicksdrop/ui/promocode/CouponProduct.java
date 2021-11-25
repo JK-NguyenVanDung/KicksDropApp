@@ -23,17 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CouponAdapter;
-import com.project.kicksdrop.adapter.ProductListAdapter;
-import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.model.Coupon;
-import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
-import com.project.kicksdrop.ui.product.ProductInfo;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import java.util.ArrayList;
 
@@ -52,7 +43,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coupon_product);
+        setContentView(R.layout.activity_coupon);
 
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
@@ -65,7 +56,6 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
             @Override
             public void onClick(View v) {
                 finish();
-
             }
         });
 

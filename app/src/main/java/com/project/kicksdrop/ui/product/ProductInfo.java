@@ -64,7 +64,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
 
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
-    RecyclerView mRecyclerView;
+    RecyclerView mCirclesRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +96,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                 if(currentAmount >1){
                     currentAmount--;
                     amount.setText(Integer.toString(currentAmount));
-
                 }else{
                     Toast.makeText(getApplicationContext(),"Minimum amount is 1",Toast.LENGTH_SHORT).show();
                 }
@@ -106,7 +105,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onClick(View v) {
                 finish();
-
             }
         });
         cart.setOnClickListener(new  View.OnClickListener(){
@@ -118,8 +116,8 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         });
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mCirclesRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
+        mCirclesRecyclerView.setLayoutManager(layoutManager);
 
     }
 
@@ -144,7 +142,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                 String sPrice =format.format(product.getProduct_price());
                 price.setText(sPrice);
                 amount.setText(Integer.toString(currentAmount));
-
 
                 product.getProduct_images().remove(0);
 
@@ -179,7 +176,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                 colors.remove(0);
 
                 circleAdapter = new ColorCircleAdapter(getApplicationContext(),colors,images,viewPager);
-                mRecyclerView.setAdapter(circleAdapter);
+                mCirclesRecyclerView.setAdapter(circleAdapter);
 
                 product.getProduct_sizes().remove(0);
 
