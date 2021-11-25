@@ -1,6 +1,7 @@
 
 package com.project.kicksdrop.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,8 +27,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,6 +42,7 @@ import com.project.kicksdrop.model.Product;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder>{
@@ -46,6 +51,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context context;
     private static List<Product> mProductList;
     private ProductListAdapter.OnProductListener mOnProductListener;
+
 
     public ProductListAdapter(Context context, List<Product> mProductList, ProductListAdapter.OnProductListener onProductListener){
 
@@ -80,46 +86,67 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         holder.name.setText(product.getProduct_name());
         loadImage(holder.productImage,imageName);
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert fUser != null;
+        getUserWishlist(fUser.getUid(), product, holder.heart);
 
         holder.heart.setOnClickListener(new View.OnClickListener()
         {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
                 if (holder.heart.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.ic_heart).getConstantState()){
                     holder.heart.setImageResource(R.drawable.ic_heart_activated);
-                    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-                    String idUser = fUser.getUid().toString();
-                    addProductWishlist(idUser,product.getProduct_id());
+                    String idUser = fUser.getUid();
+                    addProductWishlist(idUser,product);
                     Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
 
-                }else
-            {
+                }else{
                 holder.heart.setImageResource(R.drawable.ic_heart);
-                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-                String idUser = fUser.getUid().toString();
+                String idUser = fUser.getUid();
                 delProductWishlist(idUser,product.getProduct_id());
                 Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_LONG).show();
 
-            }
+                }
 
         }});
 
     }
+    private void getUserWishlist(String user_id, Product product , ImageButton heart){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+user_id);
 
-    private void addProductWishlist(String idUser,String idProduct){
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> listWishlist =new ArrayList<String>();
+                for (DataSnapshot item : snapshot.getChildren()){
+                    listWishlist.add(item.getKey());
+                }
+                for (int i =0 ; i < listWishlist.size();i++){
+                    if(product.getProduct_id().equals(listWishlist.get(i))){
+                        heart.setImageResource(R.drawable.ic_heart_activated);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void addProductWishlist(String idUser,Product product){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("wishlist/"+idUser);
-
-
-        myRef.child(idProduct).child("product_id").setValue(idProduct);
+        myRef.child(product.getProduct_id()).child("product_id").setValue(product.getProduct_id());
+        myRef.child(product.getProduct_id()).child("product_size").setValue(product.getProduct_sizes().get(1));
+        myRef.child(product.getProduct_id()).child("product_color").setValue(product.getProduct_colors().get(1));
 
     }
 
     private void delProductWishlist(String idUser,String idProduct){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("wishlist/"+idUser);
-
-
         myRef.child(idProduct).removeValue();
 
     }
@@ -127,7 +154,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
-            File file = File.createTempFile("tmp",".jpg");
+            File file = File.createTempFile("tmp",".png");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -166,7 +193,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         @Override
         public void onClick(View v) {
-
             int position = getAdapterPosition();
             String id = mProductList.get(position).getProduct_id();
             onProductListener.onProductClick(position,v,id);

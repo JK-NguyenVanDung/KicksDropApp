@@ -73,15 +73,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         holder.couponCode.setText("MA " + couponCode);
 
 
-//        holder.couponCheckbox.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (((CheckBox) v).isChecked()){
-//                    percent  = Integer.parseInt(coupon.getCoupon_percent().substring(0,coupon.getCoupon_percent().length()-1));
-//                    maxprice  = Integer.parseInt(coupon.getCoupon_max_price());
-//                }
-//            }
-//        });
+
+
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -35,62 +35,44 @@
 
             <ImageView
                 android:id="@+id/productCart_iv_cart_image"
-                android:layout_width="160dp"
+                android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginBottom="0dp"
                 android:contentDescription="@string/todo" />
+            <ImageButton
+                android:id="@+id/btn_itemProduct_heart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="145dp"
+                android:layout_marginTop="5dp"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/ic_heart"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+            <!--icon circle-->
+
+            <ImageView
+                android:id="@+id/imgv_itemProduct_circle"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                tools:ignore="ImageContrastCheck"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="147dp"
+                android:layout_marginBottom="158dp"
+                android:background="@drawable/color_circle" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/navigation_itemproductCart_addToCart_viewList_color"
-            android:layout_width="160dp"
-            android:layout_height="25dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginBottom="20dp"
-            android:elevation="10pt">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:orientation="horizontal">
-
-                <HorizontalScrollView
-                    android:id="@+id/hs_item_productCart_addToCart_viewListColor"
-
-
-                    android:layout_width="168dp"
-                    android:layout_height="wrap_content"
-
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-
-                    android:layout_marginEnd="243dp"
-                    android:layout_marginBottom="0dp"
-
-                    android:scrollbars="none"
-
-                    tools:ignore="SpeakableTextPresentCheck">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/productInfo_rv_circles"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-
-                        android:orientation="horizontal" />
-
-
-                </HorizontalScrollView>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/linearlayout_itemProductCart_sectionOne"

@@ -1,5 +1,6 @@
 package com.project.kicksdrop.ui.wishlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,13 +26,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.adapter.WishlistItemAdapter;
 import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WishlistFragment extends Fragment {
 
@@ -42,7 +48,7 @@ public class WishlistFragment extends Fragment {
     private WishlistViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
     private WishlistAdapter wishlistAdapter;
-
+    private TextView totalProducts;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         wishlistViewModel =
@@ -67,11 +73,27 @@ public class WishlistFragment extends Fragment {
         String idUser = fUser.getUid().toString();
         getWishlist(idUser);
 
-        final TextView textView = binding.textWishlist;
-        wishlistViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        totalProducts = binding.wishlistTvItems;
+
+
+        ImageButton cart,chat;
+
+        cart = binding.wishlistBtnCart;
+
+        chat = binding.wishlistBtnChat;
+
+        cart.setOnClickListener(new  View.OnClickListener(){
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CartListView.class);
+                startActivity(intent);
+            }
+        });
+        chat.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                startActivity(intent);
             }
         });
         return root;
@@ -90,13 +112,21 @@ public class WishlistFragment extends Fragment {
 //                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
 //                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
 //                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
+                List<HashMap<String,String>> productsInWishlist = new ArrayList<HashMap<String,String>>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                if(hashMap != null) {
+                    for (Map.Entry<String, Object> entry : hashMap.entrySet()) {
+                        String key = entry.getKey();
+                        HashMap<String, String> item = (HashMap<String, String>) hashMap.get(key);
+                        item.put("cartProductID", key);
+                        productsInWishlist.add(item);
+                    }
+                    //String coupon = hashMap.get("coupon_id").toString();
+                    //Cart cart = new Cart(user_Id,,productsInCart);
 
-                ArrayList<String> listWishlist =new ArrayList<String>();
-
-                for (DataSnapshot item : snapshot.getChildren()){
-                    listWishlist.add(item.getKey());
+                    getProduct(productsInWishlist);
                 }
-                getProduct(listWishlist);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -105,7 +135,7 @@ public class WishlistFragment extends Fragment {
         });
     }
 
-    private void getProduct(ArrayList<String> wishlist){
+    private void getProduct(List<HashMap<String,String>> wishlist){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mWishlist = new ArrayList<>();
@@ -114,22 +144,25 @@ public class WishlistFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mWishlist.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
-
-                    product = dtShot.getValue(Product.class);
-                    assert product != null;
-                    product.setProduct_id(dtShot.getKey());
-
-
-                    for (int i = 0; i < wishlist.size(); i++) {
-                        if (wishlist.get(i).equals(dtShot.getKey())){
+                for(HashMap<String,String> item : wishlist){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        if(item.get("product_id").equals(dtShot.getKey())){
+                            product = dtShot.getValue(Product.class);
+                            assert product != null;
+                            product.setProduct_id(dtShot.getKey());
                             mWishlist.add(product);
                         }
+
                     }
+//                    for (int i = 0; i < wishlist.size(); i++) {
+//                        if (wishlist.get(i).equals(dtShot.getKey())){
+//                            mWishlist.add(product);
+//                        }
+//                    }
 
 
                 }
-                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist);
+                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist,wishlist,totalProducts);
                 recyclerView.setAdapter(wishlistAdapter);
 
 
@@ -141,16 +174,7 @@ public class WishlistFragment extends Fragment {
         });
     }
 
-//    public void matching() {
-//        wishListTotalItems = (TextView) findViewById(R.id.wishlist_tv_items);
-//        wishListProductName = (TextView) findViewById(R.id.wishlist_tv_productName);
-//        wishListProductCost = (TextView) findViewById(R.id.wishlist_tv_productCost);
-//        wishListProductType = (TextView) findViewById(R.id.wishlist_tv_productType);
-//        wishListDropDownSize = (Spinner) findViewById(R.id.wishlist_spinner_dropDownSize);
-//        wishListMoreOption = (Button) findViewById(R.id.wishList_btn_moreOption);
-//        wishListYellow = (ImageButton) findViewById(R.id.wishlist_ibtn_yellow);
-//        wishListRemoveProduct = (ImageButton) findViewById(R.id.wishlist_ibtn_remove);
-//    }
+
 
     @Override
     public void onDestroyView() {
