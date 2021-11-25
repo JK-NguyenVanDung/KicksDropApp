@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -23,7 +24,8 @@ import com.project.kicksdrop.R;
 
 public class LoginActivity extends AppCompatActivity {
     EditText inputLoginEmail, inputLoginPassword;
-    Button signIn, createAcc, forgot ;
+    Button signIn, createAcc, forgot;
+    RadioButton checkMale, checkFemale, checkOther, checkAccept;
     ProgressBar progressBar;
     FirebaseAuth auth;
 
@@ -46,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         forgot = (Button) findViewById(R.id.btn_forgot);
 
         auth = FirebaseAuth.getInstance();
+
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

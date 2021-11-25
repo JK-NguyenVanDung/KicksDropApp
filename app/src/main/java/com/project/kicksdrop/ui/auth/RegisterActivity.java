@@ -57,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-//                String againPassword = cfPassword.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
                     inputEmail.setError("Enter email address !");
                     return;
@@ -90,13 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
                             finish();
                         }
                     }
-
                 });
-//                if(againPassword != password){
-//                    cfPassword.setError("Password does not match, Please enter again!");
-//                    return;
-//                }
             }
+            String name = fullName.getText().toString().trim();
+
         });
     }
     @Override

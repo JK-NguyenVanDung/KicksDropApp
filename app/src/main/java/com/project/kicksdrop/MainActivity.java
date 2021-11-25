@@ -87,15 +87,15 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        String username = "tdat1155@gmail.com";
-        String pass = "123456";
+//        String username = "tdat1155@gmail.com";
+//        String pass = "123456";
 
-        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
-
-            @Override
-            public void onComplete(@NonNull Task task) {
-            }
-        });
+//        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
+//
+//            @Override
+//            public void onComplete(@NonNull Task task) {
+//            }
+//        });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -190,27 +190,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getUser(String user_id){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account/"+user_id);
-
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Product> wishlist = new  ArrayList<Product>();
-                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
-                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
-
-                getProduct(listWishlist);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    private void getUser(String user_id){
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("account/"+user_id);
+//
+//
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ArrayList<Product> wishlist = new  ArrayList<Product>();
+//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+//                HashMap<String,String> coupon = (HashMap<String,String>) hashMap.get("coupon");
+//                ArrayList<String> listWishlist = (ArrayList<String>) hashMap.get("wishlist");
+//
+//                getProduct(listWishlist);
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     private void getProduct(ArrayList<String> wishlist){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -305,38 +305,38 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    private void createAccount(EditText user, EditText password, TextView err, FirebaseAuth auth){
-        String semail = user.getText().toString().trim();
-        String spassword = password.getText().toString().trim();
-        if (TextUtils.isEmpty(semail)){
-            err.setText("Please Enter Email");
-            return;
-        }
-        if (TextUtils.isEmpty(spassword)){
-            err.setText("Please Enter Password");
-            return;
-        }
-        if (spassword.length() <= 6){
-            err.setText("Please Enter Password more than 6 char");
-            return;
-        }
-        Activity RegisterActivity = new Activity();// lúc add thì xóa dòng này và thay RegisterActivity bên dưới thành RegisterActivity.thís
-        auth.createUserWithEmailAndPassword(semail,spassword).addOnCompleteListener(RegisterActivity,
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()){
-                            err.setText(task.getException().getMessage().toString());
-                        } else {
-                            Toast.makeText(getApplicationContext(),"Register Susscess", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity, MainActivity.class));
-                            finish();
-                        }
-
-                    };
-
-                });
-    }
+//    private void createAccount(EditText user, EditText password, TextView err, FirebaseAuth auth){
+//        String semail = user.getText().toString().trim();
+//        String spassword = password.getText().toString().trim();
+//        if (TextUtils.isEmpty(semail)){
+//            err.setText("Please Enter Email");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(spassword)){
+//            err.setText("Please Enter Password");
+//            return;
+//        }
+//        if (spassword.length() <= 6){
+//            err.setText("Please Enter Password more than 6 char");
+//            return;
+//        }
+//        Activity RegisterActivity = new Activity();// lúc add thì xóa dòng này và thay RegisterActivity bên dưới thành RegisterActivity.thís
+//        auth.createUserWithEmailAndPassword(semail,spassword).addOnCompleteListener(RegisterActivity,
+//                new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (!task.isSuccessful()){
+//                            err.setText(task.getException().getMessage().toString());
+//                        } else {
+//                            Toast.makeText(getApplicationContext(),"Register Susscess", Toast.LENGTH_SHORT).show();
+//                            startActivity(new Intent(RegisterActivity, MainActivity.class));
+//                            finish();
+//                        }
+//
+//                    };
+//
+//                });
+//    }
     private void getProduct(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
@@ -371,22 +371,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadImage(ImageView image, String imageName){
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
-        try {
-            File file = File.createTempFile("tmp",".jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    image.setImageBitmap(bitmap);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-    }
 
 
     private void loadProduct(String id){
