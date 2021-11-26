@@ -7,9 +7,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,6 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,16 +54,17 @@ import java.util.HashMap;
 public class EditProfileUser extends AppCompatActivity {
 
     ImageView profileAvatar;
-    Button editBtn;
+    private Button editBtn;
     ImageButton prevIBtn;
-    TextView userName,userSex,userEmail,userPhone;
+    Button deleteProfile;
+    EditText userName,userSex,userEmail,userPhone;
     private FirebaseUser account;
     private ArrayList<Account> mAccount;
     private DatabaseReference reference;
     private String accountID;
     private StorageReference storageReference;
     private Account Kaccount;
-    private String name, imagesName, email, gender, mobile;
+    private String userID, name, imagesName, email, gender, mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +77,27 @@ public class EditProfileUser extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         accountID = account.getUid();
 
+        disableEditText(userEmail);
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EditProfileUser.this, "Changed successful ! ",Toast.LENGTH_SHORT).show();
+                isChangedProfile();
+            }
+        });
+
+        deleteProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EditProfileUser.this, "Delete successful !", Toast.LENGTH_SHORT).show();
+                isDeleteProfile();
+            }
+        });
+
         setAccount(account.getUid());
     }
+
 
 
     private void loadImage(ImageView image, String imageName){
@@ -116,12 +139,68 @@ public class EditProfileUser extends AppCompatActivity {
                 userName.setText(name);
                 userPhone.setText(mobile);
                 userSex.setText(gender);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
+
+    private void isChangedProfile() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+ FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+        email = userEmail.getText().toString().trim();
+        name = userName.getText().toString().trim();
+        mobile = userPhone.getText().toString().trim();
+        gender = userSex.getText().toString().trim();
+
+        myRef.child("email").setValue(email);
+        myRef.child("name").setValue(name);
+        myRef.child("gender").setValue(gender);
+        myRef.child("mobile").setValue(mobile);
+
+    }
+
+    private static void disableEditText(EditText editText) {
+        editText.setFocusable(false);
+        editText.setEnabled(false);
+        editText.setCursorVisible(false);
+        editText.setKeyListener(null);
+    }
+
+    private void isDeleteProfile() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+ FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+        email = userEmail.getText().toString().trim();
+        name = userName.getText().toString().trim();
+        mobile = userPhone.getText().toString().trim();
+        gender = userSex.getText().toString().trim();
+
+        myRef.child("email").setValue(email);
+        myRef.child("name").setValue("");
+        myRef.child("gender").setValue("");
+        myRef.child("mobile").setValue("");
+
+    }
+//    private void createUser(){
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("account");
+//
+//
+//        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
+//        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
+//
+//        myRef.child(userID).child("email").setValue(email);
+//        myRef.child(userID).child("gender").setValue(gender);
+//        myRef.child(userID).child("mobile").setValue(mobile);
+//        myRef.child(userID).child("name").setValue(name);
+//    }
+
 
     private void setAccount(String userID) {
         if (account != null){
@@ -135,15 +214,17 @@ public class EditProfileUser extends AppCompatActivity {
         loadImage(profileAvatar, "Avatar_defaul.png");
     }
 
+
     private void matching() {
 
         profileAvatar= (ImageView) findViewById(R.id.editProfile_iv_avatar);
         editBtn = (Button) findViewById(R.id.editProfile_btn_edit);
         prevIBtn =(ImageButton) findViewById(R.id.editProfile_ibtn_prev);
-        userName = (TextView) findViewById(R.id.editProfile_et_name);
-        userSex = (TextView) findViewById(R.id.editProfile_et_gender);
-        userEmail = (TextView) findViewById(R.id.editProfile_et_address);
-        userPhone = (TextView) findViewById(R.id.editProfile_et_phone);
+        userName = (EditText) findViewById(R.id.editProfile_et_name);
+        userSex = (EditText) findViewById(R.id.editProfile_et_gender);
+        userEmail = (EditText) findViewById(R.id.editProfile_et_address);
+        userPhone = (EditText) findViewById(R.id.editProfile_et_phone);
+        deleteProfile = (Button) findViewById(R.id.editProfile_btn_delete);
     }
 
 }
