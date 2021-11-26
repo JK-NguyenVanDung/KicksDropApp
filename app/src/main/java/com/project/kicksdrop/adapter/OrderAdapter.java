@@ -45,25 +45,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         String order_price;
         String user_id;
         List<HashMap<String,String>> Product;
-
-
     }
-
-
     @Override
     public int getItemCount() {
         return mOrder ==null? 0: mOrder.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-
         OrderAdapter.OnOrderListener onOrderListener;
-
         public ViewHolder(@NonNull View itemView, OrderAdapter.OnOrderListener OnOrderListener) {
             super(itemView);
-
-
         }
 
         @Override
