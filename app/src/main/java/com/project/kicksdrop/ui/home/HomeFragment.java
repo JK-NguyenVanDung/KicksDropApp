@@ -2,6 +2,7 @@ package com.project.kicksdrop.ui.home;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -54,6 +55,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
 
+    @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -90,8 +92,8 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 startActivity(intent);
             }
         });
-        final ImageButton button = binding.homeBtnChat;
-        button.setOnClickListener(new  View.OnClickListener(){
+        final ImageButton chat = binding.homeBtnChat;
+        chat.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChatActivity.class);
