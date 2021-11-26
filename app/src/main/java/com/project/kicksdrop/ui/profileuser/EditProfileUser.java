@@ -60,7 +60,7 @@ public class EditProfileUser extends AppCompatActivity {
     private String accountID;
     private StorageReference storageReference;
     private Account Kaccount;
-    String name, imagesName, email, gender, mobile;
+    private String name, imagesName, email, gender, mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,34 +73,9 @@ public class EditProfileUser extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         accountID = account.getUid();
 
-
+        setAccount(account.getUid());
     }
 
-    private void getAccount(String userID) {
-        if (account != null){
-            if(account == null){
-                return;
-            }
-        }
-        account = FirebaseAuth.getInstance().getCurrentUser();
-        assert account != null;
-
-        getAccount(account.getUid());
-
-        name = account.getDisplayName();
-        email = account.getEmail();
-        gender = account.getDisplayName();
-        mobile = account.getPhoneNumber();
-        imagesName = account.getDisplayName();
-
-        userName.setText(name);
-        userEmail.setText(email);
-        userSex.setText(gender);
-        userPhone.setText(mobile);
-
-//        Glide.with(this).load(profileAvatar).error("Avatar_defaul.png");
-                loadImage(profileAvatar, "Avatar_defaul.png");
-    }
 
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
@@ -123,25 +98,41 @@ public class EditProfileUser extends AppCompatActivity {
 
     private void getAccount(String user_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account");
+        DatabaseReference myRef = database.getReference("account/" + user_id);
         mAccount = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mAccount.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
-                    Kaccount = dtShot.getValue(Account.class);
-                    assert Kaccount != null;
-                    Kaccount.setIdUser(dtShot.getKey());
-                    if (user_id.equals(dtShot.getKey())){
-                        mAccount.add(Kaccount);
-                    }
-                }
+
+                HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+
+                email = hashMap.get("email").toString();
+                name = hashMap.get("name").toString();
+                mobile = hashMap.get("mobile").toString();
+                gender = hashMap.get("gender").toString();
+
+                userEmail.setText(email);
+                userName.setText(name);
+                userPhone.setText(mobile);
+                userSex.setText(gender);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+
+    private void setAccount(String userID) {
+        if (account != null){
+            if(account == null){
+                return;
+            }
+        }
+        account = FirebaseAuth.getInstance().getCurrentUser();
+        assert account != null;
+        getAccount(account.getUid());
+        loadImage(profileAvatar, "Avatar_defaul.png");
     }
 
     private void matching() {

@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp = (Button) findViewById(R.id.btn_signUp);
         numPhone = (EditText) findViewById(R.id.et_regisPhone);
         fullName = (EditText) findViewById(R.id.et_regisName);
+
         groupCheck = (RadioGroup) findViewById(R.id.group_Radio_checkbox);
         checkMale = (RadioButton) findViewById(R.id.btn_check_male);
         checkFemale= (RadioButton) findViewById(R.id.btn_check_female);
@@ -77,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String name = fullName.getText().toString().trim();
                 String phone = numPhone.getText().toString().trim();
-//                String againPass = cfPassword.getText().toString().trim();
+                String againPass = cfPassword.getText().toString().trim();
 
 
                 if(TextUtils.isEmpty(email)){
@@ -88,10 +89,16 @@ public class RegisterActivity extends AppCompatActivity {
                     inputPassword.setError("Enter password !");
                     return;
                 }
-                if(password.length() < 6){
+                if(password.length() < 6 && cfPassword.toString().trim().length() > 0){
                     inputPassword.setError("Password too short, enter minimum 6 characters !");
                     return;
                 }
+                if(!cfPassword.equals(password)){
+                    cfPassword.setError("Password does not match, Please enter again!");
+                    return;
+                }
+
+
 
 
                 progressBar.setVisibility(View.VISIBLE);

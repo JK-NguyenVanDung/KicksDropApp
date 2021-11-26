@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goForgot = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                Intent goForgot = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(goForgot);
             }
         });
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(password.length()<6){
                             inputLoginPassword.setError("Password must be more than 6 characters");
                         }else {
-                            Toast.makeText(LoginActivity.this, "erorr" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "ERROR ! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                        }else{
                            Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
