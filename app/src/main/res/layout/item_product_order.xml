@@ -25,18 +25,18 @@
                 app:cardCornerRadius="10dp"
                 >
 
-            <ImageView
-                android:layout_width="125dp"
-                android:layout_height="100dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="-1dp"
-                android:layout_marginBottom="0dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/product_version_adidas_new_second"
-                android:scaleType="centerCrop" />
+                <ImageView
+                    android:id="@+id/order_tv_image"
+                    android:layout_width="125dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginBottom="0dp"
+                    android:contentDescription="@string/todo"
+                    />
 
             <ImageButton
                 android:layout_width="13dp"
