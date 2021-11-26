@@ -121,7 +121,6 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
                     assert coupon != null;
                     coupon.setCoupon_id(dtShot.getKey());
 
-
                     for (int i = 0; i < couponInList.size(); i++) {
 
                         if (couponInList.get(i).equals(dtShot.getKey())){
