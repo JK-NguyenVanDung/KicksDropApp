@@ -18,11 +18,12 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.databinding.FragmentProfileBinding;
 import com.project.kicksdrop.ui.auth.LoginActivity;
+import com.project.kicksdrop.ui.profileuser.EditProfileUser;
 
 public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
-    private Button logout;
+    private Button logout, profile;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +40,19 @@ public class ProfileFragment extends Fragment {
             }
         });
         logoutUI();
+        profileUI();
         return root;
+    }
+
+    private void profileUI() {
+        profile = binding.profileBtnProfile;
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goProfile = new Intent(getContext(), EditProfileUser.class);
+                startActivity(goProfile);
+            }
+        });
     }
 
     private void logoutUI() {

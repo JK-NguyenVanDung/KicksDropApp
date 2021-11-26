@@ -91,8 +91,8 @@
                     android:id="@+id/et_regisPassword"
                     android:layout_width="300dp"
                     android:layout_height="55dp"
-                    android:hint="Password"
                     android:background="@drawable/border_radius"
+                    android:hint="Password"
                     android:inputType="textPassword"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -116,8 +116,8 @@
                     android:id="@+id/et_regisAgainPassword"
                     android:layout_width="300dp"
                     android:layout_height="55dp"
-                    android:hint="Enter the password again"
                     android:background="@drawable/border_radius"
+                    android:hint="Enter the password again"
                     android:inputType="textPassword"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -140,8 +140,8 @@
                     android:id="@+id/et_regisPhone"
                     android:layout_width="300dp"
                     android:layout_height="55dp"
-                    android:hint="Phone"
                     android:background="@drawable/border_radius"
+                    android:hint="Phone"
                     android:inputType="number"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -165,8 +165,8 @@
                     android:layout_width="300dp"
                     android:layout_height="55dp"
 
-                    android:hint="Full name"
                     android:background="@drawable/border_radius"
+                    android:hint="Full name"
                     android:inputType="text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -175,46 +175,59 @@
                     tools:ignore="TouchTargetSizeCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/appCompatRadioButton"
+            <RadioGroup
+                android:id="@+id/group_Radio_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="male"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutName">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_check_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="male   "
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutName"
+                    app:layout_constraintVertical_bias="0" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_check_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="female   "
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintStart_toEndOf="@+id/btn_check_male"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutName"
+                    app:layout_constraintVertical_bias="0" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_check_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="other  "
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toEndOf="@+id/btn_check_female"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutName"
+                    app:layout_constraintVertical_bias="0" />
+
+            </RadioGroup>
 
             <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/appCompatRadioButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="female"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintStart_toEndOf="@+id/appCompatRadioButton"
-                app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                app:layout_constraintVertical_bias="0" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="other"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.3"
-                app:layout_constraintStart_toEndOf="@+id/appCompatRadioButton2"
-                app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                app:layout_constraintVertical_bias="0" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/appCompatRadioButton3"
+                android:id="@+id/btn_check_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -222,9 +235,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatRadioButton2"
-                app:layout_constraintVertical_bias="0" />
-
+                app:layout_constraintTop_toBottomOf="@+id/group_Radio_checkbox"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_signUp"
@@ -236,10 +248,10 @@
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatRadioButton3"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_check_accept"
+                app:layout_constraintVertical_bias="0.1" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_goSignIn"
@@ -254,7 +266,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_signUp"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_bias="0.1"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <TextView

@@ -31,7 +31,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         requestEmail = (EditText) findViewById(R.id.et_requestEmail);
 
         auth = FirebaseAuth.getInstance();
-
         cancelReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
