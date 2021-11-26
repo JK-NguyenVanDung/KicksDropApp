@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
 
+
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
 
@@ -107,51 +108,50 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         });
 
         final EditText search = binding.homeEtSearch;
-
-//        search.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent event) {
-//                final int DRAWABLE_LEFT = 0;
-//                final int DRAWABLE_TOP = 1;
-//                final int DRAWABLE_RIGHT = 2;
-//                final int DRAWABLE_BOTTOM = 3;
-//
-//                if(event.getAction() == MotionEvent.ACTION_UP) {
-//                    if(event.getRawX() >= 630 && !search.getText().toString().matches("")) {
-//
-//                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
-//                            intent.putExtra("keySearch",search.getText().toString());
-//                            startActivity(intent);
-//
-//                            return true;
-//
-//                    }
-//                }
-//                return false;
-//            }
-//        });
-
-        search.addTextChangedListener(new TextWatcher() {
+        search.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
 
-            }
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= 630 && !search.getText().toString().matches("")) {
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                            intent.putExtra("keySearch",search.getText().toString());
+                            startActivity(intent);
 
-            }
+                            return true;
 
-            @Override
-            public void afterTextChanged(Editable edit) {
-                if (edit.length() != 0) {
-                    String keySearch = search.getText().toString();
-                    searchProduct(keySearch);
-                    Log.v("keySearch",keySearch);
+                    }
                 }
+                return false;
             }
         });
 
+//        search.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable edit) {
+//                if (edit.length() != 0) {
+//                    String keySearch = search.getText().toString();
+//                    searchProduct(keySearch);
+//                    Log.v("keySearch",keySearch);
+//                }
+//            }
+//        });
+//
 
 
 
