@@ -18,6 +18,9 @@
             android:name=".ui.orderCompleted.OrderCompleted"
             android:exported="true" />
         <activity
+        android:name=".ui.auth.ResetPasswordActivity"
+        android:exported="true" />
+        <activity
             android:name=".ui.middle.Loading"
             android:exported="true" />
         <activity

@@ -51,6 +51,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         return mOrder ==null? 0: mOrder.size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         OrderAdapter.OnOrderListener onOrderListener;
         public ViewHolder(@NonNull View itemView, OrderAdapter.OnOrderListener OnOrderListener) {

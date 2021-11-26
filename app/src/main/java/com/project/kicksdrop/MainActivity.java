@@ -296,22 +296,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadImage(ImageView image, String imageName){
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
-        try {
-            File file = File.createTempFile("tmp",".jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    image.setImageBitmap(bitmap);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    private void loadImage(ImageView image, String imageName){
+//        StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
+//        try {
+//            File file = File.createTempFile("tmp",".jpg");
+//            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                    image.setImageBitmap(bitmap);
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 
     private void loadProduct(String id){
@@ -438,19 +438,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void createUser(String userID, String email, String gender,String mobile,String name){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account");
-
-
-        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
-        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
-
-        myRef.child(userID).child("email").setValue(email);
-        myRef.child(userID).child("gender").setValue(gender);
-        myRef.child(userID).child("mobile").setValue(mobile);
-        myRef.child(userID).child("name").setValue(name);
-    }
+//    private void createUser(String userID, String email, String gender,String mobile,String name){
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("account");
+//
+//
+//        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
+//        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
+//
+//        myRef.child(userID).child("email").setValue(email);
+//        myRef.child(userID).child("gender").setValue(gender);
+//        myRef.child(userID).child("mobile").setValue(mobile);
+//        myRef.child(userID).child("name").setValue(name);
+//    }
 
 
     private void  loadOrder(){

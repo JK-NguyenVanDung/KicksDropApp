@@ -75,6 +75,18 @@ public class CartListView extends AppCompatActivity {
 
             }
         });
+
+        //order page
+        productCartOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double totalPrice = Double.parseDouble(totalPayment.getText().toString().substring(1));
+                Intent intent = new Intent(getApplicationContext(), CartProductOrder.class);
+                intent.putExtra("price", totalPrice);
+                intent.putExtra("coupon",coupon_id);
+                startActivityForResult(intent, 1);
+            }
+        });
         //recycler view
         recyclerView.setHasFixedSize(true);
 
