@@ -320,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:background="?android:selectableItemBackground"
-                android:src="@drawable/hinhhai"
+                android:src="@drawable/nike"
                 android:scaleType="centerCrop"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -328,13 +328,22 @@
                 android:id="@+id/home_ibtn_adidas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="4dp"
                 android:background="?android:selectableItemBackground"
-                android:src="@drawable/hinhba"
+                android:src="@drawable/adidas"
                 android:scaleType="centerCrop"
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
+            <ImageButton
+                android:id="@+id/home_ibtn_vans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/vans"
+                android:scaleType="centerCrop"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:layout_width="match_parent"
