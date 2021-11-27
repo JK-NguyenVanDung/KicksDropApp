@@ -215,7 +215,7 @@ public class CartProductOrder extends AppCompatActivity {
                         break;
                     }
                 }
-                maxprice = Integer.parseInt(coupon.getCoupon_max_price());
+                maxprice = coupon.getCoupon_max_price();
                 percent = Integer.parseInt(coupon.getCoupon_percent());
 
                 double discount = caculateDiscount(maxprice,percent,price);

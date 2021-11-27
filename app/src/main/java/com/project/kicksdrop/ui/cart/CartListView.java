@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.model.Product;
@@ -45,17 +48,26 @@ public class CartListView extends AppCompatActivity {
     private String coupon_id;
     private com.project.kicksdrop.model.Coupon coupon;
     private double totalAmount;
+    private int count= 1500 ;
+    private boolean isLoading = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_list_view);
+
         matching();
-        Intent intent = getIntent();
+        LoadingScreen loading = new LoadingScreen(CartListView.this);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loading.dismissDialog();
+            }
+        },count);
+        loading.startLoadingScreen();
+
         coupon_id= "";
-        //CartAdapter.setTotalAmount(0.0);
-//        coupon_id = intent.getStringExtra("coupon_id");
-//        Log.d("test","test" +coupon_id);
-        //back
+
         back.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
             @Override
@@ -132,8 +144,9 @@ public class CartListView extends AppCompatActivity {
                 if(coupon != null){
                     totalAmount = total;
                     double percent = Integer.parseInt(coupon.getCoupon_percent());
-                    double max = Double.parseDouble(coupon.getCoupon_max_price());
-                    if(totalAmount < max){
+                    double max = coupon.getCoupon_max_price();
+                    double min = coupon.getCoupon_min_price();
+                    if(totalAmount < max && totalAmount > min ){
                         double discount = totalAmount * ((double) percent/100);
                         totalAmount -= discount;
                         java.util.Currency usd = java.util.Currency.getInstance("USD");
@@ -169,6 +182,7 @@ public class CartListView extends AppCompatActivity {
                         item.put("cartProductID", key);
                         productsInCart.add(item);
                     }
+                    isLoading = false;
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
 

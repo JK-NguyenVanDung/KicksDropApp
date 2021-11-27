@@ -68,6 +68,7 @@
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_coupon_product.xml" value="0.29907407407407405" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_customer_order.xml" value="0.20208333333333334" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_edit_profile_user.xml" value="0.33" />
+        <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_loading.xml" value="0.2421875" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_main.xml" value="0.5474339035769828" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_order_completed.xml" value="0.18020833333333333" />
@@ -75,6 +76,7 @@
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_product_info.xml" value="0.33" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_register.xml" value="0.34270833333333334" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_reset_password.xml" value="0.18020833333333333" />
+        <entry key="..\:/KicksDropApp3/app/src/main/res/layout/activity_spash_screen.xml" value="0.2421875" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/chat_activity.xml" value="0.33" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/chat_item_dots.xml" value="0.36666666666666664" />
         <entry key="..\:/KicksDropApp3/app/src/main/res/layout/chat_item_rcv.xml" value="0.36666666666666664" />

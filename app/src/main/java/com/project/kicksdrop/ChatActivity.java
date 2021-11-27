@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.Gravity;
@@ -52,6 +53,15 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
+        final LoadingScreen loading = new LoadingScreen(ChatActivity.this);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loading.dismissDialog();
+            }
+        },500);
+        loading.startLoadingScreen();
         matching();
         auth = FirebaseAuth.getInstance();
 
