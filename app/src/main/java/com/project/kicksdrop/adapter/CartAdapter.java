@@ -51,7 +51,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Coupon coupon;
     //private long currentAmount = 1;
     private TextView totalPayment,totalProduct,totalPaymentHead;
-    private double totalAmount = 0;
+
+    public static double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public static void setTotalAmount(double totalAmount) {
+        CartAdapter.totalAmount = totalAmount;
+    }
+
+    private static double totalAmount = 0.0;
     private int totalProducts = 0;
     private String coupon_id;
     private int maxprice = 0;
@@ -65,6 +74,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         this.totalProduct = totalProduct;
         this.totalPaymentHead = totalPaymentHead;
         this.coupon_id = coupon_id;
+        totalAmount = 0.0;
     }
 
     @NonNull
@@ -92,7 +102,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         }
         totalProducts= productOptions.size();
-        totalProduct.setText(totalProducts >1 ? totalProducts + " ITEMS" : totalProducts + "ITEM");
+        totalProduct.setText(totalProducts > 1 ? (totalProducts + " ITEMS"): totalProducts + " ITEM");
         holder.productCartName.setText(product.getProduct_name());
         holder.productCartType.setText(product.getProduct_brand());
 
@@ -169,13 +179,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });
 
+        calculateTotal(product.getProduct_price(), currentAmount[0]);
 
-
-        if (coupon_id != null){
-            getCoupon(coupon_id);
-        }else{
-            calculateTotal(product.getProduct_price(), currentAmount[0]);
-        }
+//
+//        if (!coupon_id.equals("")){
+//            if(totalAmount != 0){
+//                getCoupon(coupon_id);
+//            }
+//
+//        }
 
 
     }
@@ -187,6 +199,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
         format.setCurrency(usd);
         String sPrice =format.format(totalAmount);
+        setTotalAmount(totalAmount);
         totalPayment.setText(sPrice);
         totalPaymentHead.setText(sPrice);
     }
@@ -272,34 +285,36 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         }
 
     }
-    private void getCoupon(String coupon_id){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("coupon");
-        mCoupon = new ArrayList<>();
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mCoupon.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
-
-                    coupon = dtShot.getValue(Coupon.class);
-                    assert coupon != null;
-                    coupon.setCoupon_id(dtShot.getKey());
-                    if(coupon_id.equals(dtShot.getKey())){
-                        mCoupon.add(coupon);
-                        break;
-                    }
-                }
-                maxprice = Integer.parseInt(coupon.getCoupon_max_price());
-                percent = Integer.parseInt(coupon.getCoupon_percent());
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    private void getCoupon(String coupon_id){
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("coupon");
+//
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for(DataSnapshot dtShot: snapshot.getChildren()){
+//
+//                    Coupon temp = dtShot.getValue(Coupon.class);
+//                    assert temp != null;
+//                    temp.setCoupon_id(dtShot.getKey());
+//                    if(coupon_id.equals(dtShot.getKey())){
+//                        coupon = temp;
+//                        break;
+//                    }
+//                }
+//                maxprice = Integer.parseInt(coupon.getCoupon_max_price());
+//                percent = Integer.parseInt(coupon.getCoupon_percent());
+////
+////                if(totalAmount < maxprice){
+////                    double discount = totalAmount * ((double) percent/100);
+////                    totalAmount -= discount;
+////                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
 }

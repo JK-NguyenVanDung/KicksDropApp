@@ -1,6 +1,7 @@
 package com.project.kicksdrop.ui.promocode;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
 
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
+        Log.d("price", String.valueOf(price));
         matching();
 
         //
@@ -80,7 +82,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
     private void matching() {
         recyclerView = findViewById(R.id.body_productCoupon);
         back = findViewById(R.id.coupon_ibtn_prev);
-        accept = findViewById(R.id.coupon_btn_accept);
+        accept = findViewById(R.id.coupon_btn_apply);
         totalPayment = findViewById(R.id.Cart_tv_totalPayment);
 
     }
@@ -147,6 +149,9 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
     public void onCouponClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), CartListView.class);
         intent.putExtra("coupon_id", id);
-        startActivity(intent);
+        setResult(Activity.RESULT_OK,
+                new Intent().putExtra("coupon_id", id));
+        finish();
+
     }
 }

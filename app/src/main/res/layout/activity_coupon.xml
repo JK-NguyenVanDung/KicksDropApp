@@ -80,6 +80,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
             android:backgroundTint="@color/black"
@@ -87,12 +88,12 @@
             app:cardCornerRadius="50dp">
 
             <Button
-                android:id="@+id/coupon_btn_accept"
+                android:id="@+id/coupon_btn_apply"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
                 android:background="@android:color/transparent"
-                android:text="Đồng ý"
+                android:text="Apply Coupon"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

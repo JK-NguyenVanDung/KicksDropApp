@@ -1,18 +1,12 @@
 package com.project.kicksdrop.adapter;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,11 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
-import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.promocode.CouponProduct;
 
-import java.security.AccessControlContext;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder> {
@@ -37,13 +27,14 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     public int percent;
     public int maxprice;
     private String finaldiscount;
-    Button accept;
+    private int checkedCoupon = -1;
+    Button apply;
 
-    public CouponAdapter(Context context, List<Coupon> mCoupon, double totalPayment, Button accept,CouponAdapter.OnCouponListener onCouponListener) {
+    public CouponAdapter(Context context, List<Coupon> mCoupon, double totalPayment, Button apply,CouponAdapter.OnCouponListener onCouponListener) {
         this.context = context;
         this.mCoupon = mCoupon;
         this.totalPayment = totalPayment;
-        this.accept = accept;
+        this.apply = apply;
         this.mOnCouponListener = onCouponListener;
     }
 
@@ -71,33 +62,70 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         holder.couponContent.setText("Giam " + couponPercent + "toi da " + couponMaxPrice);
         holder.couponDate.setText("HSD: " + couponDuration);
         holder.couponCode.setText("MA " + couponCode);
+//        if(checkedCoupon == -1){
+//            holder.couponCheckbox.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(holder.couponCheckbox.isChecked()){
+//                        checkedCoupon= holder.getAdapterPosition();
+//                    }else{
+//                        holder.couponCheckbox.setEnabled(false);
+//                    }
+//
+//                }
+//            });
+//        }
+//        else if(checkedCoupon == holder.getAdapterPosition()){
+//            holder.couponCheckbox.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(!holder.couponCheckbox.isChecked()){
+//                        checkedCoupon= -2;
+//                    }
+//                }
+//            });
+//        }
+//        if(checkedCoupon == -2){
+//            holder.couponCheckbox.setEnabled(true);
+//
+//        }
 
 
-
-
-        accept.setOnClickListener(new View.OnClickListener() {
+        apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                int i1 = percent;
-//                int i2 = maxprice;
-//                if ( i1 != 0 && i2 != 0 ){
-//                    finaldiscount =  calculateTotal(totalPayment, percent, maxprice);
-//                }
-               // Intent intent = new Intent(context.getApplicationContext(), CartAdapter.class);
-                //intent.putExtra("discount", finaldiscount);
-
-                //Log.d("test",finaldiscount);
-//                Intent intent = new Intent();
-//                resultIntent.putExtra("result", finaldiscount);
+                if(holder.couponCheckbox.isChecked()){
+                    int position = holder.getAdapterPosition();
+                    String id = mCoupon.get(position).getCoupon_id();
+                    holder.onCouponListener.onCouponClick(position, v, id);
+                    Log.d("yes","yes");
+                }
 
             }
-
-
         });
+//        apply.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                int i1 = percent;
+////                int i2 = maxprice;
+////                if ( i1 != 0 && i2 != 0 ){
+////                    finaldiscount =  calculateTotal(totalPayment, percent, maxprice);
+////                }
+//               // Intent intent = new Intent(context.getApplicationContext(), CartAdapter.class);
+//                //intent.putExtra("discount", finaldiscount);
+//
+//                //Log.d("test",finaldiscount);
+////                Intent intent = new Intent();
+////                resultIntent.putExtra("result", finaldiscount);
+//
+//            }
+//
+//
+//        });
 
 
 
-//        holder.btn_accept.setOnClickListener(new View.OnClickListener() {
+//        holder.btn_apply.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //
@@ -117,8 +145,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         TextView couponContent, couponDate, couponCode;
         CheckBox couponCheckbox;
         CouponAdapter.OnCouponListener onCouponListener;
-        double t1;
-        //Button btn_accept;
 
         public ViewHolder(@NonNull View itemView, OnCouponListener onProductListener) {
 
@@ -127,17 +153,9 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             couponDate = itemView.findViewById(R.id.coupon_tv_date);
             couponCode = itemView.findViewById(R.id.coupon_tv_code);
             couponCheckbox = itemView.findViewById(R.id.coupon_checkbox);
-            //btn_accept = itemView.findViewById(R.id.coupon_btn_accept);
             this.onCouponListener = onProductListener;
             itemView.setOnClickListener(this);
-            couponCheckbox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    String id = mCoupon.get(position).getCoupon_id();
-                    onCouponListener.onCouponClick(position, v, id);
-                }
-            });
+
         }
 
         @Override

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CartAdapter;
+import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.promocode.CouponProduct;
 
@@ -36,7 +38,7 @@ import java.util.Map;
 public class CartListView extends AppCompatActivity {
 
     //product cart
-    TextView  totalProducts, totalPaymentHead, totalPayment;
+    TextView  totalProducts, totalPaymentHead, totalPayment, couponCode;
     Button couponPage, productCartOrder;
     ImageButton back;
     FirebaseUser fUser;
@@ -44,16 +46,18 @@ public class CartListView extends AppCompatActivity {
     RecyclerView recyclerView;
     private ArrayList<Product> mProducts;
     private String coupon_id;
-
+    private Coupon coupon;
+    private double totalAmount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_list_view);
         matching();
         Intent intent = getIntent();
-
-        coupon_id = intent.getStringExtra("coupon_id");
-        Log.d("test","test" +coupon_id);
+        coupon_id= "";
+        //CartAdapter.setTotalAmount(0.0);
+//        coupon_id = intent.getStringExtra("coupon_id");
+//        Log.d("test","test" +coupon_id);
         //back
         back.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -98,11 +102,61 @@ public class CartListView extends AppCompatActivity {
         assert fUser != null;
         getCart(fUser.getUid());
 
-        if (coupon_id != null) {
+        if (!coupon_id.equals("")) {
             Discount(coupon_id);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            // do something with B's return values
+            coupon_id = data.getStringExtra("coupon_id");
 
+            double total = CartAdapter.getTotalAmount();
+            getCoupon(coupon_id,total);
+        }
+    }
+
+    private void getCoupon(String coupon_id, double total){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("coupon");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+
+                    Coupon temp = dtShot.getValue(Coupon.class);
+                    assert temp != null;
+                    temp.setCoupon_id(dtShot.getKey());
+                    if(coupon_id.equals(dtShot.getKey())){
+                        coupon = temp;
+                        break;
+                    }
+                }
+                if(coupon != null){
+                    totalAmount = total;
+                    double percent = Integer.parseInt(coupon.getCoupon_percent());
+                    double max = Double.parseDouble(coupon.getCoupon_max_price());
+                    if(totalAmount < max){
+                        double discount = totalAmount * ((double) percent/100);
+                        totalAmount -= discount;
+                        java.util.Currency usd = java.util.Currency.getInstance("USD");
+                        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+                        format.setCurrency(usd);
+                        String sPrice =format.format(totalAmount);
+                        totalPayment.setText(sPrice);
+                        totalPaymentHead.setText(sPrice);
+                        couponCode.setText("Coupon: " + coupon.getCoupon_code());
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     private void getCart(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
@@ -178,6 +232,7 @@ public class CartListView extends AppCompatActivity {
         totalPayment = (TextView) findViewById(R.id.Cart_tv_totalPayment);
         totalProducts = findViewById(R.id.Cart_tv_total_products);
         totalPaymentHead = findViewById(R.id.Cart_tv_total_head);
+        couponCode=  findViewById(R.id.Cart_coupon_code);
         back = findViewById(R.id.Cart_btn_back);
     }
     private void Discount(String coupon_id){
