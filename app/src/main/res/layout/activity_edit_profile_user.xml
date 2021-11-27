@@ -102,7 +102,7 @@
                             android:layout_width="342dp"
                             android:layout_height="match_parent"
 
-                            android:backgroundTint="#D0D0D0"
+                            android:backgroundTint="@color/black"
                             android:fallbackLineSpacing="false"
                             android:fontFamily="@font/work_sans_medium"
                             android:hapticFeedbackEnabled="false"
@@ -110,10 +110,10 @@
                             android:padding="0dp"
                             android:text="Edit Profile"
                             android:textAllCaps="false"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             app:icon="@drawable/ic_pencil_edit"
                             app:iconGravity="textStart"
-                            app:iconTint="@color/black" />
+                            app:iconTint="@color/white" />
                     </LinearLayout>
 
                     <ImageView
@@ -225,6 +225,25 @@
                     android:background="@drawable/border_bottom_line"
                     android:textSize="20dp" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/editProfile_btn_delete"
+                android:layout_width="342dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/Crimson"
+                android:fallbackLineSpacing="false"
+                android:fontFamily="@font/work_sans_medium"
+                android:hapticFeedbackEnabled="false"
+
+                android:padding="0dp"
+                android:text="Delete Profile"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_pencil_edit"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 
