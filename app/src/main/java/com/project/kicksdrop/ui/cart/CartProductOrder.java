@@ -30,7 +30,9 @@ import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.orderCompleted.OrderCompleted;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,7 @@ public class CartProductOrder extends AppCompatActivity {
     ImageButton prevBtn;
     Button orderBtn;
     TextView  totalProducts, totalPaymentHead, totalPayment;
-    TextView tv_address, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice;
+    TextView tv_address, tv_shipmentPartner, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice;
     RadioGroup rGroup;
     OrderProductAdapter orderProductAdapter;
     RecyclerView recyclerView;
@@ -78,9 +80,9 @@ public class CartProductOrder extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), OrderCompleted.class);
-//                startActivity(intent);
-//                finish();
+             //
+                createOrder();
+
             }
         });
 
@@ -98,15 +100,12 @@ public class CartProductOrder extends AppCompatActivity {
 
         //
         getCoupon(coupon_id);
-        Log.d("test", "abc"+percent);
-        double discount = caculateDiscount(maxprice,percent,price);
         int shipPrice = 1;
 
-        tv_totalPrice.setText(String.valueOf(price));
-        tv_couponPercent.setText(String.valueOf(percent));
+
         tv_shipment.setText(String.valueOf(shipPrice));
         tv_shipmentPrice.setText(String.valueOf(shipPrice));
-        tv_discount.setText(String.valueOf(discount));
+
         tv_address.setText("123 ABC");
     }
 
@@ -121,7 +120,7 @@ public class CartProductOrder extends AppCompatActivity {
         tv_discount = (TextView) findViewById(R.id.order_tv_discount);
         tv_shipment = (TextView) findViewById(R.id.order_tv_shippingCost);
         tv_shipmentPrice = (TextView) findViewById(R.id.order_tv_shipmentPrice);
-
+        tv_shipmentPartner = (TextView) findViewById(R.id.order_tv_methodShipment);
     }
     private void getProduct(List<HashMap<String,String>> cartProducts){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -148,6 +147,7 @@ public class CartProductOrder extends AppCompatActivity {
                     }
                 }
                 orderProductAdapter = new OrderProductAdapter(getApplicationContext(),mProducts,cartProducts);
+                Log.d("test",mProducts.toString());
                 recyclerView.setAdapter(orderProductAdapter);
 
 
@@ -187,21 +187,6 @@ public class CartProductOrder extends AppCompatActivity {
 
             }
         });
-
-    }
-    private void getAccount(String user_id){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account/" + user_id);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                //
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
     }
     private double caculateDiscount(int maxprice, int percent, double price){
         double discount = (price * percent) / 100;
@@ -232,8 +217,62 @@ public class CartProductOrder extends AppCompatActivity {
                 maxprice = Integer.parseInt(coupon.getCoupon_max_price());
                 percent = Integer.parseInt(coupon.getCoupon_percent());
 
+                double discount = caculateDiscount(maxprice,percent,price);
+
+                tv_discount.setText(String.valueOf(discount));
+                tv_totalPrice.setText(String.valueOf(price));
+                tv_couponPercent.setText(String.valueOf(percent));
 
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void createOrder(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order/ORDER3");
+        String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+
+        myRef.child("address").setValue(tv_address.getText().toString().trim());
+        myRef.child("coupon_id").setValue(coupon_id);
+        myRef.child("oder_create_date").setValue(timeStamp);
+        myRef.child("order_discount").setValue(tv_discount.getText().toString().trim());
+        myRef.child("order_price").setValue(tv_totalPrice.getText().toString().trim());
+        myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
+        myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim());
+        myRef.child("status").setValue("Ordered");
+        myRef.child("user_id").setValue(fUser.getUid());
+
+        addProductOrder(fUser.getUid());
+    }
+    private void addProductOrder(String user_Id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+user_Id);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                if(hashMap != null) {
+                    HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
+                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                        String key = entry.getKey();
+                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
+                        item.put("cartProductID", key);
+                        productsInCart.add(item);
+                    }
+                    //String coupon = hashMap.get("coupon_id").toString();
+                    //Cart cart = new Cart(user_Id,,productsInCart);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference("order/ORDER3");
+                    myRef.child("order_details").setValue(productsInCart);
+
+                }
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
