@@ -214,15 +214,17 @@
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <ImageButton
+                    android:id="@+id/wishlist_btn_dropDown"
                     android:layout_width="15dp"
                     android:layout_height="10dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-
                     android:layout_marginStart="76dp"
+
                     android:layout_marginTop="7dp"
-                    android:background="@drawable/ic_drop_down"
+                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="#777777"
+                    android:src="@drawable/ic_drop_down"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
             </RelativeLayout>
         </LinearLayout>
@@ -244,9 +246,9 @@
 
                 android:layout_width="130dp"
                 android:layout_height="30dp"
+                android:background="?android:selectableItemBackground"
 
                 android:layout_below="@+id/navigation_bar_item_viewList_color"
-
 
                 android:backgroundTint="@android:color/black"
                 android:padding="0sp"

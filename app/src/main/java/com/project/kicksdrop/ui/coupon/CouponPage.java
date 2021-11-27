@@ -1,6 +1,7 @@
-package com.project.kicksdrop.ui.promocode;
+package com.project.kicksdrop.ui.coupon;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +29,7 @@ import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
 
-public class CouponProduct extends AppCompatActivity implements CouponAdapter.OnCouponListener{
+public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCouponListener{
 
     Button accept;
     ImageButton back;
@@ -37,7 +38,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
     private CouponAdapter couponAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Coupon> mCoupon;
-    private Coupon coupon;
+    private com.project.kicksdrop.model.Coupon coupon;
     private double price;
 
     @Override
@@ -47,6 +48,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
 
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
+        Log.d("price", String.valueOf(price));
         matching();
 
         //
@@ -80,7 +82,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
     private void matching() {
         recyclerView = findViewById(R.id.body_productCoupon);
         back = findViewById(R.id.coupon_ibtn_prev);
-        accept = findViewById(R.id.coupon_btn_accept);
+        accept = findViewById(R.id.coupon_btn_apply);
         totalPayment = findViewById(R.id.Cart_tv_totalPayment);
 
     }
@@ -117,7 +119,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
                 mCoupon.clear();
                 for(DataSnapshot dtShot: snapshot.getChildren()){
 
-                    coupon = dtShot.getValue(Coupon.class);
+                    coupon = dtShot.getValue(com.project.kicksdrop.model.Coupon.class);
                     assert coupon != null;
                     coupon.setCoupon_id(dtShot.getKey());
 
@@ -126,13 +128,15 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
                         if (couponInList.get(i).equals(dtShot.getKey())){
                             boolean check = couponInList.get(i).equals(dtShot.getKey());
                             Log.d("test",String.valueOf(check));
+                            coupon.setCoupon_checked(false);
                             mCoupon.add(coupon);
+
                         }
                     }
                 }
-                ArrayList<Coupon> abc = mCoupon;
+                ArrayList<com.project.kicksdrop.model.Coupon> abc = mCoupon;
                 Log.d("Test",String.valueOf(abc));
-                couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponProduct.this);
+                couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
                 recyclerView.setAdapter(couponAdapter);
             }
             @Override
@@ -147,6 +151,9 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
     public void onCouponClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), CartListView.class);
         intent.putExtra("coupon_id", id);
-        startActivity(intent);
+        setResult(Activity.RESULT_OK,
+                new Intent().putExtra("coupon_id", id));
+        finish();
+
     }
 }

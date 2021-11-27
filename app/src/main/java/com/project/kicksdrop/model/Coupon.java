@@ -9,6 +9,16 @@ public class Coupon {
     private String coupon_percent;
     private String coupon_time;
 
+    public boolean getCoupon_checked() {
+        return coupon_checked;
+    }
+
+    public void setCoupon_checked(boolean coupon_checked) {
+        this.coupon_checked = coupon_checked;
+    }
+
+    private boolean coupon_checked;
+
 
     public Coupon(String coupon_id, String coupon_code, String coupon_duration, String coupon_max_price, String coupon_name, String coupon_percent, String coupon_time){
         this.coupon_id = coupon_id;

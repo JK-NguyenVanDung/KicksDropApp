@@ -182,7 +182,8 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_drop_down">
 
                 <Spinner
                     android:id="@+id/itemProductCart_sp_listViewDropDownSize"
@@ -197,14 +198,15 @@
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <ImageButton
+                    android:id="@+id/ProductCart_btn_drop_down"
                     android:layout_width="15dp"
                     android:layout_height="10dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-
                     android:layout_marginStart="76dp"
                     android:layout_marginTop="7dp"
-                    android:background="@drawable/ic_drop_down"
+                    android:background="?android:selectableItemBackground"
+                    android:src="@drawable/ic_drop_down"
                     android:backgroundTint="#777777"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 

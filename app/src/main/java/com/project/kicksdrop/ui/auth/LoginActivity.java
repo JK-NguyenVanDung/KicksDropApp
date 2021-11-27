@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -20,15 +21,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.ktx.Firebase;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 
 public class LoginActivity extends AppCompatActivity {
     EditText inputLoginEmail, inputLoginPassword;
     Button signIn, createAcc, forgot;
+    CheckBox remember;
     ProgressBar progressBar;
     FirebaseAuth auth;
-
+    Firebase firebase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         signIn = (Button) findViewById(R.id.btn_login_signIn);
         progressBar = findViewById(R.id.progressBar2);
         forgot = (Button) findViewById(R.id.btn_forgot);
-
+        remember = (CheckBox) findViewById(R.id.cb_remember);
         disableLayoutEditText(inputLoginEmail);
         disableLayoutEditText(inputLoginPassword);
 
@@ -85,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
+                //firebase.auth().setPersistence(this.remember.checked ? fireauth.Auth.Persistence.LOCAL : fireauth.Auth.Persistence.SESSION)
 
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
                     @Override
