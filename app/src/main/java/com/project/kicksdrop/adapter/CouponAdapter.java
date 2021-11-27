@@ -96,7 +96,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         final Coupon coupon = mCoupon.get(holder.getAdapterPosition());
         String couponCode = coupon.getCoupon_code();
         String couponDuration = coupon.getCoupon_duration();
-        String couponMaxPrice = coupon.getCoupon_max_price();
+        int couponMaxPrice = coupon.getCoupon_max_price();
         String couponPercent = coupon.getCoupon_percent();
 
         holder.couponContent.setText("Giam " + couponPercent + "toi da " + couponMaxPrice);
