@@ -1,4 +1,4 @@
-package com.project.kicksdrop.ui.promocode;
+package com.project.kicksdrop.ui.coupon;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,7 +29,7 @@ import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
 
-public class CouponProduct extends AppCompatActivity implements CouponAdapter.OnCouponListener{
+public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCouponListener{
 
     Button accept;
     ImageButton back;
@@ -38,7 +38,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
     private CouponAdapter couponAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Coupon> mCoupon;
-    private Coupon coupon;
+    private com.project.kicksdrop.model.Coupon coupon;
     private double price;
 
     @Override
@@ -119,7 +119,7 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
                 mCoupon.clear();
                 for(DataSnapshot dtShot: snapshot.getChildren()){
 
-                    coupon = dtShot.getValue(Coupon.class);
+                    coupon = dtShot.getValue(com.project.kicksdrop.model.Coupon.class);
                     assert coupon != null;
                     coupon.setCoupon_id(dtShot.getKey());
 
@@ -128,13 +128,15 @@ public class CouponProduct extends AppCompatActivity implements CouponAdapter.On
                         if (couponInList.get(i).equals(dtShot.getKey())){
                             boolean check = couponInList.get(i).equals(dtShot.getKey());
                             Log.d("test",String.valueOf(check));
+                            coupon.setCoupon_checked(false);
                             mCoupon.add(coupon);
+
                         }
                     }
                 }
-                ArrayList<Coupon> abc = mCoupon;
+                ArrayList<com.project.kicksdrop.model.Coupon> abc = mCoupon;
                 Log.d("Test",String.valueOf(abc));
-                couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponProduct.this);
+                couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
                 recyclerView.setAdapter(couponAdapter);
             }
             @Override

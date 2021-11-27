@@ -41,6 +41,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -62,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 public class MainActivity extends AppCompatActivity {
 
     WishlistAdapter wishlistAdapter;
@@ -69,10 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
     private ArrayList<Product> mWishlist ;
     private ActivityMainBinding binding;
-    private
-
-    FirebaseAuth auth;
-
+    private FirebaseAuth auth;
+    private Firebase firebase;
     String user_id = "AC1";
     HashMap<String,Object> hashMap;
     String coupon="";
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

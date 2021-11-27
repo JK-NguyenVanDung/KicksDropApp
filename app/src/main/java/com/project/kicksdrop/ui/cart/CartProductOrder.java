@@ -100,7 +100,7 @@ public class CartProductOrder extends AppCompatActivity {
 
         //
         getCoupon(coupon_id);
-        int shipPrice = 1;
+        double shipPrice = 10.00;
 
 
         tv_shipment.setText(String.valueOf(shipPrice));
@@ -267,7 +267,7 @@ public class CartProductOrder extends AppCompatActivity {
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("order/ORDER3");
+                    DatabaseReference myRef = database.getReference("order/"+ user_Id);
                     myRef.child("order_details").setValue(productsInCart);
 
                 }

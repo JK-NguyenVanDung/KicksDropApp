@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,12 +22,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CartAdapter;
-import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.promocode.CouponProduct;
+import com.project.kicksdrop.ui.coupon.CouponPage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +43,7 @@ public class CartListView extends AppCompatActivity {
     RecyclerView recyclerView;
     private ArrayList<Product> mProducts;
     private String coupon_id;
-    private Coupon coupon;
+    private com.project.kicksdrop.model.Coupon coupon;
     private double totalAmount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +70,7 @@ public class CartListView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 double totalPrice = Double.parseDouble(totalPayment.getText().toString().substring(1));
-                Intent intent = new Intent(getApplicationContext(), CouponProduct.class);
+                Intent intent = new Intent(getApplicationContext(), CouponPage.class);
                 intent.putExtra("price", totalPrice);
                 startActivityForResult(intent, 1);
 
@@ -110,9 +107,7 @@ public class CartListView extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            // do something with B's return values
             coupon_id = data.getStringExtra("coupon_id");
-
             double total = CartAdapter.getTotalAmount();
             getCoupon(coupon_id,total);
         }
@@ -126,7 +121,7 @@ public class CartListView extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dtShot: snapshot.getChildren()){
 
-                    Coupon temp = dtShot.getValue(Coupon.class);
+                    com.project.kicksdrop.model.Coupon temp = dtShot.getValue(com.project.kicksdrop.model.Coupon.class);
                     assert temp != null;
                     temp.setCoupon_id(dtShot.getKey());
                     if(coupon_id.equals(dtShot.getKey())){

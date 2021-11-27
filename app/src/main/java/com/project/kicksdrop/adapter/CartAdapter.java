@@ -123,6 +123,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sizeSpinner.setAdapter(adapter);
 
+        holder.dropDown.setOnClickListener(new  View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                sizeSpinner.performClick();
+            }
+        });
         for(int i = 0 ; i < product.getProduct_sizes().size(); i ++){
             String size = productOptions.get(holder.getAdapterPosition()).get("size");
             if(product.getProduct_sizes().get(i).equals(size)){
@@ -267,7 +274,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @SuppressLint("NotifyDataSetChanged")
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView productCartName, productCartType, productCartAmount, productCartPrice;
-        ImageButton increase, decrease, delete;
+        ImageButton increase, decrease, delete, dropDown;
         //Spinner productCartDropDownSize;
         ImageView productImage;
         public ViewHolder(@NonNull View itemView) {
@@ -281,7 +288,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             decrease = itemView.findViewById(R.id.ProductCart_btn_decrease);
             delete = itemView.findViewById(R.id.ProductCart_delete);
             productImage = itemView.findViewById(R.id.productCart_iv_cart_image);
-
+            dropDown = itemView.findViewById(R.id.ProductCart_btn_drop_down);
         }
 
     }
