@@ -43,6 +43,7 @@ import com.project.kicksdrop.adapter.CouponAdapter;
 import com.project.kicksdrop.model.Account;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.profile.ProfileFragment;
 import com.project.kicksdrop.ui.promocode.CouponProduct;
 
 import java.io.File;
@@ -57,14 +58,14 @@ public class EditProfileUser extends AppCompatActivity {
     private Button editBtn;
     ImageButton prevIBtn;
     Button deleteProfile;
-    EditText userName,userSex,userEmail,userPhone;
+    EditText userName,userSex,userEmail,userPhone, userAddress;
     private FirebaseUser account;
     private ArrayList<Account> mAccount;
     private DatabaseReference reference;
     private String accountID;
     private StorageReference storageReference;
     private Account Kaccount;
-    private String userID, name, imagesName, email, gender, mobile;
+    private String userID, name, imagesName, email, gender, mobile, address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +78,20 @@ public class EditProfileUser extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         accountID = account.getUid();
 
-        disableEditText(userEmail);
+//        disableEditText(userEmail);
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(EditProfileUser.this, "Changed successful ! ",Toast.LENGTH_SHORT).show();
                 isChangedProfile();
+            }
+        });
+
+        prevIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -134,11 +142,13 @@ public class EditProfileUser extends AppCompatActivity {
                 name = hashMap.get("name").toString();
                 mobile = hashMap.get("mobile").toString();
                 gender = hashMap.get("gender").toString();
+                address = hashMap.get("address").toString();
 
                 userEmail.setText(email);
                 userName.setText(name);
                 userPhone.setText(mobile);
                 userSex.setText(gender);
+                userAddress.setText(address);
 
             }
             @Override
@@ -156,11 +166,13 @@ public class EditProfileUser extends AppCompatActivity {
         name = userName.getText().toString().trim();
         mobile = userPhone.getText().toString().trim();
         gender = userSex.getText().toString().trim();
+        address = userAddress.getText().toString().trim();
 
         myRef.child("email").setValue(email);
         myRef.child("name").setValue(name);
         myRef.child("gender").setValue(gender);
         myRef.child("mobile").setValue(mobile);
+        myRef.child("address").setValue(address);
 
     }
 
@@ -180,11 +192,13 @@ public class EditProfileUser extends AppCompatActivity {
         name = userName.getText().toString().trim();
         mobile = userPhone.getText().toString().trim();
         gender = userSex.getText().toString().trim();
+        address = userAddress.getText().toString().trim();
 
         myRef.child("email").setValue(email);
         myRef.child("name").setValue("");
         myRef.child("gender").setValue("");
         myRef.child("mobile").setValue("");
+        myRef.child("address").setValue("");
 
     }
 //    private void createUser(){
@@ -219,12 +233,13 @@ public class EditProfileUser extends AppCompatActivity {
 
         profileAvatar= (ImageView) findViewById(R.id.editProfile_iv_avatar);
         editBtn = (Button) findViewById(R.id.editProfile_btn_edit);
-        prevIBtn =(ImageButton) findViewById(R.id.editProfile_ibtn_prev);
+        prevIBtn =(ImageButton) findViewById(R.id.editProfile_btn_prev);
         userName = (EditText) findViewById(R.id.editProfile_et_name);
         userSex = (EditText) findViewById(R.id.editProfile_et_gender);
         userEmail = (EditText) findViewById(R.id.editProfile_et_address);
         userPhone = (EditText) findViewById(R.id.editProfile_et_phone);
         deleteProfile = (Button) findViewById(R.id.editProfile_btn_delete);
+        userAddress = (EditText) findViewById(R.id.editProfile_et_infoAddress);
     }
 
 }

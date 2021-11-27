@@ -17,7 +17,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
 
 
             <LinearLayout
@@ -43,8 +44,8 @@
                     android:id="@+id/profile_iv_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
                     android:src="@drawable/user_profile"
+                    android:layout_gravity="center_vertical"
                     app:layout_constraintTop_toBottomOf="@+id/tv_profile_title" />
 
                 <TextView
