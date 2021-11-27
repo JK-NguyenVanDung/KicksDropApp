@@ -1,29 +1,21 @@
 package com.project.kicksdrop.adapter;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
-import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.promocode.CouponProduct;
 
-import java.security.AccessControlContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +29,43 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     public int percent;
     public int maxprice;
     private String finaldiscount;
-    Button accept;
+    private int checkedCoupon = -1;
+    private static List<CheckBoxGroup> mCheckbox;
+    private static Button apply;
+    public class CheckBoxGroup{
+        public CheckBoxGroup(int adapterPosition, CheckBox couponCheckbox) {
+            this.pos = adapterPosition;
+            this.check = couponCheckbox;
+        }
 
-    public CouponAdapter(Context context, List<Coupon> mCoupon, double totalPayment, Button accept,CouponAdapter.OnCouponListener onCouponListener) {
+        public int getPos() {
+            return pos;
+        }
+
+        public void setPos(int pos) {
+            this.pos = pos;
+        }
+
+        public CheckBox getCheck() {
+            return check;
+        }
+
+        public void setCheck(CheckBox check) {
+            this.check = check;
+        }
+
+        private int pos;
+        private CheckBox check;
+
+
+    }
+    public CouponAdapter(Context context, List<Coupon> mCoupon, double totalPayment, Button apply,CouponAdapter.OnCouponListener onCouponListener) {
         this.context = context;
         this.mCoupon = mCoupon;
         this.totalPayment = totalPayment;
-        this.accept = accept;
+        CouponAdapter.apply = apply;
         this.mOnCouponListener = onCouponListener;
+        mCheckbox = new ArrayList<>();
     }
 
 
@@ -59,10 +80,20 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         return new CouponAdapter.ViewHolder(view, mOnCouponListener);
     }
 
+    public void check(String id, int pos){
+        for(Coupon cp : mCoupon){
+            if(cp.getCoupon_id().equals(id)){
+                cp.setCoupon_checked(true);
+//                Toast.makeText(context,String.valueOf(cp.getCoupon_checked()),Toast.LENGTH_SHORT).show();
+            }else{
+                cp.setCoupon_checked(false);
+            }
 
+        }
+    }
     @Override
     public void onBindViewHolder(@NonNull CouponAdapter.ViewHolder holder, int position) {
-        final Coupon coupon = mCoupon.get(position);
+        final Coupon coupon = mCoupon.get(holder.getAdapterPosition());
         String couponCode = coupon.getCoupon_code();
         String couponDuration = coupon.getCoupon_duration();
         String couponMaxPrice = coupon.getCoupon_max_price();
@@ -71,33 +102,53 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         holder.couponContent.setText("Giam " + couponPercent + "toi da " + couponMaxPrice);
         holder.couponDate.setText("HSD: " + couponDuration);
         holder.couponCode.setText("MA " + couponCode);
+        if(coupon.getCoupon_checked()){
+            holder.couponCheckbox.setChecked(true);
+        }
 
+        CheckBoxGroup cbg = new CheckBoxGroup(holder.getAdapterPosition(),holder.couponCheckbox);
+        mCheckbox.add(cbg);
 
-
-
-        accept.setOnClickListener(new View.OnClickListener() {
+        holder.couponCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                int i1 = percent;
-//                int i2 = maxprice;
-//                if ( i1 != 0 && i2 != 0 ){
-//                    finaldiscount =  calculateTotal(totalPayment, percent, maxprice);
-//                }
-               // Intent intent = new Intent(context.getApplicationContext(), CartAdapter.class);
-                //intent.putExtra("discount", finaldiscount);
+                for(CheckBoxGroup cb : mCheckbox){
+                    if(holder.couponCheckbox.isChecked() && cb.getPos() == holder.getAdapterPosition()) {
+                        cb.getCheck().setChecked(true);
+                        mCoupon.get(holder.getAdapterPosition()).setCoupon_checked(true);
+                    }else{
+                        cb.getCheck().setChecked(false);
+                    }
 
-                //Log.d("test",finaldiscount);
-//                Intent intent = new Intent();
-//                resultIntent.putExtra("result", finaldiscount);
+                }
 
             }
-
-
         });
 
 
+//        apply.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                int i1 = percent;
+////                int i2 = maxprice;
+////                if ( i1 != 0 && i2 != 0 ){
+////                    finaldiscount =  calculateTotal(totalPayment, percent, maxprice);
+////                }
+//               // Intent intent = new Intent(context.getApplicationContext(), CartAdapter.class);
+//                //intent.putExtra("discount", finaldiscount);
+//
+//                //Log.d("test",finaldiscount);
+////                Intent intent = new Intent();
+////                resultIntent.putExtra("result", finaldiscount);
+//
+//            }
+//
+//
+//        });
 
-//        holder.btn_accept.setOnClickListener(new View.OnClickListener() {
+
+
+//        holder.btn_apply.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //
@@ -114,12 +165,10 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         TextView couponContent, couponDate, couponCode;
         CheckBox couponCheckbox;
         CouponAdapter.OnCouponListener onCouponListener;
-        double t1;
-        //Button btn_accept;
-
         public ViewHolder(@NonNull View itemView, OnCouponListener onProductListener) {
 
             super(itemView);
@@ -127,15 +176,21 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             couponDate = itemView.findViewById(R.id.coupon_tv_date);
             couponCode = itemView.findViewById(R.id.coupon_tv_code);
             couponCheckbox = itemView.findViewById(R.id.coupon_checkbox);
-            //btn_accept = itemView.findViewById(R.id.coupon_btn_accept);
             this.onCouponListener = onProductListener;
             itemView.setOnClickListener(this);
-            couponCheckbox.setOnClickListener(new View.OnClickListener() {
+            CouponAdapter.apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    String id = mCoupon.get(position).getCoupon_id();
-                    onCouponListener.onCouponClick(position, v, id);
+
+                    for(CheckBoxGroup cb : mCheckbox){
+                        if(cb.getCheck().isChecked() ) {
+                            int position = cb.getPos();
+                            String id = mCoupon.get(position).getCoupon_id();
+                            onCouponListener.onCouponClick(position, v, id);
+                            break;
+                        }
+                    }
+
                 }
             });
         }
