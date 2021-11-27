@@ -91,6 +91,17 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 startActivity(intent);
             }
         });
+
+        final ImageButton vansIbtn = binding.homeIbtnVans;
+        vansIbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ProductBrands.class);
+                intent.putExtra("brand","Vans");
+                startActivity(intent);
+            }
+        });
+
         final ImageButton chat = binding.homeBtnChat;
         chat.setOnClickListener(new  View.OnClickListener(){
             @Override
