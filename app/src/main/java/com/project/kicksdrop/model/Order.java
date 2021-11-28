@@ -1,12 +1,14 @@
 package com.project.kicksdrop.model;
 
+import com.project.kicksdrop.adapter.OrderProductAdapter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Order {
     private String address, coupon_id, order_create_date, order_discount, order_price, shipment_partner, shipping_price, status, user_id, order_id;
-    private List<HashMap<String,String>> order_details;
+    private List<HashMap<String, String>> order_details;
 
 
 
@@ -74,13 +76,23 @@ public class Order {
         this.user_id = user_id;
     }
 
-    public List<HashMap<String, String>> getOrder_details() {
+    public List<HashMap<String,String>>  getOrder_details() {
         return order_details;
     }
 
     public void setOrder_details(List<HashMap<String, String>> order_details) {
         this.order_details = order_details;
     }
+
+    public OrderProductAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(OrderProductAdapter adapter) {
+        this.adapter = adapter;
+    }
+
+    public OrderProductAdapter adapter;
 
     public String getOrder_id() {
         return order_id;
@@ -99,7 +111,7 @@ public class Order {
     }
 
     public Order(String order_id, String address, String coupon_id, String order_create_date, String order_discount, String order_price,
-                 String shipment_partner, String shipping_price, String status, String user_id, List<HashMap<String,String>> order_details){
+                 String shipment_partner, String shipping_price, String status, String user_id, List<HashMap<String, String>>   order_details ){
         this.address = address;
         this.coupon_id = coupon_id;
         this.order_create_date = order_create_date;

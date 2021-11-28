@@ -25,17 +25,19 @@ import com.project.kicksdrop.model.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.ViewHolder> {
 
     List<Order> mOrderList;
     private ArrayList<Product> mProducts;
     private Context context;
-    OrderProductAdapter orderProductAdapter;
+    private List<OrderProductAdapter> orderProductAdapters;
 
     public BillProductAdapter(Context context, List<Order>  mOrderList){
         this.context = context;
         this.mOrderList = mOrderList;
+        orderProductAdapters  = new ArrayList<>();
     }
     @SuppressLint("SetTextI18n")
     @Override
@@ -71,7 +73,9 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
         linearLayoutManager.setStackFromEnd(true);
 
         holder.recyclerView.setLayoutManager(linearLayoutManager);
-        getProduct(order.getOrder_details(),holder.recyclerView);
+
+        getProduct(order.getAdapter(),holder.recyclerView);
+
 
     }
 
@@ -80,7 +84,6 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
         RecyclerView recyclerView;
         public ViewHolder(View itemView) {
             super(itemView);
-
             recyclerView = itemView.findViewById(R.id.order_rv_products_bill);
             tv_address = itemView.findViewById(R.id.customerOrder_tv_address);
             tv_total = itemView.findViewById(R.id.customerOrder_tv_total);
@@ -89,39 +92,8 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
             tv_totalPayment = itemView.findViewById(R.id.customerOrder_tv_totalpayment);
         }
     }
-    private void getProduct(List<HashMap<String,String>> OrderProductList,RecyclerView recyclerView){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("product");
-        mProducts = new ArrayList<>();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mProducts.clear();
-                for(HashMap<String, String> item : OrderProductList){
-                    for(DataSnapshot dtShot: snapshot.getChildren()){
-                        Product product = dtShot.getValue(Product.class);
-                        assert product != null;
-                        product.getProduct_colors().remove(0);
-                        for(String color: product.getProduct_colors()){
-                            String cartProductId = dtShot.getKey() + color.substring(1);
-                            if(cartProductId.equals(item.get("cartProductID"))){
-                                product.setProduct_id(dtShot.getKey());
-                                product.getProduct_images().remove(0);
-                                mProducts.add(product);
-                            }
-                        }
-
-                    }
-                }
-                orderProductAdapter = new OrderProductAdapter(context,mProducts,OrderProductList);
-                Log.d("test",mProducts.toString());
-                recyclerView.setAdapter(orderProductAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    private void getProduct(OrderProductAdapter adapter,RecyclerView recyclerView ){
+        recyclerView.setAdapter(adapter);
     }
     @Override
     public int getItemCount() {

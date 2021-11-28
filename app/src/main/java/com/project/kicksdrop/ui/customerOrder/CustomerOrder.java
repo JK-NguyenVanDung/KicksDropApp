@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.BillProductAdapter;
+import com.project.kicksdrop.adapter.CartAdapter;
+import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
 
@@ -31,6 +34,7 @@ public class CustomerOrder extends AppCompatActivity {
     RecyclerView recyclerView;
     BillProductAdapter billProductAdapter;
     private  ArrayList<Order> mOrder;
+    private ArrayList<Product> mProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class CustomerOrder extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+user_Id);
         mOrder = new ArrayList<>();
+        DatabaseReference ref = database.getReference("product");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -64,8 +69,40 @@ public class CustomerOrder extends AppCompatActivity {
                     Log.d("Test", hashMap.toString());
                     Order order = dtShot.getValue(Order.class);
                     assert order != null;
+                    mProducts = new ArrayList<>();
                     mOrder.add(order);
                 }
+                for(Order order: mOrder){
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            mProducts.clear();
+                            for(HashMap<String, String> item : order.getOrder_details()){
+                                for(DataSnapshot dtShot: snapshot.getChildren()){
+                                    Product product = dtShot.getValue(Product.class);
+                                    assert product != null;
+                                    product.getProduct_colors().remove(0);
+                                    for(String color: product.getProduct_colors()){
+                                        String cartProductId = dtShot.getKey() + color.substring(1);
+                                        if(cartProductId.equals(item.get("cartProductID"))){
+                                            product.setProduct_id(dtShot.getKey());
+                                            product.getProduct_images().remove(0);
+                                            mProducts.add(product);
+                                        }
+                                    }
+
+                                }
+                            }
+                            OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(), mProducts, order.getOrder_details());
+                            order.setAdapter(adapter);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
 //                Log.d("Test", mOrder.toString());
 
                 billProductAdapter = new BillProductAdapter(getApplicationContext(),mOrder);

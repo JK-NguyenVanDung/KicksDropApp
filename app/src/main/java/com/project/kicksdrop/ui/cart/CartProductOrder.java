@@ -276,15 +276,15 @@ public class CartProductOrder extends AppCompatActivity {
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id+"/order_details");
+                    DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
                     for (HashMap<String,String> item: productsInCart){
 
                         item.put("amount",String.valueOf(item.get("amount")));
                         item.put("productId",String.valueOf(item.get("productId")));
 
-                        myRef.child(Objects.requireNonNull(item.get("cartProductID"))).setValue(item);
 
                     }
+                    myRef.child("order_details").setValue(productsInCart);
 
                 }
             }
