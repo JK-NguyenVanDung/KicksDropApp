@@ -53,11 +53,43 @@ public class CustomerOrder extends AppCompatActivity {
         assert fUser != null;
         getOrder(fUser.getUid());
     }
+    private ArrayList<Product> getProducts(List<HashMap<String,String>> options){
+        ArrayList<Product> products = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                products.clear();
+                for(HashMap<String, String> item : options){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.getProduct_colors().remove(0);
+                        for(String color: product.getProduct_colors()){
+                            String cartProductId = dtShot.getKey() + color.substring(1);
+                            if(cartProductId.equals(item.get("cartProductID"))){
+                                product.setProduct_id(dtShot.getKey());
+                                product.getProduct_images().remove(0);
+                                products.add(product);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return products;
+    }
     private void getOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+user_Id);
         mOrder = new ArrayList<>();
-        DatabaseReference ref = database.getReference("product");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,41 +101,11 @@ public class CustomerOrder extends AppCompatActivity {
                     Log.d("Test", hashMap.toString());
                     Order order = dtShot.getValue(Order.class);
                     assert order != null;
-                    mProducts = new ArrayList<>();
+                    ArrayList<Product> temp =  getProducts(order.getOrder_details());
+                    OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(), temp, order.getOrder_details());
+                    order.setAdapter(adapter);
                     mOrder.add(order);
                 }
-                for(Order order: mOrder){
-                    ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            mProducts.clear();
-                            for(HashMap<String, String> item : order.getOrder_details()){
-                                for(DataSnapshot dtShot: snapshot.getChildren()){
-                                    Product product = dtShot.getValue(Product.class);
-                                    assert product != null;
-                                    product.getProduct_colors().remove(0);
-                                    for(String color: product.getProduct_colors()){
-                                        String cartProductId = dtShot.getKey() + color.substring(1);
-                                        if(cartProductId.equals(item.get("cartProductID"))){
-                                            product.setProduct_id(dtShot.getKey());
-                                            product.getProduct_images().remove(0);
-                                            mProducts.add(product);
-                                        }
-                                    }
-
-                                }
-                            }
-                            OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(), mProducts, order.getOrder_details());
-                            order.setAdapter(adapter);
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-
-//                Log.d("Test", mOrder.toString());
 
                 billProductAdapter = new BillProductAdapter(getApplicationContext(),mOrder);
 

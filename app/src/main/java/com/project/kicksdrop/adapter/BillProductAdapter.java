@@ -32,12 +32,10 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
     List<Order> mOrderList;
     private ArrayList<Product> mProducts;
     private Context context;
-    private List<OrderProductAdapter> orderProductAdapters;
 
     public BillProductAdapter(Context context, List<Order>  mOrderList){
         this.context = context;
         this.mOrderList = mOrderList;
-        orderProductAdapters  = new ArrayList<>();
     }
     @SuppressLint("SetTextI18n")
     @Override
