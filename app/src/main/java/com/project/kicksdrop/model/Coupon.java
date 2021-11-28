@@ -8,6 +8,8 @@ public class Coupon {
     private String coupon_name;
     private String coupon_percent;
     private String coupon_time;
+    private String coupon_type;
+
 
 
     public Coupon(String coupon_id, String coupon_code, String coupon_duration, String coupon_max_price, String coupon_name, String coupon_percent, String coupon_time){
@@ -36,6 +38,14 @@ public class Coupon {
         return coupon_code;
     }
 
+
+    public String getCoupon_type() {
+        return coupon_type;
+    }
+
+    public void setCoupon_type(String coupon_type) {
+        this.coupon_type = coupon_type;
+    }
     public void setCoupon_code(String coupon_code) {
         this.coupon_code = coupon_code;
     }

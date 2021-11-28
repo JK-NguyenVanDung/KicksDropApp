@@ -32,8 +32,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
+import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
@@ -47,9 +49,12 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     ProductListAdapter productAdapter;
+    HomeCouponAdapter homeCouponAdapter;
     private ArrayList<Product> mProduct;
+    private ArrayList<Coupon> mCoupon;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
+    RecyclerView CouponRecyclerView;
 
 
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
@@ -64,15 +69,13 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         recyclerView = binding.homeRvProducts;
-
         //recycler view
         recyclerView.setHasFixedSize(true);
-
-
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         getProduct();
+        getCoupon();
         final ImageButton nikesIbtn = binding.homeIbtnNikes;
         nikesIbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,6 +224,33 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 }
                 productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this );
                 recyclerView.setAdapter(productAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getCoupon(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("coupon");
+        mCoupon =new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mCoupon.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+                    Coupon coupon = dtShot.getValue(Coupon.class);
+                    assert coupon != null;
+                    coupon.setCoupon_id(dtShot.getKey());
+                    mCoupon.add(coupon);
+                }
+
+                mCoupon.size();
+//                homeCouponAdapter = new HomeCouponAdapter();
+//                CouponRecyclerView.setAdapter(homeCouponAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
