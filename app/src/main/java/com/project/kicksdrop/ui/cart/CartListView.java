@@ -8,13 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -86,10 +89,14 @@ public class CartListView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 double totalPrice = Double.parseDouble(totalPayment.getText().toString().substring(1));
-                Intent intent = new Intent(getApplicationContext(), CartProductOrder.class);
-                intent.putExtra("price", totalPrice);
-                intent.putExtra("coupon",coupon_id);
-                startActivityForResult(intent, 1);
+                if(totalPrice > 0.00){
+                    Intent intent = new Intent(getApplicationContext(), CartProductOrder.class);
+                    intent.putExtra("price", totalPrice);
+                    intent.putExtra("coupon",coupon_id);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "No Products In Cart", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //recycler view

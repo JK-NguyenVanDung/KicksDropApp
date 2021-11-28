@@ -62,7 +62,7 @@ public class CustomerOrder extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("order/"+user_Id);
         mOrder = new ArrayList<>();
         DatabaseReference ref = database.getReference("product");
-        final ArrayList<Product>[] products = new ArrayList[]{new ArrayList<>()};
+        //final ArrayList<Product>[] products = new ArrayList[]{new ArrayList<>()};
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -72,11 +72,13 @@ public class CustomerOrder extends AppCompatActivity {
 
                     Order order = dtShot.getValue(Order.class);
                     assert order != null;
+                    if(order.getOrder_details() != null){
+                        ArrayList<Product> products  = getProducts(order.getOrder_details());
+                        OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(),products, order.getOrder_details(),loading);
+                        order.setAdapter(adapter);
+                        mOrder.add(order);
+                    }
 
-                    products[0] = getProducts(order.getOrder_details());
-                    OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(),products[0], order.getOrder_details(),loading);
-                    order.setAdapter(adapter);
-                    mOrder.add(order);
 
                 }
 
