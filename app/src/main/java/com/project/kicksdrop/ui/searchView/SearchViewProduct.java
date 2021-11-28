@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
@@ -32,6 +33,8 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
     EditText searchView;
     RecyclerView recyclerView;
     String keySearch;
+    private final LoadingScreen loading = new LoadingScreen(SearchViewProduct.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
         matching();
         recyclerView.setHasFixedSize(true);
-
+        loading.startLoadingScreen();
         keySearch = getIntent().getStringExtra("keySearch");
 
 
@@ -80,7 +83,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
                         mProduct.add(product);
                     }
                 }
-                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, SearchViewProduct.this);
+                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, SearchViewProduct.this,loading);
                 recyclerView.setAdapter(productAdapter);
             }
             @Override

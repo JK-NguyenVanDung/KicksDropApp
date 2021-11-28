@@ -32,46 +32,61 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
+import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
 import com.project.kicksdrop.ui.productBrands.ProductBrands;
 import com.project.kicksdrop.ui.searchView.SearchViewProduct;
+import com.project.kicksdrop.ui.wishlist.WishlistFragment;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements ProductListAdapter.OnProductListener {
+public class HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     ProductListAdapter productAdapter;
+    HomeCouponAdapter homeCouponAdapter;
     private ArrayList<Product> mProduct;
+    private ArrayList<Coupon> mCoupon;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
+    RecyclerView CouponRecyclerView;
+
 
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
+    private final LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+        loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         recyclerView = binding.homeRvProducts;
-
         //recycler view
         recyclerView.setHasFixedSize(true);
-
-
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+
+        CouponRecyclerView = binding.homeRvCoupon;
+        CouponRecyclerView.setHasFixedSize(true);
+        GridLayoutManager manager = new GridLayoutManager(this.getContext(),4,GridLayoutManager.VERTICAL,false);
+        CouponRecyclerView.setLayoutManager(manager);
+
+
         getProduct();
+        getCoupon();
         final ImageButton nikesIbtn = binding.homeIbtnNikes;
         nikesIbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,51 +135,50 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         });
 
         final EditText search = binding.homeEtSearch;
-
-//        search.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent event) {
-//                final int DRAWABLE_LEFT = 0;
-//                final int DRAWABLE_TOP = 1;
-//                final int DRAWABLE_RIGHT = 2;
-//                final int DRAWABLE_BOTTOM = 3;
-//
-//                if(event.getAction() == MotionEvent.ACTION_UP) {
-//                    if(event.getRawX() >= 630 && !search.getText().toString().matches("")) {
-//
-//                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
-//                            intent.putExtra("keySearch",search.getText().toString());
-//                            startActivity(intent);
-//
-//                            return true;
-//
-//                    }
-//                }
-//                return false;
-//            }
-//        });
-
-        search.addTextChangedListener(new TextWatcher() {
+        search.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
 
-            }
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= 630 && !search.getText().toString().matches("")) {
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                            intent.putExtra("keySearch",search.getText().toString());
+                            startActivity(intent);
 
-            }
+                            return true;
 
-            @Override
-            public void afterTextChanged(Editable edit) {
-                if (edit.length() != 0) {
-                    String keySearch = search.getText().toString();
-                    searchProduct(keySearch);
-                    Log.v("keySearch",keySearch);
+                    }
                 }
+                return false;
             }
         });
 
+//        search.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable edit) {
+//                if (edit.length() != 0) {
+//                    String keySearch = search.getText().toString();
+//                    searchProduct(keySearch);
+//                    Log.v("keySearch",keySearch);
+//                }
+//            }
+//        });
+//
 
 
 
@@ -186,6 +200,8 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         intent.putExtra("id", id);
         startActivity(intent);
     }
+
+
 
     private void searchProduct(String keySearch){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -230,8 +246,36 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                     product.setProduct_id(dtShot.getKey());
                     mProduct.add(product);
                 }
-                productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this );
+                productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this,loading );
                 recyclerView.setAdapter(productAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getCoupon(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("coupon");
+        mCoupon =new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mCoupon.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+                    Coupon coupon = dtShot.getValue(Coupon.class);
+                    assert coupon != null;
+                    coupon.setCoupon_id(dtShot.getKey());
+                    mCoupon.add(coupon);
+                }
+
+                mCoupon.size();
+                homeCouponAdapter = new HomeCouponAdapter(getContext(),mCoupon,HomeFragment.this);
+                CouponRecyclerView.setAdapter(homeCouponAdapter);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -247,293 +291,8 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     }
 
 
+    @Override
+    public void onCouponClick(int position, View view, String id) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }

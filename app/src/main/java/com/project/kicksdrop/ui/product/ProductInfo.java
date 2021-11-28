@@ -35,6 +35,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
@@ -61,6 +62,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     TextView indexNumb;
     FirebaseUser fUser;
     ImageButton cart;
+    private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
 
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
@@ -69,6 +71,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_info);
+        loading.startLoadingScreen();
 
         matching();
         Intent intent = getIntent();
@@ -156,7 +159,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                     count++;
                 }
 
-                imageAdapter = new ImageAdapter(getApplicationContext(),images);
+                imageAdapter = new ImageAdapter(getApplicationContext(),images,loading);
                 viewPager.setAdapter(imageAdapter);
                 viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     public void onPageScrollStateChanged(int state) {}
