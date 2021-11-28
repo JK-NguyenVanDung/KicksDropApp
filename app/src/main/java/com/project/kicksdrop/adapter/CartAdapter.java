@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Coupon;
@@ -65,7 +69,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private String coupon_id;
     private int maxprice = 0;
     private int percent = 0;
-    public CartAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions, TextView totalPayment,TextView totalProduct,TextView totalPaymentHead,String coupon_id) {
+    private LoadingScreen loading;
+    public CartAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions, TextView totalPayment, TextView totalProduct, TextView totalPaymentHead, String coupon_id, LoadingScreen loading) {
         this.context = context;
         //this.cart = cart;
         this.mCartProduct = mCartProduct;
@@ -75,6 +80,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         this.totalPaymentHead = totalPaymentHead;
         this.coupon_id = coupon_id;
         totalAmount = 0.0;
+        this.loading = loading;
     }
 
     @NonNull
@@ -91,8 +97,36 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull CartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final Product product = mCartProduct.get(holder.getAdapterPosition());
 
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert fUser != null;
+        getUserWishlist(fUser.getUid(), product, holder.heart);
 
         String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
+
+        GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
+
+        backgroundGradient.setColor(Color.parseColor(opColor));
+
+        holder.heart.setOnClickListener(new View.OnClickListener()
+        {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View v) {
+                if (holder.heart.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.ic_heart).getConstantState()){
+                    holder.heart.setImageResource(R.drawable.ic_heart_activated);
+                    String idUser = fUser.getUid();
+                    addProductWishlist(idUser,product);
+                    Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
+
+                }else{
+                    holder.heart.setImageResource(R.drawable.ic_heart);
+                    String idUser = fUser.getUid();
+                    delProductWishlist(idUser,product.getProduct_id());
+                    Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_LONG).show();
+
+                }
+
+            }});
 
         for(HashMap<String,String> temp: product.getProduct_images()){
             String lower = temp.get("color").toLowerCase();
@@ -198,7 +232,44 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
 
     }
+    private void getUserWishlist(String user_id, Product product , ImageButton heart){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+user_id);
 
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> listWishlist =new ArrayList<String>();
+                for (DataSnapshot item : snapshot.getChildren()){
+                    listWishlist.add(item.getKey());
+                }
+                for (int i =0 ; i < listWishlist.size();i++){
+                    if(product.getProduct_id().equals(listWishlist.get(i))){
+                        heart.setImageResource(R.drawable.ic_heart_activated);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void addProductWishlist(String idUser,Product product){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+idUser);
+        myRef.child(product.getProduct_id()).child("product_id").setValue(product.getProduct_id());
+        myRef.child(product.getProduct_id()).child("product_size").setValue(product.getProduct_sizes().get(1));
+        myRef.child(product.getProduct_id()).child("product_color").setValue(product.getProduct_colors().get(1));
+
+    }
+
+    private void delProductWishlist(String idUser,String idProduct){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+idUser);
+        myRef.child(idProduct).removeValue();
+
+    }
     @SuppressLint("SetTextI18n")
     private void calculateTotal(double price, long amount){
         totalAmount += price * amount;
@@ -233,6 +304,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
+                    loading.dismissDialog();
 
                     image.setBackground(ob);
                 }
@@ -276,7 +348,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         TextView productCartName, productCartType, productCartAmount, productCartPrice;
         ImageButton increase, decrease, delete, dropDown;
         //Spinner productCartDropDownSize;
-        ImageView productImage;
+        ImageButton heart;
+
+        ImageView productImage, colorCircle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productCartName = (TextView) itemView.findViewById(R.id.ProductCart_tv_name);
@@ -289,6 +363,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             delete = itemView.findViewById(R.id.ProductCart_delete);
             productImage = itemView.findViewById(R.id.productCart_iv_cart_image);
             dropDown = itemView.findViewById(R.id.ProductCart_btn_drop_down);
+            colorCircle= itemView.findViewById(R.id.productCart_iv_color_circle);
+            heart = itemView.findViewById(R.id.productCart_btn_heart);
         }
 
     }

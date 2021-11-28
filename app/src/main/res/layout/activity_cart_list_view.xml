@@ -29,17 +29,21 @@
 
                 <ImageButton
                     android:id="@+id/Cart_btn_back"
-                    android:layout_width="50dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="false"
-                    android:layout_alignParentEnd="true"
+
+                    android:layout_alignParentTop="true"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="360dp"
+
+                    android:layout_marginTop="0dp"
                     android:background="?android:selectableItemBackground"
-                    android:contentDescription="TODO"
+
+                    android:contentDescription="@string/todo"
+                    android:minWidth="48dp"
                     android:src="@drawable/ic_previous"
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                    tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -200,44 +204,41 @@
             android:layout_marginTop="20dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="174dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="20dp"
                 android:layout_gravity="right"
+                android:layout_weight="1"
                 android:gravity="right"
                 android:orientation="vertical">
 
+                <!--                        field total payment-->
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:fontFamily="@font/roboto_light"
                     android:text="Total payment:"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="20dp" />
 
-                <!--                        field total payment-->
                 <TextView
                     android:id="@+id/Cart_tv_totalPayment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:fontFamily="@font/roboto_medium"
                     android:text="$00.00"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="20dp" />
 
             </LinearLayout>
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_productCartListViewItems_roundedImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/navigation_bar_item_viewList_color"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/iv_item_product_OptionCart_roundedImage"
                 android:backgroundTint="@color/black"
                 android:elevation="10dp"
@@ -245,7 +246,7 @@
 
                 <Button
                     android:id="@+id/productCart_btn_order"
-                    android:layout_width="175dp"
+                    android:layout_width="140dp"
                     android:layout_height="50dp"
                     android:backgroundTint="@color/black"
                     android:text="Order"

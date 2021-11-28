@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
@@ -48,11 +49,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     private List<HashMap<String,String>> wishlistOptions;
     private int totalCount = 0;
     private TextView totalProducts;
-    public WishlistAdapter(Context context, List<Product> mWishlist,List<HashMap<String,String>> wishlistOptions, TextView totalProducts) {
+    private LoadingScreen loading;
+    public WishlistAdapter(Context context, List<Product> mWishlist, List<HashMap<String,String>> wishlistOptions, TextView totalProducts, LoadingScreen loading) {
         this.context = context;
         this.mWishlist = mWishlist;
         this.wishlistOptions = wishlistOptions;
         this.totalProducts = totalProducts;
+        this.loading = loading;
     }
 
 
@@ -252,6 +255,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
 
                     image.setBackground(ob);
+                    loading.dismissDialog();
+
                 }
             });
         } catch (IOException e) {

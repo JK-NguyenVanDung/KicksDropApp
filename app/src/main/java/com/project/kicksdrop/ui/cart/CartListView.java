@@ -48,22 +48,14 @@ public class CartListView extends AppCompatActivity {
     private String coupon_id;
     private com.project.kicksdrop.model.Coupon coupon;
     private double totalAmount;
-    private int count= 1500 ;
-    private boolean isLoading = true;
+    private final LoadingScreen loading = new LoadingScreen(CartListView.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_list_view);
 
         matching();
-        LoadingScreen loading = new LoadingScreen(CartListView.this);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loading.dismissDialog();
-            }
-        },count);
+
         loading.startLoadingScreen();
 
         coupon_id= "";
@@ -182,7 +174,6 @@ public class CartListView extends AppCompatActivity {
                         item.put("cartProductID", key);
                         productsInCart.add(item);
                     }
-                    isLoading = false;
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
 
@@ -222,7 +213,8 @@ public class CartListView extends AppCompatActivity {
 
                     }
                 }
-                cartAdapter = new CartAdapter(getApplicationContext(),mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id);
+
+                cartAdapter = new CartAdapter(getApplicationContext(),mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id,loading);
                 recyclerView.setAdapter(cartAdapter);
 
 

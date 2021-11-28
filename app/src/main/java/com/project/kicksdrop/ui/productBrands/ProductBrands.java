@@ -11,16 +11,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.product.ProductInfo;
 
@@ -33,7 +34,6 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
     String brand;
-    TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,14 +47,34 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        title.setText(brand);
+
         getProduct();
 
+        prevIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
+        cartIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goCart = new Intent(ProductBrands.this, CartListView.class);
+                startActivity(goCart);
+            }
+        });
+
+        chatIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goCart = new Intent(ProductBrands.this, ChatActivity.class);
+                startActivity(goCart);
+            }
+        });
     }
 
     private void matching() {
-        title = (TextView) findViewById(R.id.productBrands_tv_brand);
         prevIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_prev);
         cartIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_cart);
         chatIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_chat);
@@ -80,8 +100,8 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
                     assert product != null;
 
                     if (product.getProduct_brand().equals(brand)){
-                    product.setProduct_id(dtShot.getKey());
-                    mProduct.add(product);
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
                     }
                 }
                 productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this);

@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Image;
 
@@ -41,9 +42,11 @@ public class ImageAdapter extends PagerAdapter {
 
     private Context context;
     private List<Image> mImages;
-    public ImageAdapter(Context context, List<Image> mImages) {
+    private LoadingScreen loading;
+    public ImageAdapter(Context context, List<Image> mImages, LoadingScreen loading) {
         this.context = context;
         this.mImages = mImages;
+        this.loading = loading;
     }
 
     @NonNull
@@ -69,6 +72,7 @@ public class ImageAdapter extends PagerAdapter {
                     Glide.with(context).load(bitmap).dontAnimate().override(400,400)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(image);
+                    loading.dismissDialog();
 
                 }
             });
