@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.project.kicksdrop.R;
+import com.project.kicksdrop.ui.auth.LoginActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -20,10 +21,10 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this,MainActivity.class);
+                Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
-        },2000);
+        },1000);
     }
 }
