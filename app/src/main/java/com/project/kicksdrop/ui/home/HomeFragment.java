@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         recyclerView.setHasFixedSize(true);
 
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         getProduct();
