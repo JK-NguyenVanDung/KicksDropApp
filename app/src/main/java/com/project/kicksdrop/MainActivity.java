@@ -3,24 +3,17 @@ package com.project.kicksdrop;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -41,26 +33,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.project.kicksdrop.adapter.ProductListAdapter;
+
 import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.databinding.ActivityMainBinding;
-import com.project.kicksdrop.model.Account;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.auth.LoginActivity;
-import com.project.kicksdrop.ui.home.HomeFragment;
+
 import com.project.kicksdrop.ui.home.HomeViewModel;
 
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,10 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
     private ArrayList<Product> mWishlist ;
     private ActivityMainBinding binding;
-    private
-
-    FirebaseAuth auth;
-
+    private FirebaseAuth auth;
     String user_id = "AC1";
     HashMap<String,Object> hashMap;
     String coupon="";
@@ -84,12 +68,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        auth = FirebaseAuth.getInstance();
-//
-//        String username = "vandung31141@gmail.com";
+        auth = FirebaseAuth.getInstance();
+
+//        String username = "jackiedekingv@gmail.com";
 //        String pass = "123456";
 //
 //        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
@@ -296,22 +281,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadImage(ImageView image, String imageName){
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
-        try {
-            File file = File.createTempFile("tmp",".jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    image.setImageBitmap(bitmap);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    private void loadImage(ImageView image, String imageName){
+//        StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
+//        try {
+//            File file = File.createTempFile("tmp",".jpg");
+//            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                    image.setImageBitmap(bitmap);
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 
     private void loadProduct(String id){
@@ -438,19 +423,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void createUser(String userID, String email, String gender,String mobile,String name){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("account");
-
-
-        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
-        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
-
-        myRef.child(userID).child("email").setValue(email);
-        myRef.child(userID).child("gender").setValue(gender);
-        myRef.child(userID).child("mobile").setValue(mobile);
-        myRef.child(userID).child("name").setValue(name);
-    }
+//    private void createUser(String userID, String email, String gender,String mobile,String name){
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("account");
+//
+//
+//        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
+//        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
+//
+//        myRef.child(userID).child("email").setValue(email);
+//        myRef.child(userID).child("gender").setValue(gender);
+//        myRef.child(userID).child("mobile").setValue(mobile);
+//        myRef.child(userID).child("name").setValue(name);
+//    }
 
 
     private void  loadOrder(){

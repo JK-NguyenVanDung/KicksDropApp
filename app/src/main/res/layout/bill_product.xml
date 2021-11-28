@@ -122,9 +122,11 @@
                 android:orientation="vertical"
                 android:paddingBottom="20dp">
 
-                <include layout="@layout/item_product_order" />
+                <androidx.recyclerview.widget.RecyclerView
 
-                <include layout="@layout/item_product_order" />
+                    android:id="@+id/order_rv_products_bill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

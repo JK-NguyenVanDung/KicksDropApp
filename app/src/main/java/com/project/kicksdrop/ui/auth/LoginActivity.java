@@ -1,18 +1,18 @@
 package com.project.kicksdrop.ui.auth;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,19 +23,15 @@ import com.project.kicksdrop.R;
 
 public class LoginActivity extends AppCompatActivity {
     EditText inputLoginEmail, inputLoginPassword;
-    Button signIn, createAcc, forgot ;
+    Button signIn, createAcc, forgot;
+    CheckBox remember;
     ProgressBar progressBar;
     FirebaseAuth auth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        auth = FirebaseAuth.getInstance();
-//
-//        if (auth.getCurrentUser() != null) {
-//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//            finish();
-//        }
+
+
         setContentView(R.layout.activity_login);
 
         createAcc = (Button) findViewById(R.id.btn_goRegister);
@@ -44,8 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         signIn = (Button) findViewById(R.id.btn_login_signIn);
         progressBar = findViewById(R.id.progressBar2);
         forgot = (Button) findViewById(R.id.btn_forgot);
+        remember = (CheckBox) findViewById(R.id.cb_remember);
+        disableLayoutEditText(inputLoginEmail);
+        disableLayoutEditText(inputLoginPassword);
 
-        auth = FirebaseAuth.getInstance();
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(goForgot);
             }
         });
+
+        auth = FirebaseAuth.getInstance();
+
         createAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
+                //firebase.auth().setPersistence(this.remember.checked ? fireauth.Auth.Persistence.LOCAL : fireauth.Auth.Persistence.SESSION)
 
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
                     @Override
@@ -85,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(password.length()<6){
                             inputLoginPassword.setError("Password must be more than 6 characters");
                         }else {
-                            Toast.makeText(LoginActivity.this, "erorr" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "ERROR ! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                        }else{
                            Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
@@ -98,5 +100,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void disableLayoutEditText(EditText editText) {
+        editText.setBackgroundColor(Color.TRANSPARENT);
     }
 }
