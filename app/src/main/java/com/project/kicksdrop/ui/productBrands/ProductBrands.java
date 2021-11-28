@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
@@ -33,11 +34,14 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
     String brand;
+    private final LoadingScreen loading = new LoadingScreen(ProductBrands.this);
+
     TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_brands);
+        loading.startLoadingScreen();
         matching();
         recyclerView.setHasFixedSize(true);
 
@@ -84,7 +88,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
                     mProduct.add(product);
                     }
                 }
-                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this);
+                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this,loading);
                 recyclerView.setAdapter(productAdapter);
             }
             @Override

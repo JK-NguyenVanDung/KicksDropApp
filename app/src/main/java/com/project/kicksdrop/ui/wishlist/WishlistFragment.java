@@ -22,10 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
+import com.project.kicksdrop.ui.product.ProductInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +44,8 @@ public class WishlistFragment extends Fragment {
     private FragmentWishlistBinding binding;
     private WishlistAdapter wishlistAdapter;
     private TextView totalProducts;
+    private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         wishlistViewModel =
@@ -49,7 +53,7 @@ public class WishlistFragment extends Fragment {
 
         binding = FragmentWishlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        loading.startLoadingScreenFragment();
 
         recyclerView = binding.wishlistRvProducts;
 
@@ -155,7 +159,7 @@ public class WishlistFragment extends Fragment {
 
 
                 }
-                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist,wishlist,totalProducts);
+                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist,wishlist,totalProducts,loading);
                 recyclerView.setAdapter(wishlistAdapter);
 
 

@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -40,7 +41,6 @@ import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Product;
 
 import com.project.kicksdrop.ui.home.HomeViewModel;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-//        String username = "jackiedekingv@gmail.com";
-//        String pass = "123456";
-//
-//        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
-//
-//            @Override
-//            public void onComplete(@NonNull Task task) {
-//            }
-//        });
+        String username = "jackiedekingv@gmail.com";
+        String pass = "123456";
+
+        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
+
+            @Override
+            public void onComplete(@NonNull Task task) {
+            }
+        });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

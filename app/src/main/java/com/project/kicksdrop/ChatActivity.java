@@ -47,20 +47,13 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
     DatabaseReference reference;
     MessageAdapter messageAdapter;
     List<Chat> mChat;
-
+    private LoadingScreen loading;
     RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
-        final LoadingScreen loading = new LoadingScreen(ChatActivity.this);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loading.dismissDialog();
-            }
-        },500);
+        loading = new LoadingScreen(ChatActivity.this);
         loading.startLoadingScreen();
         matching();
         auth = FirebaseAuth.getInstance();
@@ -126,7 +119,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                     if(chat.getReceiver().equals(myId) && chat.getSender().equals(userId) || chat.getReceiver().equals(userId) && chat.getSender().equals(myId)){
                         mChat.add(chat);
                     }
-
+                    loading.dismissDialog();
                     messageAdapter = new MessageAdapter(ChatActivity.this,mChat,ChatActivity.this );
                     recyclerView.setAdapter(messageAdapter);
 

@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Chat;
 import com.project.kicksdrop.model.Product;
@@ -51,8 +52,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context context;
     private static List<Product> mProductList;
     private ProductListAdapter.OnProductListener mOnProductListener;
+    private LoadingScreen loading;
+    public ProductListAdapter(Context context, List<Product> mProductList, ProductListAdapter.OnProductListener onProductListener, LoadingScreen loading){
 
-
+        this.context = context;
+        this.mProductList = mProductList;
+        this.mOnProductListener = onProductListener;
+        this.loading = loading;
+    }
     public ProductListAdapter(Context context, List<Product> mProductList, ProductListAdapter.OnProductListener onProductListener){
 
         this.context = context;
@@ -160,7 +167,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
-
+                    if(loading != null){
+                        loading.dismissDialog();
+                    }
                     image.setBackground(ob);
                 }
             });

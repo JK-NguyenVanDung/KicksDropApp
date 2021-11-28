@@ -43,7 +43,7 @@
                 android:layout_marginBottom="0dp"
                 android:contentDescription="@string/todo" />
             <ImageButton
-                android:id="@+id/btn_itemProduct_heart"
+                android:id="@+id/productCart_btn_heart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -57,7 +57,7 @@
             <!--icon circle-->
 
             <ImageView
-                android:id="@+id/imgv_itemProduct_circle"
+                android:id="@+id/productCart_iv_color_circle"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 tools:ignore="ImageContrastCheck"
