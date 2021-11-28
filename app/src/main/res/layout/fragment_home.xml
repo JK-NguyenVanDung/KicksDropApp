@@ -368,9 +368,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_rv_products"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp"
-                android:paddingBottom="50dp" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="70dp"
+                android:layout_marginStart="6dp"/>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

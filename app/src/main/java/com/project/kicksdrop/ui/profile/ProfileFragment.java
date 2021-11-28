@@ -18,12 +18,14 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.databinding.FragmentProfileBinding;
 import com.project.kicksdrop.ui.auth.LoginActivity;
+import com.project.kicksdrop.ui.auth.ResetPasswordActivity;
+import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
 import com.project.kicksdrop.ui.profileuser.EditProfileUser;
 
 public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
-    private Button logout, profile;
+    private Button logout, profile, changePass, myOrder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +43,33 @@ public class ProfileFragment extends Fragment {
         });
         logoutUI();
         profileUI();
+        resetPasswordUI();
+        myOrder();
         return root;
     }
+
+    private void resetPasswordUI() {
+        changePass = binding.profileBtnChangePassword;
+        changePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goChangePass = new Intent(getContext(), ResetPasswordActivity.class);
+                startActivity(goChangePass);
+            }
+        });
+    }
+
+    private void myOrder() {
+        myOrder = binding.profileBtnMyOrder;
+        myOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goMyOrder = new Intent(getContext(), CustomerOrder.class);
+                startActivity(goMyOrder);
+            }
+        });
+    }
+
 
     private void profileUI() {
         profile = binding.profileBtnProfile;

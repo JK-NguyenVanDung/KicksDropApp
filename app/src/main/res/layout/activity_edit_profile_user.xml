@@ -34,22 +34,29 @@
                     android:layout_height="wrap_content">
 
                     <ImageButton
-                        android:id="@+id/editProfile_ibtn_prev"
+                        android:id="@+id/editProfile_btn_prev"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="#00FFFFFF"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="10dp"
+
+                        android:layout_marginTop="0dp"
+                        android:background="?android:selectableItemBackground"
+
+                        android:contentDescription="@string/todo"
+                        android:minWidth="48dp"
                         android:src="@drawable/ic_previous"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="49dp"
 
-                        android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
 
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="0dp"
                         android:layout_marginTop="-1dp"
                         android:layout_marginEnd="1dp"
                         android:fontFamily="@font/work_sans_semibold"
@@ -167,7 +174,8 @@
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/border_bottom_line"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -185,7 +193,8 @@
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/border_bottom_line"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -206,7 +215,8 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:scrollbars="none"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -221,9 +231,29 @@
                 <EditText
                     android:id="@+id/editProfile_et_phone"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/border_bottom_line"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:fontFamily="@font/work_sans_semibold"
+                    android:gravity="center_vertical"
+                    android:text="Address"
+                    android:textAllCaps="true"
+                    android:textColor="#ABABAB"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/editProfile_et_infoAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/border_bottom_line"
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
             <Button
