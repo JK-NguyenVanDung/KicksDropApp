@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:text="0 item"
+                android:text="0 items"
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="16sp" />

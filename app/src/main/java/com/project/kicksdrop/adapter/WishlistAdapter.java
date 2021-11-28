@@ -74,14 +74,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
 
         final Product product = mWishlist.get(holder.getAdapterPosition());
-        String opColor = wishlistOptions.get(holder.getAdapterPosition()).get("product_color").toLowerCase();
+        String opColor = "";
+        if(wishlistOptions.get(holder.getAdapterPosition()).get("product_color") != null){
+            opColor = Objects.requireNonNull(wishlistOptions.get(holder.getAdapterPosition()).get("product_color")).toLowerCase();
+        }
         product.getProduct_images().remove(0);
         for(HashMap<String,String> temp: product.getProduct_images()){
             String lower = temp.get("color").toLowerCase();
             if(lower.equals(opColor)){
                 String imageName = temp.get("image");
                 loadImage(holder.image,imageName);
-
             }
         }
         totalCount= wishlistOptions.size();
@@ -171,6 +173,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             }
         });
 
+        holder.dropDown.setOnClickListener(new  View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                sizeSpinner.performClick();
+            }
+        });
 
 //        private void  load(){
 //            FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -260,7 +269,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         ImageView image;
         TextView name,price,brand;
         Button addCart;
-        ImageButton remove;
+        ImageButton remove,dropDown;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image =(ImageView) itemView.findViewById(R.id.wishlist_iv_product_img);
@@ -271,6 +280,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             addCart = itemView.findViewById(R.id.wishList_btn_addToCart);
             remove = itemView.findViewById(R.id.wishlist_ibtn_remove);
             mCirclesRecyclerView= itemView.findViewById(R.id.wishlist_rv_circles);
+            dropDown = itemView.findViewById(R.id.wishlist_btn_dropDown);
         }
     }
 }

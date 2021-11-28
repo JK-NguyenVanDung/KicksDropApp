@@ -33,7 +33,7 @@
             android:name=".ui.profileuser.EditProfileUser"
             android:exported="true" />
         <activity
-            android:name=".ui.promocode.CouponProduct"
+            android:name=".ui.coupon.CouponPage"
             android:exported="true" />
         <activity
             android:name=".ui.cart.CartListView"
@@ -71,3 +71,4 @@
     </application>
 
 </manifest>
+    <!--            android:name=".ui.auth.LoginActivity"-->

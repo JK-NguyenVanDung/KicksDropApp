@@ -1,6 +1,5 @@
 package com.project.kicksdrop.ui.auth;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,11 +9,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,18 +24,12 @@ import com.project.kicksdrop.R;
 public class LoginActivity extends AppCompatActivity {
     EditText inputLoginEmail, inputLoginPassword;
     Button signIn, createAcc, forgot;
+    CheckBox remember;
     ProgressBar progressBar;
     FirebaseAuth auth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        auth = FirebaseAuth.getInstance();
-//
-//        if (auth.getCurrentUser() != null) {
-//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//            finish();
-//        }
 
 
         setContentView(R.layout.activity_login);
@@ -48,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         signIn = (Button) findViewById(R.id.btn_login_signIn);
         progressBar = findViewById(R.id.progressBar2);
         forgot = (Button) findViewById(R.id.btn_forgot);
-
+        remember = (CheckBox) findViewById(R.id.cb_remember);
         disableLayoutEditText(inputLoginEmail);
         disableLayoutEditText(inputLoginPassword);
 
@@ -85,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
+                //firebase.auth().setPersistence(this.remember.checked ? fireauth.Auth.Persistence.LOCAL : fireauth.Auth.Persistence.SESSION)
 
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
                     @Override

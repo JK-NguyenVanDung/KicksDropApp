@@ -54,6 +54,7 @@ public class CartProductOrder extends AppCompatActivity {
     private int percent, maxprice;
     private double price;
     private int shipmentPrice;
+    private String timeStamp_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +101,7 @@ public class CartProductOrder extends AppCompatActivity {
 
         //
         getCoupon(coupon_id);
-        int shipPrice = 1;
+        double shipPrice = 10.00;
 
 
         tv_shipment.setText(String.valueOf(shipPrice));
@@ -177,7 +178,7 @@ public class CartProductOrder extends AppCompatActivity {
                     }
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
-
+                    Log.d("test", productsInCart.toString());
                     getProduct(productsInCart);
                 }
             }
@@ -214,7 +215,7 @@ public class CartProductOrder extends AppCompatActivity {
                         break;
                     }
                 }
-                maxprice = Integer.parseInt(coupon.getCoupon_max_price());
+                maxprice = coupon.getCoupon_max_price();
                 percent = Integer.parseInt(coupon.getCoupon_percent());
 
                 double discount = caculateDiscount(maxprice,percent,price);
@@ -231,9 +232,11 @@ public class CartProductOrder extends AppCompatActivity {
         });
     }
     private void createOrder(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("order/ORDER3");
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+        timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+
 
         myRef.child("address").setValue(tv_address.getText().toString().trim());
         myRef.child("coupon_id").setValue(coupon_id);
@@ -267,7 +270,8 @@ public class CartProductOrder extends AppCompatActivity {
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("order/ORDER3");
+                    DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+
                     myRef.child("order_details").setValue(productsInCart);
 
                 }
