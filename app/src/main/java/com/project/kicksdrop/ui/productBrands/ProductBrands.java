@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
     String brand;
+    TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +47,14 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-
+        title.setText(brand);
         getProduct();
+
+
     }
 
     private void matching() {
+        title = (TextView) findViewById(R.id.productBrands_tv_brand);
         prevIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_prev);
         cartIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_cart);
         chatIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_chat);
