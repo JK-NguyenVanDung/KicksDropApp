@@ -44,7 +44,7 @@ import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements ProductListAdapter.OnProductListener {
+public class HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -73,6 +73,13 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+
+        CouponRecyclerView = binding.homeRvCoupon;
+        CouponRecyclerView.setHasFixedSize(true);
+        GridLayoutManager manager = new GridLayoutManager(this.getContext(),4,GridLayoutManager.VERTICAL,false);
+        CouponRecyclerView.setLayoutManager(manager);
+
 
         getProduct();
         getCoupon();
@@ -190,6 +197,8 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         startActivity(intent);
     }
 
+
+
     private void searchProduct(String keySearch){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
@@ -260,8 +269,9 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 }
 
                 mCoupon.size();
-//                homeCouponAdapter = new HomeCouponAdapter();
-//                CouponRecyclerView.setAdapter(homeCouponAdapter);
+                homeCouponAdapter = new HomeCouponAdapter(getContext(),mCoupon,HomeFragment.this);
+                CouponRecyclerView.setAdapter(homeCouponAdapter);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -277,293 +287,8 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     }
 
 
+    @Override
+    public void onCouponClick(int position, View view, String id) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }
