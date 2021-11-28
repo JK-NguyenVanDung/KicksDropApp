@@ -76,6 +76,13 @@ public class EditProfileUser extends AppCompatActivity {
             }
         });
 
+        prevIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         setAccount(account.getUid());
     }
 
@@ -200,7 +207,7 @@ public class EditProfileUser extends AppCompatActivity {
 
         profileAvatar= (ImageView) findViewById(R.id.editProfile_iv_avatar);
         editBtn = (Button) findViewById(R.id.editProfile_btn_edit);
-        prevIBtn =(ImageButton) findViewById(R.id.editProfile_ibtn_prev);
+        prevIBtn =(ImageButton) findViewById(R.id.editProfile_btn_prev);
         userName = (EditText) findViewById(R.id.editProfile_et_name);
         userSex = (EditText) findViewById(R.id.editProfile_et_gender);
         userEmail = (EditText) findViewById(R.id.editProfile_et_address);

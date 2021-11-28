@@ -21,7 +21,7 @@
         android:name=".ui.auth.ResetPasswordActivity"
         android:exported="true" />
         <activity
-            android:name=".ui.middle.Loading"
+            android:name=".ui.notifications.middle.Loading"
             android:exported="true" />
         <activity
             android:name=".ui.searchView.SearchViewProduct"

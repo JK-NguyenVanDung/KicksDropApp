@@ -1,4 +1,4 @@
-package com.project.kicksdrop.ui.middle;
+package com.project.kicksdrop.ui.notifications.middle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
