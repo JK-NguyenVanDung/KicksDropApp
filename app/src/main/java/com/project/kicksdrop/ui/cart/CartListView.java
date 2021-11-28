@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import java.util.Map;
 public class CartListView extends AppCompatActivity {
 
     //product cart
+    Context context;
     TextView  totalProducts, totalPaymentHead, totalPayment, couponCode;
     Button couponPage, productCartOrder;
     ImageButton back;
@@ -58,7 +60,7 @@ public class CartListView extends AppCompatActivity {
         setContentView(R.layout.activity_cart_list_view);
 
         matching();
-
+context= this;
         loading.startLoadingScreen();
 
         coupon_id= "";
@@ -223,7 +225,7 @@ public class CartListView extends AppCompatActivity {
                     }
                 }
 
-                cartAdapter = new CartAdapter(getApplicationContext(),mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id,loading);
+                cartAdapter = new CartAdapter(context,mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id,loading);
                 recyclerView.setAdapter(cartAdapter);
 
 

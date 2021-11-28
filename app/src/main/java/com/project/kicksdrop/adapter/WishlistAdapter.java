@@ -1,7 +1,9 @@
 package com.project.kicksdrop.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -124,10 +126,23 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             @Override
             public void onClick(View view) {
 
-                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-                String idUser = fUser.getUid();
-                delProductWishlist(idUser,product.getProduct_id(),holder.getAdapterPosition());
-            }
+                new AlertDialog.Builder(context)
+                        .setTitle("Cảnh Báo")
+                        .setMessage("Bạn Có Muốn Xóa Không?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                                String idUser = fUser.getUid();
+                                delProductWishlist(idUser,product.getProduct_id(),holder.getAdapterPosition());
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+                }
         });
         LinearLayoutManager layoutManager= new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false);
         holder.mCirclesRecyclerView.setLayoutManager(layoutManager);

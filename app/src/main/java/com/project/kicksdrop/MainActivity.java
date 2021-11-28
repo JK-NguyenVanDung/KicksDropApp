@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navCo = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(binding.navView, navCo);
 
+
+
         //loadProduct("PD1");
 
         //getProduct();
