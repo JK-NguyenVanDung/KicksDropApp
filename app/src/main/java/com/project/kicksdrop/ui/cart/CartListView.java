@@ -178,6 +178,8 @@ public class CartListView extends AppCompatActivity {
                     //Cart cart = new Cart(user_Id,,productsInCart);
 
                     getProduct(productsInCart);
+                }else{
+                    loading.dismissDialog();
                 }
             }
 

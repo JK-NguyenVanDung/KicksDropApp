@@ -74,6 +74,14 @@ public class HomeCouponAdapter extends RecyclerView.Adapter<HomeCouponAdapter.Vi
             holder.btn.setText("Special Combo Offer");
         }
 
+        holder.icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                String idUser = fUser.getUid().toString();
+                addCoupon(idUser,coupon.getCoupon_id());
+            }
+        });
 
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
