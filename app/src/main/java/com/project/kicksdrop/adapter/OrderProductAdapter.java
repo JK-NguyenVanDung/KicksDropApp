@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Coupon;
@@ -53,6 +54,18 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     private String coupon_id;
     private int maxprice = 0;
     private int percent = 0;
+    LoadingScreen loading;
+    public OrderProductAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions, LoadingScreen loading) {
+        this.context = context;
+        //this.cart = cart;
+        this.mCartProduct = mCartProduct;
+        this.productOptions = productOptions;
+        this.totalPayment = totalPayment;
+        this.totalProduct = totalProduct;
+        this.totalPaymentHead = totalPaymentHead;
+        this.coupon_id = coupon_id;
+        this.loading = loading;
+    }
     public OrderProductAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions) {
         this.context = context;
         //this.cart = cart;
@@ -75,6 +88,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OrderProductAdapter.ViewHolder holder, int position) {
         final Product product = mCartProduct.get(holder.getAdapterPosition());
@@ -89,27 +103,17 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
                 loadImage(holder.productImage,imageName);
             }
         }
-//        totalProducts= productOptions.size();
-//        totalProduct.setText(totalProducts >1 ? totalProducts + " ITEMS" : totalProducts + "ITEM");
-
-//        holder.productCartType.setText(product.getProduct_brand());
 
         java.util.Currency usd = java.util.Currency.getInstance("USD");
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
         format.setCurrency(usd);
         String sPrice =format.format(product.getProduct_price());
 
-
-        String amountS = String.valueOf( productOptions.get(position).get("amount"));
-        final long[] currentAmount = {Long.parseLong(amountS)};
-        //Toast.makeText(context,"yes",Toast.LENGTH_LONG).show();
-        product.getProduct_sizes().remove(0);
-        String size = productOptions.get(holder.getAdapterPosition()).get("size");
         //
         holder.productCartName.setText(product.getProduct_name());
         holder.productCartPrice.setText(sPrice);
-        holder.productCartAmount.setText(Long.toString(currentAmount[0]));
-        holder.getProductCartSize.setText(size);
+        holder.productCartAmount.setText(product.getAmount());
+        holder.getProductCartSize.setText(product.getProduct_size());
 
     }
     @SuppressLint("NotifyDataSetChanged")
@@ -140,6 +144,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
 
                     image.setBackground(ob);
+                    if(loading != null){
+                        loading.dismissDialog();
+
+                    }
                 }
             });
         } catch (IOException e) {

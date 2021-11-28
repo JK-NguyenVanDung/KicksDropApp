@@ -147,6 +147,9 @@ public class CartProductOrder extends AppCompatActivity {
                             if(cartProductId.equals(item.get("cartProductID"))){
                                 product.setProduct_id(dtShot.getKey());
                                 product.getProduct_images().remove(0);
+                                product.setProduct_color(item.get("color"));
+                                product.setProduct_size(item.get("size"));
+                                product.setAmount(String.valueOf(item.get("amount")));
                                 mProducts.add(product);
                             }
                         }

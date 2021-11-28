@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        String username = "tdat1155@gmail.com";
+        String username = "jackiedekingv@gmail.com";
         String pass = "123456";
 
         auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {

@@ -12,20 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.ViewHolder> {
 
@@ -41,7 +33,7 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
     @Override
     public BillProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bill_product, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_list, parent, false);
 
         return new BillProductAdapter.ViewHolder(view);
     }
@@ -91,6 +83,7 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
         }
     }
     private void getProduct(OrderProductAdapter adapter,RecyclerView recyclerView ){
+        Log.d("d",adapter.toString());
         recyclerView.setAdapter(adapter);
     }
     @Override

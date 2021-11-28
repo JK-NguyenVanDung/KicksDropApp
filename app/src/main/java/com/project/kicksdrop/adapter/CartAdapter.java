@@ -100,8 +100,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
         getUserWishlist(fUser.getUid(), product, holder.heart);
-
-        String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
+        String opColor = "#ffffff";
+        if(productOptions.get(holder.getAdapterPosition()).get("color") != null){
+            opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
+        }
 
         GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
 
