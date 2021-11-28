@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 final int DRAWABLE_BOTTOM = 3;
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= 630 && !search.getText().toString().matches("")) {
+                    if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()-50) && !search.getText().toString().matches("")) {
 
                             Intent intent = new Intent(getContext(), SearchViewProduct.class);
                             intent.putExtra("keySearch",search.getText().toString());
