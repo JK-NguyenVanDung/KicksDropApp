@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
@@ -41,6 +42,7 @@ import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
 import com.project.kicksdrop.ui.productBrands.ProductBrands;
 import com.project.kicksdrop.ui.searchView.SearchViewProduct;
+import com.project.kicksdrop.ui.wishlist.WishlistFragment;
 
 import java.util.ArrayList;
 
@@ -59,12 +61,14 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
+    private final LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+        loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -242,7 +246,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                     product.setProduct_id(dtShot.getKey());
                     mProduct.add(product);
                 }
-                productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this );
+                productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this,loading );
                 recyclerView.setAdapter(productAdapter);
             }
             @Override

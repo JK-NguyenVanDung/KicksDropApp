@@ -120,26 +120,27 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mCoupon.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
-
-                    coupon = dtShot.getValue(com.project.kicksdrop.model.Coupon.class);
-                    assert coupon != null;
-                    coupon.setCoupon_id(dtShot.getKey());
-
-                    for (int i = 0; i < couponInList.size(); i++) {
-
-                        if (couponInList.get(i).equals(dtShot.getKey())){
-                            boolean check = couponInList.get(i).equals(dtShot.getKey());
-                            Log.d("test",String.valueOf(check));
-                            coupon.setCoupon_checked(false);
-                            mCoupon.add(coupon);
-
+                if(snapshot.getKey() != null){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        coupon = dtShot.getValue(com.project.kicksdrop.model.Coupon.class);
+                        assert coupon != null;
+                        coupon.setCoupon_id(dtShot.getKey());
+                        for (int i = 0; i < couponInList.size(); i++) {
+                            if (couponInList.get(i).equals(dtShot.getKey())){
+                                boolean check = couponInList.get(i).equals(dtShot.getKey());
+                                Log.d("test",String.valueOf(check));
+                                coupon.setCoupon_checked(false);
+                                mCoupon.add(coupon);
+                            }
                         }
                     }
+                    loading.dismissDialog();
+                    couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
+                    recyclerView.setAdapter(couponAdapter);
+                }else{
+                    loading.dismissDialog();
+
                 }
-                loading.dismissDialog();
-                couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
-                recyclerView.setAdapter(couponAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
