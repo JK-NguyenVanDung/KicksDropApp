@@ -254,6 +254,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/customerOrder_tv_totalpayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

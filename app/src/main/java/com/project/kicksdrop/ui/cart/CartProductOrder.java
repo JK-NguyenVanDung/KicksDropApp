@@ -28,6 +28,7 @@ import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
 import com.project.kicksdrop.ui.orderCompleted.OrderCompleted;
 
 import java.text.SimpleDateFormat;
@@ -36,6 +37,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CartProductOrder extends AppCompatActivity {
 
@@ -83,6 +85,8 @@ public class CartProductOrder extends AppCompatActivity {
             public void onClick(View v) {
              //
                 createOrder();
+                Intent intent1 = new Intent(getApplicationContext(), CustomerOrder.class);
+                startActivity(intent1);
 
             }
         });
@@ -100,7 +104,9 @@ public class CartProductOrder extends AppCompatActivity {
         getCart(fUser.getUid());
 
         //
-        getCoupon(coupon_id);
+        if (coupon_id !=null){
+            getCoupon(coupon_id);
+        }
         double shipPrice = 10.00;
 
 
@@ -270,9 +276,15 @@ public class CartProductOrder extends AppCompatActivity {
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+                    DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id+"/order_details");
+                    for (HashMap<String,String> item: productsInCart){
 
-                    myRef.child("order_details").setValue(productsInCart);
+                        item.put("amount",String.valueOf(item.get("amount")));
+                        item.put("productId",String.valueOf(item.get("productId")));
+
+                        myRef.child(Objects.requireNonNull(item.get("cartProductID"))).setValue(item);
+
+                    }
 
                 }
             }

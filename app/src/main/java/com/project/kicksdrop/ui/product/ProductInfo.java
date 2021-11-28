@@ -209,7 +209,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart");
         String idColor = color.substring(1);
-        myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(idProduct);
         myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
         myRef.child(idUser).child("product").child(idProduct+idColor).child("color").setValue(color);
         myRef.child(idUser).child("product").child(idProduct+idColor).child("size").setValue(size);

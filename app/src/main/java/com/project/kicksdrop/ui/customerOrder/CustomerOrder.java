@@ -17,8 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.BillProductAdapter;
-import com.project.kicksdrop.adapter.OrderProductAdapter;
-import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
 
@@ -32,7 +30,7 @@ public class CustomerOrder extends AppCompatActivity {
     FirebaseUser fUser;
     RecyclerView recyclerView;
     BillProductAdapter billProductAdapter;
-    private ArrayList<Order> mOder;
+    private  ArrayList<Order> mOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,7 @@ public class CustomerOrder extends AppCompatActivity {
         setContentView(R.layout.activity_customer_order);
 
         //recycler view
+        recyclerView = (RecyclerView) findViewById(R.id.order_rv_order_List);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -48,32 +47,53 @@ public class CustomerOrder extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
-        //getCart(fUser.getUid());
+        getOrder(fUser.getUid());
     }
-    private void getCart(String user_Id){
+    private void getOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("order");
-        mOder = new ArrayList<>();
+        DatabaseReference myRef = database.getReference("order/"+user_Id);
+        mOrder = new ArrayList<>();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                if(snapshot != null) {
-                    HashMap<String, Object> listOrder = (HashMap<String, Object>) hashMap.get(user_Id);
-                    for (Map.Entry<String, Object> entry : listOrder.entrySet()) {
-                        String key = entry.getKey();
-                        HashMap<String, String> item = (HashMap<String, String>) listOrder.get(key);
-                        item.put("cartProductID", key);
-                        //mOder.add(item);
-                    }
-                    //String coupon = hashMap.get("coupon_id").toString();
-                    //Cart cart = new Cart(user_Id,,productsInCart);
+                mOrder.clear();
 
-                    //billProductAdapter = new BillProductAdapter(getApplicationContext(),productsInCart);
-                   //Log.d("test",mProducts.toString());
-                    //recyclerView.setAdapter(orderProductAdapter);
+                for (DataSnapshot dtShot: snapshot.getChildren()){
+                    HashMap<String,Object> hashMap = (HashMap<String, Object>) dtShot.getValue();
+                    Log.d("Test", hashMap.toString());
+                    Order order = dtShot.getValue(Order.class);
+                    assert order != null;
+                    mOrder.add(order);
                 }
+//                Log.d("Test", mOrder.toString());
+
+                billProductAdapter = new BillProductAdapter(getApplicationContext(),mOrder);
+
+                recyclerView.setAdapter(billProductAdapter);
+
+
+
+
+//                List<HashMap<String,Object>> listOrder = new ArrayList<>();
+//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+//                if (hashMap != null){
+//                    for (Map.Entry<String, Object> entry : hashMap.entrySet()) {
+//                        String key = entry.getKey();
+//                        HashMap<String, Object> item = (HashMap<String, Object>) hashMap.get(key);
+//                        item.put("cartProductID", key);
+//                        listOrder.add(item);
+//                    }
+//                    for(HashMap<String, Object> item : listOrder){
+//                            mOrder.add(item);
+//
+//                    }
+
+//
+//                    //billProductAdapter = new BillProductAdapter(getApplicationContext(),productsInCart);
+//                   //Log.d("test",mProducts.toString());
+//                    //recyclerView.setAdapter(orderProductAdapter);
+//                }
             }
 
             @Override
