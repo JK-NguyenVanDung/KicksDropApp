@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CouponAdapter;
 import com.project.kicksdrop.model.Coupon;
@@ -40,11 +41,13 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
     private ArrayList<Coupon> mCoupon;
     private com.project.kicksdrop.model.Coupon coupon;
     private double price;
+    private final LoadingScreen loading = new LoadingScreen(CouponPage.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coupon);
+        loading.startLoadingScreen();
 
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
@@ -134,8 +137,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
                         }
                     }
                 }
-                ArrayList<com.project.kicksdrop.model.Coupon> abc = mCoupon;
-                Log.d("Test",String.valueOf(abc));
+                loading.dismissDialog();
                 couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
                 recyclerView.setAdapter(couponAdapter);
             }
