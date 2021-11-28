@@ -19,8 +19,8 @@
             android:name=".ui.orderCompleted.OrderCompleted"
             android:exported="true" />
         <activity
-        android:name=".ui.auth.ResetPasswordActivity"
-        android:exported="true" />
+            android:name=".ui.auth.ResetPasswordActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.searchView.SearchViewProduct"
             android:exported="true" />
@@ -50,13 +50,12 @@
             android:name=".ui.auth.LoginActivity"
             android:exported="true" />
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChatActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-         />
         <activity
             android:name=".SplashScreen"
             android:exported="true"

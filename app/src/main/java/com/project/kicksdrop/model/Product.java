@@ -13,7 +13,34 @@ public class Product {
     private double product_price;
     private int product_quantity;
     private ArrayList<String> product_sizes;
+    public String getProduct_color() {
+        return product_color;
+    }
 
+    public void setProduct_color(String product_color) {
+        this.product_color = product_color;
+    }
+
+    public String getProduct_size() {
+        return product_size;
+    }
+
+    public void setProduct_size(String product_size) {
+        this.product_size = product_size;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    private String amount;
+
+    private String product_color;
+    private String product_size;
     public Product(String product_id, String product_brand, ArrayList<String> product_colors, String product_name, double product_price, int product_quantity, ArrayList<String>  product_sizes,ArrayList<HashMap<String,String>> product_images) { //
         this.product_id = product_id;
         this.product_brand = product_brand;
