@@ -86,7 +86,6 @@ public class CustomerOrder extends AppCompatActivity {
                 recyclerView.setAdapter(billProductAdapter);
 
 
-
 //                List<HashMap<String,Object>> listOrder = new ArrayList<>();
 //                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
 //                if (hashMap != null){
