@@ -1,12 +1,15 @@
 package com.project.kicksdrop.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +40,7 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +50,7 @@ import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
-    private Context context;
+    Context context;
     private Cart cart;
     private List<Product> mCartProduct;
     private List<Coupon> mCoupon;
@@ -185,6 +189,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });
 
+       holder.delete.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               new AlertDialog.Builder(context)
+                       .setTitle("Cảnh Báo")
+                       .setMessage("Bạn Có Muốn Xóa Không?")
+                       .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int which) {
+                               deleteFromCart(productOptions.get(holder.getAdapterPosition()).get("cartProductID"),holder.getAdapterPosition());
+                           }
+                       })
+                       .setNegativeButton(android.R.string.no, null)
+                       .setIcon(android.R.drawable.ic_dialog_alert)
+                       .show();
+
+               //deleteFromCart(productOptions.get(holder.getAdapterPosition()).get("cartProductID"),holder.getAdapterPosition());
+
+
+
+           }
+       });
+
         holder.increase.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
             @Override
@@ -213,12 +239,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 }
             }
         });
-        holder.delete.setOnClickListener(new  View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                deleteFromCart(productOptions.get(holder.getAdapterPosition()).get("cartProductID"),holder.getAdapterPosition());
-            }
-        });
+
 
         calculateTotal(product.getProduct_price(), currentAmount[0]);
 
@@ -360,7 +381,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             productCartAmount =  itemView.findViewById(R.id.ProductCart_tv_amount_numb);
             increase = itemView.findViewById(R.id.ProductCart_btn_increase);
             decrease = itemView.findViewById(R.id.ProductCart_btn_decrease);
-            delete = itemView.findViewById(R.id.ProductCart_delete);
+            delete = (ImageButton) itemView.findViewById(R.id.ProductCart_delete);
             productImage = itemView.findViewById(R.id.productCart_iv_cart_image);
             dropDown = itemView.findViewById(R.id.ProductCart_btn_drop_down);
             colorCircle= itemView.findViewById(R.id.productCart_iv_color_circle);
