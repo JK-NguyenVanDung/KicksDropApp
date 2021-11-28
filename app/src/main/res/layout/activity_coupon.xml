@@ -36,10 +36,21 @@
                         <ImageButton
                             android:id="@+id/coupon_ibtn_prev"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="#00FFFFFF"
+                            android:layout_height="50dp"
+                            android:layout_alignParentStart="true"
+
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="10dp"
+
+                            android:layout_marginTop="0dp"
+                            android:background="?android:selectableItemBackground"
+
                             android:contentDescription="@string/todo"
-                            android:src="@drawable/ic_previous" />
+                            android:minWidth="48dp"
+                            android:src="@drawable/ic_previous"
+                            tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
+
+
 
                         <TextView
                             android:id="@+id/tv_productCoupon_title"
