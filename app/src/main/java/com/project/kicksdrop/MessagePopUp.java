@@ -13,7 +13,7 @@ public class MessagePopUp {
 
                 .setIcon(R.drawable.ic__81607_complete_icon)
 
-                .setTitle(" Alert")
+                .setTitle(" Message")
 
                 .setMessage(message)
 

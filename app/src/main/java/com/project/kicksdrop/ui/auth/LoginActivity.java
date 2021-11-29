@@ -102,9 +102,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     private void disableLayoutEditText(EditText editText) {
         editText.setBackgroundColor(Color.TRANSPARENT);
+
+
+
     }
 }

@@ -118,6 +118,16 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             }
         });
 
+        final ImageButton slide = binding.homeIbtnProductContent;
+        slide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
+                intent.putExtra("keySearch","");
+                startActivity(intent);
+            }
+        });
+
         final ImageButton chat = binding.homeBtnChat;
         chat.setOnClickListener(new  View.OnClickListener(){
             @Override

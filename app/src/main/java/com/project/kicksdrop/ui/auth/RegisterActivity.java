@@ -181,4 +181,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
+
+
 }

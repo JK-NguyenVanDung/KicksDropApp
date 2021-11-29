@@ -81,6 +81,9 @@ public class HomeCouponAdapter extends RecyclerView.Adapter<HomeCouponAdapter.Vi
                 FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
                 String idUser = fUser.getUid().toString();
                 addCoupon(idUser,coupon.getCoupon_id());
+                MessagePopUp messagePopUp = new MessagePopUp();
+                messagePopUp.show(context,"Add To Coupon Successfully");
+
             }
         });
 
@@ -91,7 +94,7 @@ public class HomeCouponAdapter extends RecyclerView.Adapter<HomeCouponAdapter.Vi
                 String idUser = fUser.getUid().toString();
                 addCoupon(idUser,coupon.getCoupon_id());
                 MessagePopUp messagePopUp = new MessagePopUp();
-                messagePopUp.show(context,"You have added "  +  coupon.getCoupon_name() + " to your coupon list \n Please go to your coupon page to see it!");
+                messagePopUp.show(context,"Add To Coupon Successfully");
 
             }
         });
