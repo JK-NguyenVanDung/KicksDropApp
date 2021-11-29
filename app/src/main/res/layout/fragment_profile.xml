@@ -83,6 +83,22 @@
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
+                <Button
+                    android:id="@+id/profile_btn_user_order"
+                    android:layout_width="345dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="18dp"
+                    android:backgroundTint="#00FFFFFF"
+                    android:gravity="center_vertical"
+                    android:outlineAmbientShadowColor="#FFFFFF"
+                    android:outlineSpotShadowColor="#FFFFFF"
+
+                    android:padding="0dp"
+
+                    android:text="Order"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/imageView8"

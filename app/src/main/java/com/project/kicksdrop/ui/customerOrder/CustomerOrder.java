@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -15,12 +16,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.BillProductAdapter;
+import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
-import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,14 +35,17 @@ public class CustomerOrder extends AppCompatActivity {
     FirebaseUser fUser;
     RecyclerView recyclerView;
     BillProductAdapter billProductAdapter;
-    private ArrayList<Order> mOder;
+    private  ArrayList<Order> mOrder;
+    private ArrayList<Product> mProducts;
+    private final LoadingScreen loading = new LoadingScreen(CustomerOrder.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_order);
-
+        loading.startLoadingScreen();;
         //recycler view
+        recyclerView = (RecyclerView) findViewById(R.id.order_rv_order_List);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -48,32 +54,59 @@ public class CustomerOrder extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
-        //getCart(fUser.getUid());
+        getOrder(fUser.getUid());
     }
-    private void getCart(String user_Id){
+
+    private void getOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("order");
-        mOder = new ArrayList<>();
+        DatabaseReference myRef = database.getReference("order/"+user_Id);
+        mOrder = new ArrayList<>();
+        DatabaseReference ref = database.getReference("product");
+        //final ArrayList<Product>[] products = new ArrayList[]{new ArrayList<>()};
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                if(snapshot != null) {
-                    HashMap<String, Object> listOrder = (HashMap<String, Object>) hashMap.get(user_Id);
-                    for (Map.Entry<String, Object> entry : listOrder.entrySet()) {
-                        String key = entry.getKey();
-                        HashMap<String, String> item = (HashMap<String, String>) listOrder.get(key);
-                        item.put("cartProductID", key);
-                        //mOder.add(item);
-                    }
-                    //String coupon = hashMap.get("coupon_id").toString();
-                    //Cart cart = new Cart(user_Id,,productsInCart);
+                mOrder.clear();
+                for (DataSnapshot dtShot: snapshot.getChildren()){
 
-                    //billProductAdapter = new BillProductAdapter(getApplicationContext(),productsInCart);
-                   //Log.d("test",mProducts.toString());
-                    //recyclerView.setAdapter(orderProductAdapter);
+                    Order order = dtShot.getValue(Order.class);
+                    assert order != null;
+                    if(order.getOrder_details() != null){
+                        ArrayList<Product> products  = getProducts(order.getOrder_details());
+                        OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(),products, order.getOrder_details(),loading);
+                        order.setAdapter(adapter);
+                        mOrder.add(order);
+                    }
+
+
                 }
+
+                loading.dismissDialog();
+                billProductAdapter = new BillProductAdapter(getApplicationContext(),mOrder);
+
+                recyclerView.setAdapter(billProductAdapter);
+
+
+//                List<HashMap<String,Object>> listOrder = new ArrayList<>();
+//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+//                if (hashMap != null){
+//                    for (Map.Entry<String, Object> entry : hashMap.entrySet()) {
+//                        String key = entry.getKey();
+//                        HashMap<String, Object> item = (HashMap<String, Object>) hashMap.get(key);
+//                        item.put("cartProductID", key);
+//                        listOrder.add(item);
+//                    }
+//                    for(HashMap<String, Object> item : listOrder){
+//                            mOrder.add(item);
+//
+//                    }
+
+//
+//                    //billProductAdapter = new BillProductAdapter(getApplicationContext(),productsInCart);
+//                   //Log.d("test",mProducts.toString());
+//                    //recyclerView.setAdapter(orderProductAdapter);
+//                }
             }
 
             @Override
@@ -82,5 +115,38 @@ public class CustomerOrder extends AppCompatActivity {
             }
         });
     }
+    private ArrayList<Product>  getProducts(List<HashMap<String,String>> options){
+        ArrayList<Product> products = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                products.clear();
+                for(HashMap<String, String> item : options){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.getProduct_colors().remove(0);
+                        String productId = dtShot.getKey();
+                        if(productId.equals(item.get("productId"))){
+                            product.setProduct_id(dtShot.getKey());
+                            product.getProduct_images().remove(0);
+                            product.setProduct_color(item.get("color"));
+                            product.setProduct_size(item.get("size"));
+                            product.setAmount(item.get("amount"));
+                            products.add(product);
+                        }
 
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return products;
+    }
 }

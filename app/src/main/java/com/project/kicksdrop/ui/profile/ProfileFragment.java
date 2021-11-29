@@ -18,6 +18,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.databinding.FragmentProfileBinding;
 import com.project.kicksdrop.ui.auth.LoginActivity;
+import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
 import com.project.kicksdrop.ui.auth.ResetPasswordActivity;
 import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
 import com.project.kicksdrop.ui.profileuser.EditProfileUser;
@@ -25,7 +26,7 @@ import com.project.kicksdrop.ui.profileuser.EditProfileUser;
 public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
-    private Button logout, profile, changePass, myOrder;
+    private Button logout, profile, changePass,  user_order;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,10 +42,11 @@ public class ProfileFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         logoutUI();
         profileUI();
         resetPasswordUI();
-        myOrder();
+        user_Order();
         return root;
     }
 
@@ -55,17 +57,6 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent goChangePass = new Intent(getContext(), ResetPasswordActivity.class);
                 startActivity(goChangePass);
-            }
-        });
-    }
-
-    private void myOrder() {
-        myOrder = binding.profileBtnMyOrder;
-        myOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goMyOrder = new Intent(getContext(), CustomerOrder.class);
-                startActivity(goMyOrder);
             }
         });
     }
@@ -89,6 +80,17 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent Ilogout = new Intent(getContext(), LoginActivity.class);
                 startActivity(Ilogout);
+
+            }
+        });
+    }
+    private void user_Order() {
+        user_order = binding.profileBtnUserOrder;
+        user_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent IOrder = new Intent(getContext(), CustomerOrder.class);
+                startActivity(IOrder);
 
             }
         });

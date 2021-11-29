@@ -55,7 +55,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<Product> mCartProduct;
     private List<Coupon> mCoupon;
     private List<HashMap<String,String>> productOptions;
-    private Spinner sizeSpinner;
     private Coupon coupon;
     //private long currentAmount = 1;
     private TextView totalPayment,totalProduct,totalPaymentHead;
@@ -104,8 +103,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
         getUserWishlist(fUser.getUid(), product, holder.heart);
-
-        String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
+        String opColor = "#ffffff";
+        if(productOptions.get(holder.getAdapterPosition()).get("color") != null){
+            opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
+        }
 
         GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
 
@@ -159,24 +160,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_dropdown_item, product.getProduct_sizes());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sizeSpinner.setAdapter(adapter);
+        holder.sizeSpinner.setAdapter(adapter);
 
         holder.dropDown.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                sizeSpinner.performClick();
+                holder.sizeSpinner.performClick();
             }
         });
         for(int i = 0 ; i < product.getProduct_sizes().size(); i ++){
             String size = productOptions.get(holder.getAdapterPosition()).get("size");
             if(product.getProduct_sizes().get(i).equals(size)){
-                sizeSpinner.setSelection(i);
+                holder.sizeSpinner.setSelection(i);
 
             }
 
         }
-        sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        holder.sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 saveToCart(productOptions.get(holder.getAdapterPosition()).get("cartProductID"), currentAmount[0],parent.getItemAtPosition(position).toString());
@@ -218,7 +219,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 if(Long.parseLong(amountS) < product.getProduct_quantity()){
                     currentAmount[0]++;
                     holder.productCartAmount.setText(Long.toString(currentAmount[0]));
-                    saveToCart(productOptions.get(position).get("cartProductID"), currentAmount[0], sizeSpinner.getSelectedItem().toString());
+                    saveToCart(productOptions.get(position).get("cartProductID"), currentAmount[0], holder.sizeSpinner.getSelectedItem().toString());
                 }else{
                     Toast.makeText(context,"Reach maximum available product",Toast.LENGTH_SHORT).show();
 
@@ -232,7 +233,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 if(currentAmount[0] >1){
                     currentAmount[0]--;
                     holder.productCartAmount.setText(Long.toString(currentAmount[0]));
-                    saveToCart(productOptions.get(position).get("cartProductID"), currentAmount[0], sizeSpinner.getSelectedItem().toString());
+                    saveToCart(productOptions.get(position).get("cartProductID"), currentAmount[0], holder.sizeSpinner.getSelectedItem().toString());
 
                 }else{
                     Toast.makeText(context,"Minimum amount is 1",Toast.LENGTH_SHORT).show();
@@ -370,7 +371,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         ImageButton increase, decrease, delete, dropDown;
         //Spinner productCartDropDownSize;
         ImageButton heart;
-
+        Spinner sizeSpinner;
         ImageView productImage, colorCircle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

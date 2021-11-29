@@ -97,7 +97,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
-                                android:text="Đơn hàng"
+                                android:text="Order(s)"
                                 android:textSize="14dp" />
 
                         </LinearLayout>
@@ -203,17 +203,20 @@
 
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/order_tv_address"
+                        <EditText
+                            android:id="@+id/order_et_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
+                            android:ems="10"
                             android:fontFamily="@font/roboto_light"
-                            android:gravity="top"
-                            android:inputType="text|textMultiLine"
-                            android:text='100/1 Phan Gia Định\nPhường 20\nBình Thạnh\nTP HCM'
+                            android:hint="Enter Your Address"
+                            android:inputType="textPersonName"
+                            android:minHeight="48dp"
                             android:textColor="#444444"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+
 
 
                     </LinearLayout>
