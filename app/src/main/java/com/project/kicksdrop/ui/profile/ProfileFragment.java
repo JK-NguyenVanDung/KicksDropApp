@@ -89,8 +89,7 @@ public class ProfileFragment extends Fragment {
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
 
                 if(hashMap.get("avatar") != null){
-                    String imagesName= Objects.requireNonNull(hashMap.get("avatar")).toString();
-                    loadImage(avatar, user_id);
+                    loadImage();
 
                 }
 
@@ -100,7 +99,7 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-    private void loadImage(ImageView image, String imageName){
+    private void loadImage(){
         storageReference = FirebaseStorage.getInstance().getReference();
 
         StorageReference ref =  storageReference.child("userProfile/" + account.getUid());
