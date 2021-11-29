@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-        loading.startLoadingScreenFragment();
+
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -157,6 +157,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 return false;
             }
         });
+        loading.startLoadingScreenFragment();
 
 //        search.addTextChangedListener(new TextWatcher() {
 //            @Override
