@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,9 @@ public class WishlistFragment extends Fragment {
     private FragmentWishlistBinding binding;
     private WishlistAdapter wishlistAdapter;
     private TextView totalProducts;
+    private FirebaseUser fUser;
+    private TextView tvnumberCart;
+    private int numberCart;
     private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -97,6 +101,10 @@ public class WishlistFragment extends Fragment {
 
         chat = binding.wishlistBtnChat;
 
+        getCart(fUser.getUid());
+        tvnumberCart = binding.tvNumberCartWishlist;
+        tvnumberCart.setText(String.valueOf(numberCart));
+
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -104,6 +112,7 @@ public class WishlistFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         chat.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -190,7 +199,39 @@ public class WishlistFragment extends Fragment {
             }
         });
     }
+    private void getCart(String user_Id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                if(hashMap != null) {
+                    HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
+                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                        String key = entry.getKey();
+                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
+                        item.put("cartProductID", key);
+                        productsInCart.add(item);
+                    }
+                    numberCart = productsInCart.size();
+                    //String coupon = hashMap.get("coupon_id").toString();
+                    //Cart cart = new Cart(user_Id,,productsInCart);
+
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 
 
     @Override

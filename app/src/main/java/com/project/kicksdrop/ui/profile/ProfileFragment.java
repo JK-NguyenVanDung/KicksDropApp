@@ -90,7 +90,6 @@ public class ProfileFragment extends Fragment {
                 if(hashMap.get("avatar") != null){
                     String imagesName= Objects.requireNonNull(hashMap.get("avatar")).toString();
                     loadImage(avatar, imagesName);
-
                 }
 
             }

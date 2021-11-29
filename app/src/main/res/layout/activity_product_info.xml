@@ -114,21 +114,51 @@
                         android:textColor="#333333"
                         android:textSize="20sp" />
 
-                    <ImageButton
-                        android:id="@+id/productInfo_btn_cart"
-                        android:layout_width="65dp"
+                    <FrameLayout
+                        android:id="@+id/btn_cart_frame"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
-
+                        android:layout_gravity="right"
                         android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true">
 
-                        android:layout_marginTop="0dp"
-                        android:layout_marginEnd="4dp"
+                        <ImageButton
+                            android:id="@+id/productInfo_btn_cart"
+                            android:layout_width="65dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="0dp"
 
-                        android:background="?android:selectableItemBackground"
-                        android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_shopping_bag_24"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                            android:background="?android:selectableItemBackground"
+                            android:contentDescription="@string/todo"
+                            android:src="@drawable/ic_baseline_shopping_bag_24"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                        <FrameLayout
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="11dp"
+                            android:layout_marginStart="15dp">
+                            <ImageView
+                                android:id="@+id/layout_iconNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_iconnumber"/>
+
+                            <TextView
+                                android:id="@+id/tv_numberCart_Product"
+                                android:layout_width="10dp"
+                                android:layout_height="15dp"
+                                android:text="0"
+                                android:textSize="8dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="1.4dp"
+                                android:textColor="@color/white"
+
+                                />
+                        </FrameLayout>
+                    </FrameLayout>
+
+
 
 
                 </RelativeLayout>
