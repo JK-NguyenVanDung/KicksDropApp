@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,8 +48,11 @@ import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 import com.project.kicksdrop.ui.wishlist.WishlistFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
+public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -54,20 +60,28 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
     HomeCouponAdapter homeCouponAdapter;
     private ArrayList<Product> mProduct;
     private ArrayList<Coupon> mCoupon;
+    private TextView tvnumberCart;
+    private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
     RecyclerView CouponRecyclerView;
+    FirebaseUser fUser;
 
 
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
-    private final LoadingScreen loading = new LoadingScreen(HomeFragment.this);
+    private LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+        loading = new LoadingScreen(HomeFragment.this);
         loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -117,6 +131,16 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
             }
         });
 
+        final ImageButton slide = binding.homeIbtnProductContent;
+        slide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
+                intent.putExtra("keySearch","");
+                startActivity(intent);
+            }
+        });
+
         final ImageButton chat = binding.homeBtnChat;
         chat.setOnClickListener(new  View.OnClickListener(){
             @Override
@@ -129,6 +153,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                getCart(fUser.getUid());
                 Intent intent = new Intent(getContext(), CartListView.class);
                 startActivity(intent);
             }
@@ -178,22 +203,16 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 //                }
 //            }
 //        });
-//
 
-
+        getCart(fUser.getUid());
+        tvnumberCart = binding.tvNumberCartHome;
+        tvnumberCart.setText(String.valueOf(numberCart));
 
 
         return root;
 
     }
-    //    public void matching() {
-//        productContentIbtn = (ImageButton) findViewById(R.id.home_ibtn_productContent);
-//        newDropsIBtn = (ImageButton) findViewById(R.id.home_ibtn_newDrops);
-//        nikesIbtn = (ImageButton) findViewById(R.id.home_ibtn_nikes);
-//        adidasIBtn = (ImageButton) findViewById(R.id.home_ibtn_adidas);
-//        productTitleBtn = (Button) findViewById(R.id.home_btn_productTitle);
-//
-//    }
+
     @Override
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getContext(), ProductInfo.class);
@@ -293,6 +312,40 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
     @Override
     public void onCouponClick(int position, View view, String id) {
+
+    }
+
+    private void getCart(String user_Id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+user_Id);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                if(hashMap != null) {
+                    HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
+                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                        String key = entry.getKey();
+                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
+                        item.put("cartProductID", key);
+                        productsInCart.add(item);
+                    }
+                    numberCart = productsInCart.size();
+                    //String coupon = hashMap.get("coupon_id").toString();
+                    //Cart cart = new Cart(user_Id,,productsInCart);
+
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 }

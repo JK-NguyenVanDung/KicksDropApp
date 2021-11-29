@@ -2,6 +2,7 @@ package com.project.kicksdrop.ui.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 
         setContentView(R.layout.activity_login);
@@ -100,9 +102,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     private void disableLayoutEditText(EditText editText) {
         editText.setBackgroundColor(Color.TRANSPARENT);
+
+
+
     }
 }
