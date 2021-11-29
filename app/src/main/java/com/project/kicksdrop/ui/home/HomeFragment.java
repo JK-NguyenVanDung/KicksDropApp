@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
+public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
-    private final LoadingScreen loading = new LoadingScreen(HomeFragment.this);
+    private LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -81,6 +81,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+        loading = new LoadingScreen(HomeFragment.this);
         loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -126,6 +127,16 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ProductBrands.class);
                 intent.putExtra("brand","Vans");
+                startActivity(intent);
+            }
+        });
+
+        final ImageButton slide = binding.homeIbtnProductContent;
+        slide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
+                intent.putExtra("keySearch","");
                 startActivity(intent);
             }
         });
@@ -201,14 +212,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         return root;
 
     }
-    //    public void matching() {
-//        productContentIbtn = (ImageButton) findViewById(R.id.home_ibtn_productContent);
-//        newDropsIBtn = (ImageButton) findViewById(R.id.home_ibtn_newDrops);
-//        nikesIbtn = (ImageButton) findViewById(R.id.home_ibtn_nikes);
-//        adidasIBtn = (ImageButton) findViewById(R.id.home_ibtn_adidas);
-//        productTitleBtn = (Button) findViewById(R.id.home_btn_productTitle);
-//
-//    }
+
     @Override
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getContext(), ProductInfo.class);

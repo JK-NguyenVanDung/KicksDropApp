@@ -59,6 +59,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         this.wishlistOptions = wishlistOptions;
         this.totalProducts = totalProducts;
         this.loading = loading;
+
     }
 
 
@@ -77,7 +78,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder holder, int position) {
-
 
         final Product product = mWishlist.get(holder.getAdapterPosition());
         String opColor = "";
@@ -120,7 +120,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 addProductCart(idUser,product.getProduct_id(),1,color ,size);
                 delProductWishlist(idUser,product.getProduct_id(), holder.getAdapterPosition());
                 MessagePopUp messagePopUp = new MessagePopUp();
-                messagePopUp.show(context,"Thêm Thành Công");
+                messagePopUp.show(context,"Add To Cart Successfully");
             }
         });
 
@@ -129,8 +129,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             public void onClick(View view) {
 
                 new AlertDialog.Builder(context)
-                        .setTitle("Cảnh Báo")
-                        .setMessage("Bạn Có Muốn Xóa Không?")
+                        .setTitle("Warning")
+                        .setMessage("Do you want to delete this?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();

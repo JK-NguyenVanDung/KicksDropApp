@@ -77,24 +77,21 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal">
 
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/editProfile_iv_avatar"
-
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="130dp"
-                        android:layout_marginTop="47dp"
-                        android:layout_marginEnd="130dp"
-                        android:foregroundGravity="center"
-                        android:src="@drawable/user_profile" />
+                        android:layout_marginStart="158dp"
+                        android:layout_marginEnd="157dp"
+                        android:src="@drawable/avatar_placeholder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -105,10 +102,9 @@
                         android:layout_marginBottom="24dp"
                         android:gravity="center_horizontal">
 
-
                         <Button
                             android:id="@+id/editProfile_btn_edit"
-                            android:layout_width="342dp"
+                            android:layout_width="340dp"
                             android:layout_height="match_parent"
 
                             android:backgroundTint="@color/black"
@@ -128,15 +124,15 @@
                     <ImageView
                         android:id="@+id/iv_profile_editProfile_backgroundImage"
                         android:layout_width="wrap_content"
-                        android:layout_height="333dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="154dp"
-                        android:layout_marginTop="-17dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="-2dp"
-                        android:layout_marginBottom="17dp"
+                        android:layout_marginBottom="1dp"
                         android:paddingTop="0dp"
                         android:src="@drawable/people_writing" />
 

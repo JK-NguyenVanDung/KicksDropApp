@@ -57,7 +57,28 @@ public class WishlistFragment extends Fragment {
 
         binding = FragmentWishlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        loading.startLoadingScreenFragment();
+
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String idUser = fUser.getUid().toString();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+idUser);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    loading.startLoadingScreenFragment();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         recyclerView = binding.wishlistRvProducts;
 
@@ -69,9 +90,6 @@ public class WishlistFragment extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String idUser = fUser.getUid().toString();
         getWishlist(idUser);
 
         totalProducts = binding.wishlistTvItems;
@@ -168,6 +186,8 @@ public class WishlistFragment extends Fragment {
 
 
                 }
+
+
                 wishlistAdapter = new WishlistAdapter(getContext(),mWishlist,wishlist,totalProducts,loading);
                 recyclerView.setAdapter(wishlistAdapter);
 
