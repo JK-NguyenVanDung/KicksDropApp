@@ -61,14 +61,15 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
 
 //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
-    private final LoadingScreen loading = new LoadingScreen(HomeFragment.this);
+    private LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-
+        loading = new LoadingScreen(HomeFragment.this);
+        loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -157,7 +158,6 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
                 return false;
             }
         });
-        loading.startLoadingScreenFragment();
 
 //        search.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -187,14 +187,7 @@ public class HomeFragment extends Fragment implements ProductListAdapter.OnProdu
         return root;
 
     }
-    //    public void matching() {
-//        productContentIbtn = (ImageButton) findViewById(R.id.home_ibtn_productContent);
-//        newDropsIBtn = (ImageButton) findViewById(R.id.home_ibtn_newDrops);
-//        nikesIbtn = (ImageButton) findViewById(R.id.home_ibtn_nikes);
-//        adidasIBtn = (ImageButton) findViewById(R.id.home_ibtn_adidas);
-//        productTitleBtn = (Button) findViewById(R.id.home_btn_productTitle);
-//
-//    }
+
     @Override
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getContext(), ProductInfo.class);

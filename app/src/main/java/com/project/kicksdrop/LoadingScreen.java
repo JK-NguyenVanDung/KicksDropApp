@@ -44,6 +44,8 @@ public class LoadingScreen {
 
     }
     public void dismissDialog(){
-        dialog.dismiss();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 }
