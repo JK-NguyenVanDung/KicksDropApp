@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +38,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
     String keySearch;
     TextView title ;
     private final LoadingScreen loading = new LoadingScreen(SearchViewProduct.this);
-
+    FirebaseUser fUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,30 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+//
+//                    tvnumberCart = binding.tvNumberCartWishlist;
+//                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         getProduct();
     }

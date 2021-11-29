@@ -112,7 +112,8 @@
             app:layout_constraintHorizontal_bias="0.21"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutLoginPassword"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            android:buttonTint="@color/main_purple"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_forgot"

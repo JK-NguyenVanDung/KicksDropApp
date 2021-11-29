@@ -206,7 +206,8 @@
                     app:layout_constraintHorizontal_bias="0.2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0"
+                    android:buttonTint="@color/main_purple"/>
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/btn_check_female"
@@ -219,7 +220,8 @@
                     app:layout_constraintHorizontal_bias="0.2"
                     app:layout_constraintStart_toEndOf="@+id/btn_check_male"
                     app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0"
+                    android:buttonTint="@color/main_purple"/>
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/btn_check_other"
@@ -232,7 +234,8 @@
                     app:layout_constraintHorizontal_bias="0.3"
                     app:layout_constraintStart_toEndOf="@+id/btn_check_female"
                     app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0"
+                    android:buttonTint="@color/main_purple"/>
 
             </RadioGroup>
 
@@ -246,7 +249,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/group_Radio_checkbox"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:buttonTint="@color/main_purple"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_signUp"
