@@ -1,6 +1,7 @@
 package com.project.kicksdrop.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private static List<Coupon> mCoupon;
     private CouponAdapter.OnCouponListener mOnCouponListener;
     private double price;
-    public double totalPayment;
+    public static double totalPayment;
     public int percent;
     public int maxprice;
     private String finaldiscount;
@@ -66,6 +67,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         CouponAdapter.apply = apply;
         this.mOnCouponListener = onCouponListener;
         mCheckbox = new ArrayList<>();
+
     }
 
 
@@ -186,8 +188,16 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                         if(cb.getCheck().isChecked() ) {
                             int position = cb.getPos();
                             String id = mCoupon.get(position).getCoupon_id();
-                            onCouponListener.onCouponClick(position, v, id);
-                            break;
+                            int min_price = mCoupon.get(position).getCoupon_min_price();
+                            if (CouponAdapter.totalPayment > min_price){
+                                onCouponListener.onCouponClick(position, v, id);
+                                break;
+                            }else
+                            {
+                                Toast.makeText(v.getContext(), "Your totalPayment not enough to use this coupon",Toast.LENGTH_SHORT).show();
+                            }
+
+
                         }
                     }
 
