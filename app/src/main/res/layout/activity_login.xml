@@ -63,8 +63,8 @@
                 android:id="@+id/et_loginEmail"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:hint="Email address"
                 android:background="@drawable/border_radius"
+                android:hint="Email address"
                 android:inputType="textEmailAddress"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -211,10 +211,10 @@
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.137"
+            app:layout_constraintHorizontal_bias="0.164"
             app:layout_constraintStart_toEndOf="@+id/fab_google"
             app:layout_constraintTop_toBottomOf="@+id/or"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.396" />
 
         <ProgressBar
             android:id="@+id/progressBar2"
