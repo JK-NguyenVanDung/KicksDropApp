@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.accounts.AccountManagerFuture;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText inputLoginEmail, inputLoginPassword;
     Button signIn, createAcc, forgot;
     CheckBox remember;
-    FloatingActionButton loginGoogle;
+    ImageButton loginGoogle;
     ProgressBar progressBar;
     FirebaseAuth mAuth;
     private AccountManagerFuture<Object> completedTask;
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        loginGoogle = (FloatingActionButton) findViewById(R.id.fab_google);
+        loginGoogle = findViewById(R.id.btn_google);
         createAcc = (Button) findViewById(R.id.btn_goRegister);
         inputLoginEmail = (EditText) findViewById(R.id.et_loginEmail);
         inputLoginPassword = (EditText) findViewById(R.id.et_loginPassword);
@@ -163,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
+                Log.w("G-error", e.getMessage(), e);
             }
         }
     }
