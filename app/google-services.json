@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "534353802380-40nbn5mfof2ei4of3rmct4aog64260c8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.huawei.testfirebase",
+            "certificate_hash": "f657ebb7f8cc23bd122fc19b9cebe6c662e01fc9"
+          }
+        },
+        {
           "client_id": "534353802380-4okktqkcuoi27jk645pa7e28e28nksmi.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -43,6 +51,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "534353802380-601its6decnp826a5pgpocsdtkq6s3md.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.kicksdrop",
+            "certificate_hash": "f657ebb7f8cc23bd122fc19b9cebe6c662e01fc9"
+          }
+        },
         {
           "client_id": "534353802380-4okktqkcuoi27jk645pa7e28e28nksmi.apps.googleusercontent.com",
           "client_type": 3
