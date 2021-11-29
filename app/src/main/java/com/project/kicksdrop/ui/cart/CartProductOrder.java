@@ -315,6 +315,7 @@ public class CartProductOrder extends AppCompatActivity {
 
             addProductOrder(fUser.getUid());
             deleteFromCart();
+            deleteFromCoupon(coupon_id);
         }else{
             Toast.makeText(getApplicationContext(),"Address field is empty!",Toast.LENGTH_SHORT).show();
         }
@@ -326,7 +327,14 @@ public class CartProductOrder extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("cart/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/product/");
         myRef.removeValue();
 
+    }@SuppressLint("SetTextI18n")
+    private void deleteFromCoupon(String coupon_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/coupon/");
+        myRef.child(coupon_id).removeValue();
+
     }
+
     private void addProductOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
