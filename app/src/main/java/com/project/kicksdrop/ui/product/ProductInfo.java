@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.MessagePopUp;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
@@ -62,6 +64,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     TextView indexNumb;
     FirebaseUser fUser;
     ImageButton cart;
+    Context context;
     private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
 
     int currentAmount = 1;
@@ -72,6 +75,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_info);
         loading.startLoadingScreen();
+        context = this;
 
         matching();
         Intent intent = getIntent();
@@ -197,7 +201,8 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                         fUser = FirebaseAuth.getInstance().getCurrentUser();
                         assert fUser != null;
                         addProductCart(fUser.getUid(),product.getProduct_id(),pickedAmount,pickedColor,pickedSize);
-                        Toast.makeText(getApplicationContext(),"Product successfully added to cart",Toast.LENGTH_LONG).show();
+                        MessagePopUp messagePopUp = new MessagePopUp();
+                        messagePopUp.show(context,"Thêm Thành Công");
                     }
                 });
             }
