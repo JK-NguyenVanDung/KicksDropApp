@@ -69,7 +69,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     FirebaseUser fUser;
 
 
-//    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
+    //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
     private LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
@@ -171,11 +171,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()-50) && !search.getText().toString().matches("")) {
 
-                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
-                            intent.putExtra("keySearch",search.getText().toString());
-                            startActivity(intent);
+                        Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch",search.getText().toString());
+                        startActivity(intent);
 
-                            return true;
+                        return true;
 
                     }
                 }

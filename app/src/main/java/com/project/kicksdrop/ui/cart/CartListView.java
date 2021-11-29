@@ -243,7 +243,7 @@ public class CartListView extends AppCompatActivity {
         totalProducts = findViewById(R.id.Cart_tv_total_products);
         totalPaymentHead = findViewById(R.id.Cart_tv_total_head);
         couponCode=  findViewById(R.id.Cart_coupon_code);
-        back = findViewById(R.id.Cart_btn_go_back);
+        back = findViewById(R.id.Cart_btn_back);
     }
     private void Discount(String coupon_id){
         if (coupon_id != null){

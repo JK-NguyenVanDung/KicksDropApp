@@ -11,7 +11,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 public class ProductBrands extends AppCompatActivity implements ProductListAdapter.OnProductListener {
     private ArrayList<Product> mProduct;
     ImageButton prevIBtn, cartIBtn, chatIBtn;
+    TextView tvNumberCart;
     EditText searchProduct;
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
@@ -77,6 +82,29 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
                 startActivity(goCart);
             }
         });
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvNumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void matching() {
@@ -85,6 +113,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         chatIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_chat);
         searchProduct = (EditText) findViewById(R.id.productBrands_iBtn_search);
         recyclerView = (RecyclerView) findViewById(R.id.brand_rv_products);
+        tvNumberCart = findViewById(R.id.tv_numberCart_Brands);
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
