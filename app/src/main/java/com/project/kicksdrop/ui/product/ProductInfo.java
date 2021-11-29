@@ -202,7 +202,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                         assert fUser != null;
                         addProductCart(fUser.getUid(),product.getProduct_id(),pickedAmount,pickedColor,pickedSize);
                         MessagePopUp messagePopUp = new MessagePopUp();
-                        messagePopUp.show(context,"Thêm Thành Công");
+                        messagePopUp.show(context,"Add To Cart Successfully");
                     }
                 });
             }

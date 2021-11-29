@@ -194,8 +194,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
            @Override
            public void onClick(View view) {
                new AlertDialog.Builder(context)
-                       .setTitle("Cảnh Báo")
-                       .setMessage("Bạn Có Muốn Xóa Không?")
+                       .setTitle("Warning")
+                       .setMessage("Do you want to delete this?")
                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                            public void onClick(DialogInterface dialog, int which) {
                                deleteFromCart(productOptions.get(holder.getAdapterPosition()).get("cartProductID"),holder.getAdapterPosition());
