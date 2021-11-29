@@ -89,6 +89,9 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
                         mProduct.add(product);
                     }
                 }
+                if(mProduct.size() <1){
+                    loading.dismissDialog();
+                }
                 productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, SearchViewProduct.this,loading);
                 recyclerView.setAdapter(productAdapter);
             }

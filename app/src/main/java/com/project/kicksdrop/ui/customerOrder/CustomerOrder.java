@@ -88,25 +88,6 @@ public class CustomerOrder extends AppCompatActivity {
                 recyclerView.setAdapter(billProductAdapter);
 
 
-//                List<HashMap<String,Object>> listOrder = new ArrayList<>();
-//                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-//                if (hashMap != null){
-//                    for (Map.Entry<String, Object> entry : hashMap.entrySet()) {
-//                        String key = entry.getKey();
-//                        HashMap<String, Object> item = (HashMap<String, Object>) hashMap.get(key);
-//                        item.put("cartProductID", key);
-//                        listOrder.add(item);
-//                    }
-//                    for(HashMap<String, Object> item : listOrder){
-//                            mOrder.add(item);
-//
-//                    }
-
-//
-//                    //billProductAdapter = new BillProductAdapter(getApplicationContext(),productsInCart);
-//                   //Log.d("test",mProducts.toString());
-//                    //recyclerView.setAdapter(orderProductAdapter);
-//                }
             }
 
             @Override

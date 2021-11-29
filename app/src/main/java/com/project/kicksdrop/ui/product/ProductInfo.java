@@ -162,20 +162,27 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                     images.add(temp);
                     count++;
                 }
+                indexNumb = findViewById(R.id.tv_productInfo_productPage);
 
                 imageAdapter = new ImageAdapter(getApplicationContext(),images,loading);
                 viewPager.setAdapter(imageAdapter);
                 viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    public void onPageScrollStateChanged(int state) {}
+                    public void onPageScrollStateChanged(int state) {
+
+
+                    }
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        indexNumb = findViewById(R.id.tv_productInfo_productPage);
 
                         String displayText = (position+1) + "/"+ size;
                         indexNumb.setText(displayText);
+
                     }
 
                     public void onPageSelected(int position) {
-
+                        List<ImageButton> buttons=  ColorCircleAdapter.getColorButtons();
+                        if(buttons != null){
+                            buttons.get(position).performClick();
+                        }
                     }
                 });
 

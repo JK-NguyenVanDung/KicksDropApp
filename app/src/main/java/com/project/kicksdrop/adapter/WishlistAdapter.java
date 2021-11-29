@@ -59,6 +59,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         this.wishlistOptions = wishlistOptions;
         this.totalProducts = totalProducts;
         this.loading = loading;
+
     }
 
 
@@ -77,7 +78,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder holder, int position) {
-
 
         final Product product = mWishlist.get(holder.getAdapterPosition());
         String opColor = "";

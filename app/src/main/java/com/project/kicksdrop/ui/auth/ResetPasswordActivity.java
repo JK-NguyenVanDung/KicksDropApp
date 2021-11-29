@@ -2,6 +2,7 @@ package com.project.kicksdrop.ui.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         setContentView(R.layout.activity_reset_password);
         resetPass = (Button) findViewById(R.id.btn_sendRequetResetPass);
         cancelReset = (Button) findViewById(R.id.btn_cancel_reset);

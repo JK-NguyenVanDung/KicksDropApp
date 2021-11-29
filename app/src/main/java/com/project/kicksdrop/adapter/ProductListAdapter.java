@@ -169,6 +169,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
                     if(loading != null){
                         loading.dismissDialog();
+
                     }
                     image.setBackground(ob);
                 }
