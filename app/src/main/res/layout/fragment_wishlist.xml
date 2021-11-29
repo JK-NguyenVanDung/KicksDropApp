@@ -65,18 +65,49 @@
                     android:paddingEnd="20dp"
                     android:importantForAutofill="no" />
 
-                <ImageButton
-                    android:id="@+id/wishlist_btn_cart"
+                <FrameLayout
+                    android:id="@+id/btn_cart_frame"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right">
 
-                    android:layout_width="48dp"
-                    android:layout_height="match_parent"
+                    <ImageButton
+                        android:id="@+id/wishlist_btn_cart"
 
-                    android:layout_marginEnd="13dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
 
-                    android:background="?android:selectableItemBackground"
+                        android:layout_marginEnd="13dp"
 
-                    android:src="@drawable/ic_shoppingbag"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                        android:background="?android:selectableItemBackground"
+
+                        android:src="@drawable/ic_shoppingbag"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                   <FrameLayout
+                       android:layout_width="10dp"
+                       android:layout_height="15dp"
+                       android:layout_gravity="center"
+                       android:layout_marginBottom="11dp"
+                       android:layout_marginStart="3dp">
+                       <ImageView
+                        android:id="@+id/layout_iconNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_iconnumber"/>
+
+                    <TextView
+                        android:id="@+id/tv_numberCart_Wishlist"
+                        android:layout_width="10dp"
+                        android:layout_height="15dp"
+                        android:text="0"
+                        android:textSize="8dp"
+                        android:layout_marginStart="2.3dp"
+                        android:layout_marginTop="1.4dp"
+                        android:textColor="@color/white"
+
+                        />
+                   </FrameLayout>
+                </FrameLayout>
 
                 <ImageButton
                     android:id="@+id/wishlist_btn_chat"
@@ -86,8 +117,9 @@
                     android:layout_marginEnd="12dp"
 
                     android:background="?android:selectableItemBackground"
+                    android:minWidth="48dp"
                     android:src="@drawable/ic_message"
-                    tools:ignore="SpeakableTextPresentCheck"/>
+                    tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
             <TextView

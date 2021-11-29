@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,8 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Chat;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,14 +58,24 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
         ColorCircleAdapter.pickedColor = pickedColor;
     }
 
-
     List<ImageView> borders;
+
+    public static List<ImageButton> getColorButtons() {
+        return colorButtons;
+    }
+
+    public void setColorButtons(List<ImageButton> colorButtons) {
+        ColorCircleAdapter.colorButtons = colorButtons;
+    }
+
+    private static List<ImageButton> colorButtons;
     public ColorCircleAdapter(Context context, List<String> mColor, List<Image> images, ViewPager viewPager){
         this.context = context;
         this.mColor = mColor;
         this.mImages = images;
         this.borders = new ArrayList<>();
         this.mPager = viewPager;
+        colorButtons= new ArrayList<>();
     }
 
     @NonNull
@@ -87,6 +100,7 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
             ImageView iv = holder.selected;
             borders.add(iv);
         }
+        colorButtons.add(holder.colorCircle);
         holder.colorCircle.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -104,12 +118,13 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
                     String temp  = mImages.get(i).getColor().toLowerCase();
                     if(temp.equals(color.toLowerCase())){
                         mPager.setCurrentItem(i);
-
                         break;
                     }
                 }
             }
         });
+
+
     }
 
     @Override

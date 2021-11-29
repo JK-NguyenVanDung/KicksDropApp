@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +34,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
     EditText searchView;
     RecyclerView recyclerView;
     String keySearch;
+    TextView title ;
     private final LoadingScreen loading = new LoadingScreen(SearchViewProduct.this);
 
     @Override
@@ -45,6 +47,9 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         loading.startLoadingScreen();
         keySearch = getIntent().getStringExtra("keySearch");
 
+        if (keySearch.equals("")){
+            title.setText("SALE");
+        }
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -55,6 +60,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
     private void matching() {
         prevBtn = (ImageButton) findViewById(R.id.search_ibtn_prev);
+        title =(TextView) findViewById(R.id.search_title);
         cartBtn = (ImageButton) findViewById(R.id.search_ibtn_cart);
         chatBtn = (ImageButton) findViewById(R.id.search_ibtn_chat);
         searchView = (EditText) findViewById(R.id.search_et_searchView);
@@ -82,6 +88,9 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
                         product.setProduct_id(dtShot.getKey());
                         mProduct.add(product);
                     }
+                }
+                if(mProduct.size() <1){
+                    loading.dismissDialog();
                 }
                 productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, SearchViewProduct.this,loading);
                 recyclerView.setAdapter(productAdapter);
