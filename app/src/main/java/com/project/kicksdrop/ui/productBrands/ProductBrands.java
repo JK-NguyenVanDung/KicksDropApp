@@ -3,7 +3,6 @@ package com.project.kicksdrop.ui.productBrands;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -11,21 +10,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
-import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.product.ProductInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProductBrands extends AppCompatActivity implements ProductListAdapter.OnProductListener {
     private ArrayList<Product> mProduct;
@@ -34,12 +39,20 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
     String brand;
+    FirebaseUser fUser;
+    private TextView tvnumberCart;
+    private int numberCart;
+    private final LoadingScreen loading = new LoadingScreen(ProductBrands.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_brands);
         matching();
+
+
         recyclerView.setHasFixedSize(true);
+
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         brand = getIntent().getStringExtra("brand");
 
@@ -49,6 +62,11 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
 
         getProduct();
+
+
+        getCart(fUser.getUid());
+        tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Brands);
+        tvnumberCart.setText(String.valueOf(numberCart));
 
         prevIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +78,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         cartIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getCart(fUser.getUid());
                 Intent goCart = new Intent(ProductBrands.this, CartListView.class);
                 startActivity(goCart);
             }
@@ -112,5 +131,38 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
             }
         });
+    }
+    private void getCart(String user_Id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+user_Id);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                if(hashMap != null) {
+                    HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
+                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                        String key = entry.getKey();
+                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
+                        item.put("cartProductID", key);
+                        productsInCart.add(item);
+                    }
+                    productsInCart.size();
+                    //String coupon = hashMap.get("coupon_id").toString();
+                    //Cart cart = new Cart(user_Id,,productsInCart);
+
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }
