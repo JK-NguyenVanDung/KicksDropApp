@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +37,7 @@ public class CustomerOrder extends AppCompatActivity {
     FirebaseUser fUser;
     RecyclerView recyclerView;
     BillProductAdapter billProductAdapter;
+    ImageButton back;
     private  ArrayList<Order> mOrder;
     private ArrayList<Product> mProducts;
     private final LoadingScreen loading = new LoadingScreen(CustomerOrder.this);
@@ -43,6 +46,13 @@ public class CustomerOrder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_order);
+        back = (ImageButton) findViewById(R.id.customerOrder_ibtn_prev);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         loading.startLoadingScreen();;
         //recycler view
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_order_List);

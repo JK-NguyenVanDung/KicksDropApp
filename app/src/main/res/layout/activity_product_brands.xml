@@ -88,14 +88,49 @@
                 android:paddingEnd="20dp"
                 tools:ignore="TextContrastCheck" />
 
-            <ImageButton
-                android:id="@+id/productBrands_iBtn_cart"
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:background="?android:selectableItemBackground"
-                android:radius="20dp"
-                android:src="@drawable/ic_shoppingbag"
-                tools:ignore="SpeakableTextPresentCheck" />
+
+            <FrameLayout
+                android:id="@+id/btn_cart_frame"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right">
+
+                <ImageButton
+                    android:id="@+id/productBrands_iBtn_cart"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
+                    android:radius="20dp"
+                    android:src="@drawable/ic_shoppingbag"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <FrameLayout
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginBottom="11dp">
+
+                    <ImageView
+                        android:id="@+id/layout_iconNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_iconnumber" />
+
+                    <TextView
+                        android:id="@+id/tv_numberCart_Brands"
+                        android:layout_width="10dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="0.7dp"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="10dp"
+
+                        />
+                </FrameLayout>
+            </FrameLayout>
+
 
             <ImageButton
                 android:id="@+id/productBrands_iBtn_chat"
@@ -128,8 +163,9 @@
             android:id="@+id/brand_rv_products"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingBottom="70dp"
-            android:layout_marginStart="6dp"/>
+            android:layout_marginStart="10dp"/>
 
 </androidx.core.widget.NestedScrollView>
 
