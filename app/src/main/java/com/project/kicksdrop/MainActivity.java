@@ -2,12 +2,16 @@ package com.project.kicksdrop;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
@@ -96,6 +100,25 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navCo);
 
 
+
+
+
+//        AlertDialog alertDialog = new AlertDialog.Builder(this)
+//
+//                .setIcon(R.drawable.ic__81607_complete_icon)
+//
+//                .setTitle(" Thông Báo")
+//
+//                .setMessage("Thêm thành công")
+//
+//                .show();
+//        new Handler().postDelayed(new Runnable()
+//        {
+//            public void run()
+//            {
+//                alertDialog.dismiss();
+//            }
+//        }, 10000  );
 
         //loadProduct("PD1");
 

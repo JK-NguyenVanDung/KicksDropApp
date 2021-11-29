@@ -32,6 +32,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.MessagePopUp;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
@@ -118,7 +119,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 String size = Objects.requireNonNull(wishlistOptions.get(holder.getAdapterPosition()).get("product_size"));
                 addProductCart(idUser,product.getProduct_id(),1,color ,size);
                 delProductWishlist(idUser,product.getProduct_id(), holder.getAdapterPosition());
-
+                MessagePopUp messagePopUp = new MessagePopUp();
+                messagePopUp.show(context,"Thêm Thành Công");
             }
         });
 

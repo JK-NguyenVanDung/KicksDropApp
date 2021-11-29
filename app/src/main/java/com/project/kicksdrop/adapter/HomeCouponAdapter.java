@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.project.kicksdrop.MessagePopUp;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
 
@@ -89,6 +90,9 @@ public class HomeCouponAdapter extends RecyclerView.Adapter<HomeCouponAdapter.Vi
                 FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
                 String idUser = fUser.getUid().toString();
                 addCoupon(idUser,coupon.getCoupon_id());
+                MessagePopUp messagePopUp = new MessagePopUp();
+                messagePopUp.show(context,"Thêm Thành Công");
+
             }
         });
 
