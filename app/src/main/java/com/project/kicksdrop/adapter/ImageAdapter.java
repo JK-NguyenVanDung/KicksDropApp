@@ -70,7 +70,7 @@ public class ImageAdapter extends PagerAdapter {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     Glide.with(context).load(bitmap).dontAnimate().override(400,400)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                             .into(image);
                     loading.dismissDialog();
 
