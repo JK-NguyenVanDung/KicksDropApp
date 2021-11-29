@@ -8,12 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
 
@@ -26,6 +31,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private static List<Coupon> mCoupon;
     private CouponAdapter.OnCouponListener mOnCouponListener;
     private double price;
+    FirebaseUser fUser;
     public static double totalPayment;
     public int percent;
     public int maxprice;
@@ -121,9 +127,16 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                     }else{
                         cb.getCheck().setChecked(false);
                     }
-
                 }
-
+            }
+        });
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String coupon_id = coupon.getCoupon_id();
+                fUser = FirebaseAuth.getInstance().getCurrentUser();
+                assert fUser != null;
+                delCoupon(fUser.getUid(),coupon_id);
             }
         });
 
@@ -167,19 +180,21 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+        ImageButton delete;
         TextView couponContent, couponDate, couponCode;
         CheckBox couponCheckbox;
         CouponAdapter.OnCouponListener onCouponListener;
         public ViewHolder(@NonNull View itemView, OnCouponListener onProductListener) {
 
             super(itemView);
+            delete = itemView.findViewById(R.id.coupon_ibtn_remove);
             couponContent = itemView.findViewById(R.id.coupon_tv_content);
             couponDate = itemView.findViewById(R.id.coupon_tv_date);
             couponCode = itemView.findViewById(R.id.coupon_tv_code);
             couponCheckbox = itemView.findViewById(R.id.coupon_checkbox);
             this.onCouponListener = onProductListener;
             itemView.setOnClickListener(this);
+
             CouponAdapter.apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -222,6 +237,12 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         }
         String finalTotalDiscount = String.valueOf(discount);
         return finalTotalDiscount;
+    }
+    private void delCoupon(String idUser,String coupon_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+idUser+"/coupon");
+        myRef.child(coupon_id).removeValue();
+
     }
 
 }
