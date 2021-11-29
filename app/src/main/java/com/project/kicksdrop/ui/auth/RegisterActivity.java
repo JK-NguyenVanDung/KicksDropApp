@@ -48,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp = (Button) findViewById(R.id.btn_signUp);
         numPhone = (EditText) findViewById(R.id.et_regisPhone);
         fullName = (EditText) findViewById(R.id.et_regisName);
+        cfPassword = (EditText) findViewById(R.id.et_regisAgainPassword);
 
         groupCheck = (RadioGroup) findViewById(R.id.group_Radio_checkbox);
         checkMale = (RadioButton) findViewById(R.id.btn_check_male);
@@ -93,7 +94,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-//                String againPass = cfPassword.getText().toString().trim();
+
+                String againPass = cfPassword.getText().toString().trim();
 
                 String name = fullName.getText().toString().trim();
                 String phone = numPhone.getText().toString().trim();
@@ -112,10 +114,16 @@ public class RegisterActivity extends AppCompatActivity {
                     inputPassword.setError("Password too short, enter minimum 6 characters !");
                     return;
                 }
-//                if(!againPass.equals(password)){
-//                    cfPassword.setError("Password does not match, Please enter again!");
-//                    return;
-//                }
+
+                if (TextUtils.isEmpty(againPass)){
+                    cfPassword.setError("Enter again password");
+                    return;
+                }
+
+                if(!againPass.equals(password)){
+                    cfPassword.setError("Password does not match, Please enter again!");
+                    return;
+                }
 
 
 

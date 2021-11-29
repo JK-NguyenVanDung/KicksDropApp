@@ -101,7 +101,7 @@ public class EditProfileUser extends AppCompatActivity {
                 isDeleteProfile();
             }
         });
-
+        disableEditText(userEmail);
         setAccount(account.getUid());
     }
 
