@@ -167,8 +167,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
-                    loading.dismissDialog();
+                    if(loading != null){
+                        loading.dismissDialog();
 
+                    }
                     image.setBackground(ob);
                 }
             });

@@ -46,7 +46,7 @@ import com.project.kicksdrop.ui.wishlist.WishlistFragment;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
+public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;

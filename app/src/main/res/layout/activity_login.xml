@@ -119,10 +119,10 @@
             android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.382"
+            app:layout_constraintHorizontal_bias="0.375"
             app:layout_constraintStart_toEndOf="@+id/cb_remember"
             app:layout_constraintTop_toBottomOf="@+id/layoutLoginPassword"
-            app:layout_constraintVertical_bias="0.055"
+            app:layout_constraintVertical_bias="0.047"
             tools:ignore="TouchTargetSizeCheck" />
 
         <androidx.appcompat.widget.AppCompatButton

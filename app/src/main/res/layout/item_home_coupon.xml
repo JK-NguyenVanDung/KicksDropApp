@@ -9,28 +9,29 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="15dp"
         android:background="?android:selectableItemBackground"
-        >
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageButton
             android:id="@+id/home_ibtn_freeShipment"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_car"
-            android:foreground="?android:selectableItemBackground"
             android:background="@drawable/border_radius_corner"
-            tools:ignore="SpeakableTextPresentCheck"
-            />
+            android:foreground="?android:selectableItemBackground"
+            android:src="@drawable/ic_car"
+            tools:ignore="SpeakableTextPresentCheck" />
+
         <Button
             android:id="@+id/home_btn_freeShipment"
             android:layout_width="match_parent"
-            android:layout_height="66dp"
+            android:layout_height="wrap_content"
             android:background="?android:selectableItemBackground"
             android:fontFamily="@font/work_sans"
+            android:insetBottom="10dp"
             android:minHeight="48dp"
             android:padding="0dp"
             android:text="Free\nShipment"
@@ -39,7 +40,6 @@
             android:textSize="12sp"
             app:iconPadding="0dp"
             tools:ignore="TouchTargetSizeCheck" />
-
 
 
     </LinearLayout>

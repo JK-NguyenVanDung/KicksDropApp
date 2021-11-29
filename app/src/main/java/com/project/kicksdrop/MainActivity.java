@@ -76,17 +76,17 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        auth = FirebaseAuth.getInstance();
-//
-//        String username = "vandung31141@gmail.com";
-//        String pass = "123456";
-//
-//        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
-//
-//            @Override
-//            public void onComplete(@NonNull Task task) {
-//            }
-//        });
+        auth = FirebaseAuth.getInstance();
+
+        String username = "jackiekingv@gmail.com";
+        String pass = "123456";
+
+        auth.signInWithEmailAndPassword(username,pass).addOnCompleteListener(new OnCompleteListener() {
+
+            @Override
+            public void onComplete(@NonNull Task task) {
+            }
+        });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

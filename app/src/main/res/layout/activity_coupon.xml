@@ -51,7 +51,6 @@
                             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
 
-
                         <TextView
                             android:id="@+id/tv_productCoupon_title"
                             android:layout_width="match_parent"
