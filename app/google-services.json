@@ -8,43 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:534353802380:android:aedb765e4bae3e2f2177a9",
-        "android_client_info": {
-          "package_name": "com.huawei.testfirebase"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "534353802380-40nbn5mfof2ei4of3rmct4aog64260c8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.huawei.testfirebase",
-            "certificate_hash": "f657ebb7f8cc23bd122fc19b9cebe6c662e01fc9"
-          }
-        },
-        {
-          "client_id": "534353802380-4okktqkcuoi27jk645pa7e28e28nksmi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCaitOaQMtAVC0ax-plN40meRZTX9b8BD0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "534353802380-4okktqkcuoi27jk645pa7e28e28nksmi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:534353802380:android:915546e7023bb4ff2177a9",
         "android_client_info": {
           "package_name": "com.project.kicksdrop"
