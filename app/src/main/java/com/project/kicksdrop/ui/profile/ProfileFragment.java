@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.databinding.FragmentProfileBinding;
@@ -88,8 +89,8 @@ public class ProfileFragment extends Fragment {
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
 
                 if(hashMap.get("avatar") != null){
-                    String imagesName= Objects.requireNonNull(hashMap.get("avatar")).toString();
-                    loadImage(avatar, imagesName);
+                    loadImage();
+
                 }
 
             }
@@ -98,8 +99,10 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-    private void loadImage(ImageView image, String imageName){
-        StorageReference ref =  storageReference.child("userProfile/" + imageName);
+    private void loadImage(){
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        StorageReference ref =  storageReference.child("userProfile/" + account.getUid());
         try {
 
             File file = File.createTempFile("tmp",".jpg");
@@ -107,7 +110,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    image.setImageBitmap(bitmap);
+                    avatar.setImageBitmap(bitmap);
                 }
             });
 
