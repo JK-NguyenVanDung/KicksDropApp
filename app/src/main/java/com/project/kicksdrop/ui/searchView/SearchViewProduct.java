@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +24,6 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.product.ProductInfo;
-import com.project.kicksdrop.ui.productBrands.ProductBrands;
 
 import java.util.ArrayList;
 
@@ -34,9 +34,9 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
     EditText searchView;
     RecyclerView recyclerView;
     String keySearch;
-    TextView title ;
+    TextView title, tvNumberCart;
     private final LoadingScreen loading = new LoadingScreen(SearchViewProduct.this);
-
+    FirebaseUser fUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +54,29 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvNumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         getProduct();
     }
@@ -65,6 +88,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         chatBtn = (ImageButton) findViewById(R.id.search_ibtn_chat);
         searchView = (EditText) findViewById(R.id.search_et_searchView);
         recyclerView = (RecyclerView) findViewById(R.id.search_rv_products);
+        tvNumberCart= findViewById(R.id.tv_numberCart_Brands);
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);

@@ -56,7 +56,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     ImageButton cart;
     Context context;
     private TextView tvnumberCart;
-    private int numberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
 
     int currentAmount = 1;
@@ -68,7 +67,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         setContentView(R.layout.activity_product_info);
         loading.startLoadingScreen();
         context = this;
-
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         matching();
@@ -111,7 +109,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                getCart(fUser.getUid());
                 Intent intent = new Intent(getApplicationContext(), CartListView.class);
                 startActivity(intent);
             }
@@ -121,9 +118,28 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         mCirclesRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
         mCirclesRecyclerView.setLayoutManager(layoutManager);
 
-        getCart(fUser.getUid());
-        tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Product);
-        tvnumberCart.setText(String.valueOf(numberCart));
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Product);
+                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -238,40 +254,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    private void getCart(String user_Id){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
-                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                if(hashMap != null) {
-                    HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
-                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
-                        String key = entry.getKey();
-                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
-                        item.put("cartProductID", key);
-                        productsInCart.add(item);
-                    }
-                    productsInCart.size();
-                    //String coupon = hashMap.get("coupon_id").toString();
-                    //Cart cart = new Cart(user_Id,,productsInCart);
-
-                }else{
-                    loading.dismissDialog();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-    @SuppressLint("WrongViewCast")
     private void matching(){
         name = findViewById(R.id.tv_productInfo_productName);
         currentSize = findViewById(R.id.tv_productInfo_productSize);

@@ -330,7 +330,8 @@
                                 android:checked="true"
                                 android:paddingLeft="11dp"
                                 android:text="@string/methodReceived"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                tools:ignore="TouchTargetSizeCheck"
+                                android:buttonTint="@color/main_purple"/>
 
                             <RadioButton
                                 android:id="@+id/order_rbtn_methodCredit"
@@ -341,7 +342,8 @@
                                 android:checked="false"
                                 android:paddingLeft="10dp"
                                 android:text="@string/methodCredit"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                tools:ignore="TouchTargetSizeCheck"
+                                android:buttonTint="@color/main_purple"/>
 
                             <RadioButton
                                 android:id="@+id/order_rbtn_methodDebit"
@@ -351,7 +353,8 @@
                                 android:checked="false"
                                 android:paddingLeft="10dp"
                                 android:text="@string/methodDebit"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                tools:ignore="TouchTargetSizeCheck"
+                                android:buttonTint="@color/main_purple"/>
 
                         </RadioGroup>
 

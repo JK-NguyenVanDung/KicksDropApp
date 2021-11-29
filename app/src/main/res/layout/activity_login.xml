@@ -57,7 +57,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1">
+            app:layout_constraintVertical_bias="0.1"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_loginEmail"
@@ -81,7 +84,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutLoginEmail"
             app:layout_constraintVertical_bias="0.07"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_loginPassword"
@@ -107,7 +112,8 @@
             app:layout_constraintHorizontal_bias="0.21"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutLoginPassword"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            android:buttonTint="@color/main_purple"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_forgot"
@@ -188,7 +194,7 @@
             app:layout_constraintVertical_bias="0.222" />
 
         <ImageButton
-            android:id="@+id/fabGoogle"
+            android:id="@+id/btn_google"
             android:layout_width="280dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
