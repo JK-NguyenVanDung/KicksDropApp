@@ -1,6 +1,8 @@
 package com.project.kicksdrop.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -241,7 +243,17 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private void delCoupon(String idUser,String coupon_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account/"+idUser+"/coupon");
-        myRef.child(coupon_id).removeValue();
+        new AlertDialog.Builder(context)
+                .setTitle("Warning")
+                .setMessage("Do you want to delete this coupon?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        myRef.child(coupon_id).removeValue();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
 
     }
 
