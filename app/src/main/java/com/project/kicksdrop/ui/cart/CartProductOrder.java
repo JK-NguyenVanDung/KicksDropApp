@@ -31,6 +31,7 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.model.ProductsInCart;
 import com.project.kicksdrop.ui.orderCompleted.OrderCompleted;
 
 import java.text.SimpleDateFormat;
@@ -52,6 +53,8 @@ public class CartProductOrder extends AppCompatActivity {
     EditText et_address;
     OrderProductAdapter orderProductAdapter;
     RecyclerView recyclerView;
+    Integer quanity;
+    List<HashMap<String,String>> productsInCart;
     private Coupon coupon;
     private ArrayList<Product> mProducts;
     private List<Coupon> mCoupon;
@@ -91,6 +94,9 @@ public class CartProductOrder extends AppCompatActivity {
                 createOrder();
                 Intent intent1 = new Intent(getApplicationContext(), OrderCompleted.class);
                 startActivity(intent1);
+                for (int i = 0; i <productsInCart.size() ; i++) {
+                    //productsInCart.get(i).get("")
+                }
                 finish();
             }
         });
@@ -294,6 +300,12 @@ public class CartProductOrder extends AppCompatActivity {
         });
     }
 
+    private void updateProduct(String product_id, int quanity){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product/"+product_id);
+       myRef.child("product_quantity").setValue(quanity);
+    }
+
     private void createOrder(){
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
         timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
@@ -342,7 +354,7 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
+                productsInCart = new ArrayList<HashMap<String,String>>();
                 HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
                 if(hashMap != null) {
                     HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
@@ -360,7 +372,7 @@ public class CartProductOrder extends AppCompatActivity {
 
                         item.put("amount",String.valueOf(item.get("amount")));
                         item.put("productId",String.valueOf(item.get("productId")));
-
+                        //updateProduct(String.valueOf(item.get("productId"));
 
                     }
                     myRef.child("order_details").setValue(productsInCart);
