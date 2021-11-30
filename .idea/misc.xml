@@ -59,6 +59,23 @@
         <entry key="..\:/KicksDrop/app/src/main/res/layout/fragment_dashboard.xml" value="0.20520833333333333" />
         <entry key="..\:/KicksDrop/app/src/main/res/layout/fragment_notifications.xml" value="0.20520833333333333" />
         <entry key="..\:/KicksDrop/app/src/main/res/layout/main_fragment.xml" value="0.33" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/drawable/border_radius.xml" value="0.3828125" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_cart_list_view.xml" value="0.25" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_cart_product_order.xml" value="0.34791666666666665" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_customer_order.xml" value="0.34791666666666665" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_edit_profile_user.xml" value="0.34791666666666665" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_product_brands.xml" value="0.36666666666666664" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_product_info.xml" value="0.36666666666666664" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_register.xml" value="0.34791666666666665" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_reset_password.xml" value="0.34791666666666665" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_search_view_product.xml" value="0.36666666666666664" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/fragment_home.xml" value="0.5596184419713831" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/fragment_wishlist.xml" value="0.4376731301939058" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/image_container.xml" value="0.20052083333333334" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/item_cart.xml" value="0.35104166666666664" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/item_order_list.xml" value="0.5142543859649122" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/item_product_order.xml" value="0.20520833333333333" />
         <entry key="..\:/KicksDropApp/app/src/main/res/drawable/color_circle.xml" value="0.3314814814814815" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_coupon.xml" value="0.20520833333333333" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_edit_profile_user.xml" value="0.25" />
