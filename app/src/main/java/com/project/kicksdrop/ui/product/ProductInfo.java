@@ -57,7 +57,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     Context context;
     private TextView tvnumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
-
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
     RecyclerView mCirclesRecyclerView;

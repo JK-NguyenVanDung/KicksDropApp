@@ -100,8 +100,10 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !search.getText().toString().matches("")) {
-                        searchProduct(search.getText().toString());
 
+                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch", search.getText().toString());
+                        startActivity(intent);
 
                         return true;
 
