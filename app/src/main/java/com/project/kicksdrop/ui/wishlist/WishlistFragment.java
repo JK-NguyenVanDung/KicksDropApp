@@ -64,7 +64,6 @@ public class WishlistFragment extends Fragment {
         DatabaseReference myRef = database.getReference("wishlist/"+idUser);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
-
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
