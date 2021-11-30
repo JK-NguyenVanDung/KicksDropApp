@@ -228,7 +228,7 @@ public class CartProductOrder extends AppCompatActivity {
                                     }
                                 }
 
-                                tv_totalPrice.setText(total.toString());
+                                tv_totalPrice.setText("$"+total.toString());
                                 java.util.Currency usd = java.util.Currency.getInstance("USD");
                                 java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
                                 format.setCurrency(usd);
@@ -319,7 +319,7 @@ public class CartProductOrder extends AppCompatActivity {
                 String sPrice =format.format(price);
                 String sDiscount =format.format(discount);
                 String sTotalPayment = format.format(price + shipPrice);
-                tv_discount.setText(sDiscount);
+                tv_discount.setText( "-"+ sDiscount);
                 tv_couponPercent.setText(percent + "%");
                 tv_couponCode.setText( coupon.getCoupon_code() );
             }
