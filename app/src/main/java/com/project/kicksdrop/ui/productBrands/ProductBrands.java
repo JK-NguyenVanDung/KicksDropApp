@@ -57,7 +57,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         brand = getIntent().getStringExtra("brand");
 
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
 
@@ -130,6 +130,30 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
             }
         });
+
+        searchProduct.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (searchProduct.getRight() - searchProduct.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !searchProduct.getText().toString().matches("")) {
+
+                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch", searchProduct.getText().toString());
+                        startActivity(intent);
+
+                        return true;
+
+                    }
+                }
+                return false;
+            }
+        });
+
     }
 
     private void matching() {
