@@ -34,22 +34,29 @@
                     android:layout_height="wrap_content">
 
                     <ImageButton
-                        android:id="@+id/editProfile_ibtn_prev"
+                        android:id="@+id/editProfile_btn_prev"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="#00FFFFFF"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="10dp"
+
+                        android:layout_marginTop="0dp"
+                        android:background="?android:selectableItemBackground"
+
+                        android:contentDescription="@string/todo"
+                        android:minWidth="48dp"
                         android:src="@drawable/ic_previous"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="49dp"
 
-                        android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
 
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="0dp"
                         android:layout_marginTop="-1dp"
                         android:layout_marginEnd="1dp"
                         android:fontFamily="@font/work_sans_semibold"
@@ -70,22 +77,21 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal">
 
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/editProfile_iv_avatar"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="46dp"
-                        android:src="@drawable/user_profile" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="158dp"
+                        android:layout_marginEnd="157dp"
+                        android:src="@drawable/avatar_placeholder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -96,10 +102,9 @@
                         android:layout_marginBottom="24dp"
                         android:gravity="center_horizontal">
 
-
                         <Button
                             android:id="@+id/editProfile_btn_edit"
-                            android:layout_width="342dp"
+                            android:layout_width="340dp"
                             android:layout_height="match_parent"
 
                             android:backgroundTint="@color/black"
@@ -119,15 +124,15 @@
                     <ImageView
                         android:id="@+id/iv_profile_editProfile_backgroundImage"
                         android:layout_width="wrap_content"
-                        android:layout_height="333dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="154dp"
-                        android:layout_marginTop="-17dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="-2dp"
-                        android:layout_marginBottom="17dp"
+                        android:layout_marginBottom="1dp"
                         android:paddingTop="0dp"
                         android:src="@drawable/people_writing" />
 
@@ -167,7 +172,8 @@
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/border_bottom_line"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -185,7 +191,8 @@
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/border_bottom_line"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -206,7 +213,8 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:scrollbars="none"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -221,9 +229,29 @@
                 <EditText
                     android:id="@+id/editProfile_et_phone"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/border_bottom_line"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:fontFamily="@font/work_sans_semibold"
+                    android:gravity="center_vertical"
+                    android:text="Address"
+                    android:textAllCaps="true"
+                    android:textColor="#ABABAB"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/editProfile_et_infoAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/border_bottom_line"
+                    android:textSize="20dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
             <Button

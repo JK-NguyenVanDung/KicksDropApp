@@ -7,12 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,10 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.MessagePopUp;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
@@ -42,11 +36,10 @@ import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ProductInfo extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -61,6 +54,9 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     TextView indexNumb;
     FirebaseUser fUser;
     ImageButton cart;
+    Context context;
+    private TextView tvnumberCart;
+    private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
 
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
@@ -69,6 +65,9 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_info);
+        loading.startLoadingScreen();
+        context = this;
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         matching();
         Intent intent = getIntent();
@@ -119,6 +118,29 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         mCirclesRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
         mCirclesRecyclerView.setLayoutManager(layoutManager);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Product);
+                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void getProduct(String id) {
@@ -155,20 +177,27 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                     images.add(temp);
                     count++;
                 }
+                indexNumb = findViewById(R.id.tv_productInfo_productPage);
 
-                imageAdapter = new ImageAdapter(getApplicationContext(),images);
+                imageAdapter = new ImageAdapter(getApplicationContext(),images,loading);
                 viewPager.setAdapter(imageAdapter);
                 viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    public void onPageScrollStateChanged(int state) {}
+                    public void onPageScrollStateChanged(int state) {
+
+
+                    }
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        indexNumb = findViewById(R.id.tv_productInfo_productPage);
 
                         String displayText = (position+1) + "/"+ size;
                         indexNumb.setText(displayText);
+
                     }
 
                     public void onPageSelected(int position) {
-
+                        List<ImageButton> buttons=  ColorCircleAdapter.getColorButtons();
+                        if(buttons != null){
+                            buttons.get(position).performClick();
+                        }
                     }
                 });
 
@@ -194,7 +223,8 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                         fUser = FirebaseAuth.getInstance().getCurrentUser();
                         assert fUser != null;
                         addProductCart(fUser.getUid(),product.getProduct_id(),pickedAmount,pickedColor,pickedSize);
-                        Toast.makeText(getApplicationContext(),"Product successfully added to cart",Toast.LENGTH_LONG).show();
+                        MessagePopUp messagePopUp = new MessagePopUp();
+                        messagePopUp.show(context,"Add To Cart Successfully");
                     }
                 });
             }
@@ -209,7 +239,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart");
         String idColor = color.substring(1);
-        myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(amount);
+        myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(idProduct);
         myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
         myRef.child(idUser).child("product").child(idProduct+idColor).child("color").setValue(color);
         myRef.child(idUser).child("product").child(idProduct+idColor).child("size").setValue(size);
@@ -224,7 +254,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    @SuppressLint("WrongViewCast")
+
     private void matching(){
         name = findViewById(R.id.tv_productInfo_productName);
         currentSize = findViewById(R.id.tv_productInfo_productSize);

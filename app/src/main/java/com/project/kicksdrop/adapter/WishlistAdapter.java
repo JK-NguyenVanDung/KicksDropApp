@@ -1,7 +1,9 @@
 package com.project.kicksdrop.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.MessagePopUp;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
@@ -48,11 +52,14 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     private List<HashMap<String,String>> wishlistOptions;
     private int totalCount = 0;
     private TextView totalProducts;
-    public WishlistAdapter(Context context, List<Product> mWishlist,List<HashMap<String,String>> wishlistOptions, TextView totalProducts) {
+    private LoadingScreen loading;
+    public WishlistAdapter(Context context, List<Product> mWishlist, List<HashMap<String,String>> wishlistOptions, TextView totalProducts, LoadingScreen loading) {
         this.context = context;
         this.mWishlist = mWishlist;
         this.wishlistOptions = wishlistOptions;
         this.totalProducts = totalProducts;
+        this.loading = loading;
+
     }
 
 
@@ -71,7 +78,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder holder, int position) {
-
 
         final Product product = mWishlist.get(holder.getAdapterPosition());
         String opColor = "";
@@ -113,7 +119,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 String size = Objects.requireNonNull(wishlistOptions.get(holder.getAdapterPosition()).get("product_size"));
                 addProductCart(idUser,product.getProduct_id(),1,color ,size);
                 delProductWishlist(idUser,product.getProduct_id(), holder.getAdapterPosition());
-
+                MessagePopUp messagePopUp = new MessagePopUp();
+                messagePopUp.show(context,"Add To Cart Successfully");
             }
         });
 
@@ -121,10 +128,23 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             @Override
             public void onClick(View view) {
 
-                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-                String idUser = fUser.getUid();
-                delProductWishlist(idUser,product.getProduct_id(),holder.getAdapterPosition());
-            }
+                new AlertDialog.Builder(context)
+                        .setTitle("Warning")
+                        .setMessage("Do you want to delete this?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                                String idUser = fUser.getUid();
+                                delProductWishlist(idUser,product.getProduct_id(),holder.getAdapterPosition());
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+                }
         });
         LinearLayoutManager layoutManager= new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false);
         holder.mCirclesRecyclerView.setLayoutManager(layoutManager);
@@ -252,6 +272,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
 
                     image.setBackground(ob);
+                    loading.dismissDialog();
+
                 }
             });
         } catch (IOException e) {

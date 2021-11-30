@@ -2,8 +2,10 @@ package com.project.kicksdrop.ui.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +29,8 @@ import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText inputEmail, inputPassword, cfPassword, numPhone, fullName;
+    EditText inputEmail, inputPassword, cfPassword, numPhone, fullName, infoAddress;
+    TextInputLayout layoutEmail, layoutPass, layoutCfPassword, layoutPhone, layoutFullName;
     Button btnSignIn, btnSignUp;
     RadioGroup groupCheck;
     RadioButton checkMale, checkFemale, checkother, checkAccept;
@@ -36,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         inputEmail = (EditText) findViewById(R.id.et_regisEmail);
         inputPassword = (EditText) findViewById(R.id.et_regisPassword);
@@ -44,12 +50,27 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp = (Button) findViewById(R.id.btn_signUp);
         numPhone = (EditText) findViewById(R.id.et_regisPhone);
         fullName = (EditText) findViewById(R.id.et_regisName);
+        cfPassword = (EditText) findViewById(R.id.et_regisAgainPassword);
 
         groupCheck = (RadioGroup) findViewById(R.id.group_Radio_checkbox);
         checkMale = (RadioButton) findViewById(R.id.btn_check_male);
         checkFemale= (RadioButton) findViewById(R.id.btn_check_female);
         checkother = (RadioButton) findViewById(R.id.btn_check_other);
         checkAccept = (RadioButton) findViewById(R.id.btn_check_accept);
+
+        layoutEmail = (TextInputLayout) findViewById(R.id.layoutEmail);
+        layoutCfPassword = (TextInputLayout) findViewById(R.id.layoutPassword);
+        layoutPhone = (TextInputLayout) findViewById(R.id.layoutName);
+        layoutPass = (TextInputLayout) findViewById(R.id.layoutPhone);
+        layoutFullName = (TextInputLayout) findViewById(R.id.layoutAgainPassword);
+
+        disableEditText(layoutPhone);
+        disableEditText(layoutEmail);
+        disableEditText(layoutFullName);
+        disableEditText(layoutCfPassword);
+        disableEditText(layoutPass);
+
+
 
         auth = FirebaseAuth.getInstance();
 
@@ -76,9 +97,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
 
+                String againPass = cfPassword.getText().toString().trim();
+
                 String name = fullName.getText().toString().trim();
                 String phone = numPhone.getText().toString().trim();
-                String againPass = cfPassword.getText().toString().trim();
+
 
 
                 if(TextUtils.isEmpty(email)){
@@ -89,11 +112,17 @@ public class RegisterActivity extends AppCompatActivity {
                     inputPassword.setError("Enter password !");
                     return;
                 }
-                if(password.length() < 6 && cfPassword.toString().trim().length() > 0){
+                if(password.length() < 6){
                     inputPassword.setError("Password too short, enter minimum 6 characters !");
                     return;
                 }
-                if(!cfPassword.equals(password)){
+
+                if (TextUtils.isEmpty(againPass)){
+                    cfPassword.setError("Enter again password");
+                    return;
+                }
+
+                if(!againPass.equals(password)){
                     cfPassword.setError("Password does not match, Please enter again!");
                     return;
                 }
@@ -135,10 +164,16 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private static void disableEditText(TextInputLayout textInputLayout) {
+        textInputLayout.setBackgroundColor(Color.TRANSPARENT);
+    }
+
+
     private void createUser(String userID, String email, String gender,String mobile,String name){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account");
-
 
         myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
         myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
@@ -147,10 +182,13 @@ public class RegisterActivity extends AppCompatActivity {
         myRef.child(userID).child("gender").setValue(gender);
         myRef.child(userID).child("mobile").setValue(mobile);
         myRef.child(userID).child("name").setValue(name);
+        myRef.child(userID).child("address").setValue(" ");
     }
     @Override
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
+
+
 }

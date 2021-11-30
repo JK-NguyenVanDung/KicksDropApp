@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CouponAdapter;
 import com.project.kicksdrop.model.Coupon;
@@ -40,11 +41,13 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
     private ArrayList<Coupon> mCoupon;
     private com.project.kicksdrop.model.Coupon coupon;
     private double price;
+    private final LoadingScreen loading = new LoadingScreen(CouponPage.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coupon);
+        loading.startLoadingScreen();
 
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
@@ -117,27 +120,27 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mCoupon.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
-
-                    coupon = dtShot.getValue(com.project.kicksdrop.model.Coupon.class);
-                    assert coupon != null;
-                    coupon.setCoupon_id(dtShot.getKey());
-
-                    for (int i = 0; i < couponInList.size(); i++) {
-
-                        if (couponInList.get(i).equals(dtShot.getKey())){
-                            boolean check = couponInList.get(i).equals(dtShot.getKey());
-                            Log.d("test",String.valueOf(check));
-                            coupon.setCoupon_checked(false);
-                            mCoupon.add(coupon);
-
+                if(snapshot.getKey() != null){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        coupon = dtShot.getValue(com.project.kicksdrop.model.Coupon.class);
+                        assert coupon != null;
+                        coupon.setCoupon_id(dtShot.getKey());
+                        for (int i = 0; i < couponInList.size(); i++) {
+                            if (couponInList.get(i).equals(dtShot.getKey())){
+                                boolean check = couponInList.get(i).equals(dtShot.getKey());
+                                Log.d("test",String.valueOf(check));
+                                coupon.setCoupon_checked(false);
+                                mCoupon.add(coupon);
+                            }
                         }
                     }
+                    loading.dismissDialog();
+                    couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
+                    recyclerView.setAdapter(couponAdapter);
+                }else{
+                    loading.dismissDialog();
+
                 }
-                ArrayList<com.project.kicksdrop.model.Coupon> abc = mCoupon;
-                Log.d("Test",String.valueOf(abc));
-                couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
-                recyclerView.setAdapter(couponAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

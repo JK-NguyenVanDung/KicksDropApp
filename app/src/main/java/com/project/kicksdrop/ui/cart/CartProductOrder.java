@@ -1,20 +1,24 @@
 package com.project.kicksdrop.ui.cart;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +28,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
-import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
@@ -36,6 +39,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CartProductOrder extends AppCompatActivity {
 
@@ -43,8 +47,9 @@ public class CartProductOrder extends AppCompatActivity {
     ImageButton prevBtn;
     Button orderBtn;
     TextView  totalProducts, totalPaymentHead, totalPayment;
-    TextView tv_address, tv_shipmentPartner, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice;
+    TextView  tv_shipmentPartner, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice;
     RadioGroup rGroup;
+    EditText et_address;
     OrderProductAdapter orderProductAdapter;
     RecyclerView recyclerView;
     private Coupon coupon;
@@ -55,7 +60,9 @@ public class CartProductOrder extends AppCompatActivity {
     private double price;
     private int shipmentPrice;
     private String timeStamp_id;
-
+    private String address;
+    private static KeyListener listener;
+    private static Drawable bgAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +71,6 @@ public class CartProductOrder extends AppCompatActivity {
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
         coupon_id = intent.getStringExtra("coupon");
-        Log.d("Test", "abc" + price + coupon_id);
         //
         matching();
         //
@@ -83,7 +89,9 @@ public class CartProductOrder extends AppCompatActivity {
             public void onClick(View v) {
              //
                 createOrder();
-
+                Intent intent1 = new Intent(getApplicationContext(), OrderCompleted.class);
+                startActivity(intent1);
+                finish();
             }
         });
 
@@ -100,22 +108,69 @@ public class CartProductOrder extends AppCompatActivity {
         getCart(fUser.getUid());
 
         //
-        getCoupon(coupon_id);
+        if (coupon_id !=null){
+            getCoupon(coupon_id);
+        }
         double shipPrice = 10.00;
 
+        java.util.Currency usd = java.util.Currency.getInstance("USD");
+        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+        format.setCurrency(usd);
+        String sPrice =format.format(shipPrice);
+        String sShipPrice =format.format(shipPrice);
 
-        tv_shipment.setText(String.valueOf(shipPrice));
-        tv_shipmentPrice.setText(String.valueOf(shipPrice));
+        tv_shipment.setText(sPrice);
+        tv_shipmentPrice.setText(sShipPrice);
+        address= " ";
 
-        tv_address.setText("123 ABC");
+        listener =et_address.getKeyListener();
+        bgAddress = et_address.getBackground();
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/" + fUser.getUid());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                address = Objects.requireNonNull(hashMap.get("address")).toString();
+                if(!address.equals(" ")){
+                    et_address.setText(address);
+                    disableEditText(et_address);
+                }else{
+                    enableEditText(et_address,listener,true);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
     }
 
+    private void enableEditText(EditText editText, KeyListener listener, boolean condition) {
+        editText.setFocusable(condition);
+        editText.setEnabled(condition);
+        editText.setCursorVisible(condition);
+        editText.setKeyListener(listener);
+        editText.setBackground(bgAddress);
+        editText.setFocusableInTouchMode(condition);
+    }
+    private static void disableEditText(EditText editText) {
+        editText.setFocusable(false);
+        editText.setEnabled(false);
+        editText.setCursorVisible(false);
+
+        editText.setKeyListener(null);
+        editText.setBackgroundColor(Color.TRANSPARENT);
+    }
     private void matching() {
         prevBtn = (ImageButton) findViewById(R.id.order_ibtn_prev);
         orderBtn = (Button) findViewById(R.id.order_btn_makeOrder);
 
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_products);
-        tv_address = (TextView) findViewById(R.id.order_tv_address);
+        et_address = (EditText) findViewById(R.id.order_et_address);
         tv_totalPrice = (TextView) findViewById(R.id.order_tv_total);
         tv_couponPercent = (TextView) findViewById(R.id.order_tv_couponPercent);
         tv_discount = (TextView) findViewById(R.id.order_tv_discount);
@@ -141,6 +196,9 @@ public class CartProductOrder extends AppCompatActivity {
                             if(cartProductId.equals(item.get("cartProductID"))){
                                 product.setProduct_id(dtShot.getKey());
                                 product.getProduct_images().remove(0);
+                                product.setProduct_color(item.get("color"));
+                                product.setProduct_size(item.get("size"));
+                                product.setAmount(String.valueOf(item.get("amount")));
                                 mProducts.add(product);
                             }
                         }
@@ -219,10 +277,14 @@ public class CartProductOrder extends AppCompatActivity {
                 percent = Integer.parseInt(coupon.getCoupon_percent());
 
                 double discount = caculateDiscount(maxprice,percent,price);
-
-                tv_discount.setText(String.valueOf(discount));
-                tv_totalPrice.setText(String.valueOf(price));
-                tv_couponPercent.setText(String.valueOf(percent));
+                java.util.Currency usd = java.util.Currency.getInstance("USD");
+                java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+                format.setCurrency(usd);
+                String sPrice =format.format(price);
+                String sDiscount =format.format(discount);
+                tv_discount.setText(sDiscount);
+                tv_totalPrice.setText(sPrice);
+                tv_couponPercent.setText(percent + "%");
 
             }
             @Override
@@ -231,25 +293,48 @@ public class CartProductOrder extends AppCompatActivity {
             }
         });
     }
+
     private void createOrder(){
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
         timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+        DatabaseReference saveAddress = database.getReference("account/"+fUser.getUid()+"/address");
 
+        if(!et_address.getText().toString().equals(" ")){
+            saveAddress.setValue(et_address.getText().toString().trim());
+            myRef.child("address").setValue(et_address.getText().toString().trim());
+            myRef.child("coupon_id").setValue(coupon_id);
+            myRef.child("oder_create_date").setValue(timeStamp);
+            myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(1));
+            myRef.child("order_price").setValue(tv_totalPrice.getText().toString().trim().substring(1));
+            myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
+            myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
+            myRef.child("status").setValue("Ordered");
+            myRef.child("user_id").setValue(fUser.getUid());
 
-        myRef.child("address").setValue(tv_address.getText().toString().trim());
-        myRef.child("coupon_id").setValue(coupon_id);
-        myRef.child("oder_create_date").setValue(timeStamp);
-        myRef.child("order_discount").setValue(tv_discount.getText().toString().trim());
-        myRef.child("order_price").setValue(tv_totalPrice.getText().toString().trim());
-        myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
-        myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim());
-        myRef.child("status").setValue("Ordered");
-        myRef.child("user_id").setValue(fUser.getUid());
+            addProductOrder(fUser.getUid());
+            deleteFromCart();
+            deleteFromCoupon(coupon_id);
+        }else{
+            Toast.makeText(getApplicationContext(),"Address field is empty!",Toast.LENGTH_SHORT).show();
+        }
 
-        addProductOrder(fUser.getUid());
     }
+    @SuppressLint("SetTextI18n")
+    private void deleteFromCart(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/product/");
+        myRef.removeValue();
+
+    }@SuppressLint("SetTextI18n")
+    private void deleteFromCoupon(String coupon_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/coupon/");
+        myRef.child(coupon_id).removeValue();
+
+    }
+
     private void addProductOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
@@ -271,7 +356,13 @@ public class CartProductOrder extends AppCompatActivity {
                     //Cart cart = new Cart(user_Id,,productsInCart);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+                    for (HashMap<String,String> item: productsInCart){
 
+                        item.put("amount",String.valueOf(item.get("amount")));
+                        item.put("productId",String.valueOf(item.get("productId")));
+
+
+                    }
                     myRef.child("order_details").setValue(productsInCart);
 
                 }
@@ -282,6 +373,7 @@ public class CartProductOrder extends AppCompatActivity {
 
             }
         });
+
     }
 
 }

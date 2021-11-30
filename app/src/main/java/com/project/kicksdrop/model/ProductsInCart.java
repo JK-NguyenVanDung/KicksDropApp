@@ -45,4 +45,5 @@ public class ProductsInCart {
     public void setSize(int size) {
         this.size = size;
     }
+
 }

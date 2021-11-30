@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CartAdapter;
@@ -38,6 +39,7 @@ import java.util.Map;
 public class CartListView extends AppCompatActivity {
 
     //product cart
+    Context context;
     TextView  totalProducts, totalPaymentHead, totalPayment, couponCode;
     Button couponPage, productCartOrder;
     ImageButton back;
@@ -48,22 +50,14 @@ public class CartListView extends AppCompatActivity {
     private String coupon_id;
     private com.project.kicksdrop.model.Coupon coupon;
     private double totalAmount;
-    private int count= 1500 ;
-    private boolean isLoading = true;
+    private final LoadingScreen loading = new LoadingScreen(CartListView.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_list_view);
 
         matching();
-        LoadingScreen loading = new LoadingScreen(CartListView.this);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loading.dismissDialog();
-            }
-        },count);
+        context= this;
         loading.startLoadingScreen();
 
         coupon_id= "";
@@ -72,6 +66,7 @@ public class CartListView extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
+                v.setBackgroundColor(Color.GRAY);
                 finish();
 
             }
@@ -94,10 +89,14 @@ public class CartListView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 double totalPrice = Double.parseDouble(totalPayment.getText().toString().substring(1));
-                Intent intent = new Intent(getApplicationContext(), CartProductOrder.class);
-                intent.putExtra("price", totalPrice);
-                intent.putExtra("coupon",coupon_id);
-                startActivityForResult(intent, 1);
+                if(totalPrice > 0.00){
+                    Intent intent = new Intent(getApplicationContext(), CartProductOrder.class);
+                    intent.putExtra("price", totalPrice);
+                    intent.putExtra("coupon",coupon_id);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "No Products In Cart", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //recycler view
@@ -182,11 +181,12 @@ public class CartListView extends AppCompatActivity {
                         item.put("cartProductID", key);
                         productsInCart.add(item);
                     }
-                    isLoading = false;
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
 
                     getProduct(productsInCart);
+                }else{
+                    loading.dismissDialog();
                 }
             }
 
@@ -222,7 +222,8 @@ public class CartListView extends AppCompatActivity {
 
                     }
                 }
-                cartAdapter = new CartAdapter(getApplicationContext(),mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id);
+
+                cartAdapter = new CartAdapter(context,mProducts,cartProducts,totalPayment,totalProducts,totalPaymentHead,coupon_id,loading);
                 recyclerView.setAdapter(cartAdapter);
 
 

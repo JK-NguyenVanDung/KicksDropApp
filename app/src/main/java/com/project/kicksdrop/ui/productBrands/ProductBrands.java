@@ -11,15 +11,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.product.ProductInfo;
 
@@ -28,15 +35,20 @@ import java.util.ArrayList;
 public class ProductBrands extends AppCompatActivity implements ProductListAdapter.OnProductListener {
     private ArrayList<Product> mProduct;
     ImageButton prevIBtn, cartIBtn, chatIBtn;
+    TextView tvNumberCart;
     EditText searchProduct;
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
     String brand;
+    private final LoadingScreen loading = new LoadingScreen(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_brands);
         matching();
+
+        loading.startLoadingScreen();
         recyclerView.setHasFixedSize(true);
 
         brand = getIntent().getStringExtra("brand");
@@ -47,6 +59,52 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
 
         getProduct();
+
+        prevIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        cartIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goCart = new Intent(ProductBrands.this, CartListView.class);
+                startActivity(goCart);
+            }
+        });
+
+        chatIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goCart = new Intent(ProductBrands.this, ChatActivity.class);
+                startActivity(goCart);
+            }
+        });
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvNumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void matching() {
@@ -55,6 +113,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         chatIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_chat);
         searchProduct = (EditText) findViewById(R.id.productBrands_iBtn_search);
         recyclerView = (RecyclerView) findViewById(R.id.brand_rv_products);
+        tvNumberCart = findViewById(R.id.tv_numberCart_Brands);
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
@@ -75,11 +134,11 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
                     assert product != null;
 
                     if (product.getProduct_brand().equals(brand)){
-                    product.setProduct_id(dtShot.getKey());
-                    mProduct.add(product);
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
                     }
                 }
-                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this);
+                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this,loading);
                 recyclerView.setAdapter(productAdapter);
             }
             @Override

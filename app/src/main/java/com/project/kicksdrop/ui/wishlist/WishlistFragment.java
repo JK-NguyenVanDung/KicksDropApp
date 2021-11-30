@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,10 +23,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
+import com.project.kicksdrop.ui.product.ProductInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +45,11 @@ public class WishlistFragment extends Fragment {
     private FragmentWishlistBinding binding;
     private WishlistAdapter wishlistAdapter;
     private TextView totalProducts;
+    private FirebaseUser fUser;
+    private TextView tvnumberCart;
+    private int numberCart;
+    private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         wishlistViewModel =
@@ -50,6 +58,27 @@ public class WishlistFragment extends Fragment {
         binding = FragmentWishlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String idUser = fUser.getUid().toString();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("wishlist/"+idUser);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    loading.startLoadingScreenFragment();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         recyclerView = binding.wishlistRvProducts;
 
@@ -61,9 +90,6 @@ public class WishlistFragment extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String idUser = fUser.getUid().toString();
         getWishlist(idUser);
 
         totalProducts = binding.wishlistTvItems;
@@ -75,6 +101,27 @@ public class WishlistFragment extends Fragment {
 
         chat = binding.wishlistBtnChat;
 
+        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvnumberCart = binding.tvNumberCartWishlist;
+                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -82,6 +129,7 @@ public class WishlistFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         chat.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -155,7 +203,9 @@ public class WishlistFragment extends Fragment {
 
 
                 }
-                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist,wishlist,totalProducts);
+
+
+                wishlistAdapter = new WishlistAdapter(getContext(),mWishlist,wishlist,totalProducts,loading);
                 recyclerView.setAdapter(wishlistAdapter);
 
 
