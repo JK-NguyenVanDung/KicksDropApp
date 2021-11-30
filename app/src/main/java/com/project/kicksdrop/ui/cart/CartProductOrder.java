@@ -381,6 +381,40 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.child(coupon_id).removeValue();
 
     }
+    private void deleteQuantity(List<HashMap<String,String>> cartProducts){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mProducts.clear();
+                for(HashMap<String, String> item : cartProducts){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        for(String color: product.getProduct_colors()){
+                            String cartProductId = dtShot.getKey() + color.substring(1);
+                            if(cartProductId.equals(item.get("cartProductID"))){
+                                product.setProduct_id(dtShot.getKey());
+                                int quantity = product.getProduct_quantity()-Integer.parseInt(item.get("amount"));
+                                product.setProduct_quantity(quantity);
+                            }
+                        }
+
+                    }
+                }
+
+
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     private void addProductOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -403,12 +437,12 @@ public class CartProductOrder extends AppCompatActivity {
                     //Cart cart = new Cart(user_Id,,productsInCart);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+                    deleteQuantity(productsInCart);
                     for (HashMap<String,String> item: productsInCart){
 
                         item.put("amount",String.valueOf(item.get("amount")));
                         item.put("productId",String.valueOf(item.get("productId")));
                         //updateProduct(String.valueOf(item.get("productId"));
-
                     }
                     myRef.child("order_details").setValue(productsInCart);
 
