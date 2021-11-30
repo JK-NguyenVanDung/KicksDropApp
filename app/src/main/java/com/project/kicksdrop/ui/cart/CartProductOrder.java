@@ -94,9 +94,6 @@ public class CartProductOrder extends AppCompatActivity {
                 createOrder();
                 Intent intent1 = new Intent(getApplicationContext(), OrderCompleted.class);
                 startActivity(intent1);
-                for (int i = 0; i <productsInCart.size() ; i++) {
-                    //productsInCart.get(i).get("")
-                }
                 finish();
             }
         });
