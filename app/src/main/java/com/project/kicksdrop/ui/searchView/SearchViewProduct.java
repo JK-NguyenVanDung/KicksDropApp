@@ -34,7 +34,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
     EditText searchView;
     RecyclerView recyclerView;
     String keySearch;
-    TextView title, tvNumberCart;
+    TextView title, tvNumberCart, noAnyThing;
     private final LoadingScreen loading = new LoadingScreen(SearchViewProduct.this);
     FirebaseUser fUser;
     @Override
@@ -94,6 +94,8 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         searchView = (EditText) findViewById(R.id.search_et_searchView);
         recyclerView = (RecyclerView) findViewById(R.id.search_rv_products);
         tvNumberCart= findViewById(R.id.tv_numberCart_Brands);
+        noAnyThing = findViewById(R.id.Search_noAnyThing);
+
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
@@ -104,6 +106,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProduct =new ArrayList<>();
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,6 +121,12 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
                         mProduct.add(product);
                     }
                 }
+                if(mProduct.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
+                }
+
                 if(mProduct.size() <1){
                     loading.dismissDialog();
                 }
@@ -129,5 +138,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
             }
         });
+
+
     }
 }

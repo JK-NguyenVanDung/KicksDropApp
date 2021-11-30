@@ -90,13 +90,13 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         recyclerView = binding.homeRvProducts;
         //recycler view
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
 
         CouponRecyclerView = binding.homeRvCoupon;
         CouponRecyclerView.setHasFixedSize(true);
-        GridLayoutManager manager = new GridLayoutManager(this.getContext(),4,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager manager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.VERTICAL, false);
         CouponRecyclerView.setLayoutManager(manager);
 
 
@@ -107,7 +107,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand","Nike");
+                intent.putExtra("brand", "Nike");
                 startActivity(intent);
             }
         });
@@ -117,7 +117,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand","Adidas");
+                intent.putExtra("brand", "Adidas");
                 startActivity(intent);
             }
         });
@@ -127,7 +127,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand","Vans");
+                intent.putExtra("brand", "Vans");
                 startActivity(intent);
             }
         });
@@ -137,13 +137,13 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SearchViewProduct.class);
-                intent.putExtra("keySearch","");
+                intent.putExtra("keySearch", "");
                 startActivity(intent);
             }
         });
 
         final ImageButton chat = binding.homeBtnChat;
-        chat.setOnClickListener(new  View.OnClickListener(){
+        chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChatActivity.class);
@@ -151,7 +151,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             }
         });
         final ImageButton cart = binding.homeBtnCart;
-        cart.setOnClickListener(new  View.OnClickListener(){
+        cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CartListView.class);
@@ -168,11 +168,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()-50) && !search.getText().toString().matches("")) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !search.getText().toString().matches("")) {
 
                         Intent intent = new Intent(getContext(), SearchViewProduct.class);
-                        intent.putExtra("keySearch",search.getText().toString());
+                        intent.putExtra("keySearch", search.getText().toString());
                         startActivity(intent);
 
                         return true;
@@ -205,18 +205,18 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 //        });
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
+        DatabaseReference myRef = database.getReference("cart/" + fUser.getUid() + "/product");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getKey() != null) {
+                if (snapshot.getKey() != null) {
 
 
                     Long numberCart = snapshot.getChildrenCount();
 
                     tvnumberCart = binding.tvNumberCartHome;
                     tvnumberCart.setText(String.valueOf(numberCart));
-                }else{
+                } else {
                     loading.dismissDialog();
                 }
             }
@@ -239,21 +239,20 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     }
 
 
-
-    private void searchProduct(String keySearch){
+    private void searchProduct(String keySearch) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
-        sProduct =new ArrayList<>();
+        sProduct = new ArrayList<>();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 sProduct.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
                     Product product = dtShot.getValue(Product.class);
                     assert product != null;
 
-                    if (product.getProduct_name().toLowerCase().contains(keySearch.toLowerCase())){
+                    if (product.getProduct_name().toLowerCase().contains(keySearch.toLowerCase())) {
                         product.setProduct_id(dtShot.getKey());
                         sProduct.add(product);
                     }
@@ -261,6 +260,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 //                productAdapter = new ProductListAdapter(getContext(),mProduct, SearchViewProduct.this);
 //                recyclerView.setAdapter(productAdapter);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -268,24 +268,25 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         });
     }
 
-    private void getProduct(){
+    private void getProduct() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
-        mProduct =new ArrayList<>();
+        mProduct = new ArrayList<>();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProduct.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
                     Product product = dtShot.getValue(Product.class);
                     assert product != null;
                     product.setProduct_id(dtShot.getKey());
                     mProduct.add(product);
                 }
-                productAdapter = new ProductListAdapter(getContext(),mProduct,HomeFragment.this,loading );
+                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading);
                 recyclerView.setAdapter(productAdapter);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -293,16 +294,16 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         });
     }
 
-    private void getCoupon(){
+    private void getCoupon() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("coupon");
-        mCoupon =new ArrayList<>();
+        mCoupon = new ArrayList<>();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mCoupon.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
                     Coupon coupon = dtShot.getValue(Coupon.class);
                     assert coupon != null;
                     coupon.setCoupon_id(dtShot.getKey());
@@ -310,10 +311,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 }
 
                 mCoupon.size();
-                homeCouponAdapter = new HomeCouponAdapter(getContext(),mCoupon,HomeFragment.this);
+                homeCouponAdapter = new HomeCouponAdapter(getContext(), mCoupon, HomeFragment.this);
                 CouponRecyclerView.setAdapter(homeCouponAdapter);
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -332,6 +334,4 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     public void onCouponClick(int position, View view, String id) {
 
     }
-
-
 }
