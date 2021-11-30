@@ -98,9 +98,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public boolean onLongClick(View v) {
             int position = getAdapterPosition();
             fUser = FirebaseAuth.getInstance().getCurrentUser();
+            if(position >0){
+                if(mChat.get(position).getSender().equals(fUser.getUid())){
+                    onMessageListener.onMessageClick(getAdapterPosition(),v,mChat.get(position),listener,show_Message,save,cancel);
+                }
 
-            if(mChat.get(position).getSender().equals(fUser.getUid())){
-                onMessageListener.onMessageClick(getAdapterPosition(),v,mChat.get(position),listener,show_Message,save,cancel);
             }
 
             return false;

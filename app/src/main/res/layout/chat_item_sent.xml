@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/sender_text_view"
@@ -92,6 +93,7 @@
                     android:textColor="#000000"
                     android:textSize="12sp"
                     android:visibility="gone" />
+
             </LinearLayout>
 
         </LinearLayout>

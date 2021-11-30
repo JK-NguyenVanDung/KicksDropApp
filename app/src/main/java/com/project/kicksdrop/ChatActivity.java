@@ -80,12 +80,14 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dtShot: snapshot.getChildren()){
-                    Account account = dtShot.getValue(Account.class);
-                    if(account.getRole().equals("admin")){
-                        adminID= account.getIdUser();
+                    HashMap<String,Object> values = (HashMap<String, Object>) dtShot.getValue();
+                    if(values.get("role") != null && values.get("role").equals("admin")){
+                        adminID= dtShot.getKey();
                         break;
                     }
                 }
+                loading.dismissDialog();
+
                 readMessage(fUser.getUid(),adminID);
             }
             @Override
@@ -138,14 +140,17 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                     chat.setId(dtShot.getKey());
                     if(chat.getReceiver().equals(myId) && chat.getSender().equals(userId) || chat.getReceiver().equals(userId) && chat.getSender().equals(myId)){
                         mChat.add(chat);
-                    }else{
-                        loading.dismissDialog();
-
                     }
                     loading.dismissDialog();
                     messageAdapter = new MessageAdapter(ChatActivity.this,mChat,ChatActivity.this );
                     recyclerView.setAdapter(messageAdapter);
 
+                }
+
+                if(mChat.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
                 }
             }
 
@@ -155,11 +160,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             }
         });
 
-        if(mChat.size() == 0){
-            noAnyThing.setVisibility(View.VISIBLE);
-        }else {
-            noAnyThing.setVisibility(View.GONE);
-        }
 
 
     }

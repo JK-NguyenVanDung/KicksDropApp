@@ -35,6 +35,8 @@
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_register.xml" value="0.34791666666666665" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_reset_password.xml" value="0.34791666666666665" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/activity_search_view_product.xml" value="0.36666666666666664" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/chat_item_rcv.xml" value="0.3351851851851852" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/chat_item_sent.xml" value="0.3351851851851852" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/fragment_home.xml" value="0.5596184419713831" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/fragment_wishlist.xml" value="0.4376731301939058" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/image_container.xml" value="0.20052083333333334" />
