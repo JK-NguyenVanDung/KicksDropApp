@@ -27,13 +27,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.databinding.FragmentProfileBinding;
 import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
 import com.project.kicksdrop.ui.auth.ResetPasswordActivity;
 import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
+import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.profileuser.EditProfileUser;
 
 import java.io.File;
@@ -49,11 +52,13 @@ public class ProfileFragment extends Fragment {
     private ImageView avatar;
     private FirebaseUser account;
     private StorageReference storageReference;
+    private LoadingScreen loading = new LoadingScreen(ProfileFragment.this);
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         profileViewModel =
                 new ViewModelProvider(this).get(ProfileViewModel.class);
-
+        loading.startLoadingScreenFragment();
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         final TextView textView = binding.textProfile;
@@ -88,8 +93,10 @@ public class ProfileFragment extends Fragment {
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
 
                 if(hashMap.get("avatar") != null){
-                    String imagesName= Objects.requireNonNull(hashMap.get("avatar")).toString();
-                    loadImage(avatar, imagesName);
+                    loadImage();
+
+                }else{
+                    loading.dismissDialog();
                 }
 
             }
@@ -98,8 +105,10 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-    private void loadImage(ImageView image, String imageName){
-        StorageReference ref =  storageReference.child("userProfile/" + imageName);
+    private void loadImage(){
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        StorageReference ref =  storageReference.child("userProfile/" + account.getUid());
         try {
 
             File file = File.createTempFile("tmp",".jpg");
@@ -107,7 +116,10 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    image.setImageBitmap(bitmap);
+                    avatar.setImageBitmap(bitmap);
+                    if(loading != null){
+                        loading.dismissDialog();
+                    }
                 }
             });
 

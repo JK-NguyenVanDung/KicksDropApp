@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
@@ -68,7 +69,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     FirebaseUser fUser;
 
 
-//    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
+    //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
     private LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
@@ -153,7 +154,6 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                getCart(fUser.getUid());
                 Intent intent = new Intent(getContext(), CartListView.class);
                 startActivity(intent);
             }
@@ -171,11 +171,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()-50) && !search.getText().toString().matches("")) {
 
-                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
-                            intent.putExtra("keySearch",search.getText().toString());
-                            startActivity(intent);
+                        Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch",search.getText().toString());
+                        startActivity(intent);
 
-                            return true;
+                        return true;
 
                     }
                 }
@@ -204,10 +204,28 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 //            }
 //        });
 
-        getCart(fUser.getUid());
-        tvnumberCart = binding.tvNumberCartHome;
-        tvnumberCart.setText(String.valueOf(numberCart));
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
 
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvnumberCart = binding.tvNumberCartHome;
+                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         return root;
 
@@ -315,37 +333,5 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
     }
 
-    private void getCart(String user_Id){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
-                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                if(hashMap != null) {
-                    HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
-                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
-                        String key = entry.getKey();
-                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
-                        item.put("cartProductID", key);
-                        productsInCart.add(item);
-                    }
-                    numberCart = productsInCart.size();
-                    //String coupon = hashMap.get("coupon_id").toString();
-                    //Cart cart = new Cart(user_Id,,productsInCart);
-
-                }else{
-                    loading.dismissDialog();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
 }
