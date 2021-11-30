@@ -120,8 +120,13 @@ public class CartProductOrder extends AppCompatActivity {
         getCart(fUser.getUid());
 
         //
-        if (coupon_id !=null){
+        if (!coupon_id.equals("")){
             getCoupon(coupon_id);
+        }else{
+            tv_couponCode.setText(" ");
+            tv_couponPercent.setText(" ");
+            tv_discount.setText(" ");
+
         }
 
         shipPrice = 10.00;
@@ -226,15 +231,19 @@ public class CartProductOrder extends AppCompatActivity {
                                     } catch (Exception e){
 
                                     }
+                                    tv_totalPrice.setText("$"+total.toString());
+                                    java.util.Currency usd = java.util.Currency.getInstance("USD");
+                                    java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+                                    format.setCurrency(usd);
+                                    String sTotalPayment = format.format( total + shipPrice - discount );
+                                    tv_totalPayment.setText(sTotalPayment);
                                 }
 
-                                tv_totalPrice.setText("$"+total.toString());
-                                java.util.Currency usd = java.util.Currency.getInstance("USD");
-                                java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-                                format.setCurrency(usd);
-                                String sTotalPayment = format.format( total + shipPrice - discount );
-                                tv_totalPayment.setText(sTotalPayment);
-                            }
+
+                                }
+
+
+
                         }
 
                     }
