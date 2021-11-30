@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.project.kicksdrop.R;
 
 public class ChatFragment extends Fragment {
 
     private ChatViewModel mViewModel;
+    TextView noAnyThing;
 
     public static ChatFragment newInstance() {
         return new ChatFragment();

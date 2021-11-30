@@ -40,7 +40,7 @@ public class CartListView extends AppCompatActivity {
 
     //product cart
     Context context;
-    TextView  totalProducts, totalPaymentHead, totalPayment, couponCode;
+    TextView  totalProducts, totalPaymentHead, totalPayment, couponCode, noAnyOne;
     Button couponPage, productCartOrder;
     ImageButton back;
     FirebaseUser fUser;
@@ -187,6 +187,10 @@ public class CartListView extends AppCompatActivity {
                     getProduct(productsInCart);
                 }else{
                     loading.dismissDialog();
+                }if (productsInCart.size() == 0){
+                    noAnyOne.setVisibility(View.VISIBLE);
+                }else if(productsInCart.size() != 0){
+                    noAnyOne.setVisibility(View.GONE);
                 }
             }
 
@@ -244,6 +248,7 @@ public class CartListView extends AppCompatActivity {
         totalPaymentHead = findViewById(R.id.Cart_tv_total_head);
         couponCode=  findViewById(R.id.Cart_coupon_code);
         back = findViewById(R.id.Cart_btn_back);
+        noAnyOne = findViewById(R.id.Cart_noAnyOne);
     }
     private void Discount(String coupon_id){
         if (coupon_id != null){
