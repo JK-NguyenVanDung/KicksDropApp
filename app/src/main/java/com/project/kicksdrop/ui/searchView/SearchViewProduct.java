@@ -95,10 +95,8 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (searchView.getRight() - searchView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !searchView.getText().toString().matches("")) {
-
-                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
-                        intent.putExtra("keySearch", searchView.getText().toString());
-                        startActivity(intent);
+                        keySearch = searchView.getText().toString();
+                        getProduct();
 
                         return true;
 
