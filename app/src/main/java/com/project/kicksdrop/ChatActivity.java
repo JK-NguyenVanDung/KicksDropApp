@@ -229,10 +229,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                         return true;
                     case R.id.delete:
                         reference.child(chat.getId()).removeValue();
-
                         ((ViewGroup)editText.getParent()).removeView(editText);
-
-
 
                 }
                 return true;
