@@ -58,7 +58,7 @@
                 android:baselineAligned="false">
 
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/et_wishlist_search"
                     android:layout_width="0dp"
                     android:layout_height="50dp"

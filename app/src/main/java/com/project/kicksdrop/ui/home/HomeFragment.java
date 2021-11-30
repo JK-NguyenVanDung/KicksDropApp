@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -168,7 +171,43 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             }
         });
 
-        final EditText search = binding.homeEtSearch;
+        final AutoCompleteTextView search = binding.homeEtSearch;
+        ArrayAdapter adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1);
+        //get firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //connect
+        DatabaseReference myRef = database.getReference("product");
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                    Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+                    product.setProduct_id(dtShot.getKey());
+                    adapter.add(product.getProduct_name());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        search.setAdapter(adapter);
+
+        search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                intent.putExtra("keySearch", search.getText().toString());
+                startActivity(intent);
+                search.setText("");
+
+            }
+        });
         search.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -213,14 +252,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 //            }
 //        });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("cart/" + fUser.getUid() + "/product");
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getKey() != null) {
-
-
                     Long numberCart = snapshot.getChildrenCount();
                     if(tvNumberCart!= null){
                         tvNumberCart.setText(String.valueOf(numberCart));
