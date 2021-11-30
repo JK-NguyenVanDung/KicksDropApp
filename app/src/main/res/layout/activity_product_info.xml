@@ -106,7 +106,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="3dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginEnd="0dp"
+                        android:layout_marginEnd="30dp"
                         android:fontFamily="@font/work_sans_semibold"
                         android:gravity="center_horizontal|center_vertical"
                         android:text="product"
@@ -114,34 +114,53 @@
                         android:textColor="#333333"
                         android:textSize="20sp" />
 
-                    <FrameLayout
-                        android:id="@+id/btn_cart_frame"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="right"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true">
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="3dp">
 
-                        <ImageButton
-                            android:id="@+id/productInfo_btn_cart"
-                            android:layout_width="48dp"
-                            android:layout_height="match_parent"
-                            android:background="?android:selectableItemBackground"
-                            android:radius="20dp"
-                            android:src="@drawable/ic_shoppingbag"
-                            tools:ignore="SpeakableTextPresentCheck" />
                         <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="15dp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="12dp"
-                            android:layout_marginStart="10dp">
-                            <ImageView
-                                android:id="@+id/layout_iconNumber"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_iconnumber"/>
+                            android:id="@+id/btn_cart_frame"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="right">
 
+                            <ImageButton
+                                android:id="@+id/productInfo_btn_cart"
+                                android:layout_width="48dp"
+                                android:layout_height="match_parent"
+                                android:background="?android:selectableItemBackground"
+                                android:radius="20dp"
+                                android:src="@drawable/ic_shoppingbag"
+                                tools:ignore="SpeakableTextPresentCheck" />
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginBottom="12dp">
+
+                                <ImageView
+                                    android:id="@+id/layout_iconNumber"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_iconnumber" />
+
+                                <TextView
+                                    android:id="@+id/tv_numberCart_Product"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="0.5dp"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp"
                             <TextView
                                 android:id="@+id/product_tv_numberCart"
                                 android:layout_width="wrap_content"
@@ -152,10 +171,24 @@
                                 android:layout_marginTop="0.5dp"
                                 android:textColor="@color/white"
 
-                                />
-                        </FrameLayout>
-                    </FrameLayout>
+                                    />
 
+
+                            </FrameLayout>
+                        </FrameLayout>
+
+                        <ImageButton
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="0dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_sending_link"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                    </LinearLayout>
 
 
 
