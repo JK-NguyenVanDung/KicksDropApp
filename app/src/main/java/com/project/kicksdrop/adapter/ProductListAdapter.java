@@ -204,10 +204,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            String id = mProductList.get(position).getProduct_id();
-            onProductListener.onProductClick(position,v,id);
-
-        }
+            try{
+                String id = mProductList.get(position).getProduct_id();
+                onProductListener.onProductClick(position,v,id);
+            }catch(Exception e){
+                Toast.makeText(context,"Product currently unavailable!, Please try close the app and open it again.",Toast.LENGTH_LONG).show();
+            }
+            }
     }
     public interface OnProductListener{
         void onProductClick(int position, View view, String id);
