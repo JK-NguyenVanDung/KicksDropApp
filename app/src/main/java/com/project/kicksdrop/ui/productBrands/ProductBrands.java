@@ -86,6 +86,10 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
             }
         });
 
+
+
+
+
         search.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
