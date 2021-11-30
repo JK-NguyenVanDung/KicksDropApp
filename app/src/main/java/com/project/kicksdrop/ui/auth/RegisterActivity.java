@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 
@@ -37,6 +38,8 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseAuth auth;
     FirebaseUser fUser;
+    private final LoadingScreen loading = new LoadingScreen(RegisterActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,8 +148,9 @@ public class RegisterActivity extends AppCompatActivity {
                             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this,new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
+                                        loading.startLoadingScreen();
+
                                         fUser = FirebaseAuth.getInstance().getCurrentUser();
                                         createUser( fUser.getUid(),email, option, phone, name);
                                     }

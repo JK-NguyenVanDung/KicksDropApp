@@ -54,8 +54,15 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
         holder.tv_shipPrice.setText(order.getShipping_price());
         holder.tv_discount.setText(order.getOrder_discount());
         holder.tv_totalPayment.setText(totalPayment);
-
-
+        holder.tv_Status.setText(order.getStatus());
+        holder.tv_orderId.setText(order.getOrder_id().substring(7));
+        if (Integer.parseInt( order.getQuantity_product() ) > 1){
+            holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" product)");
+        }
+        else {
+            holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" products)");
+        }
+        holder.tv_timeOrder.setText(order.getOrder_create_date());
         //
         holder.recyclerView.setHasFixedSize(true);
 
@@ -70,11 +77,16 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_address, tv_total, tv_shipPrice, tv_discount, tv_totalPayment;
+        TextView tv_address, tv_total, tv_shipPrice, tv_discount, tv_totalPayment, tv_orderId
+                , tv_orderProduct, tv_Status, tv_timeOrder;
         RecyclerView recyclerView;
         public ViewHolder(View itemView) {
             super(itemView);
             recyclerView = itemView.findViewById(R.id.order_rv_products_bill);
+            tv_timeOrder = itemView.findViewById( R.id.customerOrder_tv_hour );
+            tv_Status = itemView.findViewById( R.id.customerOrder_tv_state );
+            tv_orderProduct = itemView.findViewById( R.id.customerOrder_tv_amountProduct );
+            tv_orderId = itemView.findViewById( R.id.customerOrder_tv_billCode );
             tv_address = itemView.findViewById(R.id.customerOrder_tv_address);
             tv_total = itemView.findViewById(R.id.customerOrder_tv_total);
             tv_shipPrice = itemView.findViewById(R.id.customerOrder_tv_shipmentPrice);
