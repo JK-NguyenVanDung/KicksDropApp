@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class ProductBrands extends AppCompatActivity implements ProductListAdapter.OnProductListener {
     private ArrayList<Product> mProduct;
     ImageButton prevIBtn, cartIBtn, chatIBtn;
-    TextView tvNumberCart;
+    TextView tvNumberCart, noAnyThing;
     EditText searchProduct;
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
@@ -114,6 +114,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         searchProduct = (EditText) findViewById(R.id.productBrands_iBtn_search);
         recyclerView = (RecyclerView) findViewById(R.id.brand_rv_products);
         tvNumberCart = findViewById(R.id.tv_numberCart_Brands);
+        noAnyThing = findViewById(R.id.Brands_noAnyThing);
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
@@ -124,6 +125,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProduct =new ArrayList<>();
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -138,6 +140,13 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
                         mProduct.add(product);
                     }
                 }
+
+                if(mProduct.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
+                }
+
                 productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this,loading);
                 recyclerView.setAdapter(productAdapter);
             }

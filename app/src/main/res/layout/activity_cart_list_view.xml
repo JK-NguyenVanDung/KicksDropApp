@@ -7,6 +7,19 @@
     android:theme="@android:style/Theme.Dialog"
     tools:context=".ui.cart.CartListView">
 
+    <TextView
+        android:id="@+id/Cart_noAnyOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You don't have any products in the cart"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
     <LinearLayout
         android:id="@+id/header_productCartListViewItems"
         android:layout_width="match_parent"
@@ -25,22 +38,24 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-
                 >
 
                 <ImageButton
                     android:id="@+id/Cart_btn_back"
-                    android:layout_width="50dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="false"
-                    android:layout_alignParentEnd="true"
+
+                    android:layout_alignParentTop="true"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="360dp"
-                    android:background="?android:selectableItemBackground"
-                    android:contentDescription="TODO"
+
+                    android:layout_marginTop="0dp"
+                    android:background="@color/white"
+                    android:clickable="false"
+                    android:contentDescription="@string/todo"
+                    android:minWidth="48dp"
                     android:src="@drawable/ic_previous"
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                    tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
