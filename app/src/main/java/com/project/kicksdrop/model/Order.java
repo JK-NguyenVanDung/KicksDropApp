@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Order {
-    private String address, coupon_id, order_create_date, order_discount, order_price, shipment_partner, shipping_price, status, user_id, order_id;
+    private String address, coupon_id, order_create_date, order_discount, order_price, shipment_partner, shipping_price, status, user_id, order_id, quantity_product;
     private List<HashMap<String, String>> order_details;
 
 
@@ -110,8 +110,16 @@ public class Order {
         this.address = address;
     }
 
+    public String getQuantity_product() {
+        return quantity_product;
+    }
+
+    public void setQuantity_product(String quantity_product) {
+        this.quantity_product = quantity_product;
+    }
+
     public Order(String order_id, String address, String coupon_id, String order_create_date, String order_discount, String order_price,
-                 String shipment_partner, String shipping_price, String status, String user_id, List<HashMap<String, String>>   order_details ){
+                 String shipment_partner, String shipping_price, String status, String user_id, List<HashMap<String, String>>   order_details, String quantity_product ){
         this.address = address;
         this.coupon_id = coupon_id;
         this.order_create_date = order_create_date;
@@ -123,6 +131,7 @@ public class Order {
         this.user_id = user_id;
         this.order_details = order_details;
         this.order_id = order_id;
+        this.quantity_product = quantity_product;
     }
 
     public Order(){

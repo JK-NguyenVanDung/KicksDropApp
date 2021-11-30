@@ -210,7 +210,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }catch(Exception e){
                 Toast.makeText(context,"Product currently unavailable!, Please try close the app and open it again.",Toast.LENGTH_LONG).show();
             }
-            }
+
+        }
     }
     public interface OnProductListener{
         void onProductClick(int position, View view, String id);

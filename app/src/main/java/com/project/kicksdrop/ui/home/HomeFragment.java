@@ -4,13 +4,10 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +23,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,7 +67,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     RecyclerView recyclerView;
     RecyclerView CouponRecyclerView;
     FirebaseUser fUser;
-    EditText searchProduct;
+
 
     //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
@@ -80,7 +76,6 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -95,8 +90,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         recyclerView = binding.homeRvProducts;
         //recycler view
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), getActivity().getResources().getInteger(R.integer.number_of_grid_item));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
+
 
         CouponRecyclerView = binding.homeRvCoupon;
         CouponRecyclerView.setHasFixedSize(true);
@@ -135,7 +131,6 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 startActivity(intent);
             }
         });
-
 
         final ImageButton slide = binding.homeIbtnProductContent;
         slide.setOnClickListener(new View.OnClickListener() {
@@ -218,10 +213,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
 
                     Long numberCart = snapshot.getChildrenCount();
-                    if(tvnumberCart != null){
+                    if(tvnumberCart!= null){
                         tvnumberCart = binding.tvNumberCartHome;
                         tvnumberCart.setText(String.valueOf(numberCart));
                     }
+
                 } else {
                     loading.dismissDialog();
                 }

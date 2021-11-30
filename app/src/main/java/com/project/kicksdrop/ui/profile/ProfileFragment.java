@@ -1,6 +1,9 @@
 package com.project.kicksdrop.ui.profile;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.databinding.FragmentProfileBinding;
 import com.project.kicksdrop.ui.auth.LoginActivity;
@@ -41,6 +45,7 @@ import com.project.kicksdrop.ui.auth.ResetPasswordActivity;
 import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
 import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.profileuser.EditProfileUser;
+import android.content.SharedPreferences;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +64,8 @@ public class ProfileFragment extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
         profileViewModel =
                 new ViewModelProvider(this).get(ProfileViewModel.class);
         loading.startLoadingScreenFragment();
@@ -166,6 +173,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                SharedPreferences preferences = requireContext().getSharedPreferences("checkbox",MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("rememberMe","false");
+                editor.apply();
                 Intent iLogout = new Intent(getContext(), LoginActivity.class);
                 iLogout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mGoogleSignInClient.signOut();
