@@ -8,12 +8,36 @@ public class Account {
     private String idUser;
     private HashMap<String, String > coupon;
     private String email;
+
+    public Account(String idUser, HashMap<String, String> coupon, String email, String gender, String mobile, String name, String pass, String userName, ArrayList<Product> wishlist, String role) {
+        this.idUser = idUser;
+        this.coupon = coupon;
+        this.email = email;
+        this.gender = gender;
+        this.mobile = mobile;
+        this.name = name;
+        this.pass = pass;
+        this.userName = userName;
+        this.wishlist = wishlist;
+        this.role = role;
+    }
+
     private String gender;
     private String mobile;
     private String name;
     private String pass;
     private String userName;
     private ArrayList<Product> wishlist;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role;
 
     public Account(String idUser, HashMap<String, String> coupon, String email, String gender, String mobile, String name, String pass, String userName, ArrayList<Product> wishlist) {
         this.idUser = idUser;
