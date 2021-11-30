@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,6 +30,7 @@ import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
 
@@ -54,7 +56,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         brand = getIntent().getStringExtra("brand");
 
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
 
@@ -105,6 +107,30 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
             }
         });
+
+        searchProduct.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (searchProduct.getRight() - searchProduct.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !searchProduct.getText().toString().matches("")) {
+
+                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch", searchProduct.getText().toString());
+                        startActivity(intent);
+
+                        return true;
+
+                    }
+                }
+                return false;
+            }
+        });
+
     }
 
     private void matching() {
