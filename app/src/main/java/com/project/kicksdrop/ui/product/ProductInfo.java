@@ -127,9 +127,10 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
 
 
                     Long numberCart = snapshot.getChildrenCount();
-
-                    tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Product);
-                    tvnumberCart.setText(String.valueOf(numberCart));
+                    if(tvnumberCart != null){
+                        tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Product);
+                        tvnumberCart.setText(String.valueOf(numberCart));
+                    }
                 }else{
                     loading.dismissDialog();
                 }

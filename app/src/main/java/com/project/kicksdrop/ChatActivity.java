@@ -120,6 +120,9 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                     chat.setId(dtShot.getKey());
                     if(chat.getReceiver().equals(myId) && chat.getSender().equals(userId) || chat.getReceiver().equals(userId) && chat.getSender().equals(myId)){
                         mChat.add(chat);
+                    }else{
+                        loading.dismissDialog();
+
                     }
                     loading.dismissDialog();
                     messageAdapter = new MessageAdapter(ChatActivity.this,mChat,ChatActivity.this );

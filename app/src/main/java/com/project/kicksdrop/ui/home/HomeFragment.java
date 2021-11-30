@@ -213,9 +213,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
 
                     Long numberCart = snapshot.getChildrenCount();
+                    if(tvnumberCart!= null){
+                        tvnumberCart = binding.tvNumberCartHome;
+                        tvnumberCart.setText(String.valueOf(numberCart));
+                    }
 
-                    tvnumberCart = binding.tvNumberCartHome;
-                    tvnumberCart.setText(String.valueOf(numberCart));
                 } else {
                     loading.dismissDialog();
                 }

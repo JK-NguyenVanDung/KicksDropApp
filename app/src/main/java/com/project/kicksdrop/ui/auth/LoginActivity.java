@@ -1,6 +1,7 @@
 package com.project.kicksdrop.ui.auth;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -30,6 +31,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
@@ -200,6 +203,14 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText( LoginActivity.this, "Successful", Toast.LENGTH_SHORT ).show();
                         FirebaseUser user = mAuth.getCurrentUser();
                         UpdateUI( user );
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference("account");
+
+                        myRef.child(user.getUid()).child("email").setValue(user.getEmail());
+                        myRef.child(user.getUid()).child("gender").setValue("Male");
+                        myRef.child(user.getUid()).child("mobile").setValue(" ");
+                        myRef.child(user.getUid()).child("name").setValue(user.getEmail());
+                        myRef.child(user.getUid()).child("address").setValue(" ");
                     } else {
                         Toast.makeText( LoginActivity.this, "Failed", Toast.LENGTH_SHORT ).show();
                         UpdateUI( null );
