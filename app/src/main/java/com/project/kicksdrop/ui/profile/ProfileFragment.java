@@ -20,6 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,7 +61,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser account;
     private StorageReference storageReference;
     private LoadingScreen loading = new LoadingScreen(ProfileFragment.this);
-
+    private GoogleSignInClient mGoogleSignInClient;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -75,6 +78,11 @@ public class ProfileFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(requireContext(),gso);
         logoutUI();
         profileUI();
         resetPasswordUI();
@@ -164,12 +172,14 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SharedPreferences preferences = requireContext().getSharedPreferences("checkbox",MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("rememberMe","false");
                 editor.apply();
                 Intent iLogout = new Intent(getContext(), LoginActivity.class);
                 iLogout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                mGoogleSignInClient.signOut();
                 FirebaseAuth.getInstance().signOut();
                 startActivity(iLogout);
 
