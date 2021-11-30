@@ -11,11 +11,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CartAdapter;
@@ -69,6 +66,7 @@ public class CartListView extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
+                v.setBackgroundColor(Color.GRAY);
                 finish();
 
             }

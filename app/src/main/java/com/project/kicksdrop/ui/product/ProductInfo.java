@@ -9,11 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,10 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MessagePopUp;
 import com.project.kicksdrop.R;
@@ -45,11 +36,10 @@ import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ProductInfo extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -65,6 +55,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     FirebaseUser fUser;
     ImageButton cart;
     Context context;
+    private TextView tvnumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
 
     int currentAmount = 1;
@@ -76,6 +67,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         setContentView(R.layout.activity_product_info);
         loading.startLoadingScreen();
         context = this;
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         matching();
         Intent intent = getIntent();
@@ -125,6 +117,29 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
         mCirclesRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
         mCirclesRecyclerView.setLayoutManager(layoutManager);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Product);
+                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -239,7 +254,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    @SuppressLint("WrongViewCast")
+
     private void matching(){
         name = findViewById(R.id.tv_productInfo_productName);
         currentSize = findViewById(R.id.tv_productInfo_productSize);

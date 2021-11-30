@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,9 @@ public class WishlistFragment extends Fragment {
     private FragmentWishlistBinding binding;
     private WishlistAdapter wishlistAdapter;
     private TextView totalProducts;
+    private FirebaseUser fUser;
+    private TextView tvnumberCart;
+    private int numberCart;
     private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -97,6 +101,27 @@ public class WishlistFragment extends Fragment {
 
         chat = binding.wishlistBtnChat;
 
+        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
+
+
+                    Long numberCart = snapshot.getChildrenCount();
+
+                    tvnumberCart = binding.tvNumberCartWishlist;
+                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -104,6 +129,7 @@ public class WishlistFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         chat.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {

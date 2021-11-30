@@ -30,21 +30,17 @@
 
                 <ImageButton
                     android:id="@+id/Cart_btn_back"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
-
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginStart="10dp"
-
-                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="360dp"
                     android:background="?android:selectableItemBackground"
-
-                    android:contentDescription="@string/todo"
-                    android:minWidth="48dp"
+                    android:contentDescription="TODO"
                     android:src="@drawable/ic_previous"
-                    tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
-
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -53,6 +49,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="-1dp"
                     android:layout_marginEnd="0dp"
                     android:fontFamily="@font/work_sans_semibold"
                     android:gravity="center_horizontal|center_vertical"
@@ -70,9 +67,10 @@
 
             <TextView
                 android:id="@+id/Cart_tv_total_products"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
+                android:gravity="end"
                 android:text="0 items"
                 android:textAllCaps="true"
                 android:textColor="#444444"
@@ -92,7 +90,7 @@
 
             <TextView
                 android:id="@+id/Cart_tv_total_head"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
                 android:text="$00.00"

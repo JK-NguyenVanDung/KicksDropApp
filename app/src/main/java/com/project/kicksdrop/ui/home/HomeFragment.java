@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
@@ -45,6 +49,9 @@ import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 import com.project.kicksdrop.ui.wishlist.WishlistFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
@@ -54,18 +61,25 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     HomeCouponAdapter homeCouponAdapter;
     private ArrayList<Product> mProduct;
     private ArrayList<Coupon> mCoupon;
+    private TextView tvnumberCart;
+    private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
     RecyclerView CouponRecyclerView;
+    FirebaseUser fUser;
 
 
-//    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
+    //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
     private LoadingScreen loading = new LoadingScreen(HomeFragment.this);
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         loading = new LoadingScreen(HomeFragment.this);
@@ -157,11 +171,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()-50) && !search.getText().toString().matches("")) {
 
-                            Intent intent = new Intent(getContext(), SearchViewProduct.class);
-                            intent.putExtra("keySearch",search.getText().toString());
-                            startActivity(intent);
+                        Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch",search.getText().toString());
+                        startActivity(intent);
 
-                            return true;
+                        return true;
 
                     }
                 }
@@ -189,10 +203,29 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 //                }
 //            }
 //        });
-//
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getKey() != null) {
 
 
+                    Long numberCart = snapshot.getChildrenCount();
 
+                    tvnumberCart = binding.tvNumberCartHome;
+                    tvnumberCart.setText(String.valueOf(numberCart));
+                }else{
+                    loading.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         return root;
 
@@ -299,4 +332,6 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     public void onCouponClick(int position, View view, String id) {
 
     }
+
+
 }
