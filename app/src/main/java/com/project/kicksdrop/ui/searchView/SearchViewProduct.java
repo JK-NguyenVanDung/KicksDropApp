@@ -77,7 +77,12 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
             }
         });
-
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         getProduct();
     }
 
