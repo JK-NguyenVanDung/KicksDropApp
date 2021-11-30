@@ -183,7 +183,11 @@ public class CartListView extends AppCompatActivity {
                     }
                     //String coupon = hashMap.get("coupon_id").toString();
                     //Cart cart = new Cart(user_Id,,productsInCart);
+                    if(productsInCart.size() == 0){
 
+                    }else{
+
+                    }
                     getProduct(productsInCart);
                 }else{
                     loading.dismissDialog();

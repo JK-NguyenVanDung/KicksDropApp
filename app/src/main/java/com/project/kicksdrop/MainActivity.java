@@ -44,6 +44,7 @@ import com.project.kicksdrop.databinding.ActivityMainBinding;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Product;
 
+import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     String coupon="";
 
     ImageButton test;
-
+    private boolean remember;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
         NavController navCo = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(binding.navView, navCo);
-
-
 
     }
 

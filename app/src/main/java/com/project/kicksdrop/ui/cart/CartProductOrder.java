@@ -295,7 +295,7 @@ public class CartProductOrder extends AppCompatActivity {
     }
 
     private void createOrder(){
-        String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+        String timeStamp = new SimpleDateFormat("HH:mm: dd/MM/yyyy").format(Calendar.getInstance().getTime());
         timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
@@ -305,7 +305,7 @@ public class CartProductOrder extends AppCompatActivity {
             saveAddress.setValue(et_address.getText().toString().trim());
             myRef.child("address").setValue(et_address.getText().toString().trim());
             myRef.child("coupon_id").setValue(coupon_id);
-            myRef.child("oder_create_date").setValue(timeStamp);
+            myRef.child("order_create_date").setValue(timeStamp);
             myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(1));
             myRef.child("order_price").setValue(tv_totalPrice.getText().toString().trim().substring(1));
             myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());

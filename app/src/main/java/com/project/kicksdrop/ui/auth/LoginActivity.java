@@ -1,15 +1,14 @@
 package com.project.kicksdrop.ui.auth;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.accounts.AccountManagerFuture;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -27,14 +25,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
+import com.project.kicksdrop.ui.cart.CartListView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,14 +46,25 @@ public class LoginActivity extends AppCompatActivity {
     Button signIn, createAcc, forgot;
     CheckBox remember;
     ImageButton loginGoogle;
-    ProgressBar progressBar;
     FirebaseAuth mAuth;
-    private AccountManagerFuture<Object> completedTask;
+    private final LoadingScreen loading = new LoadingScreen(LoginActivity.this);
 
+    private AccountManagerFuture<Object> completedTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        mAuth = FirebaseAuth.getInstance();
+
+        SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
+        String checked = preferences.getString("rememberMe","");
+        if(checked.equals("true")){
+            if(mAuth.getCurrentUser() !=null){
+                Intent intent =  new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
 
 
         setContentView(R.layout.activity_login);
@@ -64,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
         inputLoginEmail = (EditText) findViewById(R.id.et_loginEmail);
         inputLoginPassword = (EditText) findViewById(R.id.et_loginPassword);
         signIn = (Button) findViewById(R.id.btn_login_signIn);
-        progressBar = findViewById(R.id.progressBar2);
         forgot = (Button) findViewById(R.id.btn_forgot);
         remember = (CheckBox) findViewById(R.id.cb_remember);
 //        disableLayoutEditText(inputLoginEmail);
@@ -78,7 +87,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
+        remember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(remember.isChecked()){
+                    SharedPreferences preferences = getSharedPreferences("checkbox", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("rememberMe","true");
+                    editor.apply();
+                }else{
+                    SharedPreferences preferences = getSharedPreferences("checkbox", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("rememberMe","false");
+                    editor.apply();
+                }
+
+            }
+        });
 
         createAcc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String email = inputLoginEmail.getText().toString().trim();
                 final String password = inputLoginPassword.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
@@ -102,25 +128,24 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
-                //firebase.auth().setPersistence(this.remember.checked ? fireauth.Auth.Persistence.LOCAL : fireauth.Auth.Persistence.SESSION)
-
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                       progressBar.setVisibility(View.GONE);
-                       if(!task.isSuccessful()){
-                        if(password.length()<6){
-                            inputLoginPassword.setError("Password must be more than 6 characters");
-                        }else {
-                            Toast.makeText(LoginActivity.this, "ERROR ! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+
+                        if(!task.isSuccessful()){
+                            if(password.length()<6){
+                                inputLoginPassword.setError("Password must be more than 6 characters");
+                            }else {
+                                Toast.makeText(LoginActivity.this, "ERROR ! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
+                            Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
+                            loading.startLoadingScreen();
+
+                            startActivity(loginSuccess);
+                            finish();
                         }
-                       }else{
-                           Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
-                           Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
-                           startActivity(loginSuccess);
-                           finish();
-                       }
                     }
                 });
             }
