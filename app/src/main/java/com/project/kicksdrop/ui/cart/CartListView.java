@@ -80,7 +80,6 @@ public class CartListView extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CouponPage.class);
                 intent.putExtra("price", totalPrice);
                 startActivityForResult(intent, 1);
-
             }
         });
 

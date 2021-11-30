@@ -207,12 +207,14 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                             if (CouponAdapter.totalPayment > min_price){
                                 onCouponListener.onCouponClick(position, v, id);
                                 break;
-                            }else
-                            {
-                                Toast.makeText(v.getContext(), "Your totalPayment not enough to use this coupon",Toast.LENGTH_SHORT).show();
                             }
-
-
+                            else if (totalPayment == 0){
+                                Toast.makeText(v.getContext(), "Cart is empty",Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(v.getContext(), "Your totalPayment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
