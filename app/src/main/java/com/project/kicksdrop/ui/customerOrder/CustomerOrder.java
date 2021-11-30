@@ -89,7 +89,6 @@ public class CustomerOrder extends AppCompatActivity {
                         mOrder.add(order);
                     }
 
-
                 }
 
                 loading.dismissDialog();

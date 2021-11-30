@@ -387,10 +387,12 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.child(coupon_id).removeValue();
 
     }
+    boolean isDeleting = true;
+
     private void deleteQuantity(List<HashMap<String,String>> cartProducts){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
-
+        mProducts = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -399,27 +401,37 @@ public class CartProductOrder extends AppCompatActivity {
                     for(DataSnapshot dtShot: snapshot.getChildren()){
                         Product product = dtShot.getValue(Product.class);
                         assert product != null;
+                        product.getProduct_colors().remove(0);
                         for(String color: product.getProduct_colors()){
                             String cartProductId = dtShot.getKey() + color.substring(1);
                             if(cartProductId.equals(item.get("cartProductID"))){
                                 product.setProduct_id(dtShot.getKey());
-                                int quantity = product.getProduct_quantity()-Integer.parseInt(item.get("amount"));
-                                product.setProduct_quantity(quantity);
+                                product.getProduct_images().remove(0);
+                                mProducts.add(product);
                             }
                         }
 
                     }
                 }
 
-
-
-
+                if(isDeleting){
+                    for(int i = 0; i < mProducts.size(); i ++){
+                        if(mProducts.get(i).getProduct_id().equals(cartProducts.get(i).get("productId"))){
+                            int quantity = mProducts.get(i).getProduct_quantity()-Integer.parseInt(Objects.requireNonNull(cartProducts.get(i).get("amount")));
+                            DatabaseReference ref = database.getReference("product/" + mProducts.get(i).getProduct_id());
+                            ref.child("product_quantity").setValue(quantity);
+                        }
+                    }
+                    isDeleting = false;
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+
     }
 
     private void addProductOrder(String user_Id){
