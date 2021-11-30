@@ -48,21 +48,27 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     private Spinner sizeSpinner;
     private Coupon coupon;
     //private long currentAmount = 1;
-    private TextView totalPayment,totalProduct,totalPaymentHead;
-    private double totalAmount = 0;
+    private TextView totalPayment,totalProduct;
+    public static double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public static void setTotalAmount(double totalAmount) {
+        OrderProductAdapter.totalAmount = totalAmount;
+    }
     private int totalProducts = 0;
     private String coupon_id;
     private int maxprice = 0;
     private int percent = 0;
     LoadingScreen loading;
+    private static double totalAmount = 0.0;
     public OrderProductAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions, LoadingScreen loading) {
         this.context = context;
         //this.cart = cart;
         this.mCartProduct = mCartProduct;
         this.productOptions = productOptions;
-        this.totalPayment = totalPayment;
         this.totalProduct = totalProduct;
-        this.totalPaymentHead = totalPaymentHead;
+        totalAmount = 0.0;
         this.coupon_id = coupon_id;
         this.loading = loading;
     }
@@ -71,9 +77,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         //this.cart = cart;
         this.mCartProduct = mCartProduct;
         this.productOptions = productOptions;
-        this.totalPayment = totalPayment;
         this.totalProduct = totalProduct;
-        this.totalPaymentHead = totalPaymentHead;
+
         this.coupon_id = coupon_id;
     }
 
@@ -114,7 +119,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         holder.productCartPrice.setText(sPrice);
         holder.productCartAmount.setText(product.getAmount());
         holder.getProductCartSize.setText(product.getProduct_size());
-
     }
     @SuppressLint("NotifyDataSetChanged")
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -155,8 +159,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         }
 
     }
-
-
 
     @Override
     public int getItemCount() {
