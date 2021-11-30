@@ -358,7 +358,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             totalPayment.setText("$00.00");
             totalProduct.setText("0 ITEM");
             totalPaymentHead.setText("$00.00");
-
         }
     }
     @Override

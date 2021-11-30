@@ -33,11 +33,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.adapter.MessageAdapter;
+import com.project.kicksdrop.model.Account;
 import com.project.kicksdrop.model.Chat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity implements MessageAdapter.OnMessageListener{
 
@@ -51,6 +53,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
     List<Chat> mChat;
     private LoadingScreen loading;
     RecyclerView recyclerView;
+    String adminID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +71,29 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-
-
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-        String adminID = "ew0Zuldh3eMj13EEX4BK3XJoJ1m2";
-        Log.d("user",fUser.getUid());
-        readMessage(fUser.getUid(),adminID);
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/" );
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+                    HashMap<String,Object> values = (HashMap<String, Object>) dtShot.getValue();
+                    if(values.get("role") != null && values.get("role").equals("admin")){
+                        adminID= dtShot.getKey();
+                        break;
+                    }
+                }
+                loading.dismissDialog();
+
+                readMessage(fUser.getUid(),adminID);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         send.setOnClickListener(new  View.OnClickListener(){
             @Override
@@ -120,14 +140,16 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                     chat.setId(dtShot.getKey());
                     if(chat.getReceiver().equals(myId) && chat.getSender().equals(userId) || chat.getReceiver().equals(userId) && chat.getSender().equals(myId)){
                         mChat.add(chat);
-                    }else{
-                        loading.dismissDialog();
-
                     }
-                    loading.dismissDialog();
                     messageAdapter = new MessageAdapter(ChatActivity.this,mChat,ChatActivity.this );
                     recyclerView.setAdapter(messageAdapter);
 
+                }
+
+                if(mChat.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
                 }
             }
 
@@ -137,11 +159,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             }
         });
 
-        if(mChat.size() == 0){
-            noAnyThing.setVisibility(View.VISIBLE);
-        }else {
-            noAnyThing.setVisibility(View.GONE);
-        }
 
 
     }
@@ -213,6 +230,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                     case R.id.delete:
                         reference.child(chat.getId()).removeValue();
                         ((ViewGroup)editText.getParent()).removeView(editText);
+
                 }
                 return true;
             }

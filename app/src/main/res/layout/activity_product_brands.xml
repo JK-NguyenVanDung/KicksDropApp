@@ -10,7 +10,7 @@
         android:id="@+id/Brands_noAnyThing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You don't have any coupons at the moment"
+        android:text="No Products Are Found With This Brand"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

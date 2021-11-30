@@ -50,7 +50,7 @@
                     android:layout_marginStart="10dp"
 
                     android:layout_marginTop="0dp"
-                    android:background="@color/white"
+                    android:background="@android:color/transparent"
                     android:clickable="false"
                     android:contentDescription="@string/todo"
                     android:minWidth="48dp"
@@ -185,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
                     android:gravity="center_vertical"
+
                     android:text="Coupon"
                     android:textColor="@color/black"
                     android:layout_marginLeft="10dp"
@@ -205,6 +206,7 @@
                 android:paddingBottom="0dp"
                 android:text="Select coupon here"
                 android:backgroundTint="@color/white"
+                android:background="@android:color/transparent"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="15sp" />

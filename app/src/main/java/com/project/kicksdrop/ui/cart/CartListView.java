@@ -51,6 +51,7 @@ public class CartListView extends AppCompatActivity {
     private com.project.kicksdrop.model.Coupon coupon;
     private double totalAmount;
     private final LoadingScreen loading = new LoadingScreen(CartListView.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
