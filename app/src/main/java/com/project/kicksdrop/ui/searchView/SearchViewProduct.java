@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,7 +52,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
             title.setText("SALE");
         }
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -83,8 +84,33 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
                 finish();
             }
         });
+
+        searchView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (searchView.getRight() - searchView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !searchView.getText().toString().matches("")) {
+
+                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch", searchView.getText().toString());
+                        startActivity(intent);
+
+                        return true;
+
+                    }
+                }
+                return false;
+            }
+        });
         getProduct();
+
     }
+
 
     private void matching() {
         prevBtn = (ImageButton) findViewById(R.id.search_ibtn_prev);
