@@ -252,8 +252,8 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 //            }
 //        });
 
-
-        myRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getKey() != null) {

@@ -356,7 +356,10 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.child("address").setValue(et_address.getText().toString().trim());
         myRef.child("coupon_id").setValue(coupon_id);
         myRef.child("order_create_date").setValue(timeStamp);
-        myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(1));
+        if(!tv_discount.getText().toString().trim().equals("")){
+            myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(2));
+
+        }
         myRef.child("order_price").setValue(tv_totalPayment.getText().toString().trim().substring(1));
         myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
         myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
