@@ -231,7 +231,7 @@ public class CartProductOrder extends AppCompatActivity {
                                     } catch (Exception e){
 
                                     }
-                                    tv_totalPrice.setText(total.toString());
+                                    tv_totalPrice.setText("$"+total.toString());
                                     java.util.Currency usd = java.util.Currency.getInstance("USD");
                                     java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
                                     format.setCurrency(usd);
@@ -240,7 +240,10 @@ public class CartProductOrder extends AppCompatActivity {
                                 }
 
 
-                            }
+                                }
+
+
+
                         }
 
                     }
@@ -325,7 +328,7 @@ public class CartProductOrder extends AppCompatActivity {
                 String sPrice =format.format(price);
                 String sDiscount =format.format(discount);
                 String sTotalPayment = format.format(price + shipPrice);
-                tv_discount.setText(sDiscount);
+                tv_discount.setText( "-"+ sDiscount);
                 tv_couponPercent.setText(percent + "%");
                 tv_couponCode.setText( coupon.getCoupon_code() );
             }
@@ -353,7 +356,10 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.child("address").setValue(et_address.getText().toString().trim());
         myRef.child("coupon_id").setValue(coupon_id);
         myRef.child("order_create_date").setValue(timeStamp);
-        myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(1));
+        if(!tv_discount.getText().toString().trim().equals("")){
+            myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(2));
+
+        }
         myRef.child("order_price").setValue(tv_totalPayment.getText().toString().trim().substring(1));
         myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
         myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));

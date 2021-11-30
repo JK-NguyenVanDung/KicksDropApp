@@ -50,7 +50,7 @@ public class WishlistFragment extends Fragment {
     EditText search;
     private TextView totalProducts;
     private FirebaseUser fUser;
-    private TextView tvnumberCart, noAnyThing;
+    private TextView tvNumberCart, noAnyThing;
     private int numberCart;
     private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
 
@@ -61,14 +61,12 @@ public class WishlistFragment extends Fragment {
 
         binding = FragmentWishlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUser = fUser.getUid().toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("wishlist/"+idUser);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -107,6 +105,7 @@ public class WishlistFragment extends Fragment {
         cart = binding.wishlistBtnCart;
 
         chat = binding.wishlistBtnChat;
+        tvNumberCart = binding.wishlistTvCartNumb;
 
         search = binding.etWishlistSearch;
         search.setOnTouchListener(new View.OnTouchListener() {
@@ -136,9 +135,8 @@ public class WishlistFragment extends Fragment {
 
 
                     Long numberCart = snapshot.getChildrenCount();
-                    if(tvnumberCart != null){
-                        tvnumberCart = binding.tvNumberCartWishlist;
-                        tvnumberCart.setText(String.valueOf(numberCart));
+                    if(tvNumberCart != null){
+                        tvNumberCart.setText(String.valueOf(numberCart));
                     }
 
                 }else{

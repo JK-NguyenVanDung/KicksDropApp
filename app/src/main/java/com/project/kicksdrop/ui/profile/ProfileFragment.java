@@ -60,6 +60,7 @@ public class ProfileFragment extends Fragment {
     private ImageView avatar;
     private FirebaseUser account;
     private StorageReference storageReference;
+    private TextView userName;
     private LoadingScreen loading = new LoadingScreen(ProfileFragment.this);
     private GoogleSignInClient mGoogleSignInClient;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -87,7 +88,7 @@ public class ProfileFragment extends Fragment {
         profileUI();
         resetPasswordUI();
         user_Order();
-
+        userName = binding.tvProfileUserName;
         avatar = binding.profileIvUser;
         account = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -106,10 +107,10 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                userName.setText("Hello "+ Objects.requireNonNull(hashMap.get("name")).toString());
 
                 if(hashMap.get("avatar") != null){
                     loadImage();
-
                 }else{
                     loading.dismissDialog();
                 }

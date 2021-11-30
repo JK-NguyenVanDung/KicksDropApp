@@ -50,12 +50,12 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
                                     Double.parseDouble(order.getShipping_price()));
 
         holder.tv_address.setText(order.getAddress());
-        holder.tv_total.setText(order.getOrder_price());
-        holder.tv_shipPrice.setText(order.getShipping_price());
-        holder.tv_discount.setText(order.getOrder_discount());
-        holder.tv_totalPayment.setText(totalPayment);
+        holder.tv_total.setText("$" +order.getOrder_price());
+        holder.tv_shipPrice.setText("$" +order.getShipping_price());
+        holder.tv_discount.setText("-$" +order.getOrder_discount());
+        holder.tv_totalPayment.setText("$" +totalPayment);
         holder.tv_Status.setText(order.getStatus());
-        holder.tv_orderId.setText(order.getOrder_id().substring(7));
+        holder.tv_orderId.setText(order.getOrder_id().substring(9));
         if (Integer.parseInt( order.getQuantity_product() ) > 1){
             holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" product)");
         }
