@@ -2,6 +2,7 @@ package com.project.kicksdrop.ui.coupon;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
     TextView totalPayment;
     FirebaseUser fUser;
     TextView noAnyThing;
+    Context context;
     private CouponAdapter couponAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Coupon> mCoupon;
@@ -54,7 +56,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
         price = intent.getDoubleExtra("price",0);
         Log.d("price", String.valueOf(price));
         matching();
-
+        context =this;
         //
         //back
         back.setOnClickListener(new  View.OnClickListener(){
@@ -144,7 +146,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
                         }
                     }
                     loading.dismissDialog();
-                    couponAdapter = new CouponAdapter(getApplicationContext(), mCoupon, price, accept, CouponPage.this);
+                    couponAdapter = new CouponAdapter(context, mCoupon, price, accept, CouponPage.this);
                     recyclerView.setAdapter(couponAdapter);
                 }else{
                     loading.dismissDialog();
