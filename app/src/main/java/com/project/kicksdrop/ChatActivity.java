@@ -141,7 +141,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                     if(chat.getReceiver().equals(myId) && chat.getSender().equals(userId) || chat.getReceiver().equals(userId) && chat.getSender().equals(myId)){
                         mChat.add(chat);
                     }
-                    loading.dismissDialog();
                     messageAdapter = new MessageAdapter(ChatActivity.this,mChat,ChatActivity.this );
                     recyclerView.setAdapter(messageAdapter);
 
@@ -230,7 +229,11 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                         return true;
                     case R.id.delete:
                         reference.child(chat.getId()).removeValue();
+
                         ((ViewGroup)editText.getParent()).removeView(editText);
+
+
+
                 }
                 return true;
             }
