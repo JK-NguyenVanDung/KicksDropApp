@@ -312,6 +312,8 @@ public class CartProductOrder extends AppCompatActivity {
             myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
             myRef.child("status").setValue("Ordered");
             myRef.child("user_id").setValue(fUser.getUid());
+            myRef.child( "order_id" ).setValue( timeStamp_id );
+            myRef.child( "quantity_product" ).setValue( String.valueOf( mProducts.size() ));
 
             addProductOrder(fUser.getUid());
             deleteFromCart();
