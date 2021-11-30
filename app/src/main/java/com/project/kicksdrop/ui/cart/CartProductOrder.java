@@ -28,9 +28,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
+import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.model.ProductsInCart;
 import com.project.kicksdrop.ui.orderCompleted.OrderCompleted;
 
 import java.text.SimpleDateFormat;
@@ -47,22 +49,26 @@ public class CartProductOrder extends AppCompatActivity {
     ImageButton prevBtn;
     Button orderBtn;
     TextView  totalProducts, totalPaymentHead, totalPayment;
-    TextView  tv_shipmentPartner, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice;
+    TextView  tv_shipmentPartner, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice, tv_totalPayment, tv_couponCode;
     RadioGroup rGroup;
     EditText et_address;
     OrderProductAdapter orderProductAdapter;
     RecyclerView recyclerView;
+    Integer quanity;
+    List<HashMap<String,String>> productsInCart;
     private Coupon coupon;
     private ArrayList<Product> mProducts;
     private List<Coupon> mCoupon;
     private String coupon_id;
     private int percent, maxprice;
-    private double price;
-    private int shipmentPrice;
+    private double price, totalPaymentPrice;
+    private Double total = 0.0;
     private String timeStamp_id;
     private String address;
     private static KeyListener listener;
     private static Drawable bgAddress;
+    private double shipPrice;
+    private double discount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,10 +94,16 @@ public class CartProductOrder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
              //
-                createOrder();
-                Intent intent1 = new Intent(getApplicationContext(), OrderCompleted.class);
-                startActivity(intent1);
-                finish();
+
+                if(!et_address.getText().toString().equals(" ") && !et_address.getText().toString().equals("") ){
+                    createOrder();
+                    Intent intent1 = new Intent(getApplicationContext(), OrderCompleted.class);
+                    startActivity(intent1);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Address field is empty!",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -111,8 +123,8 @@ public class CartProductOrder extends AppCompatActivity {
         if (coupon_id !=null){
             getCoupon(coupon_id);
         }
-        double shipPrice = 10.00;
 
+        shipPrice = 10.00;
         java.util.Currency usd = java.util.Currency.getInstance("USD");
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
         format.setCurrency(usd);
@@ -147,6 +159,10 @@ public class CartProductOrder extends AppCompatActivity {
         });
 
 
+
+
+
+
     }
 
     private void enableEditText(EditText editText, KeyListener listener, boolean condition) {
@@ -171,6 +187,8 @@ public class CartProductOrder extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_products);
         et_address = (EditText) findViewById(R.id.order_et_address);
+        tv_couponCode = (TextView)findViewById( R.id.order_tv_coupon );
+        tv_totalPayment = (TextView) findViewById( R.id.order_tv_totalPayment );
         tv_totalPrice = (TextView) findViewById(R.id.order_tv_total);
         tv_couponPercent = (TextView) findViewById(R.id.order_tv_couponPercent);
         tv_discount = (TextView) findViewById(R.id.order_tv_discount);
@@ -200,11 +218,28 @@ public class CartProductOrder extends AppCompatActivity {
                                 product.setProduct_size(item.get("size"));
                                 product.setAmount(String.valueOf(item.get("amount")));
                                 mProducts.add(product);
+                                HashMap<String,Object> hashMap = (HashMap<String, Object>) dtShot.getValue();
+
+                                if (item!= null && hashMap != null){
+                                    try {
+                                        total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "product_price" );
+                                    } catch (Exception e){
+
+                                    }
+                                }
+
+                                tv_totalPrice.setText(total.toString());
+                                java.util.Currency usd = java.util.Currency.getInstance("USD");
+                                java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+                                format.setCurrency(usd);
+                                String sTotalPayment = format.format( total + shipPrice - discount );
+                                tv_totalPayment.setText(sTotalPayment);
                             }
                         }
 
                     }
                 }
+
                 orderProductAdapter = new OrderProductAdapter(getApplicationContext(),mProducts,cartProducts);
                 Log.d("test",mProducts.toString());
                 recyclerView.setAdapter(orderProductAdapter);
@@ -276,16 +311,17 @@ public class CartProductOrder extends AppCompatActivity {
                 maxprice = coupon.getCoupon_max_price();
                 percent = Integer.parseInt(coupon.getCoupon_percent());
 
-                double discount = caculateDiscount(maxprice,percent,price);
+
+                discount = caculateDiscount(maxprice,percent,price);
                 java.util.Currency usd = java.util.Currency.getInstance("USD");
                 java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
                 format.setCurrency(usd);
                 String sPrice =format.format(price);
                 String sDiscount =format.format(discount);
+                String sTotalPayment = format.format(price + shipPrice);
                 tv_discount.setText(sDiscount);
-                tv_totalPrice.setText(sPrice);
                 tv_couponPercent.setText(percent + "%");
-
+                tv_couponCode.setText( coupon.getCoupon_code() );
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -294,33 +330,36 @@ public class CartProductOrder extends AppCompatActivity {
         });
     }
 
+    private void updateProduct(String product_id, int quanity){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product/"+product_id);
+       myRef.child("product_quantity").setValue(quanity);
+    }
+
     private void createOrder(){
         String timeStamp = new SimpleDateFormat("HH:mm: dd/MM/yyyy").format(Calendar.getInstance().getTime());
         timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
         DatabaseReference saveAddress = database.getReference("account/"+fUser.getUid()+"/address");
+        //
+        saveAddress.setValue(et_address.getText().toString().trim());
+        myRef.child("address").setValue(et_address.getText().toString().trim());
+        myRef.child("coupon_id").setValue(coupon_id);
+        myRef.child("order_create_date").setValue(timeStamp);
+        myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(1));
+        myRef.child("order_price").setValue(tv_totalPayment.getText().toString().trim().substring(1));
+        myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
+        myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
+        myRef.child("status").setValue("Ordered");
+        myRef.child("user_id").setValue(fUser.getUid());
+        myRef.child( "order_id" ).setValue( timeStamp_id );
+        myRef.child( "quantity_product" ).setValue( String.valueOf( mProducts.size() ));
+        //
+        addProductOrder(fUser.getUid());
+        deleteFromCart();
+        deleteFromCoupon(coupon_id);
 
-        if(!et_address.getText().toString().equals(" ")){
-            saveAddress.setValue(et_address.getText().toString().trim());
-            myRef.child("address").setValue(et_address.getText().toString().trim());
-            myRef.child("coupon_id").setValue(coupon_id);
-            myRef.child("order_create_date").setValue(timeStamp);
-            myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(1));
-            myRef.child("order_price").setValue(tv_totalPrice.getText().toString().trim().substring(1));
-            myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
-            myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
-            myRef.child("status").setValue("Ordered");
-            myRef.child("user_id").setValue(fUser.getUid());
-            myRef.child( "order_id" ).setValue( timeStamp_id );
-            myRef.child( "quantity_product" ).setValue( String.valueOf( mProducts.size() ));
-
-            addProductOrder(fUser.getUid());
-            deleteFromCart();
-            deleteFromCoupon(coupon_id);
-        }else{
-            Toast.makeText(getApplicationContext(),"Address field is empty!",Toast.LENGTH_SHORT).show();
-        }
 
     }
     @SuppressLint("SetTextI18n")
@@ -344,7 +383,7 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
+                productsInCart = new ArrayList<HashMap<String,String>>();
                 HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
                 if(hashMap != null) {
                     HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
@@ -362,7 +401,7 @@ public class CartProductOrder extends AppCompatActivity {
 
                         item.put("amount",String.valueOf(item.get("amount")));
                         item.put("productId",String.valueOf(item.get("productId")));
-
+                        //updateProduct(String.valueOf(item.get("productId"));
 
                     }
                     myRef.child("order_details").setValue(productsInCart);

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,17 +30,19 @@ import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
 
 public class ProductBrands extends AppCompatActivity implements ProductListAdapter.OnProductListener {
     private ArrayList<Product> mProduct;
     ImageButton prevIBtn, cartIBtn, chatIBtn;
-    TextView tvNumberCart, noAnyThing;
-    EditText searchProduct;
+    TextView tvNumberCart, noAnyThing, title;
+    EditText search;
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
     String brand;
+    String keySearch;
     private final LoadingScreen loading = new LoadingScreen(this);
 
     @Override
@@ -54,10 +57,10 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         brand = getIntent().getStringExtra("brand");
 
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-
+        title.setText(brand);
         getProduct();
 
         prevIBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +85,28 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
                 startActivity(goCart);
             }
         });
+
+        search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !search.getText().toString().matches("")) {
+                        searchProduct(search.getText().toString());
+
+
+                        return true;
+
+                    }
+                }
+                return false;
+            }
+        });
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -105,16 +130,20 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
             }
         });
+
+
+
     }
 
     private void matching() {
         prevIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_prev);
         cartIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_cart);
         chatIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_chat);
-        searchProduct = (EditText) findViewById(R.id.productBrands_iBtn_search);
+        search = (EditText) findViewById(R.id.productBrands_iBtn_search);
         recyclerView = (RecyclerView) findViewById(R.id.brand_rv_products);
         tvNumberCart = findViewById(R.id.tv_numberCart_Brands);
         noAnyThing = findViewById(R.id.Brands_noAnyThing);
+        title = (TextView) findViewById(R.id.productBrands_tv_brand);
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
@@ -155,5 +184,46 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
             }
         });
+    }
+
+    private void searchProduct(String key){
+        keySearch = key;
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mProduct =new ArrayList<>();
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mProduct.clear();
+                for(DataSnapshot dtShot: snapshot.getChildren()){
+                    Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+
+                    if (product.getProduct_name().toLowerCase().contains(keySearch.toLowerCase())){
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
+                    }
+                }
+                if(mProduct.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
+                }
+
+                if(mProduct.size() <1){
+                    loading.dismissDialog();
+                }
+                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this,loading);
+                recyclerView.setAdapter(productAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 }

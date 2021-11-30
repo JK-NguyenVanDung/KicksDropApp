@@ -110,9 +110,11 @@ public class WishlistFragment extends Fragment {
 
 
                     Long numberCart = snapshot.getChildrenCount();
+                    if(tvnumberCart != null){
+                        tvnumberCart = binding.tvNumberCartWishlist;
+                        tvnumberCart.setText(String.valueOf(numberCart));
+                    }
 
-                    tvnumberCart = binding.tvNumberCartWishlist;
-                    tvnumberCart.setText(String.valueOf(numberCart));
                 }else{
                     loading.dismissDialog();
                 }
