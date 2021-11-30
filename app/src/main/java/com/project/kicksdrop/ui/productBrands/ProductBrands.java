@@ -37,7 +37,7 @@ import java.util.ArrayList;
 public class ProductBrands extends AppCompatActivity implements ProductListAdapter.OnProductListener {
     private ArrayList<Product> mProduct;
     ImageButton prevIBtn, cartIBtn, chatIBtn;
-    TextView tvNumberCart, noAnyThing;
+    TextView tvNumberCart, noAnyThing, title;
     EditText search;
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
@@ -60,7 +60,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-
+        title.setText(brand);
         getProduct();
 
         prevIBtn.setOnClickListener(new View.OnClickListener() {
@@ -131,28 +131,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
             }
         });
 
-        searchProduct.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
 
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (searchProduct.getRight() - searchProduct.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !searchProduct.getText().toString().matches("")) {
-
-                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
-                        intent.putExtra("keySearch", searchProduct.getText().toString());
-                        startActivity(intent);
-
-                        return true;
-
-                    }
-                }
-                return false;
-            }
-        });
 
     }
 
@@ -164,6 +143,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         recyclerView = (RecyclerView) findViewById(R.id.brand_rv_products);
         tvNumberCart = findViewById(R.id.tv_numberCart_Brands);
         noAnyThing = findViewById(R.id.Brands_noAnyThing);
+        title = (TextView) findViewById(R.id.productBrands_tv_brand);
     }
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
