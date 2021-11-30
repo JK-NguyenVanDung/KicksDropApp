@@ -102,7 +102,7 @@
                             android:src="@drawable/ic_iconnumber"/>
 
                         <TextView
-                            android:id="@+id/tv_numberCart_Wishlist"
+                            android:id="@+id/wishlist_tv_cartNumb"
                             android:layout_width="wrap_content"
                             android:layout_height="15dp"
                             android:text="0"

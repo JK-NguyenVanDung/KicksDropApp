@@ -61,7 +61,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     HomeCouponAdapter homeCouponAdapter;
     private ArrayList<Product> mProduct;
     private ArrayList<Coupon> mCoupon;
-    private TextView tvnumberCart;
+    private TextView tvNumberCart;
     private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
@@ -84,8 +84,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 new ViewModelProvider(this).get(HomeViewModel.class);
         loading = new LoadingScreen(HomeFragment.this);
         loading.startLoadingScreenFragment();
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        tvNumberCart = binding.tvNumberCartHome;
+
         View root = binding.getRoot();
         recyclerView = binding.homeRvProducts;
         //recycler view
@@ -221,9 +222,8 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
 
                     Long numberCart = snapshot.getChildrenCount();
-                    if(tvnumberCart!= null){
-                        tvnumberCart = binding.tvNumberCartHome;
-                        tvnumberCart.setText(String.valueOf(numberCart));
+                    if(tvNumberCart!= null){
+                        tvNumberCart.setText(String.valueOf(numberCart));
                     }
 
                 } else {
