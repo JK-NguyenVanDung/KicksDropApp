@@ -46,7 +46,7 @@ public class WishlistFragment extends Fragment {
     private WishlistAdapter wishlistAdapter;
     private TextView totalProducts;
     private FirebaseUser fUser;
-    private TextView tvnumberCart;
+    private TextView tvnumberCart, noAnyThing;
     private int numberCart;
     private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
 
@@ -79,6 +79,7 @@ public class WishlistFragment extends Fragment {
 
             }
         });
+        noAnyThing = binding.WishListNoAnyThing;
 
         recyclerView = binding.wishlistRvProducts;
 
@@ -146,6 +147,7 @@ public class WishlistFragment extends Fragment {
         DatabaseReference myRef = database.getReference("wishlist/"+user_id);
 
 
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -166,6 +168,10 @@ public class WishlistFragment extends Fragment {
                     //Cart cart = new Cart(user_Id,,productsInCart);
 
                     getProduct(productsInWishlist);
+                }else if(productsInWishlist.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
                 }
 
             }

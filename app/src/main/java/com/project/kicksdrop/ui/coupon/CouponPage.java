@@ -36,6 +36,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
     ImageButton back;
     TextView totalPayment;
     FirebaseUser fUser;
+    TextView noAnyThing;
     private CouponAdapter couponAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Coupon> mCoupon;
@@ -87,12 +88,11 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
         back = findViewById(R.id.coupon_ibtn_prev);
         accept = findViewById(R.id.coupon_btn_apply);
         totalPayment = findViewById(R.id.Cart_tv_totalPayment);
-
+        noAnyThing = findViewById(R.id.Coupon_noAnyThing);
     }
     private void getCouponList(String user_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account/"+user_id+"/coupon");
-
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -102,13 +102,22 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
                     String abc = item.getKey();
                     couponInList.add(item.getKey());
                 }
+
+                if(couponInList.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
+                }
+
                 ArrayList<String> scouponInList = couponInList;
                 getCoupon(couponInList);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
     }
     private void getCoupon(ArrayList<String> couponInList){

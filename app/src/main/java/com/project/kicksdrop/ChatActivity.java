@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +47,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
     FirebaseAuth auth;
     DatabaseReference reference;
     MessageAdapter messageAdapter;
+    TextView noAnyThing;
     List<Chat> mChat;
     private LoadingScreen loading;
     RecyclerView recyclerView;
@@ -132,6 +134,12 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             }
         });
 
+        if(mChat.size() == 0){
+            noAnyThing.setVisibility(View.VISIBLE);
+        }else {
+            noAnyThing.setVisibility(View.GONE);
+        }
+
 
     }
 
@@ -139,6 +147,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         input= findViewById(R.id.chat_et_input);
         send = findViewById(R.id.chat_ib_send);
         back = findViewById(R.id.chat_ib_back);
+        noAnyThing = (TextView) findViewById(R.id.Chat_noAnyOne);
 
         recyclerView = findViewById(R.id.chat_rv_chatArea);
     }
