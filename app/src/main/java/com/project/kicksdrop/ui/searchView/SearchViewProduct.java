@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -32,7 +36,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
     ProductListAdapter productAdapter;
     ArrayList<Product> mProduct;
     ImageButton prevBtn, cartBtn, chatBtn;
-    EditText searchView;
+    AutoCompleteTextView searchView;
     RecyclerView recyclerView;
     String keySearch;
     TextView title, tvNumberCart, noAnyThing;
@@ -85,20 +89,55 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
             }
         });
 
+        ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1);
+        //get firebase
+        //connect
+        DatabaseReference myRef = database.getReference("product");
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                    Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+                    product.setProduct_id(dtShot.getKey());
+                    adapter.add(product.getProduct_name());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        searchView.setAdapter(adapter);
+
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
+                intent.putExtra("keySearch", searchView.getText().toString());
+                startActivity(intent);
+                searchView.setText("");
+
+            }
+        });
+
         searchView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
+                @SuppressLint("ClickableViewAccessibility") final int DRAWABLE_LEFT = 0;
                 final int DRAWABLE_TOP = 1;
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (searchView.getRight() - searchView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !searchView.getText().toString().matches("")) {
-
-                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
-                        intent.putExtra("keySearch", searchView.getText().toString());
-                        startActivity(intent);
+                        keySearch = searchView.getText().toString();
+                        getProduct();
 
                         return true;
 
@@ -117,7 +156,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         title =(TextView) findViewById(R.id.search_title);
         cartBtn = (ImageButton) findViewById(R.id.search_ibtn_cart);
         chatBtn = (ImageButton) findViewById(R.id.search_ibtn_chat);
-        searchView = (EditText) findViewById(R.id.search_et_searchView);
+        searchView = findViewById(R.id.search_et_searchView);
         recyclerView = (RecyclerView) findViewById(R.id.search_rv_products);
         tvNumberCart= findViewById(R.id.tv_numberCart_Brands);
         noAnyThing = findViewById(R.id.Search_noAnyThing);

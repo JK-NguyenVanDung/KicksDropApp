@@ -43,7 +43,7 @@
                 android:baselineAligned="false">
 
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/home_et_search"
                     android:layout_width="0dp"
                     android:layout_height="50dp"

@@ -231,7 +231,7 @@ public class CartProductOrder extends AppCompatActivity {
                                     } catch (Exception e){
 
                                     }
-                                    tv_totalPrice.setText(total.toString());
+                                    tv_totalPrice.setText("$"+total.toString());
                                     java.util.Currency usd = java.util.Currency.getInstance("USD");
                                     java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
                                     format.setCurrency(usd);
@@ -240,7 +240,10 @@ public class CartProductOrder extends AppCompatActivity {
                                 }
 
 
-                            }
+                                }
+
+
+
                         }
 
                     }
@@ -325,7 +328,7 @@ public class CartProductOrder extends AppCompatActivity {
                 String sPrice =format.format(price);
                 String sDiscount =format.format(discount);
                 String sTotalPayment = format.format(price + shipPrice);
-                tv_discount.setText(sDiscount);
+                tv_discount.setText( "-"+ sDiscount);
                 tv_couponPercent.setText(percent + "%");
                 tv_couponCode.setText( coupon.getCoupon_code() );
             }
@@ -353,7 +356,10 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.child("address").setValue(et_address.getText().toString().trim());
         myRef.child("coupon_id").setValue(coupon_id);
         myRef.child("order_create_date").setValue(timeStamp);
-        myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(1));
+        if(!tv_discount.getText().toString().trim().equals("")){
+            myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(2));
+
+        }
         myRef.child("order_price").setValue(tv_totalPayment.getText().toString().trim().substring(1));
         myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
         myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
@@ -381,6 +387,52 @@ public class CartProductOrder extends AppCompatActivity {
         myRef.child(coupon_id).removeValue();
 
     }
+    boolean isDeleting = true;
+
+    private void deleteQuantity(List<HashMap<String,String>> cartProducts){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mProducts = new ArrayList<>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mProducts.clear();
+                for(HashMap<String, String> item : cartProducts){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.getProduct_colors().remove(0);
+                        for(String color: product.getProduct_colors()){
+                            String cartProductId = dtShot.getKey() + color.substring(1);
+                            if(cartProductId.equals(item.get("cartProductID"))){
+                                product.setProduct_id(dtShot.getKey());
+                                product.getProduct_images().remove(0);
+                                mProducts.add(product);
+                            }
+                        }
+
+                    }
+                }
+
+                if(isDeleting){
+                    for(int i = 0; i < mProducts.size(); i ++){
+                        if(mProducts.get(i).getProduct_id().equals(cartProducts.get(i).get("productId"))){
+                            int quantity = mProducts.get(i).getProduct_quantity()-Integer.parseInt(Objects.requireNonNull(cartProducts.get(i).get("amount")));
+                            DatabaseReference ref = database.getReference("product/" + mProducts.get(i).getProduct_id());
+                            ref.child("product_quantity").setValue(quantity);
+                        }
+                    }
+                    isDeleting = false;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
 
     private void addProductOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -403,12 +455,12 @@ public class CartProductOrder extends AppCompatActivity {
                     //Cart cart = new Cart(user_Id,,productsInCart);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+                    deleteQuantity(productsInCart);
                     for (HashMap<String,String> item: productsInCart){
 
                         item.put("amount",String.valueOf(item.get("amount")));
                         item.put("productId",String.valueOf(item.get("productId")));
                         //updateProduct(String.valueOf(item.get("productId"));
-
                     }
                     myRef.child("order_details").setValue(productsInCart);
 

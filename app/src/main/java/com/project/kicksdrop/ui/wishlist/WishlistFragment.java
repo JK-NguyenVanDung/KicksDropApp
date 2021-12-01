@@ -3,8 +3,10 @@ package com.project.kicksdrop.ui.wishlist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,9 +47,10 @@ public class WishlistFragment extends Fragment {
     private WishlistViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
     private WishlistAdapter wishlistAdapter;
+    EditText search;
     private TextView totalProducts;
     private FirebaseUser fUser;
-    private TextView tvnumberCart, noAnyThing;
+    private TextView tvNumberCart, noAnyThing;
     private int numberCart;
     private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
 
@@ -57,14 +61,12 @@ public class WishlistFragment extends Fragment {
 
         binding = FragmentWishlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUser = fUser.getUid().toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("wishlist/"+idUser);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,11 +98,34 @@ public class WishlistFragment extends Fragment {
         totalProducts = binding.wishlistTvItems;
 
 
+
+
         ImageButton cart,chat;
 
         cart = binding.wishlistBtnCart;
 
         chat = binding.wishlistBtnChat;
+        tvNumberCart = binding.wishlistTvCartNumb;
+
+        search = binding.etWishlistSearch;
+        search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !search.getText().toString().matches("")) {
+                        Intent intent = new Intent(getContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch", search.getText().toString());
+                        startActivity(intent);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
         ref.addValueEventListener(new ValueEventListener() {
@@ -110,9 +135,8 @@ public class WishlistFragment extends Fragment {
 
 
                     Long numberCart = snapshot.getChildrenCount();
-                    if(tvnumberCart != null){
-                        tvnumberCart = binding.tvNumberCartWishlist;
-                        tvnumberCart.setText(String.valueOf(numberCart));
+                    if(tvNumberCart != null){
+                        tvNumberCart.setText(String.valueOf(numberCart));
                     }
 
                 }else{

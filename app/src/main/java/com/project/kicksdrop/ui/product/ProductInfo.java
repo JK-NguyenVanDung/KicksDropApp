@@ -55,9 +55,8 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     FirebaseUser fUser;
     ImageButton cart;
     Context context;
-    private TextView tvnumberCart;
+    private TextView tvNumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
-
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
     RecyclerView mCirclesRecyclerView;
@@ -127,9 +126,9 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
 
 
                     Long numberCart = snapshot.getChildrenCount();
-                    if(tvnumberCart != null){
-                        tvnumberCart = (TextView) findViewById(R.id.tv_numberCart_Product);
-                        tvnumberCart.setText(String.valueOf(numberCart));
+                    if(tvNumberCart != null){
+                        tvNumberCart = (TextView) findViewById(R.id.product_tv_numberCart);
+                        tvNumberCart.setText(String.valueOf(numberCart));
                     }
                 }else{
                     loading.dismissDialog();
@@ -270,6 +269,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         productImage = findViewById(R.id.productInfo_iv_image);
         viewPager = findViewById(R.id.productInfo_vp_image);
         cart = findViewById(R.id.productInfo_btn_cart);
+        tvNumberCart = findViewById(R.id.product_tv_numberCart);
     }
 
 }

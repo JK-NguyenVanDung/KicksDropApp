@@ -10,6 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,7 +41,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
     private ArrayList<Product> mProduct;
     ImageButton prevIBtn, cartIBtn, chatIBtn;
     TextView tvNumberCart, noAnyThing, title;
-    EditText search;
+    AutoCompleteTextView search;
     ProductListAdapter productAdapter;
     RecyclerView recyclerView;
     String brand;
@@ -87,8 +90,42 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         });
 
 
+        ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1);
+        //get firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //connect
+        DatabaseReference myRef = database.getReference("product");
 
 
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                    Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+                    product.setProduct_id(dtShot.getKey());
+                    adapter.add(product.getProduct_name());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        search.setAdapter(adapter);
+
+        search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
+                intent.putExtra("keySearch", search.getText().toString());
+                startActivity(intent);
+                search.setText("");
+
+            }
+        });
 
         search.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -100,8 +137,10 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - 50) && !search.getText().toString().matches("")) {
-                        searchProduct(search.getText().toString());
 
+                        Intent intent = new Intent(getApplicationContext(), SearchViewProduct.class);
+                        intent.putExtra("keySearch", search.getText().toString());
+                        startActivity(intent);
 
                         return true;
 
@@ -111,7 +150,6 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
             }
         });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
@@ -143,7 +181,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         prevIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_prev);
         cartIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_cart);
         chatIBtn = (ImageButton) findViewById(R.id.productBrands_iBtn_chat);
-        search = (EditText) findViewById(R.id.productBrands_iBtn_search);
+        search =  findViewById(R.id.productBrands_iBtn_search);
         recyclerView = (RecyclerView) findViewById(R.id.brand_rv_products);
         tvNumberCart = findViewById(R.id.tv_numberCart_Brands);
         noAnyThing = findViewById(R.id.Brands_noAnyThing);

@@ -128,10 +128,10 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginStart="154dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="-2dp"
-                        android:layout_marginBottom="1dp"
+                        android:layout_marginStart="160dp"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginEnd="-13dp"
+                        android:layout_marginBottom="0dp"
                         android:paddingTop="0dp"
                         android:src="@drawable/people_writing" />
 

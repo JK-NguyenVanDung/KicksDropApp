@@ -85,7 +85,7 @@
             android:baselineAligned="false">
 
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/search_et_searchView"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -160,30 +160,24 @@
 
         </LinearLayout>
     </LinearLayout>
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="575dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:ignore="SpeakableTextPresentCheck">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_rv_products"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:paddingBottom="70dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_rv_products"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="70dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="7dp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
