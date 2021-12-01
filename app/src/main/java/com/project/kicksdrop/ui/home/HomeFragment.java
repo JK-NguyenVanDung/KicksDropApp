@@ -1,13 +1,8 @@
 package com.project.kicksdrop.ui.home;
 
-import static android.content.ContentValues.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,19 +10,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,22 +28,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
-import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
-import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.product.ProductDetail;
 import com.project.kicksdrop.ui.productBrands.ProductBrands;
 import com.project.kicksdrop.ui.searchView.SearchViewProduct;
-import com.project.kicksdrop.ui.wishlist.WishlistFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
@@ -279,7 +263,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
     @Override
     public void onProductClick(int position, View view, String id) {
-        Intent intent = new Intent(getContext(), ProductInfo.class);
+        Intent intent = new Intent(getContext(), ProductDetail.class);
         intent.putExtra("id", id);
         startActivity(intent);
     }

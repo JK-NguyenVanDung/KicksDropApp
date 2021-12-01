@@ -1,7 +1,10 @@
 package com.project.kicksdrop.ui.product;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDeepLinkBuilder;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -9,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,14 +41,12 @@ import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
-public class ProductInfo extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ProductDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     TextView name,currentSize,price,amount,currentSizeSelector;
-    ImageButton increaseAmount,decreaseAmount,goBack;
+    ImageButton increaseAmount,decreaseAmount,goBack,share;
     Button addToCart;
     Spinner sizeSpinner;
     Product product;
@@ -56,23 +58,46 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
     ImageButton cart;
     Context context;
     private TextView tvNumberCart;
-    private final LoadingScreen loading = new LoadingScreen(ProductInfo.this);
+    private final LoadingScreen loading = new LoadingScreen(ProductDetail.this);
     int currentAmount = 1;
     ColorCircleAdapter circleAdapter;
     RecyclerView mCirclesRecyclerView;
+    NavController navController;
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        navController.handleDeepLink(intent);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_info);
+        setContentView(R.layout.activity_product_detail);
         loading.startLoadingScreen();
         context = this;
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-
         matching();
         Intent intent = getIntent();
 
         String id = intent.getStringExtra("id");
+
         getProduct(id);
+
+        share.setOnClickListener(new  View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                String message = ("https://kicksdrop.com/product/"+ id);
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+        });
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -112,6 +137,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                 startActivity(intent);
             }
         });
+        tvNumberCart = (TextView) findViewById(R.id.product_tv_numberCart);
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
         mCirclesRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
@@ -127,7 +153,6 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
 
                     Long numberCart = snapshot.getChildrenCount();
                     if(tvNumberCart != null){
-                        tvNumberCart = (TextView) findViewById(R.id.product_tv_numberCart);
                         tvNumberCart.setText(String.valueOf(numberCart));
                     }
                 }else{
@@ -213,7 +238,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
                         android.R.layout.simple_spinner_dropdown_item, product.getProduct_sizes());
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 sizeSpinner.setAdapter(adapter);
-                sizeSpinner.setOnItemSelectedListener(ProductInfo.this);
+                sizeSpinner.setOnItemSelectedListener(ProductDetail.this);
                 addToCart.setOnClickListener(new  View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
@@ -270,6 +295,7 @@ public class ProductInfo extends AppCompatActivity implements AdapterView.OnItem
         viewPager = findViewById(R.id.productInfo_vp_image);
         cart = findViewById(R.id.productInfo_btn_cart);
         tvNumberCart = findViewById(R.id.product_tv_numberCart);
+        share= findViewById(R.id.product_btn_share);
     }
 
 }
