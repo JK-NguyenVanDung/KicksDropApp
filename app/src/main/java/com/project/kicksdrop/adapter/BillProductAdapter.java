@@ -44,16 +44,16 @@ public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.
     @Override
     public void onBindViewHolder(@NonNull BillProductAdapter.ViewHolder holder, int position) {
         final Order order = mOrderList.get(holder.getAdapterPosition());
-        String totalPayment = String.valueOf(
-                                    Double.parseDouble(order.getOrder_price()) -
-                                    Double.parseDouble(order.getOrder_discount()) +
+        String total = String.valueOf(
+                                    Double.parseDouble(order.getOrder_price()) +
+                                    Double.parseDouble(order.getOrder_discount()) -
                                     Double.parseDouble(order.getShipping_price()));
 
         holder.tv_address.setText(order.getAddress());
-        holder.tv_total.setText(order.getOrder_price());
+        holder.tv_total.setText(total);
         holder.tv_shipPrice.setText(order.getShipping_price());
         holder.tv_discount.setText(order.getOrder_discount());
-        holder.tv_totalPayment.setText(totalPayment);
+        holder.tv_totalPayment.setText(order.getOrder_price());
         holder.tv_Status.setText(order.getStatus());
         holder.tv_orderId.setText(order.getOrder_id().substring(7));
         if (Integer.parseInt( order.getQuantity_product() ) > 1){

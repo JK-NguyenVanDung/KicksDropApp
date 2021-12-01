@@ -125,8 +125,11 @@ public class CartProductOrder extends AppCompatActivity {
         }else{
             tv_couponCode.setText(" ");
             tv_couponPercent.setText(" ");
-            tv_discount.setText(" ");
-
+            java.util.Currency usd = java.util.Currency.getInstance("USD");
+            java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+            format.setCurrency(usd);
+            String sDiscount =format.format(0.0);
+            tv_discount.setText(sDiscount);
         }
 
         shipPrice = 10.00;
