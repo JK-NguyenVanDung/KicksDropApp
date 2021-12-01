@@ -94,7 +94,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setType("text/plain");
 
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                Intent shareIntent = Intent.createChooser(sendIntent, "Share From KicksDrop");
                 startActivity(shareIntent);
             }
         });
