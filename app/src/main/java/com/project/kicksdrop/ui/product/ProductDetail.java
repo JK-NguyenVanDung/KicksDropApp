@@ -38,6 +38,7 @@ import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
@@ -77,27 +78,9 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         loading.startLoadingScreen();
         context = this;
         fUser = FirebaseAuth.getInstance().getCurrentUser();
+
         matching();
-        Intent intent = getIntent();
 
-        String id = intent.getStringExtra("id");
-
-        getProduct(id);
-
-        share.setOnClickListener(new  View.OnClickListener(){
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                String message = ("https://kicksdrop.com/product/"+ id);
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, message);
-                sendIntent.setType("text/plain");
-
-                Intent shareIntent = Intent.createChooser(sendIntent, "Share From KicksDrop");
-                startActivity(shareIntent);
-            }
-        });
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -127,44 +110,82 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         goBack.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                finish();
+                if(fUser != null){
+                    Intent intent = new Intent(getApplicationContext(), CartListView.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         cart.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CartListView.class);
+                Intent intent;
+                if(fUser != null){
+                    intent = new Intent(getApplicationContext(), CartListView.class);
+                }else{
+                    intent = new Intent(getApplicationContext(), LoginActivity.class);
+                }
                 startActivity(intent);
             }
         });
+        Intent intent = getIntent();
+
+        String id = intent.getStringExtra("id");
+
+
         tvNumberCart = (TextView) findViewById(R.id.product_tv_numberCart);
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
         mCirclesRecyclerView = (RecyclerView) findViewById(R.id.productInfo_rv_circles);
         mCirclesRecyclerView.setLayoutManager(layoutManager);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
-        myRef.addValueEventListener(new ValueEventListener() {
+        share.setOnClickListener(new  View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getKey() != null) {
+            public void onClick(View v) {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                String message = ("https://kicksdrop.com/product/"+ id);
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+                sendIntent.setType("text/plain");
 
-
-                    Long numberCart = snapshot.getChildrenCount();
-                    if(tvNumberCart != null){
-                        tvNumberCart.setText(String.valueOf(numberCart));
-                    }
-                }else{
-                    loading.dismissDialog();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                Intent shareIntent = Intent.createChooser(sendIntent, "Share From KicksDrop");
+                startActivity(shareIntent);
             }
         });
+        if(fUser == null){
+
+        }else{
+            getProduct(id);
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("cart/"+fUser.getUid() + "/product");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.getKey() != null) {
+
+
+                        Long numberCart = snapshot.getChildrenCount();
+                        if(tvNumberCart != null){
+                            tvNumberCart.setText(String.valueOf(numberCart));
+                        }
+                    }else{
+                        loading.dismissDialog();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+
+
 
     }
 
@@ -242,14 +263,19 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 addToCart.setOnClickListener(new  View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        String pickedSize = sizeSpinner.getSelectedItem().toString();
-                        int pickedAmount = Integer.parseInt(amount.getText().toString());
-                        String pickedColor = ColorCircleAdapter.getPickedColor();
-                        fUser = FirebaseAuth.getInstance().getCurrentUser();
-                        assert fUser != null;
-                        addProductCart(fUser.getUid(),product.getProduct_id(),pickedAmount,pickedColor,pickedSize);
-                        MessagePopUp messagePopUp = new MessagePopUp();
-                        messagePopUp.show(context,"Add To Cart Successfully");
+                        if(fUser != null){
+                            String pickedSize = sizeSpinner.getSelectedItem().toString();
+                            int pickedAmount = Integer.parseInt(amount.getText().toString());
+                            String pickedColor = ColorCircleAdapter.getPickedColor();
+                            fUser = FirebaseAuth.getInstance().getCurrentUser();
+                            assert fUser != null;
+                            addProductCart(fUser.getUid(),product.getProduct_id(),pickedAmount,pickedColor,pickedSize);
+                            MessagePopUp messagePopUp = new MessagePopUp();
+                            messagePopUp.show(context,"Add To Cart Successfully");
+                        }else{
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 });
             }

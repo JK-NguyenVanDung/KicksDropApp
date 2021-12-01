@@ -1,7 +1,10 @@
 package com.project.kicksdrop.ui.home;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,17 +32,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
+import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.cart.CartListView;
 import com.project.kicksdrop.ui.product.ProductDetail;
 import com.project.kicksdrop.ui.productBrands.ProductBrands;
 import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
@@ -65,8 +72,44 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                              ViewGroup container, Bundle savedInstanceState) {
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
+        //get firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
+        if(fUser == null || GoogleSignIn.getLastSignedInAccount(requireContext()) == null){
+            Intent login = new Intent(getActivity(), LoginActivity.class);
+
+            if(this.getArguments().getString("id") != null){
+                String id = this.getArguments().getString("id");
+                login.putExtra("id", id);
+            }else{
+                login.putExtra("register", true);
+            }
+
+            startActivity(login);
+        }else{
+            DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.getKey() != null) {
+                        Long numberCart = snapshot.getChildrenCount();
+                        if(tvNumberCart!= null){
+                            tvNumberCart.setText(String.valueOf(numberCart));
+                        }
+
+                    } else {
+                        loading.dismissDialog();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         loading = new LoadingScreen(HomeFragment.this);
@@ -157,8 +200,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         final AutoCompleteTextView search = binding.homeEtSearch;
         ArrayAdapter adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1);
-        //get firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         //connect
         DatabaseReference myRef = database.getReference("product");
 
@@ -236,26 +278,6 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 //            }
 //        });
 
-        DatabaseReference ref = database.getReference("cart/"+fUser.getUid() + "/product");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getKey() != null) {
-                    Long numberCart = snapshot.getChildrenCount();
-                    if(tvNumberCart!= null){
-                        tvNumberCart.setText(String.valueOf(numberCart));
-                    }
-
-                } else {
-                    loading.dismissDialog();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         return root;
 
