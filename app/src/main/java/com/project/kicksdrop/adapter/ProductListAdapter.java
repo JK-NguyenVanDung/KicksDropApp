@@ -94,9 +94,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.name.setText(product.getProduct_name());
         loadImage(holder.productImage,imageName);
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert fUser != null;
-        getUserWishlist(fUser.getUid(), product, holder.heart);
-
+        if(fUser != null){
+            getUserWishlist(fUser.getUid(), product, holder.heart);
+        }
         holder.heart.setOnClickListener(new View.OnClickListener()
         {
             @SuppressLint("UseCompatLoadingForDrawables")

@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
@@ -120,7 +121,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 if (holder.heart.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.ic_heart).getConstantState()){
                     holder.heart.setImageResource(R.drawable.ic_heart_activated);
                     String idUser = fUser.getUid();
-                    addProductWishlist(idUser,product);
+                    addProductWishlist(idUser,productOptions.get(holder.getAdapterPosition()));
                     Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
 
                 }else{
@@ -254,20 +255,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
 
     }
+    ArrayList<String> duplicateID = new ArrayList<String>();
+
     private void getUserWishlist(String user_id, Product product , ImageButton heart){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("wishlist/"+user_id);
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<String> listWishlist =new ArrayList<String>();
-                for (DataSnapshot item : snapshot.getChildren()){
+                ArrayList<String> listWishlist = new ArrayList<String>();
+                for (DataSnapshot item : snapshot.getChildren()) {
                     listWishlist.add(item.getKey());
                 }
-                for (int i =0 ; i < listWishlist.size();i++){
-                    if(product.getProduct_id().equals(listWishlist.get(i))){
+                for (int i = 0; i < listWishlist.size(); i++) {
+                    if (product.getProduct_id().equals(listWishlist.get(i))) {
                         heart.setImageResource(R.drawable.ic_heart_activated);
+                    } else {
+                        heart.setImageResource(R.drawable.ic_heart);
                     }
                 }
             }
@@ -277,12 +281,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });
     }
-    private void addProductWishlist(String idUser,Product product){
+    private void addProductWishlist(String idUser, HashMap<java.lang.String,java.lang.String> product){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("wishlist/"+idUser);
-        myRef.child(product.getProduct_id()).child("product_id").setValue(product.getProduct_id());
-        myRef.child(product.getProduct_id()).child("product_size").setValue(product.getProduct_sizes().get(1));
-        myRef.child(product.getProduct_id()).child("product_color").setValue(product.getProduct_colors().get(1));
+        myRef.child(Objects.requireNonNull(product.get("productId"))).child("product_id").setValue(product.get("productId"));
+        myRef.child(Objects.requireNonNull(product.get("productId"))).child("product_size").setValue(product.get("size"));
+        myRef.child(Objects.requireNonNull(product.get("productId"))).child("product_color").setValue(product.get("color"));
 
     }
 

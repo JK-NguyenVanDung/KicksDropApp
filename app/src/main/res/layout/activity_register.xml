@@ -38,6 +38,7 @@
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,13 +57,13 @@
                 android:id="@+id/layoutEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.02"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
+                app:layout_constraintVertical_bias="0.02">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_regisEmail"
@@ -82,14 +83,14 @@
                 android:id="@+id/layoutPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutEmail"
                 app:layout_constraintVertical_bias="0.03"
-                app:passwordToggleEnabled="true"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_regisPassword"
@@ -109,14 +110,14 @@
                 android:id="@+id/layoutAgainPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutPassword"
                 app:layout_constraintVertical_bias="0.03"
-                app:passwordToggleEnabled="true"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_regisAgainPassword"
@@ -136,13 +137,13 @@
                 android:id="@+id/layoutPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutAgainPassword"
-                app:layout_constraintVertical_bias="0.03"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
+                app:layout_constraintVertical_bias="0.03">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_regisPhone"
@@ -162,13 +163,13 @@
                 android:id="@+id/layoutName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
-                app:layout_constraintVertical_bias="0.03"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
+                app:layout_constraintVertical_bias="0.03">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_regisName"
@@ -199,6 +200,7 @@
                     android:id="@+id/btn_check_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/main_purple"
                     android:checked="true"
                     android:text="male   "
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -206,13 +208,13 @@
                     app:layout_constraintHorizontal_bias="0.2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                    app:layout_constraintVertical_bias="0"
-                    android:buttonTint="@color/main_purple"/>
+                    app:layout_constraintVertical_bias="0" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/btn_check_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/main_purple"
                     android:checked="false"
                     android:text="female   "
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -220,13 +222,13 @@
                     app:layout_constraintHorizontal_bias="0.2"
                     app:layout_constraintStart_toEndOf="@+id/btn_check_male"
                     app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                    app:layout_constraintVertical_bias="0"
-                    android:buttonTint="@color/main_purple"/>
+                    app:layout_constraintVertical_bias="0" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/btn_check_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/main_purple"
                     android:checked="false"
                     android:text="other  "
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -234,8 +236,7 @@
                     app:layout_constraintHorizontal_bias="0.3"
                     app:layout_constraintStart_toEndOf="@+id/btn_check_female"
                     app:layout_constraintTop_toBottomOf="@+id/layoutName"
-                    app:layout_constraintVertical_bias="0"
-                    android:buttonTint="@color/main_purple"/>
+                    app:layout_constraintVertical_bias="0" />
 
             </RadioGroup>
 
@@ -243,14 +244,14 @@
                 android:id="@+id/btn_check_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/main_purple"
                 android:checked="true"
                 android:text="Press this to accept all our term and conditions "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/group_Radio_checkbox"
-                app:layout_constraintVertical_bias="0.0"
-                android:buttonTint="@color/main_purple"/>
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_signUp"
@@ -272,7 +273,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:background="@null"
-                android:text="You already have an account, login me!"
+                android:text="Already have an account ? Click me to login"
                 android:textColor="@color/black"
                 android:textSize="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -298,17 +299,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_goSignIn" />
 
+
             <ImageButton
-                android:id="@+id/tabGoogle"
+                android:id="@+id/btn_register_google"
                 android:layout_width="280dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/conti_google"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/or" />
-
+                app:layout_constraintTop_toBottomOf="@+id/or"
+                tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

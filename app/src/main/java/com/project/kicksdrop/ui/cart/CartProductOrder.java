@@ -346,7 +346,7 @@ public class CartProductOrder extends AppCompatActivity {
     }
 
     private void createOrder(){
-        String timeStamp = new SimpleDateFormat("HH:mm: dd/MM/yyyy").format(Calendar.getInstance().getTime());
+        String timeStamp = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(Calendar.getInstance().getTime());
         timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
