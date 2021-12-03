@@ -2,6 +2,7 @@ package com.project.kicksdrop.ui.profile;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -103,13 +104,17 @@ public class ProfileFragment extends Fragment {
         DatabaseReference myRef = database.getReference("account/" + user_id);
 
         myRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
-                userName.setText("Hello "+ Objects.requireNonNull(hashMap.get("name")).toString());
+                if(hashMap != null){
+                    userName.setText("Hello "+ Objects.requireNonNull(hashMap.get("name")).toString());
 
-                if(hashMap.get("avatar") != null){
+                }
+
+                if(hashMap != null && hashMap.get("avatar") != null){
                     loadImage();
                 }else{
                     loading.dismissDialog();

@@ -34,6 +34,16 @@ public class CustomerOrder extends AppCompatActivity {
     UserOrderAdapter userOrderAdapter;
     ImageButton back;
     private  ArrayList<Order> mOrder;
+
+    public RecyclerView getProductsView() {
+        return productsView;
+    }
+
+    public void setProductsView(RecyclerView productsView) {
+        this.productsView = productsView;
+    }
+
+    private RecyclerView productsView;
     private ArrayList<Product> mProducts;
     private final LoadingScreen loading = new LoadingScreen(CustomerOrder.this);
 
@@ -78,9 +88,12 @@ public class CustomerOrder extends AppCompatActivity {
                     assert order != null;
                     if(order.getOrder_details() != null){
                         ArrayList<Product> products  = getProducts(order.getOrder_details());
-                        OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(),products, order.getOrder_details(),loading);
-                        order.setAdapter(adapter);
-                        mOrder.add(order);
+                        if( products.size() > 0 ){
+                            OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(),products, order.getOrder_details(),loading);
+                            order.setAdapter(adapter);
+                            mOrder.add(order);
+                        }
+
                     }
 
                 }

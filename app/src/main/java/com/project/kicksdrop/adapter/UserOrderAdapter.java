@@ -67,8 +67,11 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         }
         holder.tv_totalPayment.setText("$" +order.getOrder_price());
         holder.tv_Status.setText(order.getStatus());
-        holder.tv_orderId.setText(order.getOrder_id().substring(9));
-        if (Integer.parseInt( order.getQuantity_product() ) > 1){
+        if(order.getOrder_id() != null) {
+            holder.tv_orderId.setText(order.getOrder_id().substring(9));
+        }
+
+        if (order.getQuantity_product() != null && Integer.parseInt( order.getQuantity_product() ) > 1){
             holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" product)");
         }
         else {
