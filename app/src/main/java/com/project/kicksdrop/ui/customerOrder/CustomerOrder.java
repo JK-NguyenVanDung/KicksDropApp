@@ -87,8 +87,6 @@ public class CustomerOrder extends AppCompatActivity {
                     Order order = dtShot.getValue(Order.class);
                     assert order != null;
                     mOrder.add(order);
-
-
                 }
 
                 loading.dismissDialog();

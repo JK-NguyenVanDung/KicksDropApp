@@ -223,10 +223,7 @@ public class CartOrder extends AppCompatActivity {
                                     String sTotalPayment = format.format( total + shipPrice - discount );
                                     tv_totalPayment.setText(sTotalPayment);
                                 }
-
                                 }
-
-
 
                         }
 
@@ -419,7 +416,7 @@ public class CartOrder extends AppCompatActivity {
 
 
     }
-
+    boolean cartDeleted = true;
     private void addProductOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
@@ -431,25 +428,28 @@ public class CartOrder extends AppCompatActivity {
                 HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
                 if(hashMap != null) {
                     HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
-                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
-                        String key = entry.getKey();
-                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
-                        item.put("cartProductID", key);
-                        productsInCart.add(item);
-                    }
-                    //String coupon = hashMap.get("coupon_id").toString();
-                    //Cart cart = new Cart(user_Id,,productsInCart);
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
-                    deleteQuantity(productsInCart);
-                    for (HashMap<String,String> item: productsInCart){
 
-                        item.put("amount",String.valueOf(item.get("amount")));
-                        item.put("productId",String.valueOf(item.get("productId")));
-                        //updateProduct(String.valueOf(item.get("productId"));
-                    }
-                    myRef.child("order_details").setValue(productsInCart);
+                    if(cartDeleted){
+                        for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                            String key = entry.getKey();
+                            HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
+                            item.put("cartProductID", key);
+                            productsInCart.add(item);
+                        }
+                        //String coupon = hashMap.get("coupon_id").toString();
+                        //Cart cart = new Cart(user_Id,,productsInCart);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+                        deleteQuantity(productsInCart);
+                        for (HashMap<String,String> item: productsInCart){
 
+                            item.put("amount",String.valueOf(item.get("amount")));
+                            item.put("productId",String.valueOf(item.get("productId")));
+                            //updateProduct(String.valueOf(item.get("productId"));
+                        }
+                        myRef.child("order_details").setValue(productsInCart);
+                        cartDeleted=false;
+                    }
                 }
             }
 
