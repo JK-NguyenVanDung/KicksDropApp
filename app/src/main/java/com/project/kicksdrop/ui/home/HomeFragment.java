@@ -68,7 +68,8 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     RecyclerView CouponRecyclerView;
     RecyclerView BrandRecyclerView;
     FirebaseUser fUser;
-    int page = 5;
+    int countProduct = 5;
+    int max = 0;
     public Boolean flag = false;
 
 
@@ -185,9 +186,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
            @Override
            public void onClick(View view) {
 
-                    page+=6;
+               countProduct+=6;
                   getProduct();
-                    if (page == 17){
+                    if (countProduct+1>=max ){
 
                             btnContinue.setVisibility(View.GONE);
 
@@ -393,14 +394,15 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProduct.clear();
+                max = 0;
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
-                    if (mProduct.size()<=page){
+                    if (mProduct.size()<=countProduct){
                         Product product = dtShot.getValue(Product.class);
                         assert product != null;
                         product.setProduct_id(dtShot.getKey());
                         mProduct.add(product);
                     }
-
+                max++;
                 }
 
                 productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading,flag);
