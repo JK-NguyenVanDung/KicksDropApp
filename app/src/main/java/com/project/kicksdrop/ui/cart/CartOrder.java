@@ -134,7 +134,6 @@ public class CartOrder extends AppCompatActivity {
             String sDiscount =format.format(0.0);
             tv_discount.setText(sDiscount);
         }
-
         shipPrice = 10.00;
         java.util.Currency usd = java.util.Currency.getInstance("USD");
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
@@ -232,7 +231,6 @@ public class CartOrder extends AppCompatActivity {
 
                     }
                 }
-
                 orderProductAdapter = new OrderProductAdapter(getApplicationContext(),mProducts,cartProducts,loading);
                 Log.d("test",mProducts.toString());
                 recyclerView.setAdapter(orderProductAdapter);

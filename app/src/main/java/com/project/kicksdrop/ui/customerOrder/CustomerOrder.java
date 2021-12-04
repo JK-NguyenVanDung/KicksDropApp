@@ -2,6 +2,7 @@ package com.project.kicksdrop.ui.customerOrder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +47,7 @@ public class CustomerOrder extends AppCompatActivity {
     private RecyclerView productsView;
     private ArrayList<Product> mProducts;
     private final LoadingScreen loading = new LoadingScreen(CustomerOrder.this);
-
+    private AppCompatButton deleteBtn,receivedBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,10 @@ public class CustomerOrder extends AppCompatActivity {
         //recycler view
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_order_List);
         recyclerView.setHasFixedSize(true);
+
+        //btn
+        deleteBtn = findViewById(R.id.customerOrder_btn_delete);
+        receivedBtn = findViewById(R.id.customerOrder_btn_received);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);

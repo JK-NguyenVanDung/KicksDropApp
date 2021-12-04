@@ -54,7 +54,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private ProductListAdapter.OnProductListener mOnProductListener;
     private LoadingScreen loading;
     public ProductListAdapter(Context context, List<Product> mProductList, ProductListAdapter.OnProductListener onProductListener, LoadingScreen loading){
-
         this.context = context;
         this.mProductList = mProductList;
         this.mOnProductListener = onProductListener;
