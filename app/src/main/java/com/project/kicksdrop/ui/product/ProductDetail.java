@@ -208,9 +208,8 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 //Log.d("yeah",product.getProduct_sizes().toString());
 
                 if (product.getProduct_quantity()<=0){
-
+                    currentAmount = 0;
                     addToCart.setText("Out of stock");
-                    addToCart.setTextColor(getApplication().getResources().getColor(R.color.black));
                     addToCart.setEnabled(false);
                     increaseAmount.setEnabled(false);
                     decreaseAmount.setEnabled(false);

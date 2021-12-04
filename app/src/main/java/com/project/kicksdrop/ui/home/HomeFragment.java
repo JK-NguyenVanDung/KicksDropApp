@@ -66,7 +66,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     RecyclerView CouponRecyclerView;
     RecyclerView BrandRecyclerView;
     FirebaseUser fUser;
-
+    private boolean firstLoad = true;
 
     //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
@@ -118,7 +118,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         loading = new LoadingScreen(HomeFragment.this);
+
         loading.startLoadingScreenFragment();
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;
 
@@ -137,42 +139,12 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         BrandRecyclerView = binding.homeRvBrand;
         BrandRecyclerView.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.HORIZONTAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(),1);
         BrandRecyclerView.setLayoutManager(layoutManager);
 
         getBrand();
         getProduct();
         getCoupon();
-
-//        final ImageButton nikesIbtn = binding.homeIbtnNikes;
-//        nikesIbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), ProductBrands.class);
-//                intent.putExtra("brand", "Nike");
-//                startActivity(intent);
-//            }
-//        });
-//
-//        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
-//        adidasIbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), ProductBrands.class);
-//                intent.putExtra("brand", "Adidas");
-//                startActivity(intent);
-//            }
-//        });
-//
-//        final ImageButton vansIbtn = binding.homeIbtnVans;
-//        vansIbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), ProductBrands.class);
-//                intent.putExtra("brand", "Vans");
-//                startActivity(intent);
-//            }
-//        });
 
         final ImageButton slide = binding.homeIbtnProductContent;
         slide.setOnClickListener(new View.OnClickListener() {

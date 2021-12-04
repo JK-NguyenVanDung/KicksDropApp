@@ -19,6 +19,17 @@ public class LoadingScreen {
     public LoadingScreen(Fragment myFragment){
         fragment = myFragment;
     }
+    public void startHomeLoading(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext(), R.style.myFullscreenAlertDialogStyle);
+
+        LayoutInflater inflater = fragment.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.activity_spash_screen,null));
+        builder.setCancelable(false);
+        dialog = builder.create();
+
+        dialog.show();
+
+    }
     public void startLoadingScreenFragment(){
         AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext());
 
