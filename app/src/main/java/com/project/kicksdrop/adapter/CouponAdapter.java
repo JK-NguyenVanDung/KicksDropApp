@@ -217,6 +217,9 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                             {
                                 Toast.makeText(v.getContext(), "Your totalPayment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
                             }
+                        }else{
+                            Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
+
                         }
                     }
 

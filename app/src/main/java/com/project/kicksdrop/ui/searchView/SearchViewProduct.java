@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.product.ProductDetail;
 
 import java.util.ArrayList;
 
@@ -163,7 +162,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
     }
     public void onProductClick(int position, View view, String id) {
-        Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
+        Intent intent = new Intent(getApplicationContext(), ProductDetail.class);
         intent.putExtra("id", id);
         startActivity(intent);
     }

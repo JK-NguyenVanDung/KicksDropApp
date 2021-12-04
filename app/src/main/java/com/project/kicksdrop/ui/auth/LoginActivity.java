@@ -31,12 +31,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.ui.cart.CartListView;
+import com.project.kicksdrop.ui.product.ProductDetail;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,6 +61,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        Intent registerIntent = getIntent();
+        boolean justRegister =registerIntent.getBooleanExtra("register",false);
+        if(justRegister){
+            finish();
+        }
         mAuth = FirebaseAuth.getInstance();
 
         SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
@@ -118,6 +127,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent goSignUp = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = getIntent();
+                if(intent.getStringExtra("id") != null) {
+                    goSignUp.putExtra("id",intent.getStringExtra("id"));
+                }
                 startActivity(goSignUp);
             }
         });
@@ -149,11 +162,19 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }else{
                             Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
-                            Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
-                            loading.startLoadingScreen();
+                            Intent intent = getIntent();
+                            if(intent.getStringExtra("id") == null){
 
-                            startActivity(loginSuccess);
+                                Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
+                                loading.startLoadingScreen();
+                                startActivity(loginSuccess);
+                            }else{
+
+                                finish();
+
+                            }
                             finish();
+
                         }
                     }
                 });
@@ -162,14 +183,14 @@ public class LoginActivity extends AppCompatActivity {
         loginGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SignInGG();
+                SignInGoogle();
             }
         });
 
     }
 
 
-    private void SignInGG() {
+    private void SignInGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -192,6 +213,8 @@ public class LoginActivity extends AppCompatActivity {
             FirebaseGoogleAuth(null);
         }
     }
+    private boolean hasChildren = false;
+
     private void FirebaseGoogleAuth(GoogleSignInAccount acct) {
         try{
             AuthCredential authCredential = GoogleAuthProvider.getCredential( acct.getIdToken(), null );
@@ -204,13 +227,34 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         UpdateUI( user );
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myRef = database.getReference("account");
+                        DatabaseReference ref = database.getReference("account/"+ user.getUid());
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
-                        myRef.child(user.getUid()).child("email").setValue(user.getEmail());
-                        myRef.child(user.getUid()).child("gender").setValue("Male");
-                        myRef.child(user.getUid()).child("mobile").setValue(" ");
-                        myRef.child(user.getUid()).child("name").setValue(user.getEmail());
-                        myRef.child(user.getUid()).child("address").setValue(" ");
+
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.hasChildren()) {
+                                    hasChildren = true;
+                                }else{
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        if(hasChildren = false){
+                            DatabaseReference myRef = database.getReference("account");
+
+                            myRef.child(user.getUid()).child("email").setValue(user.getEmail());
+                            myRef.child(user.getUid()).child("gender").setValue("Male");
+                            myRef.child(user.getUid()).child("mobile").setValue(" ");
+                            myRef.child(user.getUid()).child("name").setValue(user.getEmail());
+                            myRef.child(user.getUid()).child("address").setValue(" ");
+                        }
+
                     } else {
                         Toast.makeText( LoginActivity.this, "Failed", Toast.LENGTH_SHORT ).show();
                         UpdateUI( null );
@@ -224,10 +268,18 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void UpdateUI(FirebaseUser user){
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        if (account != null){
-            Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(loginSuccess);
+        Intent intent = getIntent();
+        if(intent.getStringExtra("id") == null){
+            if (account != null){
+                Intent loginSuccess = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(loginSuccess);
+            }
+        }else{
+
             finish();
+
         }
+        finish();
+
     }
 }

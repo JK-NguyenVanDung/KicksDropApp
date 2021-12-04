@@ -180,6 +180,7 @@ public class ProfileFragment extends Fragment {
                 editor.apply();
                 Intent iLogout = new Intent(getContext(), LoginActivity.class);
                 iLogout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                 mGoogleSignInClient.signOut();
                 FirebaseAuth.getInstance().signOut();
                 startActivity(iLogout);

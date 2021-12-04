@@ -19,41 +19,53 @@ import com.project.kicksdrop.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillProductAdapter extends RecyclerView.Adapter<BillProductAdapter.ViewHolder> {
+public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.ViewHolder> {
 
     List<Order> mOrderList;
     private ArrayList<Product> mProducts;
     private Context context;
 
-    public BillProductAdapter(Context context, List<Order>  mOrderList){
+    public UserOrderAdapter(Context context, List<Order>  mOrderList){
         this.context = context;
         this.mOrderList = mOrderList;
     }
     @SuppressLint("SetTextI18n")
     @Override
-    public BillProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_list, parent, false);
 
-        return new BillProductAdapter.ViewHolder(view);
+        return new UserOrderAdapter.ViewHolder(view);
     }
 
 
 
 
     @Override
-    public void onBindViewHolder(@NonNull BillProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserOrderAdapter.ViewHolder holder, int position) {
         final Order order = mOrderList.get(holder.getAdapterPosition());
-        String totalPayment = String.valueOf(
-                                    Double.parseDouble(order.getOrder_price()) -
-                                    Double.parseDouble(order.getOrder_discount()) +
-                                    Double.parseDouble(order.getShipping_price()));
+        String totalPayment;
+        if(order.getOrder_discount() != null){
+            totalPayment= String.valueOf(
+                    Double.parseDouble(order.getOrder_price()) -
+                            Double.parseDouble(order.getOrder_discount()) +
+                            Double.parseDouble(order.getShipping_price()));
+            holder.tv_discount.setText("-$" +order.getOrder_discount());
 
+        }else{
+            totalPayment= String.valueOf(
+                    Double.parseDouble(order.getOrder_price()) +
+                            Double.parseDouble(order.getShipping_price()));
+            holder.tv_discount.setText("$0.00");
+
+        }
         holder.tv_address.setText(order.getAddress());
-        holder.tv_total.setText("$" +order.getOrder_price());
+        holder.tv_total.setText("$" +totalPayment);
         holder.tv_shipPrice.setText("$" +order.getShipping_price());
-        holder.tv_discount.setText("-$" +order.getOrder_discount());
-        holder.tv_totalPayment.setText("$" +totalPayment);
+        if(order.getOrder_discount() != null){
+
+        }
+        holder.tv_totalPayment.setText("$" +order.getOrder_price());
         holder.tv_Status.setText(order.getStatus());
         holder.tv_orderId.setText(order.getOrder_id().substring(9));
         if (Integer.parseInt( order.getQuantity_product() ) > 1){

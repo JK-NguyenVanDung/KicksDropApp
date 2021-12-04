@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +29,6 @@ import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.databinding.FragmentWishlistBinding;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
-import com.project.kicksdrop.ui.product.ProductInfo;
 import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
@@ -217,21 +215,22 @@ public class WishlistFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mWishlist.clear();
-                for(HashMap<String,String> item : wishlist){
-                    for(DataSnapshot dtShot: snapshot.getChildren()){
-                        if(item.get("product_id").equals(dtShot.getKey())){
-                            product = dtShot.getValue(Product.class);
-                            assert product != null;
-                            product.setProduct_id(dtShot.getKey());
-                            mWishlist.add(product);
+                    for(HashMap<String,String> item : wishlist){
+                        for(DataSnapshot dtShot: snapshot.getChildren()){
+                            if(item.get("product_id") != null) {
+
+                                if (item.get("product_id").equals(dtShot.getKey())) {
+                                    product = dtShot.getValue(Product.class);
+                                    assert product != null;
+                                    product.setProduct_id(dtShot.getKey());
+                                    mWishlist.add(product);
+                                }
+                            }else{
+                                loading.dismissDialog();
+                            }
                         }
 
-                    }
-//                    for (int i = 0; i < wishlist.size(); i++) {
-//                        if (wishlist.get(i).equals(dtShot.getKey())){
-//                            mWishlist.add(product);
-//                        }
-//                    }
+
 
 
                 }

@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -20,23 +18,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
-import com.project.kicksdrop.adapter.BillProductAdapter;
-import com.project.kicksdrop.adapter.CartAdapter;
+import com.project.kicksdrop.adapter.UserOrderAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CustomerOrder extends AppCompatActivity {
 
     FirebaseUser fUser;
     RecyclerView recyclerView;
-    BillProductAdapter billProductAdapter;
+    UserOrderAdapter userOrderAdapter;
     ImageButton back;
     private  ArrayList<Order> mOrder;
     private ArrayList<Product> mProducts;
@@ -79,7 +74,6 @@ public class CustomerOrder extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mOrder.clear();
                 for (DataSnapshot dtShot: snapshot.getChildren()){
-
                     Order order = dtShot.getValue(Order.class);
                     assert order != null;
                     if(order.getOrder_details() != null){
@@ -92,9 +86,9 @@ public class CustomerOrder extends AppCompatActivity {
                 }
 
                 loading.dismissDialog();
-                billProductAdapter = new BillProductAdapter(getApplicationContext(),mOrder);
+                userOrderAdapter = new UserOrderAdapter(getApplicationContext(),mOrder);
 
-                recyclerView.setAdapter(billProductAdapter);
+                recyclerView.setAdapter(userOrderAdapter);
 
 
             }

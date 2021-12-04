@@ -3,7 +3,6 @@ package com.project.kicksdrop.ui.productBrands;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -13,9 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,8 +28,7 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.cart.CartListView;
-import com.project.kicksdrop.ui.home.HomeFragment;
-import com.project.kicksdrop.ui.product.ProductInfo;
+import com.project.kicksdrop.ui.product.ProductDetail;
 import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 
 import java.util.ArrayList;
@@ -188,7 +184,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         title = (TextView) findViewById(R.id.productBrands_tv_brand);
     }
     public void onProductClick(int position, View view, String id) {
-        Intent intent = new Intent(getApplicationContext(), ProductInfo.class);
+        Intent intent = new Intent(getApplicationContext(), ProductDetail.class);
         intent.putExtra("id", id);
         startActivity(intent);
     }
