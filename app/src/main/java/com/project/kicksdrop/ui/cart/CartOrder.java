@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
@@ -69,11 +70,13 @@ public class CartOrder extends AppCompatActivity {
     private static Drawable bgAddress;
     private double shipPrice;
     private double discount;
+    private final LoadingScreen loading = new LoadingScreen(CartOrder.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_product_order);
-
+        loading.startLoadingScreen();
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
         coupon_id = intent.getStringExtra("coupon");
@@ -230,7 +233,7 @@ public class CartOrder extends AppCompatActivity {
                     }
                 }
 
-                orderProductAdapter = new OrderProductAdapter(getApplicationContext(),mProducts,cartProducts);
+                orderProductAdapter = new OrderProductAdapter(getApplicationContext(),mProducts,cartProducts,loading);
                 Log.d("test",mProducts.toString());
                 recyclerView.setAdapter(orderProductAdapter);
 

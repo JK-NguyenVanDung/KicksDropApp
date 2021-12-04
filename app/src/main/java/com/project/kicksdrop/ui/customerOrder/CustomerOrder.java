@@ -88,9 +88,10 @@ public class CustomerOrder extends AppCompatActivity {
                     assert order != null;
                     mOrder.add(order);
                 }
-
-                loading.dismissDialog();
-                userOrderAdapter = new UserOrderAdapter(getApplicationContext(),mOrder);
+                if(mOrder.size() < 1){
+                    loading.dismissDialog();
+                }
+                userOrderAdapter = new UserOrderAdapter(getApplicationContext(),mOrder,loading);
 
                 recyclerView.setAdapter(userOrderAdapter);
 
@@ -103,38 +104,5 @@ public class CustomerOrder extends AppCompatActivity {
             }
         });
     }
-    private ArrayList<Product>  getProducts(List<HashMap<String,String>> options){
-        ArrayList<Product> products = new ArrayList<>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("product");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                products.clear();
-                for(HashMap<String, String> item : options){
-                    for(DataSnapshot dtShot: snapshot.getChildren()){
-                        Product product = dtShot.getValue(Product.class);
-                        assert product != null;
-                        product.getProduct_colors().remove(0);
-                        String productId = dtShot.getKey();
-                        if(productId.equals(item.get("productId"))){
-                            product.setProduct_id(dtShot.getKey());
-                            product.getProduct_images().remove(0);
-                            product.setProduct_color(item.get("color"));
-                            product.setProduct_size(item.get("size"));
-                            product.setAmount(item.get("amount"));
-                            products.add(product);
-                        }
 
-                    }
-                }
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return products;
-    }
 }

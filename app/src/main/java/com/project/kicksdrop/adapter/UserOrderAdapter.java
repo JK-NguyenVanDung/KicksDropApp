@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
@@ -30,10 +31,11 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
     List<Order> mOrderList;
     private ArrayList<Product> mProducts;
     private Context context;
-
-    public UserOrderAdapter(Context context, List<Order>  mOrderList){
+    private LoadingScreen loading;
+    public UserOrderAdapter(Context context, List<Order>  mOrderList, LoadingScreen loading){
         this.context = context;
         this.mOrderList = mOrderList;
+        this.loading = loading;
     }
     @SuppressLint("SetTextI18n")
     @Override
@@ -140,7 +142,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                     }
                 }
 
-                OrderProductAdapter adapter = new OrderProductAdapter(context,products, order.getOrder_details());
+                OrderProductAdapter adapter = new OrderProductAdapter(context,products, order.getOrder_details(),loading);
                 recyclerView.setAdapter(adapter);
             }
             @Override

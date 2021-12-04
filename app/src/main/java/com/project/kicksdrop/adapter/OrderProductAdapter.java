@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +112,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
                     loadImage(holder.productImage,imageName);
                 }
             }
+            GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
+    
+            backgroundGradient.setColor(Color.parseColor(opColor));
 
             java.util.Currency usd = java.util.Currency.getInstance("USD");
             java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
@@ -130,7 +135,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
 
         ImageButton makeOrder, decrease, delete;
         //Spinner productCartDropDownSize;
-        ImageView productImage;
+        ImageView productImage, colorCircle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             getProductCartSize = itemView.findViewById(R.id.order_tv_size);
@@ -138,6 +143,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
             productCartName = itemView.findViewById(R.id.order_tv_name);
             productCartAmount  = itemView.findViewById(R.id.order_tv_amount);
             productCartPrice = itemView.findViewById(R.id.order_tv_price);
+            colorCircle = itemView.findViewById(R.id.order_iv_circle_color);
         }
 
     }
