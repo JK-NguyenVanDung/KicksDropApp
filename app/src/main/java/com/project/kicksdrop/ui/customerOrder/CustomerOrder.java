@@ -86,15 +86,8 @@ public class CustomerOrder extends AppCompatActivity {
                 for (DataSnapshot dtShot: snapshot.getChildren()){
                     Order order = dtShot.getValue(Order.class);
                     assert order != null;
-                    if(order.getOrder_details() != null){
-                        ArrayList<Product> products  = getProducts(order.getOrder_details());
-                        if( products.size() > 0 ){
-                            OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(),products, order.getOrder_details(),loading);
-                            order.setAdapter(adapter);
-                            mOrder.add(order);
-                        }
+                    mOrder.add(order);
 
-                    }
 
                 }
 

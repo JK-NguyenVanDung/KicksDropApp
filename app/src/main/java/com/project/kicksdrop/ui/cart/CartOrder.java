@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CartProductOrder extends AppCompatActivity {
+public class CartOrder extends AppCompatActivity {
 
     FirebaseUser fUser;
     ImageButton prevBtn;
@@ -156,9 +156,6 @@ public class CartProductOrder extends AppCompatActivity {
                 address = Objects.requireNonNull(hashMap.get("address")).toString();
                 if(!address.equals(" ")){
                     et_address.setText(address);
-                    disableEditText(et_address);
-                }else{
-                    enableEditText(et_address,listener,true);
                 }
             }
             @Override
@@ -173,22 +170,7 @@ public class CartProductOrder extends AppCompatActivity {
 
     }
 
-    private void enableEditText(EditText editText, KeyListener listener, boolean condition) {
-        editText.setFocusable(condition);
-        editText.setEnabled(condition);
-        editText.setCursorVisible(condition);
-        editText.setKeyListener(listener);
-        editText.setBackground(bgAddress);
-        editText.setFocusableInTouchMode(condition);
-    }
-    private static void disableEditText(EditText editText) {
-        editText.setFocusable(false);
-        editText.setEnabled(false);
-        editText.setCursorVisible(false);
 
-        editText.setKeyListener(null);
-        editText.setBackgroundColor(Color.TRANSPARENT);
-    }
     private void matching() {
         prevBtn = (ImageButton) findViewById(R.id.order_ibtn_prev);
         orderBtn = (Button) findViewById(R.id.order_btn_makeOrder);
@@ -241,7 +223,6 @@ public class CartProductOrder extends AppCompatActivity {
                                     String sTotalPayment = format.format( total + shipPrice - discount );
                                     tv_totalPayment.setText(sTotalPayment);
                                 }
-
 
                                 }
 
@@ -307,6 +288,7 @@ public class CartProductOrder extends AppCompatActivity {
         mCoupon = new ArrayList<>();
 
         myRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mCoupon.clear();
@@ -348,8 +330,9 @@ public class CartProductOrder extends AppCompatActivity {
        myRef.child("product_quantity").setValue(quanity);
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void createOrder(){
-        String timeStamp = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(Calendar.getInstance().getTime());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(Calendar.getInstance().getTime());
         timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);

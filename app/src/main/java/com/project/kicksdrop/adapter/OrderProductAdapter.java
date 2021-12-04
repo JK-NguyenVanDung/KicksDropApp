@@ -83,6 +83,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     }
 
 
+
+
     @SuppressLint("SetTextI18n")
     @Override
     public OrderProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -99,26 +101,28 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         final Product product = mCartProduct.get(holder.getAdapterPosition());
 
 
-        String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
 
-        for(HashMap<String,String> temp: product.getProduct_images()){
-            String lower = temp.get("color").toLowerCase();
-            if(lower.equals(opColor)){
-                String imageName = temp.get("image");
-                loadImage(holder.productImage,imageName);
+            String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
+            for(HashMap<String,String> temp: product.getProduct_images()){
+                String lower = temp.get("color").toLowerCase();
+                if(lower.equals(opColor)){
+                    String imageName = temp.get("image");
+                    loadImage(holder.productImage,imageName);
+                }
             }
-        }
 
-        java.util.Currency usd = java.util.Currency.getInstance("USD");
-        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-        format.setCurrency(usd);
-        String sPrice =format.format(product.getProduct_price());
+            java.util.Currency usd = java.util.Currency.getInstance("USD");
+            java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+            format.setCurrency(usd);
+            String sPrice =format.format(product.getProduct_price());
 
-        //
-        holder.productCartName.setText(product.getProduct_name());
-        holder.productCartPrice.setText(sPrice);
-        holder.productCartAmount.setText(product.getAmount());
-        holder.getProductCartSize.setText(product.getProduct_size());
+            //
+            holder.productCartName.setText(product.getProduct_name());
+            holder.productCartPrice.setText(sPrice);
+            holder.productCartAmount.setText(product.getAmount());
+            holder.getProductCartSize.setText(product.getProduct_size());
+
+
     }
     @SuppressLint("NotifyDataSetChanged")
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -79,7 +79,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         if(fUser == null || GoogleSignIn.getLastSignedInAccount(requireContext()) == null){
             Intent login = new Intent(getActivity(), LoginActivity.class);
 
-            if(this.getArguments().getString("id") != null){
+            if(this.getArguments() !=null && this.getArguments().getString("id") != null){
                 String id = this.getArguments().getString("id");
                 login.putExtra("id", id);
             }else{
