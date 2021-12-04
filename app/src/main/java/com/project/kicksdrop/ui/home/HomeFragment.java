@@ -76,15 +76,15 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
-        if(fUser == null || GoogleSignIn.getLastSignedInAccount(requireContext()) == null){
+        if(fUser == null){
             Intent login = new Intent(getActivity(), LoginActivity.class);
-
-            if(this.getArguments() !=null && this.getArguments().getString("id") != null){
+            if( this.getArguments().getString("id") != null){
                 String id = this.getArguments().getString("id");
                 login.putExtra("id", id);
             }else{
                 login.putExtra("register", true);
             }
+
 
             startActivity(login);
         }else{
