@@ -68,6 +68,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     RecyclerView CouponRecyclerView;
     RecyclerView BrandRecyclerView;
     FirebaseUser fUser;
+    int page = 5;
     public Boolean flag = false;
 
 
@@ -183,16 +184,16 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
        btn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-              if (!flag){
-                  flag = true;
+
+                    page+=6;
                   getProduct();
-                  btn.setVisibility(View.GONE);
-              }
-              else {
-                  flag = false;
-                  getProduct();
-                  btn.setText("See More");
-              }
+                    if (page == 17){
+
+                            btnContinue.setVisibility(View.GONE);
+
+                    }
+
+
            }
        });
 
@@ -393,11 +394,15 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProduct.clear();
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
-                    Product product = dtShot.getValue(Product.class);
-                    assert product != null;
-                    product.setProduct_id(dtShot.getKey());
-                    mProduct.add(product);
+                    if (mProduct.size()<=page){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
+                    }
+
                 }
+
                 productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading,flag);
                 recyclerView.setAdapter(productAdapter);
             }

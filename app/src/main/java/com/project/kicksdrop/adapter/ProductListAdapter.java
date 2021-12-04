@@ -88,51 +88,51 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
-       if (!flag ){
-           if (position<=5){
-               final Product product = mProductList.get(position);
-               String color = product.getProduct_images().get(1).get("color");
-               String imageName = product.getProduct_images().get(1).get("image");
-               //holder.colorCircle.getForeground().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP);
-               GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
+//       if (!flag ){
+//           if (position<=5){
+//               final Product product = mProductList.get(position);
+//               String color = product.getProduct_images().get(1).get("color");
+//               String imageName = product.getProduct_images().get(1).get("image");
+//               //holder.colorCircle.getForeground().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP);
+//               GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
+//
+//               backgroundGradient.setColor(Color.parseColor(color));
+//
+//               java.util.Currency usd = java.util.Currency.getInstance("USD");
+//               java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+//               format.setCurrency(usd);
+//               String sPrice =format.format(product.getProduct_price());
+//               holder.price.setText(sPrice);
+//
+//               holder.name.setText(product.getProduct_name());
+//               loadImage(holder.productImage,imageName);
+//               FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+//               if(fUser != null){
+//                   getUserWishlist(fUser.getUid(), product, holder.heart);
+//               }
+//               holder.heart.setOnClickListener(new View.OnClickListener()
+//               {
+//                   @SuppressLint("UseCompatLoadingForDrawables")
+//                   @Override
+//                   public void onClick(View v) {
+//                       if (holder.heart.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.ic_heart).getConstantState()){
+//                           holder.heart.setImageResource(R.drawable.ic_heart_activated);
+//                           String idUser = fUser.getUid();
+//                           addProductWishlist(idUser,product);
+//                           Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
+//
+//                       }else{
+//                           holder.heart.setImageResource(R.drawable.ic_heart);
+//                           String idUser = fUser.getUid();
+//                           delProductWishlist(idUser,product.getProduct_id());
+//                           Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_LONG).show();
+//
+//                       }
+//
+//                   }});
+//           }
 
-               backgroundGradient.setColor(Color.parseColor(color));
-
-               java.util.Currency usd = java.util.Currency.getInstance("USD");
-               java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-               format.setCurrency(usd);
-               String sPrice =format.format(product.getProduct_price());
-               holder.price.setText(sPrice);
-
-               holder.name.setText(product.getProduct_name());
-               loadImage(holder.productImage,imageName);
-               FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-               if(fUser != null){
-                   getUserWishlist(fUser.getUid(), product, holder.heart);
-               }
-               holder.heart.setOnClickListener(new View.OnClickListener()
-               {
-                   @SuppressLint("UseCompatLoadingForDrawables")
-                   @Override
-                   public void onClick(View v) {
-                       if (holder.heart.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.ic_heart).getConstantState()){
-                           holder.heart.setImageResource(R.drawable.ic_heart_activated);
-                           String idUser = fUser.getUid();
-                           addProductWishlist(idUser,product);
-                           Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
-
-                       }else{
-                           holder.heart.setImageResource(R.drawable.ic_heart);
-                           String idUser = fUser.getUid();
-                           delProductWishlist(idUser,product.getProduct_id());
-                           Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_LONG).show();
-
-                       }
-
-                   }});
-           }
-
-       }else {
+//       }else {
            final Product product = mProductList.get(position);
            String color = product.getProduct_images().get(1).get("color");
            String imageName = product.getProduct_images().get(1).get("image");
@@ -175,7 +175,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                }});
        }
 
-    }
+    //}
     private void getUserWishlist(String user_id, Product product , ImageButton heart){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("wishlist/"+user_id);
@@ -238,9 +238,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
     @Override
     public int getItemCount() {
-        if (!flag){
-            return 6;
-        }
+
 
 
         return mProductList ==null? 0: mProductList.size();
