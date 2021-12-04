@@ -33,9 +33,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
+import com.project.kicksdrop.adapter.BrandAdapter;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
+import com.project.kicksdrop.model.Brand;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.auth.LoginActivity;
@@ -49,17 +51,20 @@ import java.util.Objects;
 
 public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
+    BrandAdapter brandAdapter;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     ProductListAdapter productAdapter;
     HomeCouponAdapter homeCouponAdapter;
     private ArrayList<Product> mProduct;
     private ArrayList<Coupon> mCoupon;
+    ArrayList<Brand> mBrand;
     private TextView tvNumberCart;
     private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
     RecyclerView CouponRecyclerView;
+    RecyclerView BrandRecyclerView;
     FirebaseUser fUser;
 
 
@@ -130,38 +135,44 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         GridLayoutManager manager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.VERTICAL, false);
         CouponRecyclerView.setLayoutManager(manager);
 
+        BrandRecyclerView = binding.homeRvBrand;
+        BrandRecyclerView.setHasFixedSize(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.HORIZONTAL, false);
+        BrandRecyclerView.setLayoutManager(layoutManager);
 
+        getBrand();
         getProduct();
         getCoupon();
-        final ImageButton nikesIbtn = binding.homeIbtnNikes;
-        nikesIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand", "Nike");
-                startActivity(intent);
-            }
-        });
 
-        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
-        adidasIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand", "Adidas");
-                startActivity(intent);
-            }
-        });
-
-        final ImageButton vansIbtn = binding.homeIbtnVans;
-        vansIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand", "Vans");
-                startActivity(intent);
-            }
-        });
+//        final ImageButton nikesIbtn = binding.homeIbtnNikes;
+//        nikesIbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), ProductBrands.class);
+//                intent.putExtra("brand", "Nike");
+//                startActivity(intent);
+//            }
+//        });
+//
+//        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
+//        adidasIbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), ProductBrands.class);
+//                intent.putExtra("brand", "Adidas");
+//                startActivity(intent);
+//            }
+//        });
+//
+//        final ImageButton vansIbtn = binding.homeIbtnVans;
+//        vansIbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), ProductBrands.class);
+//                intent.putExtra("brand", "Vans");
+//                startActivity(intent);
+//            }
+//        });
 
         final ImageButton slide = binding.homeIbtnProductContent;
         slide.setOnClickListener(new View.OnClickListener() {
@@ -280,6 +291,36 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
 
         return root;
+
+    }
+
+    private void getBrand() {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("brand");
+        mBrand = new ArrayList<Brand>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mBrand.clear();
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                   Brand brand = new Brand();
+                   brand.setName(dtShot.getKey());
+                   brand.setImage(dtShot.getValue().toString());
+                    mBrand.add(brand);
+                }
+//                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading);
+//                recyclerView.setAdapter(productAdapter);
+                brandAdapter = new BrandAdapter(getContext(),mBrand);
+                BrandRecyclerView.setAdapter(brandAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 

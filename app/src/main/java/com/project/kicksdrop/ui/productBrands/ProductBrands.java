@@ -65,6 +65,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         prevIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getAllProduct();
                 finish();
             }
         });
@@ -171,6 +172,32 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
 
 
+    }
+
+    private void getAllProduct() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mProduct = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mProduct.clear();
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                    Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+                    product.setProduct_id(dtShot.getKey());
+                    mProduct.add(product);
+                }
+                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this,loading);
+                recyclerView.setAdapter(productAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void matching() {

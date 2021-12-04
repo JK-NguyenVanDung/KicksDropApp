@@ -12,8 +12,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,10 +41,12 @@ import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.model.ProductsInCart;
 import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.cart.CartListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -52,6 +57,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     Spinner sizeSpinner;
     Product product;
     ImageView productImage;
+    ArrayList<HashMap<String,String>> productInCart;
     ViewPager viewPager;
     ImageAdapter imageAdapter;
     TextView indexNumb;
@@ -80,7 +86,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         matching();
-
+        getProductInCart(fUser.getUid());
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -200,6 +206,16 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 assert product != null;
                 product.setProduct_id(snapshot.getKey());
                 //Log.d("yeah",product.getProduct_sizes().toString());
+
+                if (product.getProduct_quantity()<=0){
+
+                    addToCart.setText("Out of stock");
+                    addToCart.setTextColor(getApplication().getResources().getColor(R.color.black));
+                    addToCart.setEnabled(false);
+                    increaseAmount.setEnabled(false);
+                    decreaseAmount.setEnabled(false);
+
+                }
                 String value = product.getProduct_sizes().get(1);
                 name.setText(product.getProduct_name());
                 currentSize.setText(value);
@@ -286,15 +302,68 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
             }
         });
     }
+
+    private void getProductInCart(String idUser){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart").child(idUser).child("product");
+        productInCart = new ArrayList<HashMap<String, String>>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                productInCart.clear();
+
+               for (DataSnapshot item : snapshot.getChildren()){
+                   String key = item.getKey();
+                   //ProductsInCart value = (ProductsInCart) item.getValue();
+                   String value = item.getValue().toString();
+
+                   value = value.substring(8).split(",")[0];
+
+
+                   HashMap<String, String> map = new HashMap<>();
+                   map.put(key,value);
+
+                   productInCart.add(map);
+
+               }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
     private void addProductCart(String idUser,String idProduct,int amount, String color,String size){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart");
+        boolean flag = true;
         String idColor = color.substring(1);
-        myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(idProduct);
-        myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
-        myRef.child(idUser).child("product").child(idProduct+idColor).child("color").setValue(color);
-        myRef.child(idUser).child("product").child(idProduct+idColor).child("size").setValue(size);
-    }
+        for (int i = 0; i < productInCart.size(); i++) {
+            for ( String key : productInCart.get(i).keySet() ) {
+                if ((idProduct+idColor).equals(key)){
+                    amount = amount + Integer.parseInt(productInCart.get(i).get(key));
+                    myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
+                    flag= false;
+                    break;
+                }
+            }
+        }
+
+        if (flag){
+            myRef.child(idUser).child("product").child(idProduct+idColor).child("productId").setValue(idProduct);
+            myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
+            myRef.child(idUser).child("product").child(idProduct+idColor).child("color").setValue(color);
+            myRef.child(idUser).child("product").child(idProduct+idColor).child("size").setValue(size);
+
+        }
+
+       }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

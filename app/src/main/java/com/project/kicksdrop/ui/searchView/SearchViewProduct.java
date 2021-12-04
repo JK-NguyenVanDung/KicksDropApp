@@ -27,6 +27,7 @@ import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.product.ProductDetail;
 
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getAllProduct();
                 finish();
             }
         });
@@ -149,7 +151,31 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
     }
 
+    private void getAllProduct() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mProduct = new ArrayList<>();
 
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mProduct.clear();
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                    Product product = dtShot.getValue(Product.class);
+                    assert product != null;
+                    product.setProduct_id(dtShot.getKey());
+                    mProduct.add(product);
+                }
+                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, SearchViewProduct.this,loading);
+                recyclerView.setAdapter(productAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     private void matching() {
         prevBtn = (ImageButton) findViewById(R.id.search_ibtn_prev);
         title =(TextView) findViewById(R.id.search_title);
