@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -60,13 +61,17 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     private ArrayList<Coupon> mCoupon;
     ArrayList<Brand> mBrand;
     private TextView tvNumberCart;
+    Button btnContinue;
     private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
     RecyclerView CouponRecyclerView;
     RecyclerView BrandRecyclerView;
     FirebaseUser fUser;
-    private boolean firstLoad = true;
+    int countProduct = 5;
+    int max = 0;
+    public Boolean flag = false;
+
 
     //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
 //    Button productTitleBtn;
@@ -123,13 +128,15 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;
-
+        btnContinue = binding.btnHomeContinue;
         View root = binding.getRoot();
         recyclerView = binding.homeRvProducts;
         //recycler view
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+
 
 
         CouponRecyclerView = binding.homeRvCoupon;
@@ -342,13 +349,18 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProduct.clear();
+                max = 0;
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
-                    Product product = dtShot.getValue(Product.class);
-                    assert product != null;
-                    product.setProduct_id(dtShot.getKey());
-                    mProduct.add(product);
+                    if (mProduct.size()<=countProduct){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
+                    }
+                max++;
                 }
-                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading);
+
+                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading,flag);
                 recyclerView.setAdapter(productAdapter);
             }
 
