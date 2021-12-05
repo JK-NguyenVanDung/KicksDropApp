@@ -63,7 +63,6 @@ public class CustomerOrder extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_order_List);
         recyclerView.setHasFixedSize(true);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
 
@@ -92,7 +91,7 @@ public class CustomerOrder extends AppCompatActivity {
                 if(mOrder.size() < 1){
                     loading.dismissDialog();
                 }
-                userOrderAdapter = new UserOrderAdapter(getApplicationContext(),mOrder,loading);
+                userOrderAdapter = new UserOrderAdapter(CustomerOrder.this,mOrder,loading);
 
                 recyclerView.setAdapter(userOrderAdapter);
 

@@ -49,7 +49,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
     FirebaseAuth auth;
     DatabaseReference reference;
     MessageAdapter messageAdapter;
-    TextView noAnyThing;
+    TextView emptyText;
     List<Chat> mChat;
     private LoadingScreen loading;
     RecyclerView recyclerView;
@@ -81,7 +81,8 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dtShot: snapshot.getChildren()){
                     HashMap<String,Object> values = (HashMap<String, Object>) dtShot.getValue();
-                    if(values.get("role") != null && values.get("role").equals("admin")){
+                    assert values != null;
+                    if(values.get("role") != null && Objects.equals(values.get("role"), "admin")){
                         adminID= dtShot.getKey();
                         break;
                     }
@@ -121,36 +122,50 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         hashMap.put("sender",sender);
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
-
-        reference.child("Chat").push().setValue(hashMap);
+        String groupId = sender+receiver;
+        reference.child("Chat").child(groupId).push().setValue(hashMap);
+    }
+    private void sendAdminMessage(String sender, String receiver, String message){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender",sender);
+        hashMap.put("receiver",receiver);
+        hashMap.put("message",message);
+        String groupId = receiver+sender;
+        reference.child("Chat").child(groupId).push().setValue(hashMap);
     }
 
-    private void readMessage(String myId, String userId){
+    private void readMessage(String myId, String adminId){
         mChat =new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chat");
+        reference = FirebaseDatabase.getInstance().getReference("Chat/" + myId + adminId);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mChat.clear();
+
                 for(DataSnapshot dtShot: snapshot.getChildren()){
                     Chat chat = dtShot.getValue(Chat.class);
                     assert chat != null;
                     chat.setId(dtShot.getKey());
-                    if(chat.getReceiver().equals(myId) && chat.getSender().equals(userId) || chat.getReceiver().equals(userId) && chat.getSender().equals(myId)){
+                    if(chat.getReceiver().equals(myId) && chat.getSender().equals(adminId) || chat.getReceiver().equals(adminId) && chat.getSender().equals(myId)){
                         mChat.add(chat);
                     }
                     messageAdapter = new MessageAdapter(ChatActivity.this,mChat,ChatActivity.this );
                     recyclerView.setAdapter(messageAdapter);
 
                 }
-
                 if(mChat.size() == 0){
-                    noAnyThing.setVisibility(View.VISIBLE);
+                    sendAdminMessage(adminId,myId,"Hi there,");
+                    sendAdminMessage(adminId,myId,"Feel free to ask us a question,");
+                    sendAdminMessage(adminId,myId,"What are you searching for?");
+
+                    //emptyText.setVisibility(View.VISIBLE);
                 }else {
-                    noAnyThing.setVisibility(View.GONE);
+                    //emptyText.setVisibility(View.GONE);
                 }
+
             }
 
             @Override
@@ -167,7 +182,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         input= findViewById(R.id.chat_et_input);
         send = findViewById(R.id.chat_ib_send);
         back = findViewById(R.id.chat_ib_back);
-        noAnyThing = (TextView) findViewById(R.id.Chat_noAnyOne);
+        emptyText = (TextView) findViewById(R.id.Chat_noAnyOne);
 
         recyclerView = findViewById(R.id.chat_rv_chatArea);
     }
@@ -194,11 +209,9 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 // Toast message on menu item clicked
                 Toast.makeText(ChatActivity.this, "Edited successfully "+ menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                 FirebaseDatabase database =  FirebaseDatabase.getInstance();
-                DatabaseReference reference = database.getReference("Chat");
-
+                DatabaseReference reference = database.getReference("Chat/"+chat.getSender() + chat.getReceiver());
                 switch (menuItem.getItemId()) {
                     case R.id.edit:
-
                         //reference.child(chat.getId()).child("message").setValue(str_Name);
                         enableEditText(editText,listener,true);
                         save.setVisibility(View.VISIBLE);
@@ -214,7 +227,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                                 enableEditText(editText,listener,false);
 
                                 Toast.makeText(ChatActivity.this, "Edited successfully", Toast.LENGTH_SHORT).show();
-
                             }
                         });
                         cancel.setOnClickListener(new View.OnClickListener() {

@@ -25,7 +25,8 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="10dp">
 
         <ImageButton
             android:id="@+id/chat_ib_back"
@@ -66,7 +67,8 @@
         app:layout_constraintBottom_toTopOf="@+id/input_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:elevation="1dp">
 
 
         <androidx.recyclerview.widget.RecyclerView
