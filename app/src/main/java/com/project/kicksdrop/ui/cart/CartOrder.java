@@ -351,6 +351,7 @@ public class CartOrder extends AppCompatActivity {
         myRef.child("user_id").setValue(fUser.getUid());
         myRef.child( "order_id" ).setValue( timeStamp_id );
         myRef.child( "quantity_product" ).setValue( String.valueOf( mProducts.size() ));
+        myRef.child("notification").setValue(true);
         //
         addProductOrder(fUser.getUid());
         deleteFromCart();

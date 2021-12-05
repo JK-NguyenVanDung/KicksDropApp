@@ -52,9 +52,16 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/ll_notification"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_notifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        />
 
                     <ImageView
                         android:layout_width="match_parent"

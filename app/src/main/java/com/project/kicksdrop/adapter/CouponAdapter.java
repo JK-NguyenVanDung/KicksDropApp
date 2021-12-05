@@ -106,12 +106,13 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         final Coupon coupon = mCoupon.get(holder.getAdapterPosition());
         String couponCode = coupon.getCoupon_code();
         String couponDuration = coupon.getCoupon_duration();
+        int couponMinPrice = coupon.getCoupon_min_price();
         int couponMaxPrice = coupon.getCoupon_max_price();
         String couponPercent = coupon.getCoupon_percent();
 
-        holder.couponContent.setText("Giam " + couponPercent + "toi da " + couponMaxPrice);
+        holder.couponContent.setText("Giảm " + couponPercent + " cho đơn hàng từ " + couponMinPrice+"\nTối đa "+ couponMaxPrice);
         holder.couponDate.setText("HSD: " + couponDuration);
-        holder.couponCode.setText("MA " + couponCode);
+        holder.couponCode.setText("MA: " + couponCode);
         if(coupon.getCoupon_checked()){
             holder.couponCheckbox.setChecked(true);
         }
@@ -215,7 +216,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                             }
                             else
                             {
-                                Toast.makeText(v.getContext(), "Your totalPayment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(v.getContext(), "Your Total Payment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
                             }
                         }else{
                             Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
