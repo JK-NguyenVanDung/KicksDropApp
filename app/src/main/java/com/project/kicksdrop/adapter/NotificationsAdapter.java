@@ -50,14 +50,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public void onBindViewHolder(@NonNull NotificationsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final Order order = mOrderList.get(holder.getAdapterPosition());
 
-
-        holder.tv_order.setText(order.getOrder_id().substring(0,8));
-        holder.tv_price.setText(order.getOrder_price());
-        int dayExpect = Integer.valueOf(order.getOrder_create_date().substring(6,8));
-        dayExpect += 7;
-        String sDayExpect = order.getOrder_create_date().substring(0,6) + dayExpect + order.getOrder_create_date().substring(8,15);
-        holder.tv_expecttedToArrive.setText(sDayExpect);
-        getProductName(order.getOrder_details(),holder.tv_productName);
+        if (order.getNotification()){
+         holder.tv_order.setText(order.getOrder_id());
+         holder.tv_price.setText(order.getOrder_price());
+         int dayExpect = Integer.valueOf(order.getOrder_create_date().substring(6,8));
+         dayExpect += 7;
+         String sDayExpect = order.getOrder_create_date().substring(0,6) + dayExpect + order.getOrder_create_date().substring(8,15);
+         holder.tv_expecttedToArrive.setText(sDayExpect);
+         getProductName(order.getOrder_details(),holder.tv_productName);
+        }
 
     }
 

@@ -31,6 +31,7 @@ import com.project.kicksdrop.model.Order;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class NotificationsFragment extends Fragment {
@@ -86,8 +87,10 @@ public class NotificationsFragment extends Fragment {
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
                     Order order = dtShot.getValue( Order.class );
                     assert order != null;
-                    if (order.getOrder_details() != null) {
-                        mOrder.add( order );
+                    if (order.getNotification()){
+                        if (order.getOrder_details() != null) {
+                            mOrder.add( order );
+                        }
                     }
                 }
                 notificationsAdapter = new NotificationsAdapter( getContext(), mOrder );
@@ -114,14 +117,37 @@ public class NotificationsFragment extends Fragment {
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
-
+        boolean isDeleting = true;
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            Snackbar snackbar = Snackbar.make(linearLayout,"Item DELETED",Snackbar.LENGTH_LONG);
-            snackbar.show();
+            if (isDeleting){
+                Snackbar snackbar = Snackbar.make(linearLayout,"Item DELETED",Snackbar.LENGTH_LONG);
+                snackbar.show();
+                TextView tv_orderID = viewHolder.itemView.findViewById(R.id.notification_tv_name);
+                String orderId = tv_orderID.getText().toString();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+orderId);
+                myRef.addValueEventListener( new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        HashMap<String, Boolean> hashMap =(HashMap<String, Boolean>) snapshot.getValue();
+                        Boolean check = false;
+                                check =hashMap.get("notification");
+                        if (check){
+                            myRef.child( "notification" ).setValue( false );
+                        }
+                    }
 
-            mOrder.remove(viewHolder.getAdapterPosition());
-            notificationsAdapter.notifyDataSetChanged();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                mOrder.remove(viewHolder.getAdapterPosition());
+                notificationsAdapter.notifyDataSetChanged();
+                isDeleting = false;
+            }
         }
     };
 }
