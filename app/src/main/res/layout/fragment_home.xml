@@ -116,84 +116,15 @@
 
             </LinearLayout>
 
-            <HorizontalScrollView
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_rv_banner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
-                tools:ignore="SpeakableTextPresentCheck">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="257dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <ImageButton
-                            android:id="@+id/home_ibtn_productContent2"
-                            android:layout_width="260dp"
-                            android:layout_height="263dp"
-                            android:layout_marginEnd="3dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#00FFFFFF"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/monochromatic_fashion"
-                            tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
-
-                        <Button
-                            android:id="@+id/home_btn_productTitle2"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/work_sans_medium"
-                            android:gravity="left"
-                            android:padding="0dp"
-                            android:paddingBottom="0dp"
-                            android:text="Sneak A Pair Today"
-                            android:textAllCaps="false"
-                            android:textColor="#262626"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <ImageButton
-                            android:id="@+id/home_ibtn_productContent"
-                            android:layout_width="255dp"
-                            android:layout_height="263dp"
-                            android:layout_marginEnd="3dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#00FFFFFF"
-                            android:contentDescription="@string/todo"
-                            android:src="@drawable/hinhthumb"
-                            tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
-
-                        <Button
-                            android:id="@+id/home_btn_productTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/work_sans_medium"
-                            android:gravity="left"
-                            android:padding="0dp"
-                            android:paddingBottom="0dp"
-                            android:text="The Big Annual Sale | Day 1"
-                            android:textAllCaps="false"
-                            android:textColor="#262626"
-                            android:textSize="16sp" />
-                    </LinearLayout>
+                android:layout_gravity="center_horizontal">
 
 
-                </LinearLayout>
-            </HorizontalScrollView>
+            </androidx.recyclerview.widget.RecyclerView>
+
 
             <TextView
                 android:layout_width="match_parent"

@@ -37,6 +37,7 @@ import com.project.kicksdrop.adapter.BrandAdapter;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
+import com.project.kicksdrop.model.Banner;
 import com.project.kicksdrop.model.Brand;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
@@ -59,12 +60,14 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     private ArrayList<Product> mProduct;
     private ArrayList<Coupon> mCoupon;
     ArrayList<Brand> mBrand;
+    ArrayList<Banner> mBanner;
     private TextView tvNumberCart;
     private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
     RecyclerView CouponRecyclerView;
     RecyclerView BrandRecyclerView;
+    RecyclerView BannerRecyclerView;
     FirebaseUser fUser;
 
 
@@ -139,6 +142,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         BrandRecyclerView.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.HORIZONTAL, false);
         BrandRecyclerView.setLayoutManager(layoutManager);
+
+        BannerRecyclerView = binding.homeRvBanner;
+        BannerRecyclerView.setHasFixedSize(true);
+        GridLayoutManager Bannermanager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.VERTICAL, false);
+        CouponRecyclerView.setLayoutManager(Bannermanager);
 
         getBrand();
         getProduct();
@@ -292,6 +300,14 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         return root;
 
+    }
+
+    private void getBanner(){
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("banner");
+
+        mBanner = new ArrayList<Banner>();
     }
 
     private void getBrand() {
