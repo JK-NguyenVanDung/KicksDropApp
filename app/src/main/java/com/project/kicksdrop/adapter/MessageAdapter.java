@@ -71,8 +71,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         editText.setKeyListener(null);
         editText.setBackgroundColor(Color.TRANSPARENT);
     }
-    private static void setEdited(TextView edited) {
-    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
         public EditText show_Message;
         public TextView edited;
