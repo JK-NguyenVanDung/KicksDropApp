@@ -93,15 +93,6 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/notification_tv_indexProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_condensed_light_italic"
-                    android:text="1."
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
                     android:id="@+id/notification_tv_nameProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,14 +102,6 @@
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/notification_tv_amountOfProducts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_condensed_light_italic"
-                    android:text="x 2"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout

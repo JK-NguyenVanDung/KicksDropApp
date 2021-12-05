@@ -17,6 +17,8 @@ import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,9 +47,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         final Order order = mOrderList.get(holder.getAdapterPosition());
 
 
-
+        holder.tv_order.setText(order.getOrder_id().substring(0,8));
         holder.tv_price.setText(order.getOrder_price());
-        getProductName(order.getOrder_details(),holder.tv_order);
+        int dayExpect = Integer.valueOf(order.getOrder_create_date().substring(6,8));
+        dayExpect += 7;
+        String sDayExpect = order.getOrder_create_date().substring(0,6) + dayExpect + order.getOrder_create_date().substring(8,15);
+        holder.tv_expecttedToArrive.setText(sDayExpect);
+        getProductName(order.getOrder_details(),holder.tv_productName);
+
     }
 
     @Override
@@ -56,9 +63,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder  {
-        TextView tv_order, tv_price, tv_expecttedToArrive;
+        TextView tv_order, tv_price, tv_expecttedToArrive, tv_productName;
         public ViewHolder(@NonNull View itemView) {
             super( itemView );
+            tv_productName = itemView.findViewById( R.id.notification_tv_nameProduct );
             tv_order = itemView.findViewById( R.id.notification_tv_name);
             tv_price = itemView.findViewById( R.id.notification_tv_price );
             tv_expecttedToArrive = itemView.findViewById(R.id.notification_tv_date);
@@ -70,7 +78,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
        myRef.addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+               int i = 1;
                for(HashMap<String, String> item : options){
                    for(DataSnapshot dtShot: snapshot.getChildren()){
                        Product product = dtShot.getValue(Product.class);
@@ -79,7 +87,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                        String productId = dtShot.getKey();
                        if(productId.equals(item.get("productId"))){
                            HashMap<String,Object> hashMap = (HashMap<String, Object>) dtShot.getValue();
-                            productName +=  hashMap.get("product_name")+"\n";
+                            if (productName.equals("")){
+                                productName += i + ". " + hashMap.get("product_name") +
+                                        " x " + item.get("amount");
+                                i++;
+                            }else{
+                                productName += "\n" + i + ". " + hashMap.get("product_name") +
+                                        " x " + item.get("amount");
+                                i++;
+                            }
+
                             tv_order.setText( productName );
                        }
                    }
