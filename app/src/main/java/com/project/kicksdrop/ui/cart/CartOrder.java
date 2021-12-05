@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
@@ -43,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CartProductOrder extends AppCompatActivity {
+public class CartOrder extends AppCompatActivity {
 
     FirebaseUser fUser;
     ImageButton prevBtn;
@@ -69,11 +70,13 @@ public class CartProductOrder extends AppCompatActivity {
     private static Drawable bgAddress;
     private double shipPrice;
     private double discount;
+    private final LoadingScreen loading = new LoadingScreen(CartOrder.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_product_order);
-
+        loading.startLoadingScreen();
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
         coupon_id = intent.getStringExtra("coupon");
@@ -131,7 +134,6 @@ public class CartProductOrder extends AppCompatActivity {
             String sDiscount =format.format(0.0);
             tv_discount.setText(sDiscount);
         }
-
         shipPrice = 10.00;
         java.util.Currency usd = java.util.Currency.getInstance("USD");
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
@@ -156,9 +158,6 @@ public class CartProductOrder extends AppCompatActivity {
                 address = Objects.requireNonNull(hashMap.get("address")).toString();
                 if(!address.equals(" ")){
                     et_address.setText(address);
-                    disableEditText(et_address);
-                }else{
-                    enableEditText(et_address,listener,true);
                 }
             }
             @Override
@@ -173,22 +172,7 @@ public class CartProductOrder extends AppCompatActivity {
 
     }
 
-    private void enableEditText(EditText editText, KeyListener listener, boolean condition) {
-        editText.setFocusable(condition);
-        editText.setEnabled(condition);
-        editText.setCursorVisible(condition);
-        editText.setKeyListener(listener);
-        editText.setBackground(bgAddress);
-        editText.setFocusableInTouchMode(condition);
-    }
-    private static void disableEditText(EditText editText) {
-        editText.setFocusable(false);
-        editText.setEnabled(false);
-        editText.setCursorVisible(false);
 
-        editText.setKeyListener(null);
-        editText.setBackgroundColor(Color.TRANSPARENT);
-    }
     private void matching() {
         prevBtn = (ImageButton) findViewById(R.id.order_ibtn_prev);
         orderBtn = (Button) findViewById(R.id.order_btn_makeOrder);
@@ -241,18 +225,13 @@ public class CartProductOrder extends AppCompatActivity {
                                     String sTotalPayment = format.format( total + shipPrice - discount );
                                     tv_totalPayment.setText(sTotalPayment);
                                 }
-
-
                                 }
-
-
 
                         }
 
                     }
                 }
-
-                orderProductAdapter = new OrderProductAdapter(getApplicationContext(),mProducts,cartProducts);
+                orderProductAdapter = new OrderProductAdapter(getApplicationContext(),mProducts,cartProducts,loading);
                 Log.d("test",mProducts.toString());
                 recyclerView.setAdapter(orderProductAdapter);
 
@@ -307,6 +286,7 @@ public class CartProductOrder extends AppCompatActivity {
         mCoupon = new ArrayList<>();
 
         myRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mCoupon.clear();
@@ -348,8 +328,9 @@ public class CartProductOrder extends AppCompatActivity {
        myRef.child("product_quantity").setValue(quanity);
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void createOrder(){
-        String timeStamp = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(Calendar.getInstance().getTime());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(Calendar.getInstance().getTime());
         timeStamp_id = new SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Calendar.getInstance().getTime());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
@@ -436,7 +417,7 @@ public class CartProductOrder extends AppCompatActivity {
 
 
     }
-
+    boolean cartDeleted = true;
     private void addProductOrder(String user_Id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
@@ -448,25 +429,28 @@ public class CartProductOrder extends AppCompatActivity {
                 HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
                 if(hashMap != null) {
                     HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
-                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
-                        String key = entry.getKey();
-                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
-                        item.put("cartProductID", key);
-                        productsInCart.add(item);
-                    }
-                    //String coupon = hashMap.get("coupon_id").toString();
-                    //Cart cart = new Cart(user_Id,,productsInCart);
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
-                    deleteQuantity(productsInCart);
-                    for (HashMap<String,String> item: productsInCart){
 
-                        item.put("amount",String.valueOf(item.get("amount")));
-                        item.put("productId",String.valueOf(item.get("productId")));
-                        //updateProduct(String.valueOf(item.get("productId"));
-                    }
-                    myRef.child("order_details").setValue(productsInCart);
+                    if(cartDeleted){
+                        for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                            String key = entry.getKey();
+                            HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
+                            item.put("cartProductID", key);
+                            productsInCart.add(item);
+                        }
+                        //String coupon = hashMap.get("coupon_id").toString();
+                        //Cart cart = new Cart(user_Id,,productsInCart);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+                        deleteQuantity(productsInCart);
+                        for (HashMap<String,String> item: productsInCart){
 
+                            item.put("amount",String.valueOf(item.get("amount")));
+                            item.put("productId",String.valueOf(item.get("productId")));
+                            //updateProduct(String.valueOf(item.get("productId"));
+                        }
+                        myRef.child("order_details").setValue(productsInCart);
+                        cartDeleted=false;
+                    }
                 }
             }
 

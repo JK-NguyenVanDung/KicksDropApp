@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
     android:paddingVertical="20dp"
     android:visibility="visible">
@@ -267,29 +267,27 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/customerOrder_ibtn_delete"
+                    android:id="@+id/customerOrder_btn_delete"
                     android:layout_width="150dp"
                     android:layout_height="35dp"
+                    android:layout_marginEnd="20dp"
                     android:background="@drawable/red_button_radius"
                     android:text="Delete"
+                    android:foreground="?android:selectableItemBackground"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:visibility="visible"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <Space
-                    android:id="@+id/customerOrder_space"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content" />
-
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/customerOrder_ibtn_receive"
+                    android:id="@+id/customerOrder_btn_received"
                     android:layout_width="150dp"
                     android:layout_height="35dp"
                     android:background="@drawable/blue_button_radius"
                     android:text="Received Order"
                     android:textAllCaps="false"
+                    android:foreground="?android:selectableItemBackground"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     tools:ignore="TouchTargetSizeCheck" />

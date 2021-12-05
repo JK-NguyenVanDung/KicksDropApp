@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -62,6 +63,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     ArrayList<Brand> mBrand;
     ArrayList<Banner> mBanner;
     private TextView tvNumberCart;
+    Button btnContinue;
     private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
@@ -69,6 +71,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     RecyclerView BrandRecyclerView;
     RecyclerView BannerRecyclerView;
     FirebaseUser fUser;
+    int countProduct = 5;
+    int max = 0;
+    public Boolean flag = false;
 
 
     //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
@@ -121,16 +126,20 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         loading = new LoadingScreen(HomeFragment.this);
+
         loading.startLoadingScreenFragment();
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;
-
+        btnContinue = binding.btnHomeContinue;
         View root = binding.getRoot();
         recyclerView = binding.homeRvProducts;
         //recycler view
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+
 
 
         CouponRecyclerView = binding.homeRvCoupon;
@@ -140,7 +149,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         BrandRecyclerView = binding.homeRvBrand;
         BrandRecyclerView.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.HORIZONTAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(),1);
         BrandRecyclerView.setLayoutManager(layoutManager);
 
         BannerRecyclerView = binding.homeRvBanner;
@@ -151,36 +160,6 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         getBrand();
         getProduct();
         getCoupon();
-
-//        final ImageButton nikesIbtn = binding.homeIbtnNikes;
-//        nikesIbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), ProductBrands.class);
-//                intent.putExtra("brand", "Nike");
-//                startActivity(intent);
-//            }
-//        });
-//
-//        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
-//        adidasIbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), ProductBrands.class);
-//                intent.putExtra("brand", "Adidas");
-//                startActivity(intent);
-//            }
-//        });
-//
-//        final ImageButton vansIbtn = binding.homeIbtnVans;
-//        vansIbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), ProductBrands.class);
-//                intent.putExtra("brand", "Vans");
-//                startActivity(intent);
-//            }
-//        });
 
         final ImageButton slide = binding.homeIbtnProductContent;
         slide.setOnClickListener(new View.OnClickListener() {
@@ -386,13 +365,18 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProduct.clear();
+                max = 0;
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
-                    Product product = dtShot.getValue(Product.class);
-                    assert product != null;
-                    product.setProduct_id(dtShot.getKey());
-                    mProduct.add(product);
+                    if (mProduct.size()<=countProduct){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
+                    }
+                max++;
                 }
-                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading);
+
+                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading,flag);
                 recyclerView.setAdapter(productAdapter);
             }
 
