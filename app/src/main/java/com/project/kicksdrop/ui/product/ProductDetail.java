@@ -117,8 +117,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onClick(View v) {
                 if(fUser != null){
-                    Intent intent = new Intent(getApplicationContext(), CartListView.class);
-                    startActivity(intent);
+                    finish();
                 }else{
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);

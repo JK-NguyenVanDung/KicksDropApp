@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -94,6 +95,34 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 
         holder.recyclerView.setLayoutManager(linearLayoutManager);
 
+        if(order.getStatus().equals("Ordered")){
+            holder.deleteBtn.setVisibility(View.VISIBLE);
+            holder.receivedBtn.setVisibility(View.GONE);
+        }else if (order.getStatus().equals("Shipping")){
+            holder.deleteBtn.setVisibility(View.GONE);
+            holder.receivedBtn.setVisibility(View.GONE);
+        }else if (order.getStatus().equals("Shipped")){
+                holder.deleteBtn.setVisibility(View.GONE);
+                holder.receivedBtn.setVisibility(View.VISIBLE);
+        }else if (order.getStatus().equals("Received")){
+            holder.deleteBtn.setVisibility(View.VISIBLE);
+            holder.receivedBtn.setVisibility(View.GONE);
+        }
+//        switch (order.getStatus()){
+//            case "Ordered":
+//                holder.deleteBtn.setVisibility(View.VISIBLE);
+//                holder.receivedBtn.setVisibility(View.GONE);
+//            case "Shipping":
+//                holder.deleteBtn.setVisibility(View.GONE);
+//                holder.receivedBtn.setVisibility(View.GONE);
+//            case "Shipped":
+//                holder.deleteBtn.setVisibility(View.GONE);
+//                holder.receivedBtn.setVisibility(View.VISIBLE);
+//            case "Received":
+//                holder.deleteBtn.setVisibility(View.VISIBLE);
+//                holder.receivedBtn.setVisibility(View.GONE);
+//        }
+
         getProduct(order,holder.recyclerView, holder.getAdapterPosition());
 
 
@@ -103,6 +132,8 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         TextView tv_address, tv_total, tv_shipPrice, tv_discount, tv_totalPayment, tv_orderId
                 , tv_orderProduct, tv_Status, tv_timeOrder;
         RecyclerView recyclerView;
+        AppCompatButton deleteBtn,receivedBtn;
+
         public ViewHolder(View itemView) {
             super(itemView);
             recyclerView = itemView.findViewById(R.id.order_rv_products_bill);
@@ -115,6 +146,10 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             tv_shipPrice = itemView.findViewById(R.id.customerOrder_tv_shipmentPrice);
             tv_discount = itemView.findViewById(R.id.customerOrder_tv_discount);
             tv_totalPayment = itemView.findViewById(R.id.customerOrder_tv_totalpayment);
+
+            deleteBtn = itemView.findViewById(R.id.customerOrder_btn_delete);
+            receivedBtn = itemView.findViewById(R.id.customerOrder_btn_received);
+
         }
     }
     private void getProduct(Order order,RecyclerView recyclerView,int position){
