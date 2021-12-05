@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,6 +86,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     }
 
 
+
+
     @SuppressLint("SetTextI18n")
     @Override
     public OrderProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -99,26 +104,31 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         final Product product = mCartProduct.get(holder.getAdapterPosition());
 
 
-        String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
 
-        for(HashMap<String,String> temp: product.getProduct_images()){
-            String lower = temp.get("color").toLowerCase();
-            if(lower.equals(opColor)){
-                String imageName = temp.get("image");
-                loadImage(holder.productImage,imageName);
+            String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
+            for(HashMap<String,String> temp: product.getProduct_images()){
+                String lower = temp.get("color").toLowerCase();
+                if(lower.equals(opColor)){
+                    String imageName = temp.get("image");
+                    loadImage(holder.productImage,imageName);
+                }
             }
-        }
+            GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
+    
+            backgroundGradient.setColor(Color.parseColor(opColor));
 
-        java.util.Currency usd = java.util.Currency.getInstance("USD");
-        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-        format.setCurrency(usd);
-        String sPrice =format.format(product.getProduct_price());
+            java.util.Currency usd = java.util.Currency.getInstance("USD");
+            java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+            format.setCurrency(usd);
+            String sPrice =format.format(product.getProduct_price());
 
-        //
-        holder.productCartName.setText(product.getProduct_name());
-        holder.productCartPrice.setText(sPrice);
-        holder.productCartAmount.setText(product.getAmount());
-        holder.getProductCartSize.setText(product.getProduct_size());
+            //
+            holder.productCartName.setText(product.getProduct_name());
+            holder.productCartPrice.setText(sPrice);
+            holder.productCartAmount.setText(product.getAmount());
+            holder.getProductCartSize.setText(product.getProduct_size());
+
+
     }
     @SuppressLint("NotifyDataSetChanged")
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -126,7 +136,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
 
         ImageButton makeOrder, decrease, delete;
         //Spinner productCartDropDownSize;
-        ImageView productImage;
+        ImageView productImage, colorCircle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             getProductCartSize = itemView.findViewById(R.id.order_tv_size);
@@ -134,6 +144,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
             productCartName = itemView.findViewById(R.id.order_tv_name);
             productCartAmount  = itemView.findViewById(R.id.order_tv_amount);
             productCartPrice = itemView.findViewById(R.id.order_tv_price);
+            colorCircle = itemView.findViewById(R.id.order_iv_circle_color);
         }
 
     }

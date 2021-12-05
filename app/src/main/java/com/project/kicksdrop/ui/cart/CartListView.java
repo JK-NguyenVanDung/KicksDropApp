@@ -90,7 +90,7 @@ public class CartListView extends AppCompatActivity {
             public void onClick(View v) {
                 double totalPrice = Double.parseDouble(totalPayment.getText().toString().substring(1));
                 if(totalPrice > 0.00){
-                    Intent intent = new Intent(getApplicationContext(), CartProductOrder.class);
+                    Intent intent = new Intent(getApplicationContext(), CartOrder.class);
                     intent.putExtra("price", totalPrice);
                     intent.putExtra("coupon",coupon_id);
                     startActivity(intent);
