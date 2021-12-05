@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -73,8 +75,8 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
 
-                    image.setBackground(ob);
-
+                    Glide.with(context).load(bitmap).dontAnimate()
+                            .into(image);
 
                 }
             });

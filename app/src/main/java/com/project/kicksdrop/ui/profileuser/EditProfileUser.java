@@ -44,6 +44,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.adapter.CouponAdapter;
@@ -51,6 +52,7 @@ import com.project.kicksdrop.model.Account;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.profile.ProfileFragment;
+import com.project.kicksdrop.ui.wishlist.WishlistFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,12 +72,11 @@ public class EditProfileUser extends AppCompatActivity {
     private FirebaseUser account;
     private ArrayList<Account> mAccount;
     private DatabaseReference reference;
-    private String accountID;
-    private Account Kaccount;
-    private String userID, name, imagesName, email, gender, mobile, address;
+    private String  name, imagesName, email, gender, mobile, address;
     private Uri imageUri;
-    private FirebaseStorage storage;
     private StorageReference storageReference;
+    private final LoadingScreen loading = new LoadingScreen(EditProfileUser.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,9 +85,7 @@ public class EditProfileUser extends AppCompatActivity {
         account = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("account");
         storageReference = FirebaseStorage.getInstance().getReference();
-        accountID = account.getUid();
-
-//        disableEditText(userEmail);
+        loading.startLoadingScreen();
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +176,9 @@ public class EditProfileUser extends AppCompatActivity {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     image.setImageBitmap(bitmap);
+                    if(loading !=null){
+                        loading.dismissDialog();
+                    }
                 }
             });
 
@@ -209,7 +211,8 @@ public class EditProfileUser extends AppCompatActivity {
                 if(hashMap.get("avatar") != null){
                     imagesName= Objects.requireNonNull(hashMap.get("avatar")).toString();
                     loadImage(profileAvatar, imagesName);
-
+                }else{
+                    loading.dismissDialog();
                 }
 
                 userEmail.setText(email);

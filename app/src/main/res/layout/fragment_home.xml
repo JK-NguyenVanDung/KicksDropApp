@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".ui.home.HomeFragment">
 
     <TextView
@@ -32,6 +33,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
 
@@ -344,15 +346,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
-
-
             </androidx.recyclerview.widget.RecyclerView>
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/work_sans"
                 android:gravity="center_horizontal"
@@ -364,7 +364,8 @@
                 android:id="@+id/home_rv_brand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
+                android:layout_gravity="center_vertical"
+                >
 
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -404,6 +405,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/work_sans"
                 android:gravity="center_horizontal"
