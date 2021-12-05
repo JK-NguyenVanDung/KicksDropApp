@@ -4,9 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +30,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     private List<Order> mOrderList;
     private Context context;
     private static String productName = "";
-
+    RelativeLayout relativeLayout;
     public NotificationsAdapter(Context context, List<Order>  mOrderList){
         this.context = context;
         this.mOrderList = mOrderList;

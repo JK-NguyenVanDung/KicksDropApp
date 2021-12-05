@@ -4,15 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +40,7 @@ public class NotificationsFragment extends Fragment {
     FirebaseUser fUser;
     RecyclerView recyclerView;
     NotificationsAdapter notificationsAdapter;
+    LinearLayout linearLayout;
     private  ArrayList<Order> mOrder;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class NotificationsFragment extends Fragment {
             }
         });
         //recycler view
+        linearLayout = binding.llNotification;
         recyclerView =binding.rvNotifications;
         recyclerView.setHasFixedSize(true);
 
@@ -86,6 +92,9 @@ public class NotificationsFragment extends Fragment {
                 }
                 notificationsAdapter = new NotificationsAdapter( getContext(), mOrder );
                 recyclerView.setAdapter( notificationsAdapter );
+
+                ItemTouchHelper helper = new ItemTouchHelper( callback );
+                helper.attachToRecyclerView( recyclerView );
             }
 
             @Override
@@ -100,4 +109,19 @@ public class NotificationsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+    ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            Snackbar snackbar = Snackbar.make(linearLayout,"Item DELETED",Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+            mOrder.remove(viewHolder.getAdapterPosition());
+            notificationsAdapter.notifyDataSetChanged();
+        }
+    };
 }
