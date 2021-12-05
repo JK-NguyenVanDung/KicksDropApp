@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -156,8 +157,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         BannerRecyclerView = binding.homeRvBanner;
         BannerRecyclerView.setHasFixedSize(true);
-        GridLayoutManager Bannermanager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.VERTICAL, false);
-        BannerRecyclerView.setLayoutManager(Bannermanager);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        BannerRecyclerView.setLayoutManager(horizontalLayoutManager);
 
         getBrand();
         getBanner();
@@ -258,28 +260,6 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             }
         });
 
-//        search.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable edit) {
-//                if (edit.length() != 0) {
-//                    String keySearch = search.getText().toString();
-//                    searchProduct(keySearch);
-//                    Log.v("keySearch",keySearch);
-//                }
-//            }
-//        });
-
-
         return root;
 
     }
@@ -321,9 +301,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mBrand.clear();
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
-                   Brand brand = new Brand();
-                   brand.setName(dtShot.getKey());
-                   brand.setImage(dtShot.getValue().toString());
+                    Brand brand = new Brand();
+                    brand.setName(dtShot.getKey());
+                    brand.setImage(dtShot.getValue().toString());
                     mBrand.add(brand);
                 }
 //                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading);
@@ -394,7 +374,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                         product.setProduct_id(dtShot.getKey());
                         mProduct.add(product);
                     }
-                max++;
+                    max++;
                 }
 
                 productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading,flag);

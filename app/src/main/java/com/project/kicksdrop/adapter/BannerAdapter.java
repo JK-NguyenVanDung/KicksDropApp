@@ -54,7 +54,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Banner banner = mBanner.get(holder.getAdapterPosition());
-        ImageButton image = holder.ImagesBanner;
+        ImageView image = holder.ImagesBanner;
         Button Text = holder.TextBanner;
         Text.setText(banner.getTitle());
         loadImage(image,banner.getImage());
@@ -86,17 +86,17 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
-            File file = File.createTempFile("tmp",".png");
+            File file = File.createTempFile("tmp",".jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    BitmapDrawable ob = new BitmapDrawable(bitmap);
+                    image.setImageBitmap(bitmap);
+
                     if(loading != null){
                         loading.dismissDialog();
 
                     }
-                    image.setBackground(ob);
                 }
             });
         } catch (IOException e) {
@@ -106,13 +106,13 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layoutBanner;
-        ImageButton ImagesBanner;
+        ImageView ImagesBanner;
         Button TextBanner;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             layoutBanner = (LinearLayout) itemView.findViewById(R.id.lLayoutBanner);
-            ImagesBanner = (ImageButton) itemView.findViewById(R.id.IButton_Banner);
+            ImagesBanner = (ImageView) itemView.findViewById(R.id.IButton_Banner);
             TextBanner = (Button) itemView.findViewById(R.id.btnTextBanner);
         }
     }
