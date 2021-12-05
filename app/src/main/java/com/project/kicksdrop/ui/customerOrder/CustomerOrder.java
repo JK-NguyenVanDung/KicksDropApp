@@ -2,6 +2,7 @@ package com.project.kicksdrop.ui.customerOrder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,9 +35,18 @@ public class CustomerOrder extends AppCompatActivity {
     UserOrderAdapter userOrderAdapter;
     ImageButton back;
     private  ArrayList<Order> mOrder;
+
+    public RecyclerView getProductsView() {
+        return productsView;
+    }
+
+    public void setProductsView(RecyclerView productsView) {
+        this.productsView = productsView;
+    }
+
+    private RecyclerView productsView;
     private ArrayList<Product> mProducts;
     private final LoadingScreen loading = new LoadingScreen(CustomerOrder.this);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +62,7 @@ public class CustomerOrder extends AppCompatActivity {
         //recycler view
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_order_List);
         recyclerView.setHasFixedSize(true);
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
@@ -76,17 +87,12 @@ public class CustomerOrder extends AppCompatActivity {
                 for (DataSnapshot dtShot: snapshot.getChildren()){
                     Order order = dtShot.getValue(Order.class);
                     assert order != null;
-                    if(order.getOrder_details() != null){
-                        ArrayList<Product> products  = getProducts(order.getOrder_details());
-                        OrderProductAdapter adapter = new OrderProductAdapter(getApplicationContext(),products, order.getOrder_details(),loading);
-                        order.setAdapter(adapter);
-                        mOrder.add(order);
-                    }
-
+                    mOrder.add(order);
                 }
-
-                loading.dismissDialog();
-                userOrderAdapter = new UserOrderAdapter(getApplicationContext(),mOrder);
+                if(mOrder.size() < 1){
+                    loading.dismissDialog();
+                }
+                userOrderAdapter = new UserOrderAdapter(getApplicationContext(),mOrder,loading);
 
                 recyclerView.setAdapter(userOrderAdapter);
 
@@ -99,38 +105,5 @@ public class CustomerOrder extends AppCompatActivity {
             }
         });
     }
-    private ArrayList<Product>  getProducts(List<HashMap<String,String>> options){
-        ArrayList<Product> products = new ArrayList<>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("product");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                products.clear();
-                for(HashMap<String, String> item : options){
-                    for(DataSnapshot dtShot: snapshot.getChildren()){
-                        Product product = dtShot.getValue(Product.class);
-                        assert product != null;
-                        product.getProduct_colors().remove(0);
-                        String productId = dtShot.getKey();
-                        if(productId.equals(item.get("productId"))){
-                            product.setProduct_id(dtShot.getKey());
-                            product.getProduct_images().remove(0);
-                            product.setProduct_color(item.get("color"));
-                            product.setProduct_size(item.get("size"));
-                            product.setAmount(item.get("amount"));
-                            products.add(product);
-                        }
 
-                    }
-                }
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return products;
-    }
 }

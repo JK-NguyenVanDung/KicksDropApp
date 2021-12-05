@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.cart.CartProductOrder">
+    tools:context=".ui.cart.CartOrder">
 
 
     <LinearLayout
@@ -212,6 +212,7 @@
                             android:ems="10"
                             android:fontFamily="@font/roboto_light"
                             android:hint="Enter Your Address"
+                            android:drawableEnd="@drawable/ic_pencil_edit"
                             android:inputType="textPersonName"
                             android:minHeight="48dp"
                             android:textColor="#444444"
