@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -33,9 +34,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
+import com.project.kicksdrop.adapter.BrandAdapter;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.databinding.FragmentHomeBinding;
+import com.project.kicksdrop.model.Brand;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 import com.project.kicksdrop.ui.auth.LoginActivity;
@@ -49,18 +52,25 @@ import java.util.Objects;
 
 public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
+    BrandAdapter brandAdapter;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     ProductListAdapter productAdapter;
     HomeCouponAdapter homeCouponAdapter;
     private ArrayList<Product> mProduct;
     private ArrayList<Coupon> mCoupon;
+    ArrayList<Brand> mBrand;
     private TextView tvNumberCart;
+    Button btnContinue;
     private int numberCart;
     ArrayList<Product> sProduct;
     RecyclerView recyclerView;
     RecyclerView CouponRecyclerView;
+    RecyclerView BrandRecyclerView;
     FirebaseUser fUser;
+    int countProduct = 5;
+    int max = 0;
+    public Boolean flag = false;
 
 
     //    ImageButton productContentIbtn, newDropsIBtn, nikesIbtn, adidasIBtn;
@@ -116,7 +126,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         loading.startLoadingScreenFragment();
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;
-
+        btnContinue = binding.btnHomeContinue;
         View root = binding.getRoot();
         recyclerView = binding.homeRvProducts;
         //recycler view
@@ -125,43 +135,68 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         recyclerView.setLayoutManager(gridLayoutManager);
 
 
+
+
         CouponRecyclerView = binding.homeRvCoupon;
         CouponRecyclerView.setHasFixedSize(true);
         GridLayoutManager manager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.VERTICAL, false);
         CouponRecyclerView.setLayoutManager(manager);
 
+        BrandRecyclerView = binding.homeRvBrand;
+        BrandRecyclerView.setHasFixedSize(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.HORIZONTAL, false);
+        BrandRecyclerView.setLayoutManager(layoutManager);
 
+        getBrand();
         getProduct();
         getCoupon();
-        final ImageButton nikesIbtn = binding.homeIbtnNikes;
-        nikesIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand", "Nike");
-                startActivity(intent);
-            }
-        });
 
-        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
-        adidasIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand", "Adidas");
-                startActivity(intent);
-            }
-        });
+//        final ImageButton nikesIbtn = binding.homeIbtnNikes;
+//        nikesIbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), ProductBrands.class);
+//                intent.putExtra("brand", "Nike");
+//                startActivity(intent);
+//            }
+//        });
+//
+//        final ImageButton adidasIbtn = binding.homeIbtnAdidas;
+//        adidasIbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), ProductBrands.class);
+//                intent.putExtra("brand", "Adidas");
+//                startActivity(intent);
+//            }
+//        });
+//
+//        final ImageButton vansIbtn = binding.homeIbtnVans;
+//        vansIbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), ProductBrands.class);
+//                intent.putExtra("brand", "Vans");
+//                startActivity(intent);
+//            }
+//        });
 
-        final ImageButton vansIbtn = binding.homeIbtnVans;
-        vansIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ProductBrands.class);
-                intent.putExtra("brand", "Vans");
-                startActivity(intent);
-            }
-        });
+       final Button btn = binding.btnHomeContinue;
+       btn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+
+               countProduct+=6;
+                  getProduct();
+                    if (countProduct+1>=max ){
+
+                            btnContinue.setVisibility(View.GONE);
+
+                    }
+
+
+           }
+       });
 
         final ImageButton slide = binding.homeIbtnProductContent;
         slide.setOnClickListener(new View.OnClickListener() {
@@ -283,6 +318,36 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
     }
 
+    private void getBrand() {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("brand");
+        mBrand = new ArrayList<Brand>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mBrand.clear();
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                   Brand brand = new Brand();
+                   brand.setName(dtShot.getKey());
+                   brand.setImage(dtShot.getValue().toString());
+                    mBrand.add(brand);
+                }
+//                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading);
+//                recyclerView.setAdapter(productAdapter);
+                brandAdapter = new BrandAdapter(getContext(),mBrand);
+                BrandRecyclerView.setAdapter(brandAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     @Override
     public void onProductClick(int position, View view, String id) {
         Intent intent = new Intent(getContext(), ProductDetail.class);
@@ -329,13 +394,18 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProduct.clear();
+                max = 0;
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
-                    Product product = dtShot.getValue(Product.class);
-                    assert product != null;
-                    product.setProduct_id(dtShot.getKey());
-                    mProduct.add(product);
+                    if (mProduct.size()<=countProduct){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.setProduct_id(dtShot.getKey());
+                        mProduct.add(product);
+                    }
+                max++;
                 }
-                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading);
+
+                productAdapter = new ProductListAdapter(getContext(), mProduct, HomeFragment.this, loading,flag);
                 recyclerView.setAdapter(productAdapter);
             }
 
