@@ -97,20 +97,18 @@
                         android:layout_height="56dp"
                         android:layout_below="@+id/editProfile_iv_avatar"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginTop="67dp"
+                        android:layout_marginTop="50dp"
                         android:layout_marginBottom="24dp"
                         android:gravity="center_horizontal">
 
                         <Button
                             android:id="@+id/editProfile_btn_edit"
-                            android:layout_width="340dp"
+                            android:layout_width="370dp"
                             android:layout_height="match_parent"
-
                             android:backgroundTint="@color/black"
                             android:fallbackLineSpacing="false"
                             android:fontFamily="@font/work_sans_medium"
                             android:hapticFeedbackEnabled="false"
-
                             android:padding="0dp"
                             android:text="Edit Profile"
                             android:textAllCaps="false"
@@ -129,7 +127,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="160dp"
-                        android:layout_marginTop="64dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginEnd="-13dp"
                         android:layout_marginBottom="0dp"
                         android:paddingTop="0dp"

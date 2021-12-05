@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,7 +69,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
-            File file = File.createTempFile("tmp",".png");
+            File file = File.createTempFile("tmp",".jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -91,9 +92,10 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+
         ImageView img;
         public ViewHolder(@NonNull View itemView) {
-
             super(itemView);
             img = (ImageView) itemView.findViewById(R.id.home_ibtn);
 
