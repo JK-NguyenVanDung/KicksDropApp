@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/lLayoutBanner"
         android:layout_width="257dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -12,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/home_ibtn_productContent2"
+            android:id="@+id/IButton_Banner"
             android:layout_width="260dp"
             android:layout_height="260dp"
             android:layout_weight="1"
@@ -21,9 +22,9 @@
             android:src="@drawable/monochromatic_fashion" />
 
         <Button
-            android:id="@+id/home_btn_productTitle2"
+            android:id="@+id/btnTextBanner"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="48dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/work_sans_medium"
             android:gravity="left"

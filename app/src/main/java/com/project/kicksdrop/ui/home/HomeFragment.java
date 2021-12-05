@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
+import com.project.kicksdrop.adapter.BannerAdapter;
 import com.project.kicksdrop.adapter.BrandAdapter;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
 import com.project.kicksdrop.adapter.ProductListAdapter;
@@ -54,6 +55,7 @@ import java.util.Objects;
 public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     BrandAdapter brandAdapter;
+    BannerAdapter bannerAdapter;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     ProductListAdapter productAdapter;
@@ -161,24 +163,24 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         getProduct();
         getCoupon();
 
-        final ImageButton slide = binding.homeIbtnProductContent;
-        slide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
-                intent.putExtra("keySearch", "");
-                startActivity(intent);
-            }
-        });
-        final ImageButton slide2 = binding.homeIbtnProductContent2;
-        slide2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
-                intent.putExtra("keySearch", "");
-                startActivity(intent);
-            }
-        });
+//        final ImageButton slide = binding.homeIbtnProductContent;
+//        slide.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
+//                intent.putExtra("keySearch", "");
+//                startActivity(intent);
+//            }
+//        });
+//        final ImageButton slide2 = binding.homeIbtnProductContent2;
+//        slide2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
+//                intent.putExtra("keySearch", "");
+//                startActivity(intent);
+//            }
+//        });
         final ImageButton chat = binding.homeBtnChat;
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,8 +287,28 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("banner");
-
         mBanner = new ArrayList<Banner>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mBanner.clear();
+
+                for (DataSnapshot dtShot : snapshot.getChildren()) {
+                    Banner banner = new Banner();
+                    banner.setBannertitle(dtShot.getKey());
+                    banner.setBannerimages(dtShot.getValue().toString());
+                    mBanner.add(banner);
+                }
+                bannerAdapter = new BannerAdapter(getContext(),mBanner);
+                BannerRecyclerView.setAdapter(bannerAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getBrand() {

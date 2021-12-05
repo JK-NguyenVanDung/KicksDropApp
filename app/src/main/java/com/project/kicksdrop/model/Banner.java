@@ -10,7 +10,7 @@ public class Banner {
         return banner_images;
     }
 
-    public void  setBannerimages(){
+    public void  setBannerimages(String Images){
         this.banner_images = banner_images;
     }
 
@@ -18,7 +18,7 @@ public class Banner {
         return banner_title;
     }
 
-    public void setBannertitle() {
+    public void setBannertitle(String Title) {
         this.banner_title = banner_title;
     }
 
