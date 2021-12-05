@@ -1,5 +1,6 @@
 package com.project.kicksdrop.ui.wishlist;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,13 +46,14 @@ public class WishlistFragment extends Fragment {
     private WishlistViewModel wishlistViewModel;
     private FragmentWishlistBinding binding;
     private WishlistAdapter wishlistAdapter;
-    EditText search;
+    private EditText search;
     private TextView totalProducts;
     private FirebaseUser fUser;
-    private TextView tvNumberCart, noAnyThing;
+    private TextView tvNumberCart, wishlistEmpty;
     private int numberCart;
     private final LoadingScreen loading = new LoadingScreen(WishlistFragment.this);
 
+    @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         wishlistViewModel =
@@ -79,7 +81,7 @@ public class WishlistFragment extends Fragment {
 
             }
         });
-        noAnyThing = binding.WishListNoAnyThing;
+        wishlistEmpty = binding.wishlistEmptyText;
 
         recyclerView = binding.wishlistRvProducts;
 
@@ -105,7 +107,7 @@ public class WishlistFragment extends Fragment {
         chat = binding.wishlistBtnChat;
         tvNumberCart = binding.wishlistTvCartNumb;
 
-        search = binding.etWishlistSearch;
+        search = binding.wishlistEtSearch;
         search.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -193,9 +195,9 @@ public class WishlistFragment extends Fragment {
 
                     getProduct(productsInWishlist);
                 }else if(productsInWishlist.size() == 0){
-                    noAnyThing.setVisibility(View.VISIBLE);
+                    wishlistEmpty.setVisibility(View.VISIBLE);
                 }else {
-                    noAnyThing.setVisibility(View.GONE);
+                    wishlistEmpty.setVisibility(View.GONE);
                 }
 
             }

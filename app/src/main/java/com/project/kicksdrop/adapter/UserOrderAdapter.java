@@ -1,7 +1,10 @@
 package com.project.kicksdrop.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +27,7 @@ import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.model.Product;
+import com.project.kicksdrop.ui.productBrands.ProductBrands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +35,11 @@ import java.util.List;
 
 public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.ViewHolder> {
 
-    List<Order> mOrderList;
-    private ArrayList<Product> mProducts;
+    private List<Order> mOrderList;
     private Context context;
     private LoadingScreen loading;
+    FirebaseUser fUser;
+
     public UserOrderAdapter(Context context, List<Order>  mOrderList, LoadingScreen loading){
         this.context = context;
         this.mOrderList = mOrderList;
@@ -50,6 +57,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull UserOrderAdapter.ViewHolder holder, int position) {
         final Order order = mOrderList.get(holder.getAdapterPosition());
@@ -62,6 +70,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             holder.tv_discount.setText("-$" +order.getOrder_discount());
 
         }else{
+            assert order.getOrder_price() != null;
             totalPayment= String.valueOf(
                     Double.parseDouble(order.getOrder_price()) +
                             Double.parseDouble(order.getShipping_price()));
@@ -71,9 +80,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         holder.tv_address.setText(order.getAddress());
         holder.tv_total.setText("$" +order.getOrder_price());
         holder.tv_shipPrice.setText("$" +order.getShipping_price());
-        if(order.getOrder_discount() != null){
 
-        }
         holder.tv_totalPayment.setText("$" +totalPayment);
         holder.tv_Status.setText(order.getStatus());
         if(order.getOrder_id() != null) {
@@ -102,32 +109,52 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             holder.deleteBtn.setVisibility(View.GONE);
             holder.receivedBtn.setVisibility(View.GONE);
         }else if (order.getStatus().equals("Shipped")){
-                holder.deleteBtn.setVisibility(View.GONE);
-                holder.receivedBtn.setVisibility(View.VISIBLE);
+            holder.deleteBtn.setVisibility(View.GONE);
+            holder.receivedBtn.setVisibility(View.VISIBLE);
         }else if (order.getStatus().equals("Received")){
             holder.deleteBtn.setVisibility(View.VISIBLE);
             holder.receivedBtn.setVisibility(View.GONE);
         }
-//        switch (order.getStatus()){
-//            case "Ordered":
-//                holder.deleteBtn.setVisibility(View.VISIBLE);
-//                holder.receivedBtn.setVisibility(View.GONE);
-//            case "Shipping":
-//                holder.deleteBtn.setVisibility(View.GONE);
-//                holder.receivedBtn.setVisibility(View.GONE);
-//            case "Shipped":
-//                holder.deleteBtn.setVisibility(View.GONE);
-//                holder.receivedBtn.setVisibility(View.VISIBLE);
-//            case "Received":
-//                holder.deleteBtn.setVisibility(View.VISIBLE);
-//                holder.receivedBtn.setVisibility(View.GONE);
-//        }
+
+
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert fUser != null;
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Warning")
+                        .setMessage("Do you want to delete this?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String idUser = fUser.getUid();
+                                deleteOrder(idUser,holder.getAdapterPosition(),order.getOrder_id());
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
 
         getProduct(order,holder.recyclerView, holder.getAdapterPosition());
 
 
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void deleteOrder(String userId, int position, String orderId){
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order/"+userId + "/"+ orderId);
+        myRef.removeValue();
+        if(!mOrderList.isEmpty()&& mOrderList.size() > position) {
+            mOrderList.remove(position);
+            notifyItemRemoved(position);
+            notifyDataSetChanged();
+        }
+    }
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_address, tv_total, tv_shipPrice, tv_discount, tv_totalPayment, tv_orderId
                 , tv_orderProduct, tv_Status, tv_timeOrder;
