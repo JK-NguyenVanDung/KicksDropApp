@@ -89,8 +89,6 @@ public class CustomerOrder extends AppCompatActivity {
                 userOrderAdapter = new UserOrderAdapter(getApplicationContext(),mOrder);
 
                 recyclerView.setAdapter(userOrderAdapter);
-
-
             }
 
             @Override
