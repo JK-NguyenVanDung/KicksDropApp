@@ -1,10 +1,37 @@
 package com.project.kicksdrop.model;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Banner {
 
 //    private String banner_id;
-    private String banner_images;
-    private String banner_title;
+    private String image;
+    private String title;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Banner(String image, String title) {
+        this.image = image;
+        this.title = title;
+    }
+    public Banner(){
+
+    }
 
 //    public String getBanner_id() {
 //        return banner_id;
@@ -14,20 +41,6 @@ public class Banner {
 //        this.banner_id = banner_id;
 //    }
 
-    public String getBannerimages() {
-        return banner_images;
-    }
 
-    public void  setBannerimages(String Images){
-        this.banner_images = banner_images;
-    }
-
-    public String getBannertitle() {
-        return banner_title;
-    }
-
-    public void setBannertitle(String Title) {
-        this.banner_title = banner_title;
-    }
 
 }

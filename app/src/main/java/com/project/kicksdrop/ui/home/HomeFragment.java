@@ -157,7 +157,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         BannerRecyclerView = binding.homeRvBanner;
         BannerRecyclerView.setHasFixedSize(true);
         GridLayoutManager Bannermanager = new GridLayoutManager(this.getContext(), 4, GridLayoutManager.VERTICAL, false);
-        CouponRecyclerView.setLayoutManager(Bannermanager);
+        BannerRecyclerView.setLayoutManager(Bannermanager);
 
         getBrand();
         getBanner();
@@ -296,9 +296,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
                 mBanner.clear();
 
                 for (DataSnapshot dtShot : snapshot.getChildren()) {
-                    Banner banner = new Banner();
-                    banner.setBannertitle(dtShot.getKey());
-                    banner.setBannerimages(dtShot.getValue().toString());
+                    Banner banner = dtShot.getValue(Banner.class);
                     mBanner.add(banner);
                 }
                 bannerAdapter = new BannerAdapter(getContext(),mBanner);

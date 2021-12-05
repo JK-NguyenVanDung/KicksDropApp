@@ -56,8 +56,8 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
         final Banner banner = mBanner.get(holder.getAdapterPosition());
         ImageButton image = holder.ImagesBanner;
         Button Text = holder.TextBanner;
-        Text.setText(banner.getBannertitle());
-        loadImage(image,banner.getBannerimages());
+        Text.setText(banner.getTitle());
+        loadImage(image,banner.getImage());
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
