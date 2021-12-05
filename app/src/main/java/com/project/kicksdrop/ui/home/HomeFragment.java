@@ -160,6 +160,7 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         CouponRecyclerView.setLayoutManager(Bannermanager);
 
         getBrand();
+        getBanner();
         getProduct();
         getCoupon();
 

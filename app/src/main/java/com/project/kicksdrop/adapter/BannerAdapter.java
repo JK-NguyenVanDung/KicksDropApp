@@ -55,9 +55,20 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Banner banner = mBanner.get(holder.getAdapterPosition());
         ImageButton image = holder.ImagesBanner;
-        holder.TextBanner.setText(banner.getBannertitle());
+        Button Text = holder.TextBanner;
+        Text.setText(banner.getBannertitle());
         loadImage(image,banner.getBannerimages());
+
         image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SearchViewProduct.class);
+                intent.putExtra("keySearch", "");
+                context.startActivity(intent);
+            }
+        });
+
+        Text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SearchViewProduct.class);
