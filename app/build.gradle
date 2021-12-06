@@ -65,5 +65,6 @@ dependencies {
     implementation "androidx.concurrent:concurrent-futures:1.1.0"
     implementation "com.google.android.gms:play-services-basement:17.6.0"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation "com.borjabravo:simpleratingbar:1.0.0"
 }

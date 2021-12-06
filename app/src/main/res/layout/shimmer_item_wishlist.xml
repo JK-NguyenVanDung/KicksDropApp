@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
-    app:cardElevation="0dp"
-    android:layout_marginStart="17dp"
+
 
     >
 
@@ -46,7 +44,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
+                        android:background="#e7e7e7"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="0dp"
@@ -92,7 +90,7 @@
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/wishlist_rv_circles"
-
+                                android:background="#e7e7e7"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
 
@@ -120,13 +118,13 @@
 
             <TextView
                 android:id="@+id/wishlist_tv_productName"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center_vertical"
-                android:text='Nike Air Force 1 "07'
                 android:textColor="@color/black"
+                android:background="#e7e7e7"
                 android:textSize="16sp"
                 android:singleLine="true"
                 />
@@ -148,14 +146,14 @@
 
         <TextView
             android:id="@+id/wishlist_tv_productCost"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/linearlayout_productCart_addToCart_sectionOne"
             android:gravity="center_vertical"
-            android:text="90.00$"
+            android:background="#e7e7e7"
             android:textColor="#777777"
             android:textSize="14sp"
             tools:ignore="TextContrastCheck" />
@@ -163,7 +161,7 @@
         <TextView
             android:id="@+id/wishlist_tv_brand"
 
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
 
 
@@ -174,8 +172,7 @@
             android:layout_toEndOf="@+id/linearlayout_productCart_addToCart_sectionOne"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
-            android:text="Adidas"
-            android:textColor="#444444"
+            android:background="#e7e7e7"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -210,7 +207,7 @@
 
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="0dp"
-                    android:background="@drawable/border_radius_gray_light"
+                    android:background="#e7e7e7"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <ImageButton
@@ -231,32 +228,16 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/wishlist_roundedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/linearlayout_itemProductCart_sectionTwo"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/linearlayout_productCart_addToCart_sectionOne"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="#e7e7e7"
             android:elevation="10dp"
             app:cardCornerRadius="10dp">
 
-            <Button
-                android:id="@+id/wishList_btn_addToCart"
-
-                android:layout_width="130dp"
-                android:layout_height="30dp"
-                android:background="?android:selectableItemBackground"
-
-                android:layout_below="@+id/navigation_bar_item_viewList_color"
-
-                android:backgroundTint="@android:color/black"
-                android:padding="0sp"
-                android:text="Add To Cart"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                tools:ignore="TouchTargetSizeCheck" />
         </androidx.cardview.widget.CardView>
 
         <!--        <Button-->
@@ -284,12 +265,5 @@
         <!--            tools:ignore="TouchTargetSizeCheck" />-->
 
     </RelativeLayout>
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_wishlist"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <include layout="@layout/shimmer_item_wishlist"/>
-    </com.facebook.shimmer.ShimmerFrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

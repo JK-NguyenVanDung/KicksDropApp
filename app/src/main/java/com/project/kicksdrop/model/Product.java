@@ -41,6 +41,19 @@ public class Product {
 
     private String product_color;
     private String product_size;
+
+    public double getDiscount_price() {
+        return discount_price;
+    }
+
+    public void setDiscount_price(double discount_price) {
+        this.discount_price = discount_price;
+    }
+
+    private double discount_price;
+    private long rating_amount;
+    private double product_rating;
+
     public Product(String product_id, String product_brand, ArrayList<String> product_colors, String product_name, double product_price, int product_quantity, ArrayList<String>  product_sizes,ArrayList<HashMap<String,String>> product_images) { //
         this.product_id = product_id;
         this.product_brand = product_brand;
@@ -50,6 +63,19 @@ public class Product {
         this.product_price = product_price;
         this.product_quantity = product_quantity;
         this.product_sizes = product_sizes;
+    }
+    public Product(String product_id, String product_brand, ArrayList<String> product_colors, String product_name, double product_price, int product_quantity, ArrayList<String>  product_sizes,ArrayList<HashMap<String,String>> product_images, double discount_price, long rating_amount, double product_rating) { //
+        this.product_id = product_id;
+        this.product_brand = product_brand;
+        this.product_colors = product_colors;
+        this.product_images = product_images;
+        this.product_name = product_name;
+        this.product_price = product_price;
+        this.product_quantity = product_quantity;
+        this.product_sizes = product_sizes;
+        this.discount_price = discount_price;
+        this.rating_amount = rating_amount;
+        this.product_rating = product_rating;
     }
 
     public String getProduct_id() {
