@@ -29,6 +29,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,12 +40,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.project.kicksdrop.adapter.ProductListAdapter;
 import com.project.kicksdrop.adapter.WishlistAdapter;
 import com.project.kicksdrop.databinding.ActivityMainBinding;
 import com.project.kicksdrop.model.Cart;
 import com.project.kicksdrop.model.Product;
 
 import com.project.kicksdrop.ui.auth.LoginActivity;
+import com.project.kicksdrop.ui.home.HomeFragment;
 import com.project.kicksdrop.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
@@ -55,7 +58,10 @@ import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    private ArrayList<Product> mProduct;
+    int countProduct = 5;
+    int max = 0;
+    RecyclerView recyclerView;
     WishlistAdapter wishlistAdapter;
     private Product product;
     private HomeViewModel homeViewModel;
@@ -65,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     String user_id = "AC1";
     HashMap<String,Object> hashMap;
     String coupon="";
+    ProductListAdapter productAdapter;
+
 
     ImageButton test;
     private boolean remember;
@@ -101,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navCo);
 
     }
+
+
+
+
+
 
 
 }

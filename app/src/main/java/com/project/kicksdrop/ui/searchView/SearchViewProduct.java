@@ -192,6 +192,13 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
         intent.putExtra("id", id);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        getAllProduct();
+        finish();
+    }
+
     private void getProduct(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");

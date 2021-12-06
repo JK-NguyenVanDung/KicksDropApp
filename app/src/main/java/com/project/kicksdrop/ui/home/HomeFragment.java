@@ -53,7 +53,7 @@ import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
+public class  HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     BrandAdapter brandAdapter;
     BannerAdapter bannerAdapter;
@@ -199,6 +199,24 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CartListView.class);
                 startActivity(intent);
+            }
+        });
+
+        // Khong Duoc Xoa
+        final Button btn = binding.btnHomeContinue;
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                countProduct+=6;
+                getProduct();
+                if (countProduct+1>=max ){
+
+                    btnContinue.setVisibility(View.GONE);
+
+                }
+
+
             }
         });
 
