@@ -10,11 +10,14 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -63,6 +66,9 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     SimpleRatingBar pointStar;
     TextView numReviewer;
     TextView discountPrice;
+    FrameLayout layoutDiscount;
+    private Double numPrice = 0.0 ;
+    private Double discountPercent;
     private TextView tvNumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductDetail.this);
     int currentAmount = 1;
@@ -87,25 +93,8 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         matching();
         getProductInCart(fUser.getUid());
 
-        pointStar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("product").child("user_rated");
 
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        });
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -225,6 +214,20 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 product.setProduct_id(snapshot.getKey());
                 //Log.d("yeah",product.getProduct_sizes().toString());
 
+                numPrice = product.getProduct_price();
+                discountPercent = product.getDiscount_price();
+                if(discountPercent != 0){
+                    price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    numPrice = numPrice/discountPercent * 100;
+                    numPrice = (double) Math.round(numPrice+100) / 100;
+                    discountPrice.setText(String.valueOf(numPrice));
+                }else {
+                    discountPrice.setVisibility(View.GONE);
+                    layoutDiscount.setVisibility(View.GONE);
+                    price.setTextColor(Color.BLACK);
+                }
+
+
                 if (product.getProduct_quantity()<=0){
                     currentAmount = 0;
                     addToCart.setText("Out of stock");
@@ -319,7 +322,6 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
             }
         });
     }
-
     private void getProductInCart(String idUser){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart").child(idUser).child("product");
@@ -413,6 +415,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         pointStar = findViewById(R.id.productDetail_ratingStar);
         numReviewer = findViewById(R.id.tv_productInfo_reviews);
         discountPrice = findViewById(R.id.tv_product_DiscountPrice);
+        layoutDiscount = findViewById(R.id.FL_layoutDiscount);
     }
 
 }
