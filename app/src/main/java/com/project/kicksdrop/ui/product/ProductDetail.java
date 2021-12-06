@@ -1,10 +1,8 @@
 package com.project.kicksdrop.ui.product;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDeepLinkBuilder;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -12,21 +10,20 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
+import com.borjabravo.simpleratingbar.OnRatingChangedListener;
+import com.borjabravo.simpleratingbar.SimpleRatingBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +38,6 @@ import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.model.ProductsInCart;
 import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.cart.CartListView;
 
@@ -64,6 +60,8 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     FirebaseUser fUser;
     ImageButton cart;
     Context context;
+    SimpleRatingBar pointStar;
+    TextView numReviewer;
     private TextView tvNumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductDetail.this);
     int currentAmount = 1;
@@ -87,6 +85,26 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
         matching();
         getProductInCart(fUser.getUid());
+
+        pointStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("product").child("user_rated");
+
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -337,6 +355,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
 
     }
+
     private void addProductCart(String idUser,String idProduct,int amount, String color,String size){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart");
@@ -389,6 +408,8 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         cart = findViewById(R.id.productInfo_btn_cart);
         tvNumberCart = findViewById(R.id.product_tv_numberCart);
         share= findViewById(R.id.product_btn_share);
+        pointStar = findViewById(R.id.productDetail_ratingStar);
+        numReviewer = findViewById(R.id.tv_productInfo_reviews);
     }
 
 }
