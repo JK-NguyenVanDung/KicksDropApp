@@ -349,6 +349,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 if ((idProduct+idColor).equals(key)){
                     amount = amount + Integer.parseInt(productInCart.get(i).get(key));
                     myRef.child(idUser).child("product").child(idProduct+idColor).child("amount").setValue(amount);
+                    myRef.child(idUser).child("product").child(idProduct+idColor).child("size").setValue(size);
                     flag= false;
                     break;
                 }
