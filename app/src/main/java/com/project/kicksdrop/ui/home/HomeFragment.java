@@ -128,9 +128,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         }
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-        loading = new LoadingScreen(HomeFragment.this);
-
-        loading.startLoadingScreenFragment();
+//        loading = new LoadingScreen(HomeFragment.this);
+//
+//        loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;

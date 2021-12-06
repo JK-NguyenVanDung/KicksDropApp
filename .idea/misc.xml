@@ -61,7 +61,9 @@
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/item_order_list.xml" value="0.5142543859649122" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/item_product.xml" value="0.34814814814814815" />
         <entry key="..\:/KicksDropApp/app/src/main/res/layout/item_product_order.xml" value="0.20520833333333333" />
-        <entry key="..\:/KicksDropApp/app/src/main/res/layout/shimmer_item_banner.xml" value="0.1796875" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/shimmer_item_banner.xml" value="0.5" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/shimmer_item_home_brand.xml" value="0.24739583333333334" />
+        <entry key="..\:/KicksDropApp/app/src/main/res/layout/shimmer_item_product.xml" value="0.32864583333333336" />
         <entry key="..\:/KicksDropApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22135416666666666" />
         <entry key="..\:/KicksDropApp1/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.22135416666666666" />
         <entry key="..\:/KicksDropApp1/app/src/main/res/layout/activity_main.xml" value="0.33192923336141533" />

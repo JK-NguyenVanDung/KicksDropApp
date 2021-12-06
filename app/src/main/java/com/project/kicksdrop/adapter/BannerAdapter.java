@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -56,9 +57,13 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Banner banner = mBanner.get(holder.getAdapterPosition());
         ImageView image = holder.ImagesBanner;
-        TextView Text = holder.TextBanner;
-        Text.setText(banner.getTitle());
-        loadImage(image,banner.getImage());
+        TextView text = holder.TextBanner;
+        text.setText(banner.getTitle());
+
+        image.setVisibility(View.INVISIBLE);
+        text.setVisibility(View.INVISIBLE);
+
+        loadImage(image,banner.getImage(),holder.shimmer,text);
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +74,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
             }
         });
 
-        Text.setOnClickListener(new View.OnClickListener() {
+        text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SearchViewProduct.class);
@@ -81,10 +86,10 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-            return mBanner ==null? 0: mBanner.size();
+            return  mBanner.size();
     }
 
-    private void loadImage(ImageView image, String imageName){
+    private void loadImage(ImageView image, String imageName, ShimmerFrameLayout shimmer,TextView text){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
             File file = File.createTempFile("tmp",".jpg");
@@ -94,10 +99,13 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     image.setImageBitmap(bitmap);
 
-                    if(loading != null){
-                        loading.dismissDialog();
 
-                    }
+                    shimmer.stopShimmer();
+                    shimmer.hideShimmer();
+                    shimmer.setVisibility(View.GONE);
+
+                    image.setVisibility(View.VISIBLE);
+                    text.setVisibility(View.VISIBLE);
                 }
             });
         } catch (IOException e) {
@@ -109,9 +117,10 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
         LinearLayout layoutBanner;
         ImageView ImagesBanner;
         TextView TextBanner;
+        ShimmerFrameLayout shimmer;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            shimmer = itemView.findViewById(R.id.shimmer_banner);
             layoutBanner = (LinearLayout) itemView.findViewById(R.id.lLayoutBanner);
             ImagesBanner = (ImageView) itemView.findViewById(R.id.IButton_Banner);
             TextBanner = (TextView) itemView.findViewById(R.id.btnTextBanner);

@@ -50,7 +50,7 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         setContentView(R.layout.activity_product_brands);
         matching();
 
-        loading.startLoadingScreen();
+        //loading.startLoadingScreen();
         recyclerView.setHasFixedSize(true);
 
         brand = getIntent().getStringExtra("brand");
