@@ -102,6 +102,8 @@
                 android:layout_gravity="left"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
+                android:buttonTint="@color/main_purple"
+
                 android:gravity="center_horizontal|center_vertical"
                 android:padding="0sp"
                 tools:ignore="TouchTargetSizeCheck" />

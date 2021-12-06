@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -66,15 +69,15 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
-            File file = File.createTempFile("tmp",".png");
+            File file = File.createTempFile("tmp",".jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
 
-                    image.setBackground(ob);
-
+                    Glide.with(context).load(bitmap).dontAnimate()
+                            .into(image);
 
                 }
             });
@@ -89,9 +92,10 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+
         ImageView img;
         public ViewHolder(@NonNull View itemView) {
-
             super(itemView);
             img = (ImageView) itemView.findViewById(R.id.home_ibtn);
 

@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "534353802380-601its6decnp826a5pgpocsdtkq6s3md.apps.googleusercontent.com",
+          "client_id": "534353802380-l1uova7duf1dvokhu9v7ntfjk916qrm4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.project.kicksdrop",
-            "certificate_hash": "f657ebb7f8cc23bd122fc19b9cebe6c662e01fc9"
+            "certificate_hash": "efb56a1beace19f88703409beb1ccda5cf3e0a45"
           }
         },
         {

@@ -8,7 +8,7 @@
     tools:context=".ui.wishlist.WishlistFragment">
 
     <TextView
-    android:id="@+id/WishList_noAnyThing"
+    android:id="@+id/wishlist_emptyText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="You don't have any products in the Wishlist"
@@ -59,7 +59,7 @@
 
 
                 <AutoCompleteTextView
-                    android:id="@+id/et_wishlist_search"
+                    android:id="@+id/wishlist_et_search"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="12dp"
@@ -129,7 +129,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_wishlish_title"
+                android:id="@+id/wishlist_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|center_horizontal"
