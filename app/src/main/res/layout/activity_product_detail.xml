@@ -237,23 +237,23 @@
                                     android:textColor="@color/black"
                                     android:textSize="20sp" />
 
-                                <ImageView
-                                    android:id="@+id/tv_productInfo_productRatingStar"
 
+
+                                <com.borjabravo.simpleratingbar.SimpleRatingBar
+                                    android:id="@+id/productDetail_ratingStar"
+                                    style="?android:attr/ratingBarStyleSmall"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="30dp"
-
+                                    android:layout_height="wrap_content"
                                     android:layout_alignParentTop="true"
-
                                     android:layout_alignParentEnd="true"
                                     android:layout_marginStart="63dp"
-
                                     android:layout_marginTop="0dp"
                                     android:layout_marginEnd="0dp"
-                                    android:contentDescription="@string/todo"
-
-                                    android:gravity="center_vertical"
-                                    android:src="@drawable/ic_rating_product" />
+                                    app:isIndicator="false"
+                                    app:rating="2.5"
+                                    app:ratingCount="5"
+                                    app:ratingMargin="1dp"
+                                    app:ratingSize="20dp" />
 
                             </RelativeLayout>
                         </LinearLayout>
