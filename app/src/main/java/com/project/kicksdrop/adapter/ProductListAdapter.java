@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -133,7 +134,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 //       }else {
            final Product product = mProductList.get(position);
-           String color = product.getProduct_images().get(1).get("color");
+            holder.productImage.setVisibility(View.INVISIBLE);
+            holder.name.setVisibility(View.INVISIBLE);
+            holder.price.setVisibility(View.INVISIBLE);
+            String color = product.getProduct_images().get(1).get("color");
            String imageName = product.getProduct_images().get(1).get("image");
            //holder.colorCircle.getForeground().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP);
            GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
@@ -147,7 +151,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
            holder.price.setText(sPrice);
 
            holder.name.setText(product.getProduct_name());
-           loadImage(holder.productImage,imageName);
+           loadImage(holder.productImage,imageName,holder.shimmer,holder.name,holder.price);
            FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
            if(fUser != null){
                getUserWishlist(fUser.getUid(), product, holder.heart);
@@ -214,20 +218,28 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     }
 
-    private void loadImage(ImageView image, String imageName){
+    private void loadImage(ImageView image, String imageName,ShimmerFrameLayout shimmer,TextView name,TextView price){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
-            File file = File.createTempFile("tmp",".png");
+            File file = File.createTempFile("tmp",".jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
+
+                    image.setBackground(ob);
                     if(loading != null){
                         loading.dismissDialog();
-
                     }
-                    image.setBackground(ob);
+                    shimmer.stopShimmer();
+                    shimmer.hideShimmer();
+                    shimmer.setVisibility(View.GONE);
+
+                    image.setVisibility(View.VISIBLE);
+                    name.setVisibility(View.VISIBLE);
+                    price.setVisibility(View.VISIBLE);
+
                 }
             });
         } catch (IOException e) {
@@ -248,9 +260,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ImageView colorCircle,productImage;
         TextView name,price;
         ProductListAdapter.OnProductListener onProductListener;
+        ShimmerFrameLayout shimmer;
 
         public ViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
             super(itemView);
+            shimmer = itemView.findViewById(R.id.shimmer_product);
+
             heart = itemView.findViewById(R.id.btn_itemProduct_heart);
             colorCircle = itemView.findViewById(R.id.imgv_itemProduct_circle);
             productImage = itemView.findViewById(R.id.imgv_productImg);
@@ -267,7 +282,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 String id = mProductList.get(position).getProduct_id();
                 onProductListener.onProductClick(position,v,id);
             }catch(Exception e){
-                Toast.makeText(context,"Product currently unavailable!, Please try close the app and open it again.",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Product currently unavailable!, Please try close the app and open it again.",Toast.LENGTH_SHORT).show();
             }
 
         }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,7 +53,9 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull BrandAdapter.ViewHolder holder, int position) {
         final Brand brand = mBrand.get(holder.getAdapterPosition());
         ImageView img = holder.img;
-        loadImage(img,brand.getImage());
+        img.setVisibility(View.INVISIBLE);
+
+        loadImage(img,brand.getImage(),holder.shimmer);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +69,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
 
 
 
-    private void loadImage(ImageView image, String imageName){
+    private void loadImage(ImageView image, String imageName, ShimmerFrameLayout shimmer){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
             File file = File.createTempFile("tmp",".jpg");
@@ -78,7 +81,11 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
 
                     Glide.with(context).load(bitmap).dontAnimate()
                             .into(image);
+                    shimmer.stopShimmer();
+                    shimmer.hideShimmer();
+                    shimmer.setVisibility(View.GONE);
 
+                    image.setVisibility(View.VISIBLE);
                 }
             });
         } catch (IOException e) {
@@ -93,10 +100,13 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        ShimmerFrameLayout shimmer;
 
         ImageView img;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            shimmer = itemView.findViewById(R.id.shimmer_brand);
+
             img = (ImageView) itemView.findViewById(R.id.home_ibtn);
 
         }

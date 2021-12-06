@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,7 +52,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     private Context context;
     private  List<Product> mWishlist;
-    private Spinner sizeSpinner;
     private List<HashMap<String,String>> wishlistOptions;
     private int totalCount = 0;
     private TextView totalProducts;
@@ -83,6 +83,14 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder holder, int position) {
 
         final Product product = mWishlist.get(holder.getAdapterPosition());
+
+        holder.image.setVisibility(View.INVISIBLE);
+        holder.name.setVisibility(View.INVISIBLE);
+        holder.price.setVisibility(View.INVISIBLE);
+        holder.brand.setVisibility(View.INVISIBLE);
+        holder.mCirclesRecyclerView.setVisibility(View.INVISIBLE);
+        holder.sizeSpinner.setVisibility(View.INVISIBLE);
+        holder.addCart.setVisibility(View.INVISIBLE);
         String opColor = "";
         if(wishlistOptions.get(holder.getAdapterPosition()).get("product_color") != null){
             opColor = Objects.requireNonNull(wishlistOptions.get(holder.getAdapterPosition()).get("product_color")).toLowerCase();
@@ -92,7 +100,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             String lower = temp.get("color").toLowerCase();
             if(lower.equals(opColor)){
                 String imageName = temp.get("image");
-                loadImage(holder.image,imageName);
+                loadImage(holder.image,imageName,holder);
             }
         }
         totalCount= wishlistOptions.size();
@@ -176,15 +184,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         ArrayAdapter<String> sizeAdapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_dropdown_item, product.getProduct_sizes());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sizeSpinner.setAdapter(sizeAdapter);
+        holder.sizeSpinner.setAdapter(sizeAdapter);
         product.getProduct_sizes().remove(0);
         for(int i = 0 ; i < product.getProduct_sizes().size(); i ++){
             String temp = wishlistOptions.get(holder.getAdapterPosition()).get("product_size");
             if(product.getProduct_sizes().get(i).equals(temp)){
-                sizeSpinner.setSelection(i);
+                holder.sizeSpinner.setSelection(i);
             }
         }
-        sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        holder.sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 saveEdit(product.getProduct_id() ,parent.getItemAtPosition(position).toString());
@@ -200,7 +208,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                sizeSpinner.performClick();
+                holder.sizeSpinner.performClick();
             }
         });
 
@@ -266,7 +274,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
 
 
-    private void loadImage(ImageView image, String imageName){
+    private void loadImage(ImageView image, String imageName,WishlistAdapter.ViewHolder holder){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
             File file = File.createTempFile("tmp",".png");
@@ -277,8 +285,22 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
 
                     image.setBackground(ob);
-                    loading.dismissDialog();
+                    if(loading != null){
+                        loading.dismissDialog();
+                    }
 
+                    holder.shimmer.stopShimmer();
+                    holder.shimmer.hideShimmer();
+                    holder.shimmer.setVisibility(View.GONE);
+
+                    image.setVisibility(View.VISIBLE);
+                    holder.name.setVisibility(View.VISIBLE);
+                    holder.price.setVisibility(View.VISIBLE);
+                    holder.sizeSpinner.setVisibility(View.VISIBLE);
+
+                    holder.brand.setVisibility(View.VISIBLE);
+                    holder.mCirclesRecyclerView.setVisibility(View.VISIBLE);
+                    holder.addCart.setVisibility(View.VISIBLE);
                 }
             });
         } catch (IOException e) {
@@ -297,8 +319,12 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         TextView name,price,brand;
         Button addCart;
         ImageButton remove,dropDown;
+        Spinner sizeSpinner;
+        ShimmerFrameLayout shimmer;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            shimmer = itemView.findViewById(R.id.shimmer_wishlist);
             image =(ImageView) itemView.findViewById(R.id.wishlist_iv_product_img);
             name = itemView.findViewById(R.id.wishlist_tv_productName);
             price = itemView.findViewById(R.id.wishlist_tv_productCost);

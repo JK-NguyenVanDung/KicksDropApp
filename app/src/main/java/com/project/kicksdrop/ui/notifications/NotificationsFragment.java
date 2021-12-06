@@ -32,6 +32,7 @@ import com.project.kicksdrop.model.Order;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 
 public class NotificationsFragment extends Fragment {
@@ -91,8 +92,10 @@ public class NotificationsFragment extends Fragment {
                     Order order = dtShot.getValue( Order.class );
                     assert order != null;
                     if (order.getNotification()){
-                        if (order.getOrder_details() != null) {
-                            mOrder.add( order );
+                        if(order.getStatus().toLowerCase().equals("shipping")){
+                            if (order.getOrder_details() != null) {
+                                mOrder.add( order );
+                            }
                         }
                     }
                 }
