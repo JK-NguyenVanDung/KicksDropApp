@@ -238,7 +238,6 @@
                                     android:textSize="20sp" />
 
 
-
                                 <com.borjabravo.simpleratingbar.SimpleRatingBar
                                     android:id="@+id/productDetail_ratingStar"
                                     style="?android:attr/ratingBarStyleSmall"
@@ -250,7 +249,7 @@
                                     android:layout_marginTop="0dp"
                                     android:layout_marginEnd="0dp"
                                     app:isIndicator="false"
-                                    app:rating="2.5"
+                                    app:rating="0"
                                     app:ratingCount="5"
                                     app:ratingMargin="1dp"
                                     app:ratingSize="20dp" />
@@ -292,24 +291,22 @@
                                     android:textSize="12sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_productInfo_reviews"
+                                    android:id="@+id/productInfo_tv_reviews"
 
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
 
                                     android:layout_alignParentEnd="true"
 
-                                    android:layout_marginStart="259dp"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginEnd="1dp"
-
+                                    android:layout_marginStart="261dp"
+                                    android:layout_marginEnd="0dp"
                                     android:layout_toEndOf="@+id/tv_productInfo_productTextSize"
 
 
                                     android:fontFamily="@font/work_sans"
 
                                     android:gravity="center_vertical|end"
-                                    android:text="150 reviews"
+                                    android:text="0 reviews"
                                     android:textColor="#757575"
                                     android:textSize="12sp"
                                     tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />

@@ -70,10 +70,11 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder>{
 
 
     private void loadImage(ImageView image, String imageName, ShimmerFrameLayout shimmer){
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference ref =  storageReference.child("brands/" + imageName);
         try {
             File file = File.createTempFile("tmp",".jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            ref.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());

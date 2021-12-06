@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -100,7 +102,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final Product product = mCartProduct.get(holder.getAdapterPosition());
-
+        holder.spinnerCont.setVisibility(View.INVISIBLE);
+        holder.productImage.setVisibility(View.INVISIBLE);
+        holder.productCartName.setVisibility(View.INVISIBLE);
+        holder.productCartPrice.setVisibility(View.INVISIBLE);
+        holder.productCartType.setVisibility(View.INVISIBLE);
+        holder.sizeSpinner.setVisibility(View.INVISIBLE);
+        holder.productCartAmount.setVisibility(View.INVISIBLE);
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
         getUserWishlist(fUser.getUid(), product, holder.heart);
@@ -125,7 +133,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
 
                 }else{
-                    holder.heart.setImageResource(R.drawable.ic_heart);
                     String idUser = fUser.getUid();
                     delProductWishlist(idUser,product.getProduct_id());
                     Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_LONG).show();
@@ -138,7 +145,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             String lower = temp.get("color").toLowerCase();
             if(lower.equals(opColor)){
                 String imageName = temp.get("image");
-                loadImage(holder.productImage,imageName);
+                loadImage(holder.productImage,imageName,holder);
             }
         }
         totalProducts= productOptions.size();
@@ -245,17 +252,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         calculateTotal(product.getProduct_price(), currentAmount[0]);
 
-//
-//        if (!coupon_id.equals("")){
-//            if(totalAmount != 0){
-//                getCoupon(coupon_id);
-//            }
-//
-//        }
-
 
     }
-    ArrayList<String> duplicateID = new ArrayList<String>();
 
     private void getUserWishlist(String user_id, Product product , ImageButton heart){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -307,21 +305,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         totalPayment.setText(sPrice);
         totalPaymentHead.setText(sPrice);
     }
-    private void calculateTotalCoupon(int percent, int maxprice){
-        double discount = (totalAmount * percent) / 100;
-        if(discount > maxprice){
-            totalAmount = totalAmount - (maxprice/5);
-        }else {
-            totalAmount = totalAmount - discount;
-        }
-        java.util.Currency usd = java.util.Currency.getInstance("USD");
-        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-        format.setCurrency(usd);
-        String sPrice =format.format(totalAmount);
-        totalPayment.setText(sPrice);
-    }
 
-    private void loadImage(ImageView image, String imageName){
+    private void loadImage(ImageView image, String imageName,CartAdapter.ViewHolder holder){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
             File file = File.createTempFile("tmp",".jpg");
@@ -330,9 +315,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     BitmapDrawable ob = new BitmapDrawable(bitmap);
-                    loading.dismissDialog();
-
                     image.setBackground(ob);
+
+                    if(loading != null){
+                        loading.dismissDialog();
+                    }
+
+                    holder.shimmer.stopShimmer();
+                    holder.shimmer.hideShimmer();
+                    holder.shimmer.setVisibility(View.GONE);
+
+                    image.setVisibility(View.VISIBLE);
+                    holder.productCartName.setVisibility(View.VISIBLE);
+                    holder.productCartPrice.setVisibility(View.VISIBLE);
+                    holder.productCartType.setVisibility(View.VISIBLE);
+                    holder.sizeSpinner.setVisibility(View.VISIBLE);
+                    holder.productCartAmount.setVisibility(View.VISIBLE);
+
                 }
             });
         } catch (IOException e) {
@@ -376,8 +375,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         ImageButton heart;
         Spinner sizeSpinner;
         ImageView productImage, colorCircle;
+        ShimmerFrameLayout shimmer;
+        RelativeLayout spinnerCont;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            spinnerCont = itemView.findViewById(R.id.cart_spinner_cont);
+            shimmer = itemView.findViewById(R.id.shimmer_cart);
             productCartName = (TextView) itemView.findViewById(R.id.ProductCart_tv_name);
             productCartType = (TextView) itemView.findViewById(R.id.ProductCart_tv_category);
             productCartPrice = itemView.findViewById(R.id.ProductCart_tv_price);

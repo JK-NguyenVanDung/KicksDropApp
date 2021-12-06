@@ -128,9 +128,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
         }
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-//        loading = new LoadingScreen(HomeFragment.this);
-//
-//        loading.startLoadingScreenFragment();
+        loading = new LoadingScreen(HomeFragment.this);
+
+        loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;
@@ -161,10 +161,11 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
 
         BannerRecyclerView.setLayoutManager(horizontalLayoutManager);
 
-        getBrand();
+
         getBanner();
-        getProduct();
+        getBrand();
         getCoupon();
+        getProduct();
 
 //        final ImageButton slide = binding.homeIbtnProductContent;
 //        slide.setOnClickListener(new View.OnClickListener() {

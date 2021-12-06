@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -103,14 +104,18 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     public void onBindViewHolder(@NonNull OrderProductAdapter.ViewHolder holder, int position) {
         final Product product = mCartProduct.get(holder.getAdapterPosition());
 
-
+        holder.productImage.setVisibility(View.INVISIBLE);
+        holder.productCartName.setVisibility(View.INVISIBLE);
+        holder.productCartPrice.setVisibility(View.INVISIBLE);
+        holder.getProductCartSize.setVisibility(View.INVISIBLE);
+        holder.productCartAmount.setVisibility(View.INVISIBLE);
 
             String opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
             for(HashMap<String,String> temp: product.getProduct_images()){
                 String lower = temp.get("color").toLowerCase();
                 if(lower.equals(opColor)){
                     String imageName = temp.get("image");
-                    loadImage(holder.productImage,imageName);
+                    loadImage(holder.productImage,imageName,holder);
                 }
             }
             GradientDrawable backgroundGradient = (GradientDrawable)holder.colorCircle.getBackground();
@@ -134,11 +139,12 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView productCartName,  productCartPrice, productCartAmount, getProductCartSize;
 
-        ImageButton makeOrder, decrease, delete;
+        ShimmerFrameLayout shimmer;
         //Spinner productCartDropDownSize;
         ImageView productImage, colorCircle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            shimmer= itemView.findViewById(R.id.shimmer_product_order);
             getProductCartSize = itemView.findViewById(R.id.order_tv_size);
             productImage = itemView.findViewById(R.id.order_tv_image);
             productCartName = itemView.findViewById(R.id.order_tv_name);
@@ -148,7 +154,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         }
 
     }
-    private void loadImage(ImageView image, String imageName){
+    private void loadImage(ImageView image, String imageName,OrderProductAdapter.ViewHolder holder){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
             File file = File.createTempFile("tmp",".jpg");
@@ -161,8 +167,15 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
                     image.setBackground(ob);
                     if(loading != null){
                         loading.dismissDialog();
-
                     }
+                    holder.shimmer.stopShimmer();
+                    holder.shimmer.hideShimmer();
+                    holder.shimmer.setVisibility(View.GONE);
+                    image.setVisibility(View.VISIBLE);
+                    holder.productCartName.setVisibility(View.VISIBLE);
+                    holder.productCartPrice.setVisibility(View.VISIBLE);
+                    holder.getProductCartSize.setVisibility(View.VISIBLE);
+                    holder.productCartAmount.setVisibility(View.VISIBLE);
                 }
             });
         } catch (IOException e) {

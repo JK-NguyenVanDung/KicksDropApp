@@ -52,6 +52,23 @@ public class Product {
 
     private double discount_price;
     private long rating_amount;
+
+    public long getRating_amount() {
+        return rating_amount;
+    }
+
+    public void setRating_amount(long rating_amount) {
+        this.rating_amount = rating_amount;
+    }
+
+    public double getProduct_rating() {
+        return product_rating;
+    }
+
+    public void setProduct_rating(double product_rating) {
+        this.product_rating = product_rating;
+    }
+
     private double product_rating;
 
     public Product(String product_id, String product_brand, ArrayList<String> product_colors, String product_name, double product_price, int product_quantity, ArrayList<String>  product_sizes,ArrayList<HashMap<String,String>> product_images) { //
