@@ -201,6 +201,24 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
             }
         });
 
+        // Khong Duoc Xoa
+        final Button btn = binding.btnHomeContinue;
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                countProduct+=6;
+                getProduct();
+                if (countProduct+1>=max ){
+
+                    btnContinue.setVisibility(View.GONE);
+
+                }
+
+
+            }
+        });
+
         final AutoCompleteTextView search = binding.homeEtSearch;
         ArrayAdapter adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1);
 
