@@ -67,4 +67,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    implementation "com.borjabravo:simpleratingbar:1.0.0"
 }
