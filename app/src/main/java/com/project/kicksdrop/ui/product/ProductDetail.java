@@ -62,6 +62,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     Context context;
     SimpleRatingBar pointStar;
     TextView numReviewer;
+    TextView discountPrice;
     private TextView tvNumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductDetail.this);
     int currentAmount = 1;
@@ -411,6 +412,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         share= findViewById(R.id.product_btn_share);
         pointStar = findViewById(R.id.productDetail_ratingStar);
         numReviewer = findViewById(R.id.tv_productInfo_reviews);
+        discountPrice = findViewById(R.id.tv_product_DiscountPrice);
     }
 
 }
