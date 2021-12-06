@@ -174,6 +174,13 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        getAllProduct();
+        finish();
+    }
+
     private void getAllProduct() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");

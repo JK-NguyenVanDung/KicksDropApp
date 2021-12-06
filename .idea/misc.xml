@@ -19,6 +19,7 @@
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_add.xml" value="0.264" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_cart_product_list_view.xml" value="0.16" />
         <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_product.xml" value="0.2" />
+        <entry key="..\:/Android/KicksDropApp/app/src/main/res/layout/item_rating_product.xml" value="0.1" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.3828125" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.3828125" />
         <entry key="..\:/KicksDrop/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3828125" />
@@ -250,43 +251,27 @@
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/black_button_radius.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/blue_button_radius.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/border.xml" value="0.3880208333333333" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/border_radius_circle.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/border_radius_transparent.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/border_transparent_no_solid.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/custom_ratingbar.xml" value="0.22135416666666666" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/edittext.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/half_star.xml" value="0.22135416666666666" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/shimmer_button.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/star_emty.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/drawable/star_full.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_cart_list_view.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_coupon.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_edit_profile_user.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_login.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_product_brands.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_product_detail.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_product_info.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/activity_search_view_product.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/custom_ratingbar.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/fragment_home.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/fragment_notifications.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/fragment_profile.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/fragment_wishlist.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_cart.xml" value="0.5" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_coupon.xml" value="0.24615384615384617" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_notification.xml" value="0.7045813586097947" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_order_list.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_product_order.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_rating_product.xml" value="0.2814814814814815" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_rating_product_container.xml" value="0.5" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/item_wishlist.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/rating_bar.xml" value="0.32760416666666664" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/rating_start.xml" value="0.32760416666666664" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/shimmer_edit_profile.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/shimmer_item_cart.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/shimmer_item_product_order.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/shimmer_item_wishlist.xml" value="0.371875" />
-        <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/KicksDropAppmoinhat/app/src/main/res/layout/shimmer_profile.xml" value="0.371875" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/drawable-v24/blue_radius_corner.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/drawable-v24/border_coner_linear_layout.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/drawable-v24/border_radius_corner.xml" value="0.3880208333333333" />
@@ -322,8 +307,6 @@
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/layout/main_fragment.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/Nguyen_user/AndroidStudioProjects/MainKickApp/app/src/main/res/layout/pop_up_chat.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/PC/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1816123188405797" />
-        <entry key="..\:/Users/Win10/StudioProjects/KicksDropApp/app/src/main/res/drawable-v24/border_corner_linear_layout.xml" value="0.2866666666666667" />
-        <entry key="..\:/Users/Win10/StudioProjects/KicksDropApp/app/src/main/res/layout/activity_product_detail.xml" value="0.2564814814814815" />
       </map>
     </option>
   </component>
