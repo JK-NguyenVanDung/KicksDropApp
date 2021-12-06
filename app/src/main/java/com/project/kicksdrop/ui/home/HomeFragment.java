@@ -53,7 +53,7 @@ import com.project.kicksdrop.ui.searchView.SearchViewProduct;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class    HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
+public class  HomeFragment extends Fragment implements ProductListAdapter.OnProductListener,HomeCouponAdapter.OnCouponListener {
 
     BrandAdapter brandAdapter;
     BannerAdapter bannerAdapter;
