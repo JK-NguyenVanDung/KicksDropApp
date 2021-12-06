@@ -265,11 +265,9 @@ public class    HomeFragment extends Fragment implements ProductListAdapter.OnPr
     }
 
     private void getBanner(){
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("banner");
         mBanner = new ArrayList<Banner>();
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

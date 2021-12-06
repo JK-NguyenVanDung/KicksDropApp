@@ -217,7 +217,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private void loadImage(ImageView image, String imageName){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
-            File file = File.createTempFile("tmp",".png");
+            File file = File.createTempFile("tmp",".jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {

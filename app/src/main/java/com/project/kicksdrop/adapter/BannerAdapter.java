@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +56,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Banner banner = mBanner.get(holder.getAdapterPosition());
         ImageView image = holder.ImagesBanner;
-        Button Text = holder.TextBanner;
+        TextView Text = holder.TextBanner;
         Text.setText(banner.getTitle());
         loadImage(image,banner.getImage());
 
@@ -107,13 +108,13 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layoutBanner;
         ImageView ImagesBanner;
-        Button TextBanner;
+        TextView TextBanner;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             layoutBanner = (LinearLayout) itemView.findViewById(R.id.lLayoutBanner);
             ImagesBanner = (ImageView) itemView.findViewById(R.id.IButton_Banner);
-            TextBanner = (Button) itemView.findViewById(R.id.btnTextBanner);
+            TextBanner = (TextView) itemView.findViewById(R.id.btnTextBanner);
         }
     }
 }
