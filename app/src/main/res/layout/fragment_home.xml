@@ -122,7 +122,8 @@
                 android:id="@+id/home_rv_banner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="10dp">
 
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -237,47 +238,45 @@
 
             <!--                </LinearLayout>-->
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:orientation="vertical"-->
-<!--                                android:gravity="center_horizontal|center_vertical"-->
-<!--                                >-->
+            <!--                            <LinearLayout-->
+            <!--                                android:layout_weight="1"-->
+            <!--                                android:layout_width="wrap_content"-->
+            <!--                                android:layout_height="wrap_content"-->
+            <!--                                android:orientation="vertical"-->
+            <!--                                android:gravity="center_horizontal|center_vertical"-->
+            <!--                                >-->
 
-<!--                                <ImageButton-->
-<!--                                    android:id="@+id/home_ibtn_specialCombo"-->
-<!--                                    android:layout_width="67dp"-->
-<!--                                    android:layout_height="65dp"-->
-<!--                                    android:background="@drawable/border_radius_corner"-->
-<!--                                    android:src="@drawable/ic_ticket_star"-->
-<!--                                    tools:ignore="SpeakableTextPresentCheck" />-->
+            <!--                                <ImageButton-->
+            <!--                                    android:id="@+id/home_ibtn_specialCombo"-->
+            <!--                                    android:layout_width="67dp"-->
+            <!--                                    android:layout_height="65dp"-->
+            <!--                                    android:background="@drawable/border_radius_corner"-->
+            <!--                                    android:src="@drawable/ic_ticket_star"-->
+            <!--                                    tools:ignore="SpeakableTextPresentCheck" />-->
 
-<!--                                <Button-->
-<!--                                    android:id="@+id/home_btn_specialCombo"-->
-<!--                                    android:layout_width="67dp"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:background="@android:color/transparent"-->
-<!--                                    android:padding="0dp"-->
-<!--                                    android:text="Special Combo Offer"-->
-<!--                                    android:textAllCaps="false"-->
-<!--                                    android:textColor="#303030"-->
-<!--                                    android:textSize="12sp"-->
-<!--                                    android:fontFamily="@font/work_sans"-->
-<!--                                    app:iconPadding="0dp" />-->
+            <!--                                <Button-->
+            <!--                                    android:id="@+id/home_btn_specialCombo"-->
+            <!--                                    android:layout_width="67dp"-->
+            <!--                                    android:layout_height="wrap_content"-->
+            <!--                                    android:background="@android:color/transparent"-->
+            <!--                                    android:padding="0dp"-->
+            <!--                                    android:text="Special Combo Offer"-->
+            <!--                                    android:textAllCaps="false"-->
+            <!--                                    android:textColor="#303030"-->
+            <!--                                    android:textSize="12sp"-->
+            <!--                                    android:fontFamily="@font/work_sans"-->
+            <!--                                    app:iconPadding="0dp" />-->
 
-<!--                            </LinearLayout>-->
+            <!--                            </LinearLayout>-->
 
             <!--            </LinearLayout>-->
-
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_rv_coupon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_gravity="center_horizontal"></androidx.recyclerview.widget.RecyclerView>
 
 
             <TextView
@@ -295,21 +294,20 @@
                 android:id="@+id/home_rv_brand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                >
+                android:layout_gravity="center_vertical">
 
 
             </androidx.recyclerview.widget.RecyclerView>
 
-<!--                        <ImageButton-->
-<!--                            android:id="@+id/home_ibtn_nikes"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginBottom="4dp"-->
-<!--                            android:background="?android:selectableItemBackground"-->
-<!--                            android:src="@drawable/nike"-->
-<!--                            android:scaleType="centerCrop"-->
-<!--                            tools:ignore="SpeakableTextPresentCheck" />-->
+            <!--                        <ImageButton-->
+            <!--                            android:id="@+id/home_ibtn_nikes"-->
+            <!--                            android:layout_width="match_parent"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_marginBottom="4dp"-->
+            <!--                            android:background="?android:selectableItemBackground"-->
+            <!--                            android:src="@drawable/nike"-->
+            <!--                            android:scaleType="centerCrop"-->
+            <!--                            tools:ignore="SpeakableTextPresentCheck" />-->
 
             <!--            <ImageButton-->
             <!--                android:id="@+id/home_ibtn_adidas"-->
@@ -351,13 +349,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="10dp"
-                android:paddingBottom="70dp" />
+                android:layout_marginEnd="10dp" />
 
             <Button
                 android:id="@+id/btn_home_continue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
                 android:text="See More" />
 
