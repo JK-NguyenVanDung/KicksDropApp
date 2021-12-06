@@ -41,6 +41,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginBottom="0dp"
+                android:background="#e7e7e7"
                 android:contentDescription="@string/todo" />
             <ImageButton
                 android:id="@+id/productCart_btn_heart"
@@ -49,9 +50,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="145dp"
+                android:src="@drawable/ic_heart"
+                android:backgroundTint="#e7e7e7"
                 android:layout_marginTop="5dp"
                 android:background="?android:selectableItemBackground"
-                android:src="@drawable/ic_heart"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <!--icon circle-->
@@ -60,8 +62,10 @@
                 android:id="@+id/productCart_iv_color_circle"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                android:backgroundTint="#e7e7e7"
                 tools:ignore="ImageContrastCheck"
                 android:layout_alignParentStart="true"
+                android:background="@drawable/color_circle"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
@@ -69,7 +73,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="147dp"
                 android:layout_marginBottom="158dp"
-                android:background="@drawable/color_circle" />
+                 />
         </androidx.cardview.widget.CardView>
 
 
@@ -86,6 +90,7 @@
 
             <TextView
                 android:id="@+id/ProductCart_tv_name"
+                android:background="#e7e7e7"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="35dp"
@@ -93,7 +98,6 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:text='Nike Air Force 1 "07'
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -113,16 +117,15 @@
 
         <TextView
             android:id="@+id/ProductCart_tv_price"
-
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
+            android:background="#e7e7e7"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
-            android:text="99"
             android:textColor="#444444"
             android:textSize="16sp" />
 
@@ -145,16 +148,15 @@
         <TextView
             android:id="@+id/ProductCart_tv_category"
 
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="60dp"
-
+            android:background="#e7e7e7"
             android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
-            android:text="Nike"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -189,6 +191,7 @@
                     android:id="@+id/itemProductCart_sp_listViewDropDownSize"
                     android:layout_width="100dp"
                     android:layout_height="25dp"
+                    android:backgroundTint="#e7e7e7"
 
                     android:layout_alignParentStart="true"
 
@@ -241,8 +244,7 @@
             <LinearLayout
                 android:layout_width="126dp"
                 android:layout_height="30dp"
-
-
+                android:backgroundTint="#e7e7e7"
                 android:background="@drawable/border_radius_gray_light"
                 android:gravity="center_vertical">
 
@@ -262,11 +264,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#F4F4F4"
+
                     android:fontFamily="@font/work_sans_semibold"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="1"
                     android:textColor="@color/black"
+
                     android:textSize="14sp" />
 
                 <ImageButton
@@ -282,14 +284,5 @@
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_cart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <include layout="@layout/shimmer_item_cart"/>
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

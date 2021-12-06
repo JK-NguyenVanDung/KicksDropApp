@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="15dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -28,6 +27,7 @@
                 <ImageView
                     android:id="@+id/order_tv_image"
                     android:layout_width="125dp"
+                    android:background="#e7e7e7"
                     android:layout_height="100dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -42,6 +42,8 @@
                     android:layout_width="13dp"
                     android:layout_height="13dp"
                     android:layout_marginStart="3dp"
+                    android:textColor="#e7e7e7"
+                    android:backgroundTint="#e7e7e7"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/color_circle" />
 
@@ -56,22 +58,21 @@
 
             <TextView
                 android:id="@+id/order_tv_name"
-                android:layout_width="wrap_content"
+                android:textColor="#e7e7e7"
+                android:background="#e7e7e7"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Nike Air Force 1 ‘07"
-                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/order_tv_price"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="$90.00"
-                android:textColor="#444444"
+                android:background="#e7e7e7"
                 android:textSize="16sp" />
 
 
@@ -91,11 +92,10 @@
 
                 <TextView
                     android:id="@+id/order_tv_size"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="39"
-                    android:textColor="#444444"
+                    android:background="#e7e7e7"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -113,11 +113,11 @@
 
                 <TextView
                     android:id="@+id/order_tv_amount"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="2"
-                    android:textColor="#444444"
+                    android:textColor="#e7e7e7"
+                    android:background="#e7e7e7"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -125,14 +125,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_product_order"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <include layout="@layout/shimmer_item_product_order"/>
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
