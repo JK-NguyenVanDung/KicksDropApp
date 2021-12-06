@@ -49,7 +49,7 @@ public class SearchViewProduct extends AppCompatActivity implements ProductListA
 
         matching();
         recyclerView.setHasFixedSize(true);
-        loading.startLoadingScreen();
+        //loading.startLoadingScreen();
         keySearch = getIntent().getStringExtra("keySearch");
 
         if (keySearch.equals("")){

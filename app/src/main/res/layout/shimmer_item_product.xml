@@ -4,7 +4,6 @@
     android:layout_width="170dp"
     android:layout_height="180dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="10dp"
     android:layout_weight="1"
     app:cardElevation="0dp"
     android:background="?android:selectableItemBackground"
@@ -31,6 +30,7 @@
                 android:layout_height="160dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="2dp"
+                android:background="#e7e7e7"
                  />
             <ImageButton
                 android:id="@+id/btn_itemProduct_heart"
@@ -40,7 +40,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="145dp"
                 android:layout_marginTop="5dp"
-                android:background="?android:selectableItemBackground"
+                android:background="#e7e7e7"
                 android:src="@drawable/ic_heart"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -59,7 +59,8 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="147dp"
                 android:layout_marginBottom="158dp"
-                android:background="@drawable/color_circle" />
+                android:background="#e7e7e7"
+             />
         </androidx.cardview.widget.CardView>
 
         <!--icon heart-->
@@ -75,9 +76,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="0dp"
-            android:gravity="center_horizontal"
-            android:text="Nike Jogger 3"
-            android:textColor="@android:color/black"
+            android:background="#e7e7e7"
+
             android:textSize="16sp">
 
         </TextView>
@@ -90,20 +90,13 @@
             android:layout_marginTop="1dp"
             android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:text="99.00$"
-            android:textColor="#262626"
+            android:background="#e7e7e7"
+
             android:textSize="14sp">
 
         </TextView>
 
 
     </RelativeLayout>
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_product"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <include layout="@layout/shimmer_item_product"/>
-    </com.facebook.shimmer.ShimmerFrameLayout>
+
 </androidx.cardview.widget.CardView>
