@@ -514,6 +514,7 @@
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center_vertical"
+                                android:layout_marginStart="5dp"
                                 >
 
                                 <TextView
