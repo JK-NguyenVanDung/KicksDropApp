@@ -34,8 +34,14 @@
             android:background="@drawable/border_top_line_light"
             android:padding="10dp"
             android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="10dp">
+            </androidx.recyclerview.widget.RecyclerView>
 
-            <include layout="@layout/item_rating_product" />
 
 
         </LinearLayout>

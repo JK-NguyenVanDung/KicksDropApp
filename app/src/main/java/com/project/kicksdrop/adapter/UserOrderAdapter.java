@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -161,14 +162,19 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final View ratingPopupView = inflater.inflate(R.layout.item_rating_product_container,null);
-
-        Button cancel = ratingPopupView.findViewById(R.id.rating_btn_cancel);
-        Button rate = ratingPopupView.findViewById(R.id.rating_btn_shareRating);
-
-
         builder.setView(ratingPopupView);
         AlertDialog dialog = builder.create();
         dialog.show();
+        Button cancel = ratingPopupView.findViewById(R.id.rating_btn_cancel);
+        Button rate = ratingPopupView.findViewById(R.id.rating_btn_shareRating);
+        RecyclerView recyclerView = ratingPopupView.findViewById(R.id.rv_rating);
+        recyclerView.setHasFixedSize(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(context,1);
+        recyclerView.setLayoutManager(layoutManager);
+
+        saveRating(orderDetails, rate, recyclerView, dialog);
+
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -185,7 +191,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 //        });
 
     }
-    public void saveRating(List<HashMap<String,String>> orderDetails){
+    public void saveRating(List<HashMap<String,String>> orderDetails, Button rate, RecyclerView recyclerView, AlertDialog dialog){
         ArrayList<Product> products = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
@@ -209,6 +215,8 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                         }
                     }
                 }
+                RatingAdapter adapter = new RatingAdapter(context,orderDetails,rate,products,dialog);
+                recyclerView.setAdapter(adapter);
 
             }
             @Override

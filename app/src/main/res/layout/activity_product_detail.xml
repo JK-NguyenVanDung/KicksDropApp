@@ -248,6 +248,9 @@
                                     android:layout_marginStart="63dp"
                                     android:layout_marginTop="0dp"
                                     android:layout_marginEnd="0dp"
+                                    android:clickable="false"
+
+                                    android:longClickable="false"
                                     app:isIndicator="false"
                                     app:rating="0"
                                     app:ratingCount="5"
