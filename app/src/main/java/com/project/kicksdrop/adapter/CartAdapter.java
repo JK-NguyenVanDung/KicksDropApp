@@ -341,6 +341,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     holder.productCartPrice.setVisibility(View.VISIBLE);
                     holder.productCartType.setVisibility(View.VISIBLE);
                     holder.sizeSpinner.setVisibility(View.VISIBLE);
+                    holder.spinnerCont.setVisibility(View.VISIBLE);
+
                     holder.productCartAmount.setVisibility(View.VISIBLE);
 
                 }

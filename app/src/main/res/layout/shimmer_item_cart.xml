@@ -90,11 +90,11 @@
 
             <TextView
                 android:id="@+id/ProductCart_tv_name"
-                android:background="#e7e7e7"
-                android:layout_width="wrap_content"
+                android:layout_width="155dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="35dp"
                 android:layout_weight="1"
+                android:background="#e7e7e7"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center_vertical"
                 android:singleLine="true"
@@ -151,7 +151,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
-            android:layout_marginStart="89dp"
+            android:layout_marginStart="63dp"
             android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
             android:background="#e7e7e7"
