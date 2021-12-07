@@ -88,8 +88,6 @@ public class CartOrder extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //
-
                 if(!et_address.getText().toString().equals(" ") && !et_address.getText().toString().equals("") ){
                     createOrder();
                     Intent intent1 = new Intent(getApplicationContext(), OrderCompleted.class);
@@ -112,9 +110,10 @@ public class CartOrder extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
+        getCart(fUser.getUid());
+
         if (!coupon_id.equals("")){
             getCoupon(coupon_id);
-        getCart(fUser.getUid());
 
         //
 
@@ -196,11 +195,14 @@ public class CartOrder extends AppCompatActivity {
                         for(String color: product.getProduct_colors()){
                             String cartProductId = dtShot.getKey() + color.substring(1);
                             if(cartProductId.equals(item.get("cartProductID"))){
+
                                 product.setProduct_id(dtShot.getKey());
                                 product.getProduct_images().remove(0);
                                 product.setProduct_color(item.get("color"));
                                 product.setProduct_size(item.get("size"));
                                 product.setAmount(String.valueOf(item.get("amount")));
+
+
                                 mProducts.add(product);
                                 HashMap<String,Object> hashMap = (HashMap<String, Object>) dtShot.getValue();
 
@@ -214,6 +216,7 @@ public class CartOrder extends AppCompatActivity {
                                     } catch (Exception e){
 
                                     }
+                                    total= Math.ceil(total * 100) / 100;
                                     tv_totalPrice.setText("$"+total.toString());
                                     java.util.Currency usd = java.util.Currency.getInstance("USD");
                                     java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
@@ -337,7 +340,7 @@ public class CartOrder extends AppCompatActivity {
             myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(2));
 
         }
-        myRef.child("order_price").setValue(tv_totalPayment.getText().toString().trim().substring(1));
+        myRef.child("order_price").setValue(tv_totalPrice.getText().toString().trim().substring(1));
         myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
         myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
         myRef.child("status").setValue("Ordered");
@@ -391,17 +394,38 @@ public class CartOrder extends AppCompatActivity {
 
                     }
                 }
+                DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
+                for(int i = 0; i < cartProducts.size(); i ++){
+                    if(mProducts.get(i).getProduct_id().equals(cartProducts.get(i).get("productId"))) {
+                        double price = 0.0 ;
+                        if(mProducts.get(i).getDiscount_price() == 0){
+                            price = mProducts.get(i).getProduct_price();
 
+                        }else{
+                            price = mProducts.get(i).getDiscount_price();
+                        }
+                        cartProducts.get(i).put("amount",String.valueOf(cartProducts.get(i).get("amount")));
+                        cartProducts.get(i).put("productId",String.valueOf(cartProducts.get(i).get("productId")));
+                        cartProducts.get(i).put("productPrice",String.valueOf(price));
+                        //updateProduct(String.valueOf(item.get("productId"));
+
+                    }
+
+
+                }
+                myRef.child("order_details").setValue(cartProducts);
                 if(isDeleting){
                     for(int i = 0; i < mProducts.size(); i ++){
                         if(mProducts.get(i).getProduct_id().equals(cartProducts.get(i).get("productId"))){
-                            int quantity = mProducts.get(i).getProduct_quantity()-Integer.parseInt(Objects.requireNonNull(cartProducts.get(i).get("amount")));
+                            int amount = Integer.parseInt(Objects.requireNonNull(String.valueOf(cartProducts.get(i).get("amount"))));
+                            int quantity = mProducts.get(i).getProduct_quantity()-amount;
                             DatabaseReference ref = database.getReference("product/" + mProducts.get(i).getProduct_id());
                             ref.child("product_quantity").setValue(quantity);
                         }
                     }
                     isDeleting = false;
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -431,18 +455,9 @@ public class CartOrder extends AppCompatActivity {
                             item.put("cartProductID", key);
                             productsInCart.add(item);
                         }
-                        //String coupon = hashMap.get("coupon_id").toString();
-                        //Cart cart = new Cart(user_Id,,productsInCart);
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
                         deleteQuantity(productsInCart);
-                        for (HashMap<String,String> item: productsInCart){
 
-                            item.put("amount",String.valueOf(item.get("amount")));
-                            item.put("productId",String.valueOf(item.get("productId")));
-                            //updateProduct(String.valueOf(item.get("productId"));
-                        }
-                        myRef.child("order_details").setValue(productsInCart);
+
                         cartDeleted=false;
                     }
                 }

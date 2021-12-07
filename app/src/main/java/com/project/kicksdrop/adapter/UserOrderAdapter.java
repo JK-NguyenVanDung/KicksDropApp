@@ -35,6 +35,7 @@ import com.project.kicksdrop.ui.productBrands.ProductBrands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.ViewHolder> {
 
@@ -72,20 +73,17 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                             Double.parseDouble(order.getOrder_discount()) +
                             Double.parseDouble(order.getShipping_price()));
             holder.tv_discount.setText("-$" +order.getOrder_discount());
+            holder.tv_totalPayment.setText("$" +totalPayment);
 
         }else{
-            assert order.getOrder_price() != null;
-            totalPayment= String.valueOf(
-                    Double.parseDouble(order.getOrder_price()) +
-                            Double.parseDouble(order.getShipping_price()));
             holder.tv_discount.setText("$0.00");
-
         }
+
         holder.tv_address.setText(order.getAddress());
         holder.tv_total.setText("$" +order.getOrder_price());
         holder.tv_shipPrice.setText("$" +order.getShipping_price());
 
-        holder.tv_totalPayment.setText("$" +totalPayment);
+
         holder.tv_Status.setText(order.getStatus());
         if(order.getOrder_id() != null) {
             holder.tv_orderId.setText(order.getOrder_id().substring(9));
@@ -95,7 +93,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" product)");
         }
         else {
-            holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" products)");
+            holder.tv_orderProduct.setText(" ("+order.getQuantity_product()+" products)");
         }
         holder.tv_timeOrder.setText(order.getOrder_create_date());
         //
@@ -129,10 +127,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             holder.deleteBtn.setVisibility(View.GONE);
             holder.receivedBtn.setVisibility(View.GONE);
             holder.rateBtn.setVisibility(View.GONE);
-
-
         }
-
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
@@ -185,12 +180,13 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                 createRatingDialog(order.getOrder_details(), order.getOrder_id());
 
             }
-        });        getProduct(order,holder.recyclerView, holder.getAdapterPosition());
+        });
+
+        getProduct(order,holder.recyclerView, holder.getAdapterPosition());
 
 
     }
     public void createRatingDialog(List<HashMap<String,String>> orderDetails, String orderId){
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final View ratingPopupView = inflater.inflate(R.layout.item_rating_product_container,null);
         builder.setView(ratingPopupView);
@@ -204,8 +200,6 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         recyclerView.setLayoutManager(layoutManager);
 
         saveRating(orderDetails, rate, recyclerView, dialog,orderId);
-
-
         cancel.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -236,6 +230,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                         assert product != null;
                         product.getProduct_colors().remove(0);
                         String productId = dtShot.getKey();
+                        assert productId != null;
                         if(productId.equals(item.get("productId"))){
                             product.setProduct_id(dtShot.getKey());
                             product.getProduct_images().remove(0);
