@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="imgv_itemProduct_circle" type="id" />
+    <item name="product_iv_circleColor" type="id" />
     <item name="home_rv_coupon" type="id" />
+    <item name="FL_layoutDiscount" type="id" />
 </resources>

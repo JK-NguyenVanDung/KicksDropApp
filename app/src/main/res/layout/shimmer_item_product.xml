@@ -25,7 +25,7 @@
 
 
             <ImageView
-                android:id="@+id/imgv_productImg"
+                android:id="@+id/product_iv_product"
                 android:layout_width="170dp"
                 android:layout_height="160dp"
                 android:layout_alignParentTop="true"
@@ -33,7 +33,7 @@
                 android:background="#e7e7e7"
                  />
             <ImageButton
-                android:id="@+id/btn_itemProduct_heart"
+                android:id="@+id/product_btn_heart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -47,7 +47,7 @@
             <!--icon circle-->
 
             <ImageView
-                android:id="@+id/imgv_itemProduct_circle"
+                android:id="@+id/product_iv_circleColor"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 tools:ignore="ImageContrastCheck"
@@ -69,7 +69,7 @@
 
         <!--product cost-->
         <TextView
-            android:id="@+id/tv_itemProduct_name"
+            android:id="@+id/product_tv_name"
             android:layout_width="match_parent"
             android:layout_height="21dp"
             android:layout_below="@+id/img_cardView"
@@ -83,7 +83,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/tv_itemProduct_cost"
+            android:id="@+id/product_tv_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
