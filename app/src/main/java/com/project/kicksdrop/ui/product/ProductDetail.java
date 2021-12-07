@@ -1,10 +1,8 @@
 package com.project.kicksdrop.ui.product;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDeepLinkBuilder;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -12,10 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +35,6 @@ import com.project.kicksdrop.adapter.ColorCircleAdapter;
 import com.project.kicksdrop.adapter.ImageAdapter;
 import com.project.kicksdrop.model.Image;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.model.ProductsInCart;
 import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.cart.CartListView;
 
@@ -51,7 +44,7 @@ import java.util.List;
 
 
 public class ProductDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    TextView name,currentSize,price,amount,currentSizeSelector;
+    TextView name,currentSize,price,amount,ratingCount;
     ImageButton increaseAmount,decreaseAmount,goBack,share;
     Button addToCart;
     Spinner sizeSpinner;
@@ -64,6 +57,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     FirebaseUser fUser;
     ImageButton cart;
     Context context;
+    com.borjabravo.simpleratingbar.SimpleRatingBar ratingStar;
     private TextView tvNumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductDetail.this);
     int currentAmount = 1;
@@ -204,8 +198,6 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 product = snapshot.getValue(Product.class);
                 assert product != null;
                 product.setProduct_id(snapshot.getKey());
-                //Log.d("yeah",product.getProduct_sizes().toString());
-
                 if (product.getProduct_quantity()<=0){
                     currentAmount = 0;
                     addToCart.setText("Out of stock");
@@ -214,6 +206,9 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                     decreaseAmount.setEnabled(false);
 
                 }
+                ratingCount.setText(product.getRating_amount()+" reviews");
+                ratingStar.setRating((float) product.getProduct_rating());
+                ratingStar.setEnabled(false);
                 String value = product.getProduct_sizes().get(1);
                 name.setText(product.getProduct_name());
                 currentSize.setText(value);
@@ -317,15 +312,12 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
                    value = value.substring(8).split(",")[0];
 
-
                    HashMap<String, String> map = new HashMap<>();
                    map.put(key,value);
 
                    productInCart.add(map);
 
                }
-
-
 
             }
 
@@ -375,6 +367,8 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void matching(){
+        ratingCount = findViewById(R.id.productInfo_tv_reviews);
+        ratingStar = findViewById(R.id.productDetail_ratingStar);
         name = findViewById(R.id.tv_productInfo_productName);
         currentSize = findViewById(R.id.tv_productInfo_productSize);
         //currentSizeSelector = findViewById(R.id.productInfo_tv_selector_Size);

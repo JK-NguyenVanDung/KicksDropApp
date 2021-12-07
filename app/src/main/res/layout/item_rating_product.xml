@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal">
-
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,20 @@
         android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        android:paddingHorizontal="5dp"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="20dp"
+
+        android:background="@drawable/border_bottom_line">
 
 
         <TextView
@@ -27,8 +40,8 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <com.borjabravo.simpleratingbar.SimpleRatingBar
             android:id="@+id/rating_ratingStar"
@@ -36,11 +49,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:isIndicator="false"
-            app:rating="5"
+            app:rating="0"
             app:ratingCount="5"
             app:ratingMargin="0dp"
             app:ratingSize="20dp" />
 
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/border_bottom_line"/>
     </LinearLayout>
 
 

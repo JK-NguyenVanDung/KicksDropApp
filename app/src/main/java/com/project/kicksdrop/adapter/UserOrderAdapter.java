@@ -1,6 +1,7 @@
 package com.project.kicksdrop.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,11 +42,12 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
     private Context context;
     private LoadingScreen loading;
     FirebaseUser fUser;
-
+    LayoutInflater inflater;
     public UserOrderAdapter(Context context, List<Order>  mOrderList, LoadingScreen loading){
         this.context = context;
         this.mOrderList = mOrderList;
         this.loading = loading;
+        inflater= LayoutInflater.from(context);
     }
     @SuppressLint("SetTextI18n")
     @Override
@@ -105,15 +109,28 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         if(order.getStatus().equals("Ordered")){
             holder.deleteBtn.setVisibility(View.VISIBLE);
             holder.receivedBtn.setVisibility(View.GONE);
+            holder.rateBtn.setVisibility(View.GONE);
         }else if (order.getStatus().equals("Shipping")){
             holder.deleteBtn.setVisibility(View.GONE);
             holder.receivedBtn.setVisibility(View.GONE);
+            holder.rateBtn.setVisibility(View.GONE);
+
         }else if (order.getStatus().equals("Shipped")){
             holder.deleteBtn.setVisibility(View.GONE);
             holder.receivedBtn.setVisibility(View.VISIBLE);
+            holder.rateBtn.setVisibility(View.GONE);
+
         }else if (order.getStatus().equals("Received")){
-            holder.deleteBtn.setVisibility(View.VISIBLE);
+            holder.deleteBtn.setVisibility(View.GONE);
             holder.receivedBtn.setVisibility(View.GONE);
+            holder.rateBtn.setVisibility(View.VISIBLE);
+
+        }else if (order.getStatus().equals("Rated")){
+            holder.deleteBtn.setVisibility(View.GONE);
+            holder.receivedBtn.setVisibility(View.GONE);
+            holder.rateBtn.setVisibility(View.GONE);
+
+
         }
 
 
@@ -138,11 +155,109 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 
             }
         });
+        holder.receivedBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Received Order")
+                        .setMessage("Are you sure you have received this? \n (If we haven't heard a response from you in 3 days then we will assume you have received the packages, feels free to message us if otherwise, thanks you!)")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        getProduct(order,holder.recyclerView, holder.getAdapterPosition());
+                                DatabaseReference myRef = database.getReference("order/"+fUser.getUid() + "/"+ order.getOrder_id());
+
+                                myRef.child("status").setValue("Received");
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
+        holder.rateBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(View view) {
+                createRatingDialog(order.getOrder_details(), order.getOrder_id());
+
+            }
+        });        getProduct(order,holder.recyclerView, holder.getAdapterPosition());
 
 
     }
+    public void createRatingDialog(List<HashMap<String,String>> orderDetails, String orderId){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final View ratingPopupView = inflater.inflate(R.layout.item_rating_product_container,null);
+        builder.setView(ratingPopupView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        Button cancel = ratingPopupView.findViewById(R.id.rating_btn_cancel);
+        Button rate = ratingPopupView.findViewById(R.id.rating_btn_shareRating);
+        RecyclerView recyclerView = ratingPopupView.findViewById(R.id.rv_rating);
+        recyclerView.setHasFixedSize(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(context,1);
+        recyclerView.setLayoutManager(layoutManager);
+
+        saveRating(orderDetails, rate, recyclerView, dialog,orderId);
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+//        rate.setOnClickListener(new View.OnClickListener() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onClick(View view) {
+//                saveRating(orderDetails);
+//            }
+//        });
+
+    }
+    public void saveRating(List<HashMap<String,String>> orderDetails, Button rate, RecyclerView recyclerView, AlertDialog dialog, String orderId){
+        ArrayList<Product> products = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                products.clear();
+                for(HashMap<String, String> item : orderDetails){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.getProduct_colors().remove(0);
+                        String productId = dtShot.getKey();
+                        if(productId.equals(item.get("productId"))){
+                            product.setProduct_id(dtShot.getKey());
+                            product.getProduct_images().remove(0);
+                            product.setProduct_color(item.get("color"));
+                            product.setProduct_size(item.get("size"));
+                            product.setAmount(item.get("amount"));
+                            products.add(product);
+                        }
+                    }
+                }
+                RatingAdapter adapter = new RatingAdapter(context,orderDetails,rate,products,dialog, orderId);
+                recyclerView.setAdapter(adapter);
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     public void deleteOrder(String userId, int position, String orderId){
 
@@ -159,7 +274,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         TextView tv_address, tv_total, tv_shipPrice, tv_discount, tv_totalPayment, tv_orderId
                 , tv_orderProduct, tv_Status, tv_timeOrder;
         RecyclerView recyclerView;
-        AppCompatButton deleteBtn,receivedBtn;
+        AppCompatButton deleteBtn,receivedBtn, rateBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -176,6 +291,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 
             deleteBtn = itemView.findViewById(R.id.customerOrder_btn_delete);
             receivedBtn = itemView.findViewById(R.id.customerOrder_btn_received);
+            rateBtn = itemView.findViewById(R.id.customerOrder_btn_rating);
 
         }
     }
