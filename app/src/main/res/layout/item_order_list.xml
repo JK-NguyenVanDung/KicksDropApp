@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
     android:paddingVertical="20dp"
     android:visibility="visible">
 
@@ -271,6 +273,7 @@
                     android:layout_width="150dp"
                     android:layout_height="35dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
                     android:background="@drawable/red_button_radius"
                     android:text="Delete"
                     android:foreground="?android:selectableItemBackground"
@@ -279,7 +282,20 @@
                     android:textSize="15sp"
                     android:visibility="visible"
                     tools:ignore="TouchTargetSizeCheck" />
-
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/customerOrder_btn_rating"
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/purple_button_radius"
+                    android:text="Rate Product(s)"
+                    android:foreground="?android:selectableItemBackground"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:layout_marginStart="20dp"
+                    android:visibility="visible"
+                    tools:ignore="TouchTargetSizeCheck" />
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/customerOrder_btn_received"
                     android:layout_width="150dp"
@@ -290,7 +306,9 @@
                     android:foreground="?android:selectableItemBackground"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:layout_marginStart="20dp"
                     tools:ignore="TouchTargetSizeCheck" />
+
 
             </LinearLayout>
 

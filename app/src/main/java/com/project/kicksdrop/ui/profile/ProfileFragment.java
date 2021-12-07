@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -64,6 +65,7 @@ public class ProfileFragment extends Fragment {
     private TextView userName;
     private LoadingScreen loading = new LoadingScreen(ProfileFragment.this);
     private GoogleSignInClient mGoogleSignInClient;
+    private ShimmerFrameLayout shimmer;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -93,13 +95,14 @@ public class ProfileFragment extends Fragment {
         avatar = binding.profileIvUser;
         account = FirebaseAuth.getInstance().getCurrentUser();
 
+        shimmer = binding.shimmerProfile;
         assert account != null;
-        getAccount(account.getUid(),avatar);
+        getAccount(account.getUid());
 
         return root;
     }
 
-    private void getAccount(String user_id, ImageView avatar){
+    private void getAccount(String user_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account/" + user_id);
 
@@ -117,6 +120,9 @@ public class ProfileFragment extends Fragment {
                 if(hashMap != null && hashMap.get("avatar") != null){
                     loadImage();
                 }else{
+                    shimmer.stopShimmer();
+                    shimmer.hideShimmer();
+                    shimmer.setVisibility(View.GONE);
                     loading.dismissDialog();
                 }
 
@@ -141,6 +147,9 @@ public class ProfileFragment extends Fragment {
                     if(loading != null){
                         loading.dismissDialog();
                     }
+                    shimmer.stopShimmer();
+                    shimmer.hideShimmer();
+                    shimmer.setVisibility(View.GONE);
                 }
             });
 

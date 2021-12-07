@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -76,7 +77,7 @@ public class EditProfileUser extends AppCompatActivity {
     private Uri imageUri;
     private StorageReference storageReference;
     private final LoadingScreen loading = new LoadingScreen(EditProfileUser.this);
-
+    private ShimmerFrameLayout shimmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,7 +180,10 @@ public class EditProfileUser extends AppCompatActivity {
                     if(loading !=null){
                         loading.dismissDialog();
                     }
-                }
+
+                    shimmer.stopShimmer();
+                    shimmer.hideShimmer();
+                    shimmer.setVisibility(View.GONE);                }
             });
 
         } catch (IOException e) {
@@ -301,7 +305,7 @@ public class EditProfileUser extends AppCompatActivity {
 
 
     private void matching() {
-
+        shimmer = findViewById(R.id.shimmer_edit_profile);
         profileAvatar= (ImageView) findViewById(R.id.editProfile_iv_avatar);
         editBtn = (Button) findViewById(R.id.editProfile_btn_edit);
         prevIBtn =(ImageButton) findViewById(R.id.editProfile_btn_prev);

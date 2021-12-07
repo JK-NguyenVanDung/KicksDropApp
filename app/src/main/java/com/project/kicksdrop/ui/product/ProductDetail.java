@@ -51,7 +51,7 @@ import java.util.List;
 
 
 public class ProductDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    TextView name,currentSize,price,amount,discountPercent;
+    TextView name,currentSize,price,amount,discountPercent,ratingCount;
     ImageButton increaseAmount,decreaseAmount,goBack,share;
     Button addToCart;
     Spinner sizeSpinner;
@@ -64,7 +64,6 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     FirebaseUser fUser;
     ImageButton cart;
     Context context;
-    SimpleRatingBar pointStar;
     TextView numReviewer;
     TextView discountPrice;
     FrameLayout layoutDiscount;
@@ -245,6 +244,9 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                     decreaseAmount.setEnabled(false);
 
                 }
+                ratingCount.setText(product.getRating_amount()+" reviews");
+                ratingStar.setRating((float) product.getProduct_rating());
+                ratingStar.setEnabled(false);
                 String value = product.getProduct_sizes().get(1);
                 name.setText(product.getProduct_name());
                 currentSize.setText(value);
@@ -343,15 +345,12 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
                    value = value.substring(8).split(",")[0];
 
-
                    HashMap<String, String> map = new HashMap<>();
                    map.put(key,value);
 
                    productInCart.add(map);
 
                }
-
-
 
             }
 
@@ -402,6 +401,8 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void matching(){
+        ratingCount = findViewById(R.id.productInfo_tv_reviews);
+        ratingStar = findViewById(R.id.productDetail_ratingStar);
         name = findViewById(R.id.tv_productInfo_productName);
         currentSize = findViewById(R.id.tv_productInfo_productSize);
         discountPercent = findViewById(R.id.productDetail_tv_percent);
@@ -417,7 +418,6 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         cart = findViewById(R.id.productInfo_btn_cart);
         tvNumberCart = findViewById(R.id.product_tv_numberCart);
         share= findViewById(R.id.product_btn_share);
-        pointStar = findViewById(R.id.productDetail_ratingStar);
         numReviewer = findViewById(R.id.tv_productInfo_reviews);
         discountPrice = findViewById(R.id.tv_product_DiscountPrice);
         layoutDiscount = findViewById(R.id.FL_layoutDiscount);
