@@ -79,6 +79,7 @@ public class CartOrder extends AppCompatActivity {
         loading.startLoadingScreen();
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
+        Log.d( "asdasdasd",String.valueOf( price ) );
         coupon_id = intent.getStringExtra("coupon");
         //
         matching();
@@ -120,11 +121,12 @@ public class CartOrder extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
+        if (!coupon_id.equals("")){
+            getCoupon(coupon_id);
         getCart(fUser.getUid());
 
         //
-        if (!coupon_id.equals("")){
-            getCoupon(coupon_id);
+
         }else{
             tv_couponCode.setText(" ");
             tv_couponPercent.setText(" ");
@@ -214,7 +216,7 @@ public class CartOrder extends AppCompatActivity {
 
                                 if (item!= null && hashMap != null){
                                     try {
-                                        if((Double)hashMap.get("discount_price") == 0.0){
+                                        if(hashMap.get("discount_price") == null){
                                             total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "product_price" );
                                         }else {
                                             total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "discount_price" );
