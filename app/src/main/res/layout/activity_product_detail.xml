@@ -275,7 +275,6 @@
                                     android:textSize="20sp" />
 
 
-
                                 <com.borjabravo.simpleratingbar.SimpleRatingBar
                                     android:id="@+id/productDetail_ratingStar"
                                     style="?android:attr/ratingBarStyleSmall"
@@ -286,8 +285,11 @@
                                     android:layout_marginStart="63dp"
                                     android:layout_marginTop="0dp"
                                     android:layout_marginEnd="0dp"
+                                    android:clickable="false"
+
+                                    android:longClickable="false"
                                     app:isIndicator="false"
-                                    app:rating="2.5"
+                                    app:rating="0"
                                     app:ratingCount="5"
                                     app:ratingMargin="1dp"
                                     app:ratingSize="20dp" />
@@ -329,24 +331,22 @@
                                     android:textSize="12sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_productInfo_reviews"
+                                    android:id="@+id/productInfo_tv_reviews"
 
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
 
                                     android:layout_alignParentEnd="true"
 
-                                    android:layout_marginStart="259dp"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginEnd="1dp"
-
+                                    android:layout_marginStart="261dp"
+                                    android:layout_marginEnd="0dp"
                                     android:layout_toEndOf="@+id/tv_productInfo_productTextSize"
 
 
                                     android:fontFamily="@font/work_sans"
 
                                     android:gravity="center_vertical|end"
-                                    android:text="150 reviews"
+                                    android:text="0 reviews"
                                     android:textColor="#757575"
                                     android:textSize="12sp"
                                     tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
@@ -439,7 +439,7 @@
                                 android:layout_weight="1" />
 
                             <LinearLayout
-                                android:layout_width="95dp"
+                                android:layout_width="100dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/border_radius_gray_light"
                                 android:elevation="1dp"
@@ -450,14 +450,45 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1" />
 
-                                <Spinner
-                                    android:id="@+id/spinner_productInfo_product_Size"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginBottom="3dp"
-                                    android:elevation="1dp"
-                                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+<!--                                <Spinner-->
+<!--                                    android:id="@+id/spinner_productInfo_product_Size"-->
+<!--                                    android:layout_width="100dp"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:layout_marginBottom="3dp"-->
+<!--                                    android:elevation="1dp"-->
+<!--                                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />-->
 
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/ic_drop_down">
+
+                                    <Spinner
+                                        android:id="@+id/spinner_productInfo_product_Size"
+                                        android:layout_width="100dp"
+                                        android:layout_height="30dp"
+
+                                        android:layout_alignParentStart="true"
+
+                                        android:layout_marginStart="0dp"
+                                        android:background="@drawable/border_radius_gray_light"
+                                        android:spinnerMode="dropdown"
+                                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                    <ImageButton
+                                        android:id="@+id/ProductInfo_btn_drop_down"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_marginStart="76dp"
+                                        android:layout_marginTop="7dp"
+                                        android:background="?android:selectableItemBackground"
+                                        android:backgroundTint="#777777"
+                                        android:src="@drawable/ic_drop_down"
+                                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                                </RelativeLayout>
                             </LinearLayout>
 
 

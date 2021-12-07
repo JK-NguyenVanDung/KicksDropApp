@@ -147,6 +147,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
            java.util.Currency usd = java.util.Currency.getInstance("USD");
            java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
            format.setCurrency(usd);
+
+
            String sPrice =format.format(product.getProduct_price());
            holder.price.setText(sPrice);
 

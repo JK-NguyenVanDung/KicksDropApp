@@ -90,11 +90,11 @@
 
             <TextView
                 android:id="@+id/ProductCart_tv_name"
-                android:background="#e7e7e7"
-                android:layout_width="wrap_content"
+                android:layout_width="155dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="35dp"
                 android:layout_weight="1"
+                android:background="#e7e7e7"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center_vertical"
                 android:singleLine="true"
@@ -151,10 +151,10 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
-            android:layout_marginStart="60dp"
-            android:background="#e7e7e7"
+            android:layout_marginStart="63dp"
             android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
+            android:background="#e7e7e7"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
             android:textColor="@color/black"
@@ -173,7 +173,7 @@
             <TextView
                 android:id="@+id/tv_item_productCart_listView_size"
 
-                android:layout_width="30dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
 
                 android:layout_marginEnd="10dp"
@@ -185,18 +185,18 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_drop_down">
+                >
 
                 <Spinner
                     android:id="@+id/itemProductCart_sp_listViewDropDownSize"
                     android:layout_width="100dp"
                     android:layout_height="25dp"
-                    android:backgroundTint="#e7e7e7"
-
                     android:layout_alignParentStart="true"
 
                     android:layout_marginStart="0dp"
+
                     android:background="@drawable/border_radius_gray_light"
+                    android:backgroundTint="#e7e7e7"
                     android:spinnerMode="dropdown"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -209,8 +209,8 @@
                     android:layout_marginStart="76dp"
                     android:layout_marginTop="7dp"
                     android:background="?android:selectableItemBackground"
-                    android:src="@drawable/ic_drop_down"
                     android:backgroundTint="#777777"
+                    android:src="@drawable/ic_drop_down"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </RelativeLayout>

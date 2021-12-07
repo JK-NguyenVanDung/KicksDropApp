@@ -42,6 +42,7 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginBottom="0dp"
                 android:contentDescription="@string/todo" />
+
             <ImageButton
                 android:id="@+id/productCart_btn_heart"
                 android:layout_width="wrap_content"
@@ -52,7 +53,7 @@
                 android:layout_marginTop="5dp"
                 android:background="?android:selectableItemBackground"
                 android:src="@drawable/ic_heart"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
 
             <!--icon circle-->
 
@@ -107,7 +108,7 @@
                 android:src="@drawable/ic_remove_product_cart"
                 android:textColor="#777777"
                 android:textSize="10sp"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck" />
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck,DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck" />
 
         </LinearLayout>
 
@@ -181,10 +182,10 @@
                 android:textSize="16sp" />
 
             <RelativeLayout
+                android:id="@+id/cart_spinner_cont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_drop_down">
-
                 <Spinner
                     android:id="@+id/itemProductCart_sp_listViewDropDownSize"
                     android:layout_width="100dp"
@@ -206,9 +207,9 @@
                     android:layout_marginStart="76dp"
                     android:layout_marginTop="7dp"
                     android:background="?android:selectableItemBackground"
-                    android:src="@drawable/ic_drop_down"
                     android:backgroundTint="#777777"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    android:src="@drawable/ic_drop_down"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
 
             </RelativeLayout>
 
