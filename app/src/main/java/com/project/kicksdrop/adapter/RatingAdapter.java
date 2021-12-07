@@ -11,8 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.borjabravo.simpleratingbar.OnRatingChangedListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,14 +34,19 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.ViewHolder
     private Context context;
     private  List<HashMap<String,String>> mDetail;
     private List<Product> products;
+    private List<Product> ratedProducts;
+    private FirebaseUser fUser;
     private Button rate;
     private AlertDialog dialog;
-    public RatingAdapter(Context context, List<HashMap<String, String>> mDetail, Button rate, ArrayList<Product> products, AlertDialog dialog) {
+    private String orderId;
+    public RatingAdapter(Context context, List<HashMap<String, String>> mDetail, Button rate, ArrayList<Product> products, AlertDialog dialog,String orderId) {
         this.context = context;
         this.mDetail = mDetail;
         this.rate = rate;
         this.products = products;
         this.dialog = dialog;
+        this.orderId = orderId;
+        ratedProducts = new ArrayList<>();
     }
 
 
@@ -58,53 +67,66 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.ViewHolder
 
         holder.name.setText(product.getProduct_name());
         float rating = holder.rating.getRating();
+        holder.rating.setOnRatingChangedListener(new OnRatingChangedListener() {
+            @Override
+            public void onRatingChange(float v, float v1) {
+                product.setTemp_rating(rating);
+            }
+        });
+        ratedProducts.add(product);
         rate.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View view) {
-                saveRating(product.getProduct_id(),rating);
+                if( holder.rating.getRating() <1.0) {
+                    Toast.makeText(context,"Please enter a rating between 1 and 5 inclusively!",Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    saveRating();
+
+                }
             }
         });
     }
     private boolean rated;
-    private void saveRating(String id, float rating){
+    private void saveRating(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("product/"+id);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Product product =  snapshot.getValue(Product.class);
-                assert product != null;
-                double avgRating = product.getProduct_rating();
-                long ratingAmount = product.getRating_amount();
-                double finalRating = 0.0;
-                long newAmount= 0;
-                if(ratingAmount < 1){
-                    double totalRating = avgRating * ratingAmount;
-                    newAmount =  (ratingAmount + 1);
-                    double calculatedRating = totalRating +  rating;
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                    finalRating =  Math.floor((calculatedRating / newAmount) * 10) / 10;
+        DatabaseReference myRef = database.getReference("order/" + fUser.getUid()  + "/" + orderId);
+        for(Product product: ratedProducts){
+            double avgRating = product.getProduct_rating();
+            long ratingAmount = product.getRating_amount();
+            double rating = product.getTemp_rating();
+            double finalRating = 0.0;
+            long newAmount= 0;
+            if(ratingAmount >= 1){
+                double totalRating = avgRating * ratingAmount;
+                newAmount =  (ratingAmount + 1);
+                double calculatedRating = totalRating +  rating;
+
+                finalRating =  Math.floor((calculatedRating / newAmount) * 10) / 10;
 
 
-                }else{
-                    newAmount= 1;
-                    finalRating =  Math.floor((rating) * 10) / 10;
-                }
-
-                if(rated){
-                    myRef.child("rating_amount").setValue(newAmount);
-                    myRef.child("product_rating").setValue(finalRating);
-                    rated = false;
-                    Toast.makeText(context,"Rating Completed, Thanks you for trusting us!",Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
+            }else{
+                newAmount= 1;
+                finalRating =  Math.floor((rating) * 10) / 10;
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+
+            DatabaseReference ref = database.getReference("product/" + product.getProduct_id());
+            ref.child("rating_amount").setValue(newAmount);
+            ref.child("product_rating").setValue(finalRating);
+            myRef.child("status").setValue("Rated");
+            Toast.makeText(context,"Rating Completed, Thanks you for trusting us!",Toast.LENGTH_SHORT).show();
+
+            dialog.dismiss();
+
+
+
+        }
+
 
     }
     @Override

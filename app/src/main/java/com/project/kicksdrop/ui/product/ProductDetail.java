@@ -208,6 +208,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 }
                 ratingCount.setText(product.getRating_amount()+" reviews");
                 ratingStar.setRating((float) product.getProduct_rating());
+                ratingStar.setEnabled(false);
                 String value = product.getProduct_sizes().get(1);
                 name.setText(product.getProduct_name());
                 currentSize.setText(value);
