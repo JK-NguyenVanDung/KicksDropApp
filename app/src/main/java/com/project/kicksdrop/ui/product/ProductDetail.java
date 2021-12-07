@@ -10,17 +10,24 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.borjabravo.simpleratingbar.OnRatingChangedListener;
+import com.borjabravo.simpleratingbar.SimpleRatingBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +51,7 @@ import java.util.List;
 
 
 public class ProductDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    TextView name,currentSize,price,amount,ratingCount;
+    TextView name,currentSize,price,amount,discountPercent;
     ImageButton increaseAmount,decreaseAmount,goBack,share;
     Button addToCart;
     Spinner sizeSpinner;
@@ -57,7 +64,12 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     FirebaseUser fUser;
     ImageButton cart;
     Context context;
-    com.borjabravo.simpleratingbar.SimpleRatingBar ratingStar;
+    SimpleRatingBar pointStar;
+    TextView numReviewer;
+    TextView discountPrice;
+    FrameLayout layoutDiscount;
+    private Double numPrice = 0.0 ;
+    private Double discountedPrice;
     private TextView tvNumberCart;
     private final LoadingScreen loading = new LoadingScreen(ProductDetail.this);
     int currentAmount = 1;
@@ -81,6 +93,9 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
         matching();
         getProductInCart(fUser.getUid());
+
+
+
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -198,6 +213,30 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                 product = snapshot.getValue(Product.class);
                 assert product != null;
                 product.setProduct_id(snapshot.getKey());
+                //Log.d("yeah",product.getProduct_sizes().toString());
+                java.util.Currency usd = java.util.Currency.getInstance("USD");
+                java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
+                format.setCurrency(usd);
+
+                double normalPrice = product.getProduct_price();
+                discountedPrice = product.getDiscount_price();
+                if(discountedPrice != 0){
+                    discountPrice.setVisibility(View.VISIBLE);
+                    layoutDiscount.setVisibility(View.VISIBLE);
+                    discountPrice.setPaintFlags(discountPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    double temp = (discountedPrice/normalPrice) * 100;
+                    int  discountPercentage = (int) (100.00- (Math.round(temp)));
+                    discountPercent.setText("-" + discountPercentage + "%");
+                    String sPrice =format.format(discountedPrice);
+                    price.setText(sPrice);
+                    String discount =format.format(normalPrice);
+                    discountPrice.setText(discount);
+                }else{
+                    String sPrice =format.format(product.getProduct_price());
+                    price.setText(sPrice);
+                }
+
+
                 if (product.getProduct_quantity()<=0){
                     currentAmount = 0;
                     addToCart.setText("Out of stock");
@@ -206,18 +245,11 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                     decreaseAmount.setEnabled(false);
 
                 }
-                ratingCount.setText(product.getRating_amount()+" reviews");
-                ratingStar.setRating((float) product.getProduct_rating());
-                ratingStar.setEnabled(false);
                 String value = product.getProduct_sizes().get(1);
                 name.setText(product.getProduct_name());
                 currentSize.setText(value);
                 //currentSizeSelector.setText(value);
-                java.util.Currency usd = java.util.Currency.getInstance("USD");
-                java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-                format.setCurrency(usd);
-                String sPrice =format.format(product.getProduct_price());
-                price.setText(sPrice);
+
                 amount.setText(Integer.toString(currentAmount));
 
                 product.getProduct_images().remove(0);
@@ -295,7 +327,6 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
             }
         });
     }
-
     private void getProductInCart(String idUser){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart").child(idUser).child("product");
@@ -312,12 +343,15 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
                    value = value.substring(8).split(",")[0];
 
+
                    HashMap<String, String> map = new HashMap<>();
                    map.put(key,value);
 
                    productInCart.add(map);
 
                }
+
+
 
             }
 
@@ -329,6 +363,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
 
     }
+
     private void addProductCart(String idUser,String idProduct,int amount, String color,String size){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart");
@@ -367,11 +402,9 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void matching(){
-        ratingCount = findViewById(R.id.productInfo_tv_reviews);
-        ratingStar = findViewById(R.id.productDetail_ratingStar);
         name = findViewById(R.id.tv_productInfo_productName);
         currentSize = findViewById(R.id.tv_productInfo_productSize);
-        //currentSizeSelector = findViewById(R.id.productInfo_tv_selector_Size);
+        discountPercent = findViewById(R.id.productDetail_tv_percent);
         price = findViewById(R.id.tv_productInfo_product_price);
         amount = findViewById(R.id.tv_productInfo_amoutOfProducts);
         increaseAmount =  findViewById(R.id.ibtn_productInfo_increase);
@@ -384,6 +417,10 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         cart = findViewById(R.id.productInfo_btn_cart);
         tvNumberCart = findViewById(R.id.product_tv_numberCart);
         share= findViewById(R.id.product_btn_share);
+        pointStar = findViewById(R.id.productDetail_ratingStar);
+        numReviewer = findViewById(R.id.tv_productInfo_reviews);
+        discountPrice = findViewById(R.id.tv_product_DiscountPrice);
+        layoutDiscount = findViewById(R.id.FL_layoutDiscount);
     }
 
 }
