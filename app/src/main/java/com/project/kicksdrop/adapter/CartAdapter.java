@@ -156,7 +156,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         java.util.Currency usd = java.util.Currency.getInstance("USD");
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
         format.setCurrency(usd);
-        String sPrice =format.format(product.getProduct_price());
+        String sPrice;
+        if(product.getDiscount_price() == 0.0){
+            sPrice =format.format(product.getProduct_price());
+        }else {
+            sPrice =format.format(product.getDiscount_price());
+        }
+
         holder.productCartPrice.setText(sPrice);
 
         String amountS = String.valueOf( productOptions.get(position).get("amount"));
@@ -250,7 +256,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         });
 
 
-        calculateTotal(product.getProduct_price(), currentAmount[0]);
+        if (product.getDiscount_price() == 0.0){
+            calculateTotal(product.getProduct_price(), currentAmount[0]);
+        }else {
+            calculateTotal(product.getDiscount_price(), currentAmount[0]);
+        }
+
 
 
     }

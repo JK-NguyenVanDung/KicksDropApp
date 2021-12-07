@@ -214,7 +214,11 @@ public class CartOrder extends AppCompatActivity {
 
                                 if (item!= null && hashMap != null){
                                     try {
-                                        total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "product_price" );
+                                        if((Double)hashMap.get("discount_price") == 0.0){
+                                            total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "product_price" );
+                                        }else {
+                                            total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "discount_price" );
+                                        }
                                     } catch (Exception e){
 
                                     }
