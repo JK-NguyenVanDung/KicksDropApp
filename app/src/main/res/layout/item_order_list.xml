@@ -273,6 +273,7 @@
                     android:layout_width="150dp"
                     android:layout_height="35dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
                     android:background="@drawable/red_button_radius"
                     android:text="Delete"
                     android:foreground="?android:selectableItemBackground"
@@ -292,6 +293,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:layout_marginStart="20dp"
                     android:visibility="visible"
                     tools:ignore="TouchTargetSizeCheck" />
                 <androidx.appcompat.widget.AppCompatButton
@@ -304,6 +306,7 @@
                     android:foreground="?android:selectableItemBackground"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:layout_marginStart="20dp"
                     tools:ignore="TouchTargetSizeCheck" />
 
 
