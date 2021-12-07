@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.KeyListener;
@@ -29,11 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
-import com.project.kicksdrop.adapter.CartAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
-import com.project.kicksdrop.model.ProductsInCart;
 import com.project.kicksdrop.ui.orderCompleted.OrderCompleted;
 
 import java.text.SimpleDateFormat;
@@ -49,25 +46,21 @@ public class CartOrder extends AppCompatActivity {
     FirebaseUser fUser;
     ImageButton prevBtn;
     Button orderBtn;
-    TextView  totalProducts, totalPaymentHead, totalPayment;
     TextView  tv_shipmentPartner, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice, tv_totalPayment, tv_couponCode;
-    RadioGroup rGroup;
     EditText et_address;
     OrderProductAdapter orderProductAdapter;
     RecyclerView recyclerView;
-    Integer quanity;
     List<HashMap<String,String>> productsInCart;
     private Coupon coupon;
     private ArrayList<Product> mProducts;
     private List<Coupon> mCoupon;
     private String coupon_id;
-    private int percent, maxprice;
-    private double price, totalPaymentPrice;
+    private int percent, maxPrice;
+    private double price;
     private Double total = 0.0;
     private String timeStamp_id;
     private String address;
-    private static KeyListener listener;
-    private static Drawable bgAddress;
+
     private double shipPrice;
     private double discount;
     private final LoadingScreen loading = new LoadingScreen(CartOrder.this);
@@ -79,11 +72,9 @@ public class CartOrder extends AppCompatActivity {
         loading.startLoadingScreen();
         Intent intent = getIntent();
         price = intent.getDoubleExtra("price",0);
-        Log.d( "asdasdasd",String.valueOf( price ) );
         coupon_id = intent.getStringExtra("coupon");
-        //
+
         matching();
-        //
 
         //back
         prevBtn.setOnClickListener(new View.OnClickListener() {
@@ -147,8 +138,7 @@ public class CartOrder extends AppCompatActivity {
         tv_shipmentPrice.setText(sShipPrice);
         address= " ";
 
-        listener =et_address.getKeyListener();
-        bgAddress = et_address.getBackground();
+
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -266,9 +256,6 @@ public class CartOrder extends AppCompatActivity {
                         item.put("cartProductID", key);
                         productsInCart.add(item);
                     }
-                    //String coupon = hashMap.get("coupon_id").toString();
-                    //Cart cart = new Cart(user_Id,,productsInCart);
-                    Log.d("test", productsInCart.toString());
                     getProduct(productsInCart);
                 }
             }
@@ -279,10 +266,10 @@ public class CartOrder extends AppCompatActivity {
             }
         });
     }
-    private double caculateDiscount(int maxprice, int percent, double price){
+    private double calculateDiscount(int maxPrice, int percent, double price){
         double discount = (price * percent) / 100;
-        if (discount > maxprice){
-            discount = maxprice;
+        if (discount > maxPrice){
+            discount = maxPrice;
         }
         return discount;
     }
@@ -306,11 +293,11 @@ public class CartOrder extends AppCompatActivity {
                         break;
                     }
                 }
-                maxprice = coupon.getCoupon_max_price();
+                maxPrice = coupon.getCoupon_max_price();
                 percent = Integer.parseInt(coupon.getCoupon_percent());
 
 
-                discount = caculateDiscount(maxprice,percent,price);
+                discount = calculateDiscount(maxPrice,percent,price);
                 java.util.Currency usd = java.util.Currency.getInstance("USD");
                 java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
                 format.setCurrency(usd);

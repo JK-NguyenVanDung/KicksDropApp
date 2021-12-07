@@ -35,7 +35,8 @@ public class LoadingScreen {
 
         LayoutInflater inflater = fragment.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.activity_loading,null));
-        builder.setCancelable(false);
+        builder.setCancelable(true);
+
         dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -47,7 +48,7 @@ public class LoadingScreen {
 
         LayoutInflater inflater = activity.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.activity_loading,null));
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 

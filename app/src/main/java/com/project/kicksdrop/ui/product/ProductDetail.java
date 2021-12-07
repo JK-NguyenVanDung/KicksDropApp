@@ -63,8 +63,8 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
     TextView indexNumb;
     FirebaseUser fUser;
     ImageButton cart;
+    SimpleRatingBar ratingStar;
     Context context;
-    TextView numReviewer;
     TextView discountPrice;
     FrameLayout layoutDiscount;
     private Double numPrice = 0.0 ;
@@ -92,9 +92,6 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
 
         matching();
         getProductInCart(fUser.getUid());
-
-
-
 
         increaseAmount.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -244,7 +241,7 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
                     decreaseAmount.setEnabled(false);
 
                 }
-                ratingCount.setText(product.getRating_amount()+" reviews");
+                ratingCount.setText(product.getRating_amount()+" review(s)");
                 ratingStar.setRating((float) product.getProduct_rating());
                 ratingStar.setEnabled(false);
                 String value = product.getProduct_sizes().get(1);
@@ -418,7 +415,6 @@ public class ProductDetail extends AppCompatActivity implements AdapterView.OnIt
         cart = findViewById(R.id.productInfo_btn_cart);
         tvNumberCart = findViewById(R.id.product_tv_numberCart);
         share= findViewById(R.id.product_btn_share);
-        numReviewer = findViewById(R.id.tv_productInfo_reviews);
         discountPrice = findViewById(R.id.tv_product_DiscountPrice);
         layoutDiscount = findViewById(R.id.FL_layoutDiscount);
     }
