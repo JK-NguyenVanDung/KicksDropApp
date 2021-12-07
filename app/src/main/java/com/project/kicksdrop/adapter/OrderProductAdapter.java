@@ -125,7 +125,14 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
             java.util.Currency usd = java.util.Currency.getInstance("USD");
             java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
             format.setCurrency(usd);
-            String sPrice =format.format(product.getProduct_price());
+
+
+            String sPrice;
+            if(product.getDiscount_price() == 0.0){
+                sPrice =format.format(product.getProduct_price());
+            }else {
+                sPrice =format.format(product.getDiscount_price());
+            }
 
             //
             holder.productCartName.setText(product.getProduct_name());

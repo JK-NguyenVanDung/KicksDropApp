@@ -50,6 +50,7 @@ public class CartListView extends AppCompatActivity {
     private String coupon_id;
     private com.project.kicksdrop.model.Coupon coupon;
     private double totalAmount;
+    private double discount;
     private final LoadingScreen loading = new LoadingScreen(CartListView.this);
 
     @Override
@@ -91,7 +92,7 @@ public class CartListView extends AppCompatActivity {
                 double totalPrice = Double.parseDouble(totalPayment.getText().toString().substring(1));
                 if(totalPrice > 0.00){
                     Intent intent = new Intent(getApplicationContext(), CartOrder.class);
-                    intent.putExtra("price", totalPrice);
+                    intent.putExtra("price", totalPrice + discount);
                     intent.putExtra("coupon",coupon_id);
                     startActivity(intent);
                 }else{
@@ -147,7 +148,7 @@ public class CartListView extends AppCompatActivity {
                     double max = coupon.getCoupon_max_price();
                     double min = coupon.getCoupon_min_price();
                     if(totalAmount < max && totalAmount > min ){
-                        double discount = totalAmount * ((double) percent/100);
+                        discount = totalAmount * ((double) percent/100);
                         totalAmount -= discount;
                         java.util.Currency usd = java.util.Currency.getInstance("USD");
                         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
