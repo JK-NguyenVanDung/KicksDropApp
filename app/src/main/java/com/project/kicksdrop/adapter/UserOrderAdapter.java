@@ -213,13 +213,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                 dialog.dismiss();
             }
         });
-//        rate.setOnClickListener(new View.OnClickListener() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onClick(View view) {
-//                saveRating(orderDetails);
-//            }
-//        });
+
 
     }
     public void saveRating(List<HashMap<String,String>> orderDetails, Button rate, RecyclerView recyclerView, AlertDialog dialog, String orderId){
