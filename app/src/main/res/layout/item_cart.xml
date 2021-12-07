@@ -190,7 +190,7 @@
             <TextView
                 android:id="@+id/tv_item_productCart_listView_size"
 
-                android:layout_width="30dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
 
                 android:layout_marginEnd="10dp"
