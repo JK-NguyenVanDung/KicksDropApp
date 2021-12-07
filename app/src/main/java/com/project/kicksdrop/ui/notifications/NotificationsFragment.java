@@ -42,7 +42,7 @@ public class NotificationsFragment extends Fragment {
     FirebaseUser fUser;
     RecyclerView recyclerView;
     NotificationsAdapter notificationsAdapter;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout, layoutNoAnyThing;
     private  ArrayList<Order> mOrder;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +72,9 @@ public class NotificationsFragment extends Fragment {
         assert fUser != null;
         getOrder(fUser.getUid());
 
+        layoutNoAnyThing = binding.layoutNotificationNoAnyThing;
+
+
 
         return root;
     }
@@ -95,6 +98,11 @@ public class NotificationsFragment extends Fragment {
                             }
                         }
                     }
+                }
+                if(mOrder.size() == 0){
+                    layoutNoAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    layoutNoAnyThing.setVisibility(View.GONE);
                 }
                 notificationsAdapter = new NotificationsAdapter( getContext(), mOrder );
                 recyclerView.setAdapter( notificationsAdapter );
