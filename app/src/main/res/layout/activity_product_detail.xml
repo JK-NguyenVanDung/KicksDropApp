@@ -173,7 +173,6 @@
 
                         </FrameLayout>
 
-
                         <ImageButton
                             android:id="@+id/product_btn_share"
                             android:layout_width="50dp"
@@ -295,7 +294,6 @@
                                 android:textSize="20sp" />
 
 
-
                             <com.borjabravo.simpleratingbar.SimpleRatingBar
                                 android:id="@+id/productDetail_ratingStar"
                                 style="?android:attr/ratingBarStyleSmall"
@@ -307,7 +305,7 @@
                                 android:layout_marginTop="0dp"
                                 android:layout_marginEnd="0dp"
                                 app:isIndicator="false"
-                                app:rating="2.5"
+                                app:rating="0.0"
                                 app:ratingCount="5"
                                 app:ratingMargin="1dp"
                                 app:ratingSize="20dp" />
@@ -349,7 +347,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
-                                android:id="@+id/tv_productInfo_reviews"
+                                android:id="@+id/productInfo_tv_reviews"
 
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -366,7 +364,7 @@
                                 android:fontFamily="@font/work_sans"
 
                                 android:gravity="center_vertical|end"
-                                android:text="150 reviews"
+                                android:text="0 review(s)"
                                 android:textColor="#757575"
                                 android:textSize="12sp"
                                 tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
@@ -516,6 +514,7 @@
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center_vertical"
+                                android:layout_marginStart="5dp"
                                 >
 
                                 <TextView
@@ -555,15 +554,15 @@
                             <Button
                                 android:id="@+id/btn_productInfo_addToCart"
                                 android:layout_width="150dp"
-                                android:layout_height="60dp"
+                                android:layout_height="50dp"
 
                                 android:layout_alignParentTop="true"
                                 android:layout_alignParentEnd="true"
-                                android:gravity="center_vertical"
                                 android:layout_marginTop="3dp"
                                 android:layout_marginEnd="3dp"
-
                                 android:background="@drawable/blue_radius_corner"
+
+                                android:gravity="center"
 
                                 android:text="Add to cart"
                                 android:textAllCaps="false" />
