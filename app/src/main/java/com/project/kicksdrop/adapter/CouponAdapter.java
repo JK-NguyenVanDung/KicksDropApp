@@ -114,8 +114,11 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         double couponMinPrice = coupon.getCoupon_min_price();
         double couponMaxPrice = coupon.getCoupon_max_price();
         String couponPercent = coupon.getCoupon_percent();
-
-        holder.couponContent.setText("Get " + couponPercent + "% off for an order from $" + couponMinPrice+"\nMaximum discount: $"+ couponMaxPrice);
+        if(coupon.getCondition_text() != null){
+            holder.couponContent.setText("Condition: "+ coupon.getCondition_text() + "\n\nGet " + couponPercent + "% off for an order from $" + couponMinPrice+"\nMaximum discount: $"+ couponMaxPrice);
+        }else{
+            holder.couponContent.setText("Get " + couponPercent + "% off for an order from $" + couponMinPrice+"\nMaximum discount: $"+ couponMaxPrice);
+        }
         holder.couponDate.setText("Exp: " + couponDuration);
         holder.couponCode.setText(couponCode);
         if(coupon.getCoupon_checked()){
@@ -156,7 +159,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     public int getItemCount() {
         return mCoupon == null ? 0 : mCoupon.size();
     }
-
+    public static boolean noChecked = true;
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageButton delete;
         TextView couponContent, couponDate, couponCode;
@@ -176,49 +179,44 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             CouponAdapter.apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean noChecked = true;
+
+                    noChecked = true;
+
                     for(CheckBoxGroup cb : mCheckbox){
                         if(cb.getCheck().isChecked() ) {
                             int position = cb.getPos();
                             String id = mCoupon.get(position).getCoupon_id();
                             double min_price = mCoupon.get(position).getCoupon_min_price();
                             String coupon_condition = mCoupon.get(position).getCoupon_condition();
+
                             if (totalPayment == 0){
-                                checkCoupon = false;
                                 Toast.makeText(v.getContext(), "Cart is empty",Toast.LENGTH_SHORT).show();
-                                onCouponListener.onCouponClick(position, v, id, checkCoupon);
-                                break;
                             }
-                            else if (CouponAdapter.totalPayment < min_price)
+                            else if(CouponAdapter.totalPayment < min_price)
                             {
-                                checkCoupon = false;
                                 Toast.makeText(v.getContext(), "Your Total Payment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
-                                onCouponListener.onCouponClick(position, v, id, checkCoupon);
-                                break;
-                            }
-                            else if ( coupon_condition != null){
+                            }else if ( coupon_condition != null){
                                 //
-                                checkCoupon = true;
                                 FirebaseUser fUser;
                                 fUser = FirebaseAuth.getInstance().getCurrentUser();
                                 assert fUser != null;
                                 String brand = mCoupon.get(position).getCoupon_condition().substring(2);
                                 int count =Integer.parseInt( mCoupon.get(position).getCoupon_condition().substring(0,1) );
-
-                                getCart(fUser.getUid(), brand, count);
+                                getCart(fUser.getUid(), brand, count, onCouponListener,position,v,id);
+                                noChecked = false;
+                                break;
                             }
-                        }
-                        else{
-                            checkCoupon = false;
-                            if(noChecked){
-                                Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
-                                onCouponListener.onCouponClick(1, v, "", checkCoupon);
-                                noChecked =false;
+                            else if (CouponAdapter.totalPayment > min_price){
+                                onCouponListener.onCouponClick(position, v, id,true);
+                                noChecked = false;
+                                break;
                             }
-
                         }
                     }
+                    if(noChecked){
+                            Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
 
+                    }
                 }
             });
         }
@@ -248,7 +246,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 .show();
 
     }
-    private static void getProduct(List<HashMap<String, String>> cartProducts, String brand, int count){
+    private static void getProduct(List<HashMap<String, String>> cartProducts, String brand, int count,  OnCouponListener onCouponListener, int position, View v, String id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProducts = new ArrayList<>();
@@ -260,23 +258,22 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                     for(DataSnapshot dtShot: snapshot.getChildren()){
                         Product product = dtShot.getValue(Product.class);
                         assert product != null;
+                        product.setProduct_id(snapshot.getKey());
                         product.getProduct_colors().remove(0);
-                        for(String color: product.getProduct_colors()){
-                            String cartProductId = dtShot.getKey() + color.substring(1);
-                            if(cartProductId.toLowerCase().equals(item.get("cartProductID").toLowerCase())){
-                              if (product.getProduct_brand().equals(brand)){
-                                  mProducts.add(product);
-                              }
+                        if(product.getProduct_id().toLowerCase().equals(item.get("productId").toLowerCase())){
+                            if (product.getProduct_brand().equals(brand)){
+                                mProducts.add(product);
                             }
                         }
-
                     }
                 }
-                if (count > mProducts.size()){
-                    Log.d( "dasdas",String.valueOf( mProducts.size() ) );
-                    Log.d( "dasdsad", String.valueOf( count ) );
-                    checkCoupon = false;
-                    Toast.makeText( apply.getContext(), "Brand",Toast.LENGTH_SHORT).show();
+                if (mProducts.size() >= count){
+
+                    onCouponListener.onCouponClick(position, v, id,true);
+
+                }else{
+                    Toast.makeText(v.getContext(), "Condition is not met!",Toast.LENGTH_SHORT).show();
+
                 }
 
 
@@ -287,7 +284,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             }
         });
     }
-    private static void getCart(String user_Id, String brand, int count){
+    private static void getCart(String user_Id, String brand, int count, OnCouponListener onCouponListener, int position, View v, String id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
@@ -304,7 +301,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                         item.put("cartProductID", key);
                         productsInCart.add(item);
                     }
-                    getProduct(productsInCart, brand, count);
+                    getProduct(productsInCart, brand, count, onCouponListener, position, v , id);
                 }
             }
 

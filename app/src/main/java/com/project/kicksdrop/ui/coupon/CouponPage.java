@@ -161,6 +161,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
         intent.putExtra("coupon_id", id);
         setResult(Activity.RESULT_OK,
                 new Intent().putExtra("coupon_id", id));
+
         if (check){
             finish();
         }
