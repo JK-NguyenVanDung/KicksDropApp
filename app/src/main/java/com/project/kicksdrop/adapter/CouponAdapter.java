@@ -224,7 +224,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                             {
                                 Toast.makeText(v.getContext(), "Your Total Payment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
                             }
-                            if (mCoupon.get( position ).getco)
                         }else{
                             Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
 
@@ -269,7 +268,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 .show();
 
     }
-    private int countBrand(List<HashMap<String,String>> cartProducts,String brand){
+    private void countBrand(List<HashMap<String,String>> cartProducts,String brand){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProducts = new ArrayList<>();
