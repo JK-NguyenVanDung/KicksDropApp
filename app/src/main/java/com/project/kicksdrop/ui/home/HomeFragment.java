@@ -167,24 +167,7 @@ public class  HomeFragment extends Fragment implements ProductListAdapter.OnProd
         getCoupon();
         getProduct();
 
-//        final ImageButton slide = binding.homeIbtnProductContent;
-//        slide.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
-//                intent.putExtra("keySearch", "");
-//                startActivity(intent);
-//            }
-//        });
-//        final ImageButton slide2 = binding.homeIbtnProductContent2;
-//        slide2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), SearchViewProduct.class);
-//                intent.putExtra("keySearch", "");
-//                startActivity(intent);
-//            }
-//        });
+
         final ImageButton chat = binding.homeBtnChat;
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +185,6 @@ public class  HomeFragment extends Fragment implements ProductListAdapter.OnProd
             }
         });
 
-        // Khong Duoc Xoa
         final Button btn = binding.btnHomeContinue;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
