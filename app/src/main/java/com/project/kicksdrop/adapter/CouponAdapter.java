@@ -29,7 +29,9 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -37,7 +39,7 @@ import java.util.Map;
 
 public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder> {
 
-    private Context context;
+    private static Context context;
     private static List<Coupon> mCoupon;
     private CouponAdapter.OnCouponListener mOnCouponListener;
     FirebaseUser fUser;
@@ -188,9 +190,24 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                             String id = mCoupon.get(position).getCoupon_id();
                             double min_price = mCoupon.get(position).getCoupon_min_price();
                             String coupon_condition = mCoupon.get(position).getCoupon_condition();
+                            int today = Integer.parseInt(new SimpleDateFormat("yyyyMMdd").format( Calendar.getInstance().getTime()));
+                            String day = mCoupon.get(position).getCoupon_duration().substring(0,2);
+                            String month = mCoupon.get(position).getCoupon_duration().substring(3,5);
+                            String year = mCoupon.get(position).getCoupon_duration().substring(6,10);
+
+                            int couponDuration = Integer.parseInt( year + month + day );
+
 
                             if (totalPayment == 0){
                                 Toast.makeText(v.getContext(), "Cart is empty",Toast.LENGTH_SHORT).show();
+                            }
+                            else if (couponDuration < today){
+                                FirebaseUser fUser;
+                                Toast.makeText(v.getContext(), "Can't use now",Toast.LENGTH_SHORT).show();
+                                String coupon_id = mCoupon.get(position).getCoupon_id();
+                                fUser = FirebaseAuth.getInstance().getCurrentUser();
+                                assert fUser != null;
+                                delCouponDuration(fUser.getUid(),coupon_id);
                             }
                             else if(CouponAdapter.totalPayment < min_price)
                             {
@@ -230,7 +247,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         void onCouponClick(int position, View view, String id, boolean check);
     }
 
-    private void delCoupon(String idUser,String coupon_id){
+    private void delCoupon(String idUser, String coupon_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account/"+idUser+"/coupon");
         new AlertDialog.Builder(context)
@@ -310,7 +327,14 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
 
             }
         });
+    }
+    private static void delCouponDuration(String idUser, String coupon_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("account/"+idUser+"/coupon");
+
+        myRef.child(coupon_id).removeValue();
 
     }
+
 
 }
