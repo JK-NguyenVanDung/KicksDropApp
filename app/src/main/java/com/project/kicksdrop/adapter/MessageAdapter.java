@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
@@ -73,14 +74,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
-        public EditText show_Message;
-        public TextView edited;
-        public Button save,cancel;
-        public KeyListener listener;
-        OnMessageListener onMessageListener;
+        private EditText show_Message;
+        private TextView edited;
+        private Button save,cancel;
+        private KeyListener listener;
+        private OnMessageListener onMessageListener;
+        private CardView bubble;
         public ViewHolder(@NonNull View itemView, OnMessageListener onMessageListener) {
             super(itemView);
-
+            bubble = itemView.findViewById(R.id.bubble);
             show_Message = itemView.findViewById(R.id.message_text_view);
             listener = show_Message.getKeyListener();
             save = itemView.findViewById(R.id.btn_save_edit);
@@ -90,7 +92,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
 
             this.onMessageListener = onMessageListener;
-            itemView.setOnLongClickListener(this);
+            bubble.setOnLongClickListener(this);
         }
 
         @Override
