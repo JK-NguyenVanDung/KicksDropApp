@@ -155,6 +155,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                 if(getDeviceName().equals("Samsung"))
                 {
+                    resource = (Integer) holder.heart.getTag();
                     boolean samsungCont = resource == R.drawable.ic_heart;
                     if(samsungCont ){
                     holder.heart.setImageResource(R.drawable.ic_heart_activated);
@@ -212,12 +213,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     }else{
                         heart.setTag(R.drawable.ic_heart);
                     }
-                    resource = (Integer) heart.getTag();
 
                 }
                 if(listWishlist.size() <=0){
                     heart.setTag(R.drawable.ic_heart);
-                    resource = (Integer) heart.getTag();
 
                 }
             }
