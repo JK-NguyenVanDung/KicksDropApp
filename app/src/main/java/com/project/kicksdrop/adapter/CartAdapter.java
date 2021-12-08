@@ -153,13 +153,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
-                Integer resource = (Integer) holder.heart.getTag();
-                boolean samsungCont = resource == R.drawable.ic_heart;
+
                 boolean condition = holder.heart.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(context, R.drawable.ic_heart)).getConstantState();
                 Toast.makeText(context, "!" + getDeviceName(), Toast.LENGTH_LONG).show();
 
                 if(getDeviceName().contentEquals("Samsung"))
-                {
+                {  Integer resource = (Integer) holder.heart.getTag();
+                    boolean samsungCont = resource == R.drawable.ic_heart;
                     if (samsungCont)
                     {
                         holder.heart.setImageResource(R.drawable.ic_heart_activated);
