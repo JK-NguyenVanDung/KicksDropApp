@@ -132,20 +132,33 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 Integer resource = (Integer) holder.heart.getTag();
                 boolean samsungCont = resource == R.drawable.ic_heart;
                 boolean condition = holder.heart.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(context, R.drawable.ic_heart)).getConstantState();
-                if (condition || samsungCont
-                )
-                {
+                if(samsungCont){
                     holder.heart.setImageResource(R.drawable.ic_heart_activated);
+                    assert fUser != null;
                     String idUser = fUser.getUid();
                     addProductWishlist(idUser,product);
-                    Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_SHORT).show();
+                    holder.heart.setTag(R.drawable.ic_heart_activated);
+                }else{
+                    holder.heart.setImageResource(R.drawable.ic_heart);
+                    assert fUser != null;
+                    String idUser = fUser.getUid();
+                    delProductWishlist(idUser,product.getProduct_id());
+                    holder.heart.setTag(R.drawable.ic_heart);
+
+                }
+                if (condition)
+                {
+                    holder.heart.setImageResource(R.drawable.ic_heart_activated);
+                    assert fUser != null;
+                    String idUser = fUser.getUid();
+                    addProductWishlist(idUser,product);
                     holder.heart.setTag(R.drawable.ic_heart_activated);
 
                 }else{
                     holder.heart.setImageResource(R.drawable.ic_heart);
+                    assert fUser != null;
                     String idUser = fUser.getUid();
                     delProductWishlist(idUser,product.getProduct_id());
-                    Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_SHORT).show();
                     holder.heart.setTag(R.drawable.ic_heart);
 
                 }
