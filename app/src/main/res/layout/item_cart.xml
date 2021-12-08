@@ -169,7 +169,7 @@
             android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
             android:layout_marginStart="60dp"
 
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
