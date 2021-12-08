@@ -19,12 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
+import com.project.kicksdrop.model.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder> {
@@ -33,6 +38,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private static List<Coupon> mCoupon;
     private CouponAdapter.OnCouponListener mOnCouponListener;
     private double price;
+    private ArrayList<Product> mProducts;
     FirebaseUser fUser;
     public static double totalPayment;
     public int percent;
@@ -218,6 +224,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                             {
                                 Toast.makeText(v.getContext(), "Your Total Payment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
                             }
+                            if (mCoupon.get( position ).getco)
                         }else{
                             Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
 
@@ -262,5 +269,36 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 .show();
 
     }
+    private int countBrand(List<HashMap<String,String>> cartProducts,String brand){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mProducts = new ArrayList<>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mProducts.clear();
+                for(HashMap<String, String> item : cartProducts){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.getProduct_colors().remove(0);
+                        for(String color: product.getProduct_colors()){
+                            String cartProductId = dtShot.getKey() + color.substring(1);
+                            if(cartProductId.equals(item.get("cartProductID"))){
+                                if (product.getProduct_brand().equals(brand))
+                                mProducts.add(product);
+                            }
+                        }
+
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
 }
