@@ -12,6 +12,16 @@ public class Coupon {
     private String coupon_time;
     private String coupon_type;
 
+    public String getCondition_text() {
+        return condition_text;
+    }
+
+    public void setCondition_text(String condition_text) {
+        this.condition_text = condition_text;
+    }
+
+    private String condition_text;
+
     public String getCoupon_condition() {
         return coupon_condition;
     }
@@ -44,7 +54,7 @@ public class Coupon {
         this.coupon_time = coupon_time;
         this.coupon_min_price = coupon_min_price;
     }
-    public Coupon(String coupon_id, String coupon_code, String coupon_duration, double coupon_min_price, double coupon_max_price, String coupon_name, String coupon_percent, String coupon_time, String coupon_condition){
+    public Coupon(String coupon_id, String coupon_code, String coupon_duration, double coupon_min_price, double coupon_max_price, String coupon_name, String coupon_percent, String coupon_time, String coupon_condition, String condition_text){
         this.coupon_id = coupon_id;
         this.coupon_code = coupon_code;
         this.coupon_duration = coupon_duration;
@@ -54,6 +64,7 @@ public class Coupon {
         this.coupon_time = coupon_time;
         this.coupon_condition = coupon_condition;
         this.coupon_min_price = coupon_min_price;
+        this.condition_text = condition_text;
     }
 
 
