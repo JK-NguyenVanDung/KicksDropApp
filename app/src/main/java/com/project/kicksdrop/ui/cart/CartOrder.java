@@ -207,11 +207,14 @@ public class CartOrder extends AppCompatActivity {
                                 HashMap<String,Object> hashMap = (HashMap<String, Object>) dtShot.getValue();
 
                                 if (item!= null && hashMap != null){
+                                    double normalPrice = Double.parseDouble(String.valueOf(hashMap.get( "product_price" )));
+
+                                    double discountPrice = Double.parseDouble(String.valueOf(hashMap.get( "discount_price" )));
                                     try {
                                         if(hashMap.get("discount_price") == null){
-                                            total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "product_price" );
+                                            total +=  Integer.valueOf( String.valueOf(item.get("amount"))) * normalPrice;
                                         }else {
-                                            total +=  Double.valueOf( String.valueOf(item.get("amount"))) * (Double) hashMap.get( "discount_price" );
+                                            total +=  Integer.valueOf( String.valueOf(item.get("amount"))) * discountPrice ;
                                         }
                                     } catch (Exception e){
 
