@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +36,7 @@ public class CustomerOrder extends AppCompatActivity {
     RecyclerView recyclerView;
     UserOrderAdapter userOrderAdapter;
     ImageButton back;
+    TextView noAnyThing;
     private  ArrayList<Order> mOrder;
 
     public RecyclerView getProductsView() {
@@ -59,6 +61,7 @@ public class CustomerOrder extends AppCompatActivity {
                 finish();
             }
         });
+        noAnyThing = (TextView) findViewById(R.id.customerOrder_noAnyThing);
         loading.startLoadingScreen();;
         //recycler view
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_order_List);
@@ -92,6 +95,13 @@ public class CustomerOrder extends AppCompatActivity {
                 if(mOrder.size() < 1){
                     loading.dismissDialog();
                 }
+
+                if (mOrder.size() == 0){
+                    noAnyThing.setVisibility(View.VISIBLE);
+                }else {
+                    noAnyThing.setVisibility(View.GONE);
+                }
+
                 userOrderAdapter = new UserOrderAdapter(CustomerOrder.this,mOrder,loading);
 
                 recyclerView.setAdapter(userOrderAdapter);
@@ -101,6 +111,7 @@ public class CustomerOrder extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
     }
 
