@@ -109,9 +109,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         java.util.Currency usd = java.util.Currency.getInstance("USD");
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
         format.setCurrency(usd);
-        String sPrice =format.format(product.getProduct_price());
+        String sPrice;
+        if(product.getDiscount_price() >0) {
+            sPrice = format.format(product.getDiscount_price());
+        }else{
+            sPrice = format.format(product.getProduct_price());
+        }
         holder.price.setText(sPrice);
-
         holder.name.setText(product.getProduct_name());
 
         holder.brand.setText(product.getProduct_brand());
