@@ -71,8 +71,7 @@ public class CustomerOrder extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        fUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert fUser != null;
+
         getOrder(fUser.getUid());
     }
 
@@ -105,6 +104,31 @@ public class CustomerOrder extends AppCompatActivity {
                 userOrderAdapter = new UserOrderAdapter(CustomerOrder.this,mOrder,loading);
 
                 recyclerView.setAdapter(userOrderAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+    }
+    private void cleanDBOrder(String user_Id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order/"+user_Id);
+        DatabaseReference ref = database.getReference("product");
+        //final ArrayList<Product>[] products = new ArrayList[]{new ArrayList<>()};
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dtShot: snapshot.getChildren()){
+                    Order order = dtShot.getValue(Order.class);
+                    assert order != null;
+                    if (String.valueOf(order.getNotification()) == null){
+                        myRef.child(dtShot.getKey()).removeValue();
+                    }
+                }
             }
 
             @Override
