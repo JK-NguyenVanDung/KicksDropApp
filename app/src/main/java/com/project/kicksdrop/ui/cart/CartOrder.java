@@ -133,16 +133,15 @@ public class CartOrder extends AppCompatActivity {
             format.setCurrency(usd);
             String sDiscount =format.format(0.0);
             tv_discount.setText(sDiscount);
-        }
-        shipPrice = 10.00;
-        java.util.Currency usd = java.util.Currency.getInstance("USD");
-        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
-        format.setCurrency(usd);
-        String sPrice =format.format(shipPrice);
-        String sShipPrice =format.format(shipPrice);
+            shipPrice = 10.00;
+            String sPrice =format.format(shipPrice);
+            String sShipPrice =format.format(shipPrice);
 
-        tv_shipment.setText(sPrice);
-        tv_shipmentPrice.setText(sShipPrice);
+            tv_shipment.setText(sPrice);
+            tv_shipmentPrice.setText(sShipPrice);
+        }
+
+
         address= " ";
 
         listener =et_address.getKeyListener();
@@ -308,12 +307,27 @@ public class CartOrder extends AppCompatActivity {
                 java.util.Currency usd = java.util.Currency.getInstance("USD");
                 java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
                 format.setCurrency(usd);
-                String sPrice =format.format(price);
                 String sDiscount =format.format(discount);
-                String sTotalPayment = format.format(price + shipPrice);
                 tv_discount.setText( "-"+ sDiscount);
                 tv_couponPercent.setText(percent + "%");
                 tv_couponCode.setText( coupon.getCoupon_code() );
+
+                //Free Ship
+                if (coupon.getCoupon_type().equals("FREE SHIP")){
+                    shipPrice = 0.0;
+                    String sPrice =format.format(shipPrice);
+                    String sShipPrice =format.format(shipPrice);
+
+                    tv_shipment.setText(sPrice);
+                    tv_shipmentPrice.setText(sShipPrice);
+                }else {
+                    shipPrice = 10.0;
+                    String sPrice =format.format(shipPrice);
+                    String sShipPrice =format.format(shipPrice);
+
+                    tv_shipment.setText(sPrice);
+                    tv_shipmentPrice.setText(sShipPrice);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -462,5 +476,6 @@ public class CartOrder extends AppCompatActivity {
         });
 
     }
+
 
 }
