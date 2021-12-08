@@ -100,7 +100,7 @@
                     android:fontFamily="@font/roboto_condensed_light_italic"
                     android:text="Nike Air Force 1"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
