@@ -4,13 +4,23 @@ public class Coupon {
     private String coupon_id;
     private String coupon_code;
     private String coupon_duration;
-    private int coupon_max_price;
+    private double coupon_max_price;
 
-    private int coupon_min_price;
+    private double coupon_min_price;
     private String coupon_name;
     private String coupon_percent;
     private String coupon_time;
     private String coupon_type;
+
+    public String getCoupon_condition() {
+        return coupon_condition;
+    }
+
+    public void setCoupon_condition(String coupon_condition) {
+        this.coupon_condition = coupon_condition;
+    }
+
+    private String coupon_condition;
 
 
     public boolean getCoupon_checked() {
@@ -24,7 +34,7 @@ public class Coupon {
     private boolean coupon_checked;
 
 
-    public Coupon(String coupon_id, String coupon_code, String coupon_duration, int coupon_max_price, String coupon_name, String coupon_percent, String coupon_time){
+    public Coupon(String coupon_id, String coupon_code, String coupon_duration, double coupon_min_price, double coupon_max_price, String coupon_name, String coupon_percent, String coupon_time){
         this.coupon_id = coupon_id;
         this.coupon_code = coupon_code;
         this.coupon_duration = coupon_duration;
@@ -32,14 +42,26 @@ public class Coupon {
         this.coupon_name = coupon_name;
         this.coupon_percent = coupon_percent;
         this.coupon_time = coupon_time;
+        this.coupon_min_price = coupon_min_price;
+    }
+    public Coupon(String coupon_id, String coupon_code, String coupon_duration, double coupon_min_price, double coupon_max_price, String coupon_name, String coupon_percent, String coupon_time, String coupon_condition){
+        this.coupon_id = coupon_id;
+        this.coupon_code = coupon_code;
+        this.coupon_duration = coupon_duration;
+        this.coupon_max_price = coupon_max_price;
+        this.coupon_name = coupon_name;
+        this.coupon_percent = coupon_percent;
+        this.coupon_time = coupon_time;
+        this.coupon_condition = coupon_condition;
+        this.coupon_min_price = coupon_min_price;
     }
 
 
-    public int getCoupon_min_price() {
+    public double getCoupon_min_price() {
         return coupon_min_price;
     }
 
-    public void setCoupon_min_price(int coupon_min_price) {
+    public void setCoupon_min_price(double coupon_min_price) {
         this.coupon_min_price = coupon_min_price;
     }
 
@@ -78,11 +100,11 @@ public class Coupon {
         this.coupon_duration = coupon_duration;
     }
 
-    public int getCoupon_max_price() {
+    public double getCoupon_max_price() {
         return coupon_max_price;
     }
 
-    public void setCoupon_max_price(int coupon_max_price) {
+    public void setCoupon_max_price(double coupon_max_price) {
         this.coupon_max_price = coupon_max_price;
     }
 

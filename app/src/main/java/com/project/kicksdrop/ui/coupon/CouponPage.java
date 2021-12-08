@@ -57,7 +57,6 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
         Log.d("price", String.valueOf(price));
         matching();
         context =this;
-        //
         //back
         back.setOnClickListener(new  View.OnClickListener(){
             @SuppressLint("SetTextI18n")
@@ -139,7 +138,6 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
                         for (int i = 0; i < couponInList.size(); i++) {
                             if (couponInList.get(i).equals(dtShot.getKey())){
                                 boolean check = couponInList.get(i).equals(dtShot.getKey());
-                                Log.d("test",String.valueOf(check));
                                 coupon.setCoupon_checked(false);
                                 mCoupon.add(coupon);
                             }

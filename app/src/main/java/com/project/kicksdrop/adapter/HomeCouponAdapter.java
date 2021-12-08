@@ -60,20 +60,17 @@ public class HomeCouponAdapter extends RecyclerView.Adapter<HomeCouponAdapter.Vi
 
         if (type.equals("FREE SHIP")){
             holder.icon.setImageResource(R.drawable.ic_car);
-            holder.btn.setText("Free Shipment");
         }
         else if (type.equals("DISCOUNT PERCENT")){
             holder.icon.setImageResource(R.drawable.ic_discount);
-            holder.btn.setText("20% Off for all Nike shoes");
         }
         else if (type.equals("DAILY")){
             holder.icon.setImageResource(R.drawable.ic_calendar);
-            holder.btn.setText("Today’s Special Offer");
         }
         else {
             holder.icon.setImageResource(R.drawable.ic_ticket_star);
-            holder.btn.setText("Special Combo Offer");
         }
+        holder.btn.setText(coupon.getCoupon_name());
 
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +79,7 @@ public class HomeCouponAdapter extends RecyclerView.Adapter<HomeCouponAdapter.Vi
                 String idUser = fUser.getUid().toString();
                 addCoupon(idUser,coupon.getCoupon_id());
                 MessagePopUp messagePopUp = new MessagePopUp();
-                messagePopUp.show(context,"Add To Coupon Successfully");
+                messagePopUp.show(context,"Added Coupon Successfully");
 
             }
         });
