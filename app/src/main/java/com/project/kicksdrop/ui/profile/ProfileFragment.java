@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.databinding.FragmentProfileBinding;
+import com.project.kicksdrop.model.Order;
 import com.project.kicksdrop.ui.auth.LoginActivity;
 import com.project.kicksdrop.ui.customerOrder.CustomerOrder;
 import com.project.kicksdrop.ui.auth.ResetPasswordActivity;
@@ -98,8 +100,10 @@ public class ProfileFragment extends Fragment {
         shimmer = binding.shimmerProfile;
         assert account != null;
         getAccount(account.getUid());
+        cleanDBOrder();
 
         return root;
+
     }
 
     private void getAccount(String user_id){
@@ -215,6 +219,39 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+
+    private void cleanDBOrder(){
+        FirebaseUser fUser;
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert fUser != null;
+        String user_Id = fUser.getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order/"+user_Id);
+        DatabaseReference ref = database.getReference("product");
+
+
+        //final ArrayList<Product>[] products = new ArrayList[]{new ArrayList<>()};
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dtShot: snapshot.getChildren()){
+                    Order order = dtShot.getValue(Order.class);
+                    assert order != null;
+                    String abc = order.getOrder_create_date();
+                    if (abc == null){
+                        myRef.child(dtShot.getKey()).removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+    }
 
     @Override
     public void onDestroyView() {
