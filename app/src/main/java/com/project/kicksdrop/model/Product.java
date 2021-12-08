@@ -71,6 +71,17 @@ public class Product {
 
     private double product_rating;
 
+    public double getTemp_rating() {
+        return temp_rating;
+    }
+
+    public void setTemp_rating(double new_rating) {
+        this.temp_rating = new_rating;
+    }
+
+    private double temp_rating;
+
+
     public Product(String product_id, String product_brand, ArrayList<String> product_colors, String product_name, double product_price, int product_quantity, ArrayList<String>  product_sizes,ArrayList<HashMap<String,String>> product_images) { //
         this.product_id = product_id;
         this.product_brand = product_brand;

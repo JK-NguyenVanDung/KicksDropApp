@@ -112,20 +112,38 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/ProductCart_tv_price"
-
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearlayout_itemProductCart_sectionOne"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="30dp"
             android:layout_toEndOf="@+id/iv_item_product_cart_roundedImage"
-            android:fontFamily="@font/roboto"
-            android:gravity="center_vertical"
-            android:text="99"
-            android:textColor="#444444"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ProductCart_tv_price"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_vertical"
+                android:text="99"
+                android:textColor="#444444"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/ProductCart_tv_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_vertical"
+                android:text="99"
+                android:textColor="#7D7D7D"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/ProductCart_brand"
@@ -172,7 +190,7 @@
             <TextView
                 android:id="@+id/tv_item_productCart_listView_size"
 
-                android:layout_width="30dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
 
                 android:layout_marginEnd="10dp"
@@ -186,6 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_drop_down">
+
                 <Spinner
                     android:id="@+id/itemProductCart_sp_listViewDropDownSize"
                     android:layout_width="100dp"

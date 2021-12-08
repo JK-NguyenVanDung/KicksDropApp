@@ -147,7 +147,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_corner_bottom_linear_layout"
+        android:background="@drawable/border_corner_linear_layout"
+
+        android:outlineAmbientShadowColor="#DD1313"
+        android:outlineSpotShadowColor="#3C1414"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -158,7 +161,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="0dp"

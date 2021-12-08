@@ -35,6 +35,7 @@ import com.project.kicksdrop.ui.productBrands.ProductBrands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.ViewHolder> {
 
@@ -72,20 +73,17 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                             Double.parseDouble(order.getOrder_discount()) +
                             Double.parseDouble(order.getShipping_price()));
             holder.tv_discount.setText("-$" +order.getOrder_discount());
+            holder.tv_totalPayment.setText("$" +totalPayment);
 
         }else{
-            assert order.getOrder_price() != null;
-            totalPayment= String.valueOf(
-                    Double.parseDouble(order.getOrder_price()) +
-                            Double.parseDouble(order.getShipping_price()));
             holder.tv_discount.setText("$0.00");
-
         }
+
         holder.tv_address.setText(order.getAddress());
         holder.tv_total.setText("$" +order.getOrder_price());
         holder.tv_shipPrice.setText("$" +order.getShipping_price());
 
-        holder.tv_totalPayment.setText("$" +totalPayment);
+
         holder.tv_Status.setText(order.getStatus());
         if(order.getOrder_id() != null) {
             holder.tv_orderId.setText(order.getOrder_id().substring(9));
@@ -95,7 +93,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" product)");
         }
         else {
-            holder.tv_orderProduct.setText("  ("+order.getQuantity_product()+" products)");
+            holder.tv_orderProduct.setText(" ("+order.getQuantity_product()+" products)");
         }
         holder.tv_timeOrder.setText(order.getOrder_create_date());
         //
@@ -109,20 +107,27 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         if(order.getStatus().equals("Ordered")){
             holder.deleteBtn.setVisibility(View.VISIBLE);
             holder.receivedBtn.setVisibility(View.GONE);
+            holder.rateBtn.setVisibility(View.GONE);
         }else if (order.getStatus().equals("Shipping")){
             holder.deleteBtn.setVisibility(View.GONE);
             holder.receivedBtn.setVisibility(View.GONE);
+            holder.rateBtn.setVisibility(View.GONE);
+
         }else if (order.getStatus().equals("Shipped")){
             holder.deleteBtn.setVisibility(View.GONE);
             holder.receivedBtn.setVisibility(View.VISIBLE);
+            holder.rateBtn.setVisibility(View.GONE);
+
         }else if (order.getStatus().equals("Received")){
             holder.deleteBtn.setVisibility(View.GONE);
-            holder.receivedBtn.setVisibility(View.VISIBLE);
-        }else if (order.getStatus().equals("Rated")){
-            holder.deleteBtn.setVisibility(View.VISIBLE);
             holder.receivedBtn.setVisibility(View.GONE);
-        }
+            holder.rateBtn.setVisibility(View.VISIBLE);
 
+        }else if (order.getStatus().equals("Rated")){
+            holder.deleteBtn.setVisibility(View.GONE);
+            holder.receivedBtn.setVisibility(View.GONE);
+            holder.rateBtn.setVisibility(View.GONE);
+        }
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         assert fUser != null;
@@ -149,7 +154,30 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View view) {
-                createRatingDialog(order.getOrder_details());
+                new AlertDialog.Builder(context)
+                        .setTitle("Received Order")
+                        .setMessage("Are you sure you have received this? \n (If we haven't heard a response from you in 3 days then we will assume you have received the packages, feels free to message us if otherwise, thanks you!)")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                                DatabaseReference myRef = database.getReference("order/"+fUser.getUid() + "/"+ order.getOrder_id());
+
+                                myRef.child("status").setValue("Received");
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
+        holder.rateBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(View view) {
+                createRatingDialog(order.getOrder_details(), order.getOrder_id());
 
             }
         });
@@ -158,8 +186,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 
 
     }
-    public void createRatingDialog(List<HashMap<String,String>> orderDetails){
-
+    public void createRatingDialog(List<HashMap<String,String>> orderDetails, String orderId){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final View ratingPopupView = inflater.inflate(R.layout.item_rating_product_container,null);
         builder.setView(ratingPopupView);
@@ -172,9 +199,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         GridLayoutManager layoutManager = new GridLayoutManager(context,1);
         recyclerView.setLayoutManager(layoutManager);
 
-        saveRating(orderDetails, rate, recyclerView, dialog);
-
-
+        saveRating(orderDetails, rate, recyclerView, dialog,orderId);
         cancel.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -182,16 +207,10 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                 dialog.dismiss();
             }
         });
-//        rate.setOnClickListener(new View.OnClickListener() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onClick(View view) {
-//                saveRating(orderDetails);
-//            }
-//        });
+
 
     }
-    public void saveRating(List<HashMap<String,String>> orderDetails, Button rate, RecyclerView recyclerView, AlertDialog dialog){
+    public void saveRating(List<HashMap<String,String>> orderDetails, Button rate, RecyclerView recyclerView, AlertDialog dialog, String orderId){
         ArrayList<Product> products = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
@@ -205,6 +224,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                         assert product != null;
                         product.getProduct_colors().remove(0);
                         String productId = dtShot.getKey();
+                        assert productId != null;
                         if(productId.equals(item.get("productId"))){
                             product.setProduct_id(dtShot.getKey());
                             product.getProduct_images().remove(0);
@@ -215,7 +235,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                         }
                     }
                 }
-                RatingAdapter adapter = new RatingAdapter(context,orderDetails,rate,products,dialog);
+                RatingAdapter adapter = new RatingAdapter(context,orderDetails,rate,products,dialog, orderId);
                 recyclerView.setAdapter(adapter);
 
             }
@@ -243,7 +263,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         TextView tv_address, tv_total, tv_shipPrice, tv_discount, tv_totalPayment, tv_orderId
                 , tv_orderProduct, tv_Status, tv_timeOrder;
         RecyclerView recyclerView;
-        AppCompatButton deleteBtn,receivedBtn;
+        AppCompatButton deleteBtn,receivedBtn, rateBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -260,6 +280,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
 
             deleteBtn = itemView.findViewById(R.id.customerOrder_btn_delete);
             receivedBtn = itemView.findViewById(R.id.customerOrder_btn_received);
+            rateBtn = itemView.findViewById(R.id.customerOrder_btn_rating);
 
         }
     }

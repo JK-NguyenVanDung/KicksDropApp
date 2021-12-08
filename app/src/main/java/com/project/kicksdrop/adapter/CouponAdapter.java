@@ -1,5 +1,6 @@
 package com.project.kicksdrop.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,10 +42,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private ArrayList<Product> mProducts;
     FirebaseUser fUser;
     public static double totalPayment;
-    public int percent;
-    public int maxprice;
-    private String finaldiscount;
-    private int checkedCoupon = -1;
     private static List<CheckBoxGroup> mCheckbox;
     private static Button apply;
     public class CheckBoxGroup{
@@ -107,18 +104,19 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
 
         }
     }
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CouponAdapter.ViewHolder holder, int position) {
         final Coupon coupon = mCoupon.get(holder.getAdapterPosition());
         String couponCode = coupon.getCoupon_code();
         String couponDuration = coupon.getCoupon_duration();
-        int couponMinPrice = coupon.getCoupon_min_price();
-        int couponMaxPrice = coupon.getCoupon_max_price();
+        double couponMinPrice = coupon.getCoupon_min_price();
+        double couponMaxPrice = coupon.getCoupon_max_price();
         String couponPercent = coupon.getCoupon_percent();
 
-        holder.couponContent.setText("Giảm " + couponPercent + " cho đơn hàng từ " + couponMinPrice+"\nTối đa "+ couponMaxPrice);
-        holder.couponDate.setText("HSD: " + couponDuration);
-        holder.couponCode.setText("MA: " + couponCode);
+        holder.couponContent.setText("Get " + couponPercent + "% off for an order from $" + couponMinPrice+"\nMaximum discount: $"+ couponMaxPrice);
+        holder.couponDate.setText("Exp: " + couponDuration);
+        holder.couponCode.setText(couponCode);
         if(coupon.getCoupon_checked()){
             holder.couponCheckbox.setChecked(true);
         }
@@ -148,36 +146,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 delCoupon(fUser.getUid(),coupon_id);
             }
         });
-
-
-//        apply.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                int i1 = percent;
-////                int i2 = maxprice;
-////                if ( i1 != 0 && i2 != 0 ){
-////                    finaldiscount =  calculateTotal(totalPayment, percent, maxprice);
-////                }
-//               // Intent intent = new Intent(context.getApplicationContext(), CartAdapter.class);
-//                //intent.putExtra("discount", finaldiscount);
-//
-//                //Log.d("test",finaldiscount);
-////                Intent intent = new Intent();
-////                resultIntent.putExtra("result", finaldiscount);
-//
-//            }
-//
-//
-//        });
-
-
-
-//        holder.btn_apply.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
 
 
     }
@@ -212,7 +180,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                         if(cb.getCheck().isChecked() ) {
                             int position = cb.getPos();
                             String id = mCoupon.get(position).getCoupon_id();
-                            int min_price = mCoupon.get(position).getCoupon_min_price();
+                            double min_price = mCoupon.get(position).getCoupon_min_price();
                             if (CouponAdapter.totalPayment > min_price){
                                 onCouponListener.onCouponClick(position, v, id);
                                 break;
@@ -243,15 +211,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         void onCouponClick(int position, View view, String id);
     }
 
-    private String calculateTotal(double totalPayment, int percent, int maxprice) {
-            double sPrice = totalPayment;
-        double discount = (sPrice * percent) / 100;
-        if (discount > maxprice) {
-            discount = maxprice;
-        }
-        String finalTotalDiscount = String.valueOf(discount);
-        return finalTotalDiscount;
-    }
     private void delCoupon(String idUser,String coupon_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account/"+idUser+"/coupon");

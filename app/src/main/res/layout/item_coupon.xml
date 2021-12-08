@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="5dp">
 
         <LinearLayout
             android:id="@+id/header_coupon"
@@ -89,9 +90,11 @@
                     android:id="@+id/coupon_tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HSD:31/08/2022"
+                    android:text="Exp:31/08/2022"
                     android:textColor="#707070"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+
+                    android:paddingVertical="5dp"/>
 
             </LinearLayout>
 

@@ -42,17 +42,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapter.ViewHolder> {
     private Context context;
-    private Cart cart;
     private List<Product> mCartProduct;
-    private java.util.List<Coupon> mCoupon;
-    private List<HashMap<String,String>> productOptions;
-    private Spinner sizeSpinner;
-    private Coupon coupon;
-    //private long currentAmount = 1;
-    private TextView totalPayment,totalProduct;
+    private final List<HashMap<String,String>> productOptions;
+
+    private TextView totalProduct;
     public static double getTotalAmount() {
         return totalAmount;
     }
@@ -60,10 +57,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     public static void setTotalAmount(double totalAmount) {
         OrderProductAdapter.totalAmount = totalAmount;
     }
-    private int totalProducts = 0;
     private String coupon_id;
-    private int maxprice = 0;
-    private int percent = 0;
+
     LoadingScreen loading;
     private static double totalAmount = 0.0;
     public OrderProductAdapter(Context context, List<Product> mCartProduct, List<HashMap<String,String>> productOptions, LoadingScreen loading) {
@@ -125,9 +120,18 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
             java.util.Currency usd = java.util.Currency.getInstance("USD");
             java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
             format.setCurrency(usd);
-            String sPrice =format.format(product.getProduct_price());
 
-            //
+
+            String sPrice;
+            if(product.getDiscount_price() == 0.0){
+                sPrice =format.format(product.getProduct_price());
+            }else {
+                sPrice =format.format(product.getDiscount_price());
+            }
+            if(productOptions.get(holder.getAdapterPosition()).get("productPrice") != null){
+                double price = Double.parseDouble(Objects.requireNonNull(productOptions.get(holder.getAdapterPosition()).get("productPrice")));
+                sPrice =format.format(price);
+            }
             holder.productCartName.setText(product.getProduct_name());
             holder.productCartPrice.setText(sPrice);
             holder.productCartAmount.setText(product.getAmount());
