@@ -20,13 +20,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
+import com.project.kicksdrop.model.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder> {
 
@@ -35,8 +42,10 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private CouponAdapter.OnCouponListener mOnCouponListener;
     FirebaseUser fUser;
     public static double totalPayment;
+    private static ArrayList<Product> mProducts;
     private static List<CheckBoxGroup> mCheckbox;
     private static Button apply;
+    private static boolean checkCoupon;
     public class CheckBoxGroup{
         public CheckBoxGroup(int adapterPosition, CheckBox couponCheckbox) {
             this.pos = adapterPosition;
@@ -71,7 +80,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         CouponAdapter.apply = apply;
         this.mOnCouponListener = onCouponListener;
         mCheckbox = new ArrayList<>();
-
     }
 
 
@@ -168,25 +176,45 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             CouponAdapter.apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    boolean noChecked = true;
                     for(CheckBoxGroup cb : mCheckbox){
                         if(cb.getCheck().isChecked() ) {
                             int position = cb.getPos();
                             String id = mCoupon.get(position).getCoupon_id();
                             double min_price = mCoupon.get(position).getCoupon_min_price();
-                            if (CouponAdapter.totalPayment > min_price){
-                                onCouponListener.onCouponClick(position, v, id);
+                            String coupon_condition = mCoupon.get(position).getCoupon_condition();
+                            if (totalPayment == 0){
+                                checkCoupon = false;
+                                Toast.makeText(v.getContext(), "Cart is empty",Toast.LENGTH_SHORT).show();
+                                onCouponListener.onCouponClick(position, v, id, checkCoupon);
                                 break;
                             }
-                            else if (totalPayment == 0){
-                                Toast.makeText(v.getContext(), "Cart is empty",Toast.LENGTH_SHORT).show();
-                            }
-                            else
+                            else if (CouponAdapter.totalPayment < min_price)
                             {
+                                checkCoupon = false;
                                 Toast.makeText(v.getContext(), "Your Total Payment is not enough to use this coupon",Toast.LENGTH_SHORT).show();
+                                onCouponListener.onCouponClick(position, v, id, checkCoupon);
+                                break;
                             }
-                        }else{
-                            Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
+                            else if ( coupon_condition != null){
+                                //
+                                checkCoupon = true;
+                                FirebaseUser fUser;
+                                fUser = FirebaseAuth.getInstance().getCurrentUser();
+                                assert fUser != null;
+                                String brand = mCoupon.get(position).getCoupon_condition().substring(2);
+                                int count =Integer.parseInt( mCoupon.get(position).getCoupon_condition().substring(0,1) );
+
+                                getCart(fUser.getUid(), brand, count);
+                            }
+                        }
+                        else{
+                            checkCoupon = false;
+                            if(noChecked){
+                                Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
+                                onCouponListener.onCouponClick(1, v, "", checkCoupon);
+                                noChecked =false;
+                            }
 
                         }
                     }
@@ -201,7 +229,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     }
 
     public interface OnCouponListener {
-        void onCouponClick(int position, View view, String id);
+        void onCouponClick(int position, View view, String id, boolean check);
     }
 
     private void delCoupon(String idUser,String coupon_id){
@@ -218,6 +246,73 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+
+    }
+    private static void getProduct(List<HashMap<String, String>> cartProducts, String brand, int count){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("product");
+        mProducts = new ArrayList<>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mProducts.clear();
+                for(HashMap<String, String> item : cartProducts){
+                    for(DataSnapshot dtShot: snapshot.getChildren()){
+                        Product product = dtShot.getValue(Product.class);
+                        assert product != null;
+                        product.getProduct_colors().remove(0);
+                        for(String color: product.getProduct_colors()){
+                            String cartProductId = dtShot.getKey() + color.substring(1);
+                            if(cartProductId.toLowerCase().equals(item.get("cartProductID").toLowerCase())){
+                              if (product.getProduct_brand().equals(brand)){
+                                  mProducts.add(product);
+                              }
+                            }
+                        }
+
+                    }
+                }
+                if (count > mProducts.size()){
+                    Log.d( "dasdas",String.valueOf( mProducts.size() ) );
+                    Log.d( "dasdsad", String.valueOf( count ) );
+                    checkCoupon = false;
+                    Toast.makeText( apply.getContext(), "Brand",Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private static void getCart(String user_Id, String brand, int count){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("cart/"+user_Id);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                if(hashMap != null) {
+                    HashMap<String, Object> listProduct = (HashMap<String, Object>) hashMap.get("product");
+                    for (Map.Entry<String, Object> entry : listProduct.entrySet()) {
+                        String key = entry.getKey();
+                        HashMap<String, String> item = (HashMap<String, String>) listProduct.get(key);
+                        item.put("cartProductID", key);
+                        productsInCart.add(item);
+                    }
+                    getProduct(productsInCart, brand, count);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 

@@ -40,6 +40,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
     TextView noAnyThing;
     Context context;
     private CouponAdapter couponAdapter;
+    private static boolean checkCoupon;
     private RecyclerView recyclerView;
     private ArrayList<Coupon> mCoupon;
     private com.project.kicksdrop.model.Coupon coupon;
@@ -66,12 +67,7 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
             }
         });
 
-        accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
 
         //recycler view
         recyclerView.setHasFixedSize(true);
@@ -160,12 +156,14 @@ public class CouponPage extends AppCompatActivity implements CouponAdapter.OnCou
 
 
     @Override
-    public void onCouponClick(int position, View view, String id) {
+    public void onCouponClick(int position, View view, String id, boolean check) {
         Intent intent = new Intent(getApplicationContext(), CartListView.class);
         intent.putExtra("coupon_id", id);
         setResult(Activity.RESULT_OK,
                 new Intent().putExtra("coupon_id", id));
-        finish();
+        if (check){
+            finish();
+        }
 
     }
 }
