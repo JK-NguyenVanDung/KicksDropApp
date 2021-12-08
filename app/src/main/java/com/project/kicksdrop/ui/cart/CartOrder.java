@@ -55,8 +55,8 @@ public class CartOrder extends AppCompatActivity {
     private ArrayList<Product> mProducts;
     private List<Coupon> mCoupon;
     private String coupon_id;
-    private int percent, maxPrice;
-    private double price;
+    private int percent;
+    private double price,maxPrice;
     private Double total = 0.0;
     private String timeStamp_id;
     private String address;
@@ -269,7 +269,7 @@ public class CartOrder extends AppCompatActivity {
             }
         });
     }
-    private double calculateDiscount(int maxPrice, int percent, double price){
+    private double calculateDiscount(double maxPrice, int percent, double price){
         double discount = (price * percent) / 100;
         if (discount > maxPrice){
             discount = maxPrice;
