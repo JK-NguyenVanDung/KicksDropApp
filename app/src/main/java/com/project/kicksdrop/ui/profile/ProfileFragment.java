@@ -242,9 +242,6 @@ public class ProfileFragment extends Fragment {
                     if (abc == null){
                         myRef.child(dtShot.getKey()).removeValue();
                     }
-                    else{
-                        Log.d("dasdsad","abc");
-                    }
                 }
             }
 
