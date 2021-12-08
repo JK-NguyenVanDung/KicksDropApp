@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -110,8 +112,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.sizeSpinner.setVisibility(View.INVISIBLE);
         holder.productCartAmount.setVisibility(View.INVISIBLE);
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert fUser != null;
-        getUserWishlist(fUser.getUid(), product, holder.heart);
+        holder.heart.setTag(R.drawable.ic_heart);
+
+       if(fUser != null){
+           getUserWishlist(fUser.getUid(), product, holder.heart);
+       }
         String opColor = "#ffffff";
         if(productOptions.get(holder.getAdapterPosition()).get("color") != null){
             opColor = productOptions.get(holder.getAdapterPosition()).get("color").toLowerCase();
@@ -126,19 +131,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
-                if (holder.heart.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.ic_heart).getConstantState()){
+                Integer resource = (Integer) holder.heart.getTag();
+                boolean samsungCont = resource == R.drawable.ic_heart;
+                boolean condition = holder.heart.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(context, R.drawable.ic_heart)).getConstantState();
+                if (condition || samsungCont
+                )
+                {
                     holder.heart.setImageResource(R.drawable.ic_heart_activated);
                     String idUser = fUser.getUid();
                     addProductWishlist(idUser,productOptions.get(holder.getAdapterPosition()));
-                    Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_SHORT).show();
+                    holder.heart.setTag(R.drawable.ic_heart_activated);
 
                 }else{
+                    holder.heart.setImageResource(R.drawable.ic_heart);
                     String idUser = fUser.getUid();
                     delProductWishlist(idUser,product.getProduct_id());
-                    Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_SHORT).show();
+                    holder.heart.setTag(R.drawable.ic_heart);
 
                 }
-
             }});
 
         for(HashMap<String,String> temp: product.getProduct_images()){
@@ -157,13 +169,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
         format.setCurrency(usd);
         String sPrice;
+        double normalPrice = product.getProduct_price();
+
+
         if(product.getDiscount_price() == 0.0){
             sPrice =format.format(product.getProduct_price());
+            holder.productCartPrice.setText(sPrice);
+
         }else {
+            holder.discount.setVisibility(View.VISIBLE);
+            holder.discount.setPaintFlags(holder.discount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             sPrice =format.format(product.getDiscount_price());
+            holder.productCartPrice.setText(sPrice);
+            String discount =format.format(normalPrice);
+            holder.discount.setText(discount);
         }
 
-        holder.productCartPrice.setText(sPrice);
 
         String amountS = String.valueOf( productOptions.get(position).get("amount"));
         final long[] currentAmount = {Long.parseLong(amountS)};
@@ -276,11 +297,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 for (DataSnapshot item : snapshot.getChildren()) {
                     listWishlist.add(item.getKey());
                 }
-                for (int i = 0; i < listWishlist.size(); i++) {
+                for (int i =0 ; i < listWishlist.size();i++) {
                     if (product.getProduct_id().equals(listWishlist.get(i))) {
                         heart.setImageResource(R.drawable.ic_heart_activated);
+                        heart.setTag(R.drawable.ic_heart_activated);
                     } else {
-                        heart.setImageResource(R.drawable.ic_heart);
+                        heart.setTag(R.drawable.ic_heart);
+
                     }
                 }
             }
@@ -382,7 +405,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
     @SuppressLint("NotifyDataSetChanged")
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView productCartName, productCartType, productCartAmount, productCartPrice;
+        TextView productCartName, productCartType, productCartAmount, productCartPrice, discount;
         ImageButton increase, decrease, delete, dropDown;
         //Spinner productCartDropDownSize;
         ImageButton heart;
@@ -393,6 +416,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             spinnerCont = itemView.findViewById(R.id.cart_spinner_cont);
+            discount = itemView.findViewById(R.id.ProductCart_tv_discount);
             shimmer = itemView.findViewById(R.id.shimmer_cart);
             productCartName = (TextView) itemView.findViewById(R.id.ProductCart_tv_name);
             productCartType = (TextView) itemView.findViewById(R.id.ProductCart_tv_category);

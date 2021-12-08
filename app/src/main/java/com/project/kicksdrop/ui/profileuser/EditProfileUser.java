@@ -183,7 +183,8 @@ public class EditProfileUser extends AppCompatActivity {
 
                     shimmer.stopShimmer();
                     shimmer.hideShimmer();
-                    shimmer.setVisibility(View.GONE);                }
+                    shimmer.setVisibility(View.GONE);
+                }
             });
 
         } catch (IOException e) {
@@ -203,27 +204,33 @@ public class EditProfileUser extends AppCompatActivity {
 
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
 
+                if(hashMap!= null || hashMap.get("email") != null){
+                    email = Objects.requireNonNull(hashMap.get("email")).toString();
+                    name = Objects.requireNonNull(hashMap.get("name")).toString();
+                    mobile = Objects.requireNonNull(hashMap.get("mobile")).toString();
+                    gender = Objects.requireNonNull(hashMap.get("gender")).toString();
+                    if(hashMap.get("address") != null){
+                        address = Objects.requireNonNull(hashMap.get("address")).toString();
 
-                email = hashMap.get("email").toString();
-                name = hashMap.get("name").toString();
-                mobile = hashMap.get("mobile").toString();
-                gender = hashMap.get("gender").toString();
-                if(hashMap.get("address") != null){
-                    address = Objects.requireNonNull(hashMap.get("address")).toString();
+                    }
+                    if(hashMap.get("avatar") != null){
+                        imagesName= Objects.requireNonNull(hashMap.get("avatar")).toString();
+                        loadImage(profileAvatar, imagesName);
+                    }else{
+                        loading.dismissDialog();
 
+                        shimmer.stopShimmer();
+                        shimmer.hideShimmer();
+                        shimmer.setVisibility(View.GONE);
+                    }
+
+                    userEmail.setText(email);
+                    userName.setText(name);
+                    userPhone.setText(mobile);
+                    userSex.setText(gender);
+                    userAddress.setText(address);
                 }
-                if(hashMap.get("avatar") != null){
-                    imagesName= Objects.requireNonNull(hashMap.get("avatar")).toString();
-                    loadImage(profileAvatar, imagesName);
-                }else{
-                    loading.dismissDialog();
-                }
 
-                userEmail.setText(email);
-                userName.setText(name);
-                userPhone.setText(mobile);
-                userSex.setText(gender);
-                userAddress.setText(address);
 
             }
             @Override
