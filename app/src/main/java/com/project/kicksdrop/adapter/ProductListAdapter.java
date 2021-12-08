@@ -191,7 +191,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     }
                 }
 
-
             }});
     }
 

@@ -111,7 +111,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
+                HashMap<String, Object> hashMap = (HashMap<String,Object>) snapshot.getValue();
                 assert hashMap != null;
                 if(hashMap.get("name") != null){
                     userName.setText("Hello "+ Objects.requireNonNull(hashMap.get("name")).toString());
