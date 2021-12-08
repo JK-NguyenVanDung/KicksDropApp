@@ -8,8 +8,6 @@
     tools:context=".ui.product.ProductDetail">
 
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
@@ -40,8 +38,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -159,14 +157,13 @@
                                     android:id="@+id/product_tv_numberCart"
                                     android:layout_width="wrap_content"
                                     android:layout_height="15dp"
-                                    android:text="0"
-                                    android:textSize="10dp"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="0.5dp"
+                                    android:text="0"
                                     android:textColor="@color/white"
+                                    android:textSize="10dp"
 
                                     />
-
 
 
                             </FrameLayout>
@@ -188,34 +185,32 @@
                     </LinearLayout>
 
 
-
                 </RelativeLayout>
 
             </LinearLayout>
-
 
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_corner_linear_layout"
-                android:outlineAmbientShadowColor="#DD1313"
-                android:outlineSpotShadowColor="#3C1414"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:outlineAmbientShadowColor="#DD1313"
+                android:outlineSpotShadowColor="#3C1414"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal">
+                android:paddingRight="20dp">
 
                 <FrameLayout
                     android:id="@+id/FL_layoutDiscount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:visibility="gone"
-
                     android:layout_marginTop="-7dp"
-                    android:elevation="20dp">
+
+                    android:elevation="20dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -249,12 +244,13 @@
                         android:textSize="18dp"
                         android:textStyle="bold" />
                 </FrameLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
                     android:background="@android:color/transparent"
-                    android:elevation="5dp"
-                    android:layout_marginTop="-10dp">
+                    android:elevation="5dp">
 
                     <LinearLayout
                         android:id="@+id/linearlayout_productInfo_sectionOne"
@@ -267,9 +263,14 @@
                         android:layout_marginTop="55dp"
                         android:layout_marginEnd="0dp"
                         android:layout_marginBottom="10dp"
-                        android:orientation="vertical"
-                        android:elevation="1dp">
+                        android:elevation="1dp"
+                        android:orientation="horizontal">
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/tv_productInfo_productName"
@@ -282,6 +283,54 @@
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
 
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_productInfo_productTextSize"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+
+                                    android:layout_alignParentStart="true"
+
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginTop="0dp"
+
+                                    android:fontFamily="@font/work_sans"
+
+                                    android:gravity="center_vertical"
+                                    android:text="Size"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_productInfo_productSize"
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+
+
+                                    android:layout_marginStart="9dp"
+                                    android:layout_marginTop="0dp"
+
+                                    android:layout_toEndOf="@+id/tv_productInfo_productTextSize"
+
+                                    android:fontFamily="@font/work_sans"
+                                    android:text="42"
+                                    android:textColor="#757575"
+                                    android:textSize="12sp"
+                                    tools:ignore="TextContrastCheck,TextContrastCheck" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <com.borjabravo.simpleratingbar.SimpleRatingBar
                                 android:id="@+id/productDetail_ratingStar"
@@ -296,6 +345,20 @@
                                 app:ratingMargin="1dp"
                                 app:ratingSize="20dp" />
 
+                            <TextView
+                                android:id="@+id/productInfo_tv_reviews"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/work_sans"
+                                android:gravity="center_vertical|end"
+                                android:text="0 review(s)"
+                                android:textColor="#757575"
+                                android:textSize="12sp"
+                                tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -308,71 +371,12 @@
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="1dp"
                         android:layout_marginEnd="0dp"
-                        android:gravity="center_vertical">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="16dp">
-
-                            <TextView
-                                android:id="@+id/tv_productInfo_productTextSize"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-
-                                android:layout_alignParentStart="true"
-
-                                android:layout_marginStart="0dp"
-                                android:layout_marginTop="0dp"
-
-                                android:fontFamily="@font/work_sans"
-
-                                android:gravity="center_vertical"
-                                android:text="Size"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/productInfo_tv_reviews"
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-
-                                android:layout_alignParentEnd="true"
-
-                                android:layout_marginStart="259dp"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginEnd="1dp"
-
-                                android:layout_toEndOf="@+id/tv_productInfo_productTextSize"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
 
 
-                                android:fontFamily="@font/work_sans"
-
-                                android:gravity="center_vertical|end"
-                                android:text="0 review(s)"
-                                android:textColor="#757575"
-                                android:textSize="12sp"
-                                tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
-
-                            <TextView
-                                android:id="@+id/tv_productInfo_productSize"
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
 
 
-                                android:layout_marginStart="9dp"
-                                android:layout_marginTop="0dp"
-
-                                android:layout_toEndOf="@+id/tv_productInfo_productTextSize"
-
-                                android:fontFamily="@font/work_sans"
-                                android:text="42"
-                                android:textColor="#757575"
-                                android:textSize="12sp"
-                                tools:ignore="TextContrastCheck,TextContrastCheck" />
-
-                        </RelativeLayout>
                     </LinearLayout>
 
 
@@ -494,13 +498,13 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="60dp">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:gravity="center_vertical"
                                 android:layout_marginStart="5dp"
-                                >
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/tv_product_DiscountPrice"
@@ -515,6 +519,7 @@
                                     android:textSize="24sp"
                                     android:typeface="sans"
                                     android:visibility="gone" />
+
                                 <TextView
                                     android:id="@+id/tv_productInfo_product_price"
                                     android:layout_width="180dp"
@@ -522,12 +527,12 @@
                                     android:layout_alignParentStart="true"
 
                                     android:layout_alignParentTop="true"
-                                    android:gravity="center_vertical"
-
                                     android:layout_marginEnd="0dp"
 
                                     android:layout_toStartOf="@+id/btn_productInfo_addToCart"
+
                                     android:fontFamily="@font/work_sans_semibold"
+                                    android:gravity="center_vertical"
                                     android:minWidth="90dp"
                                     android:text="$29.99"
                                     android:textColor="@color/black"
@@ -559,20 +564,14 @@
                     </LinearLayout>
 
 
-
                 </RelativeLayout>
-
 
 
             </FrameLayout>
 
 
-
-
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
