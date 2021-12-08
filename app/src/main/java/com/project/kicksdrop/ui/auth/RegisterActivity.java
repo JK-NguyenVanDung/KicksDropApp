@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -47,7 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnSignIn, btnSignUp;
     ImageButton loginGoogle;
     RadioGroup groupCheck;
-    RadioButton checkMale, checkFemale, checkother, checkAccept;
+    RadioButton checkMale, checkFemale, checkOther;
+    CheckBox checkAccept;
     FirebaseAuth auth;
     FirebaseUser fUser;
     private GoogleSignInClient mGoogleSignInClient;
@@ -72,8 +74,8 @@ public class RegisterActivity extends AppCompatActivity {
         groupCheck = (RadioGroup) findViewById(R.id.group_Radio_checkbox);
         checkMale = (RadioButton) findViewById(R.id.btn_check_male);
         checkFemale= (RadioButton) findViewById(R.id.btn_check_female);
-        checkother = (RadioButton) findViewById(R.id.btn_check_other);
-        checkAccept = (RadioButton) findViewById(R.id.btn_check_accept);
+        checkOther = (RadioButton) findViewById(R.id.btn_check_other);
+        checkAccept = findViewById(R.id.btn_check_accept);
 
         layoutEmail = (TextInputLayout) findViewById(R.id.layoutEmail);
         layoutCfPassword = (TextInputLayout) findViewById(R.id.layoutPassword);
@@ -151,7 +153,9 @@ public class RegisterActivity extends AppCompatActivity {
                     cfPassword.setError("Password does not match, Please enter again!");
                     return;
                 }
-
+                if(!checkAccept.isChecked()){
+                    Toast.makeText(getApplicationContext(),"Please accept our terms and conditions to register",Toast.LENGTH_SHORT).show();
+                }
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

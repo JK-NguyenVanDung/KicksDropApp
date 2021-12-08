@@ -240,12 +240,12 @@
 
             </RadioGroup>
 
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <CheckBox
                 android:id="@+id/btn_check_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/main_purple"
-                android:checked="true"
+                android:checked="false"
                 android:text="Press this to accept all our term and conditions "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.ChatActivity;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.MainActivity;
+import com.project.kicksdrop.SplashScreen;
 import com.project.kicksdrop.adapter.BannerAdapter;
 import com.project.kicksdrop.adapter.BrandAdapter;
 import com.project.kicksdrop.adapter.HomeCouponAdapter;
@@ -130,7 +131,7 @@ public class  HomeFragment extends Fragment implements ProductListAdapter.OnProd
                 new ViewModelProvider(this).get(HomeViewModel.class);
         loading = new LoadingScreen(HomeFragment.this);
 
-        loading.startLoadingScreenFragment();
+        //loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;
@@ -141,8 +142,6 @@ public class  HomeFragment extends Fragment implements ProductListAdapter.OnProd
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-
-
 
 
         CouponRecyclerView = binding.homeRvCoupon;
@@ -166,8 +165,6 @@ public class  HomeFragment extends Fragment implements ProductListAdapter.OnProd
         getBrand();
         getCoupon();
         getProduct();
-
-
         final ImageButton chat = binding.homeBtnChat;
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
