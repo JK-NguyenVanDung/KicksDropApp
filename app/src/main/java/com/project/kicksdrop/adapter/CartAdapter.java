@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,6 +101,27 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return new CartAdapter.ViewHolder(view);
     }
 
+    private String capitalize(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        char first = s.charAt(0);
+        if (Character.isUpperCase(first)) {
+            return s;
+        } else {
+            return Character.toUpperCase(first) + s.substring(1);
+        }
+    }
+    public String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.toLowerCase().startsWith(manufacturer.toLowerCase())) {
+            return capitalize(model);
+        } else {
+            return capitalize(manufacturer);
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -134,23 +156,46 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 Integer resource = (Integer) holder.heart.getTag();
                 boolean samsungCont = resource == R.drawable.ic_heart;
                 boolean condition = holder.heart.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(context, R.drawable.ic_heart)).getConstantState();
-                if (condition || samsungCont
-                )
+                Toast.makeText(context, "!" + getDeviceName(), Toast.LENGTH_LONG).show();
+
+                if(getDeviceName().contentEquals("Samsung"))
                 {
-                    holder.heart.setImageResource(R.drawable.ic_heart_activated);
-                    String idUser = fUser.getUid();
-                    addProductWishlist(idUser,productOptions.get(holder.getAdapterPosition()));
-                    Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_SHORT).show();
-                    holder.heart.setTag(R.drawable.ic_heart_activated);
+                    if (samsungCont)
+                    {
+                        holder.heart.setImageResource(R.drawable.ic_heart_activated);
+                        String idUser = fUser.getUid();
+                        addProductWishlist(idUser,productOptions.get(holder.getAdapterPosition()));
+                        Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_SHORT).show();
+                        holder.heart.setTag(R.drawable.ic_heart_activated);
 
+                    }else{
+                        holder.heart.setImageResource(R.drawable.ic_heart);
+                        String idUser = fUser.getUid();
+                        delProductWishlist(idUser,product.getProduct_id());
+                        Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_SHORT).show();
+                        holder.heart.setTag(R.drawable.ic_heart);
+
+                    }
                 }else{
-                    holder.heart.setImageResource(R.drawable.ic_heart);
-                    String idUser = fUser.getUid();
-                    delProductWishlist(idUser,product.getProduct_id());
-                    Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_SHORT).show();
-                    holder.heart.setTag(R.drawable.ic_heart);
+                    if (condition)
+                    {
+                        holder.heart.setImageResource(R.drawable.ic_heart_activated);
+                        String idUser = fUser.getUid();
+                        addProductWishlist(idUser,productOptions.get(holder.getAdapterPosition()));
+                        Toast.makeText(context,"Product is saved into Wishlist", Toast.LENGTH_SHORT).show();
+                        holder.heart.setTag(R.drawable.ic_heart_activated);
 
+                    }else{
+                        holder.heart.setImageResource(R.drawable.ic_heart);
+                        String idUser = fUser.getUid();
+                        delProductWishlist(idUser,product.getProduct_id());
+                        Toast.makeText(context,"Product is removed into Wishlist", Toast.LENGTH_SHORT).show();
+                        holder.heart.setTag(R.drawable.ic_heart);
+
+                    }
                 }
+
+
             }});
 
         for(HashMap<String,String> temp: product.getProduct_images()){
@@ -286,6 +331,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
 
     }
+
 
     private void getUserWishlist(String user_id, Product product , ImageButton heart){
         FirebaseDatabase database = FirebaseDatabase.getInstance();

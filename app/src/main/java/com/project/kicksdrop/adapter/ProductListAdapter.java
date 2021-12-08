@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private static List<Product> mProductList;
     private ProductListAdapter.OnProductListener mOnProductListener;
     private LoadingScreen loading;
+    private Integer resource;
     Boolean flag;
     public ProductListAdapter(Context context, List<Product> mProductList, ProductListAdapter.OnProductListener onProductListener, LoadingScreen loading){
         this.context = context;
@@ -83,6 +85,26 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return new ProductListAdapter.ViewHolder(view,mOnProductListener);
     }
 
+    private String capitalize(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        char first = s.charAt(0);
+        if (Character.isUpperCase(first)) {
+            return s;
+        } else {
+            return Character.toUpperCase(first) + s.substring(1);
+        }
+    }
+    public String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.toLowerCase().startsWith(manufacturer.toLowerCase())) {
+            return capitalize(model);
+        } else {
+            return capitalize(manufacturer);
+        }
+    }
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
 
@@ -118,7 +140,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.name.setText(product.getProduct_name());
         loadImage(holder.productImage,imageName,holder.shimmer,holder.name,holder.price);
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-        holder.heart.setTag(R.drawable.ic_heart);
 
         if(fUser != null){
             getUserWishlist(fUser.getUid(), product, holder.heart);
@@ -129,32 +150,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
-                Integer resource = (Integer) holder.heart.getTag();
-                boolean samsungCont = resource == R.drawable.ic_heart;
+
                 boolean condition = holder.heart.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(context, R.drawable.ic_heart)).getConstantState();
-                if(samsungCont){
-                    holder.heart.setImageResource(R.drawable.ic_heart_activated);
-                    assert fUser != null;
-                    String idUser = fUser.getUid();
-                    addProductWishlist(idUser,product);
-                    holder.heart.setTag(R.drawable.ic_heart_activated);
-                }else{
-                    holder.heart.setImageResource(R.drawable.ic_heart);
-                    assert fUser != null;
-                    String idUser = fUser.getUid();
-                    delProductWishlist(idUser,product.getProduct_id());
-                    holder.heart.setTag(R.drawable.ic_heart);
 
-                }
-                if (condition)
+                if(getDeviceName().equals("Samsung"))
                 {
+                    boolean samsungCont = resource == R.drawable.ic_heart;
+                    if(samsungCont ){
                     holder.heart.setImageResource(R.drawable.ic_heart_activated);
                     assert fUser != null;
                     String idUser = fUser.getUid();
                     addProductWishlist(idUser,product);
                     holder.heart.setTag(R.drawable.ic_heart_activated);
-
-                }else{
+                    resource = (Integer) holder.heart.getTag();
+                    }else{
                     holder.heart.setImageResource(R.drawable.ic_heart);
                     assert fUser != null;
                     String idUser = fUser.getUid();
@@ -162,6 +171,25 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     holder.heart.setTag(R.drawable.ic_heart);
 
                 }
+                }else{
+                    if (condition)
+                    {
+                        holder.heart.setImageResource(R.drawable.ic_heart_activated);
+                        assert fUser != null;
+                        String idUser = fUser.getUid();
+                        addProductWishlist(idUser,product);
+                        holder.heart.setTag(R.drawable.ic_heart_activated);
+
+                    }else{
+                        holder.heart.setImageResource(R.drawable.ic_heart);
+                        assert fUser != null;
+                        String idUser = fUser.getUid();
+                        delProductWishlist(idUser,product.getProduct_id());
+                        holder.heart.setTag(R.drawable.ic_heart);
+
+                    }
+                }
+
 
             }});
     }
@@ -183,8 +211,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         heart.setTag(R.drawable.ic_heart_activated);
                     }else{
                         heart.setTag(R.drawable.ic_heart);
-
                     }
+                    resource = (Integer) heart.getTag();
+
+                }
+                if(listWishlist.size() <=0){
+                    heart.setTag(R.drawable.ic_heart);
+                    resource = (Integer) heart.getTag();
+
                 }
             }
             @Override
