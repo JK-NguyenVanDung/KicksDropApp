@@ -32,6 +32,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="2dp"
                  />
+
             <ImageButton
                 android:id="@+id/product_btn_heart"
                 android:layout_width="wrap_content"
@@ -42,7 +43,7 @@
                 android:layout_marginTop="5dp"
                 android:background="?android:selectableItemBackground"
                 android:src="@drawable/ic_heart"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
 
             <!--icon circle-->
 

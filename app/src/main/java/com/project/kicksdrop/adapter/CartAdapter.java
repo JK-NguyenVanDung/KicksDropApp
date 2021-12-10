@@ -202,7 +202,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             String lower = temp.get("color").toLowerCase();
             if(lower.equals(opColor)){
                 String imageName = temp.get("image");
-                loadImage(holder.productImage,imageName,holder);
+                loadImage(holder.productImage,imageName,holder,product);
             }
         }
         totalProducts= productOptions.size();
@@ -220,9 +220,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         if(product.getDiscount_price() == 0.0){
             sPrice =format.format(product.getProduct_price());
             holder.productCartPrice.setText(sPrice);
-
         }else {
-            holder.discount.setVisibility(View.VISIBLE);
             holder.discount.setPaintFlags(holder.discount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             sPrice =format.format(product.getDiscount_price());
             holder.productCartPrice.setText(sPrice);
@@ -386,7 +384,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         totalPaymentHead.setText(sPrice);
     }
 
-    private void loadImage(ImageView image, String imageName,CartAdapter.ViewHolder holder){
+    private void loadImage(ImageView image, String imageName,CartAdapter.ViewHolder holder,Product product){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
             File file = File.createTempFile("tmp",".jpg");
@@ -413,6 +411,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     holder.spinnerCont.setVisibility(View.VISIBLE);
 
                     holder.productCartAmount.setVisibility(View.VISIBLE);
+
+                    if(product.getDiscount_price()>0){
+                        holder.discount.setVisibility(View.VISIBLE);
+
+                    }
 
                 }
             });

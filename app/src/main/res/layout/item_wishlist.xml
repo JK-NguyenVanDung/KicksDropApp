@@ -130,18 +130,19 @@
                 android:textSize="16sp"
                 android:singleLine="true"
                 />
+
             <ImageButton
                 android:id="@+id/wishlist_ibtn_remove"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
                 android:background="@android:color/transparent"
+                android:contentDescription="@string/todo"
                 android:gravity="center_vertical"
                 android:src="@drawable/ic_remove_product_cart"
                 android:textColor="#777777"
                 android:textSize="10sp"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck"
-                android:contentDescription="@string/todo" />
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck,DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck" />
 
 
         </LinearLayout>
@@ -211,7 +212,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="0dp"
                     android:background="@drawable/border_radius_gray_light"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck" />
 
                 <ImageButton
                     android:id="@+id/wishlist_btn_dropDown"
@@ -225,7 +226,7 @@
                     android:background="?android:selectableItemBackground"
                     android:backgroundTint="#777777"
                     android:src="@drawable/ic_drop_down"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -259,29 +260,7 @@
                 tools:ignore="TouchTargetSizeCheck" />
         </androidx.cardview.widget.CardView>
 
-        <!--        <Button-->
-        <!--            android:id="@+id/btn_item_productCart_addToCart_button"-->
 
-        <!--            android:layout_width="131dp"-->
-        <!--            android:layout_height="40dp"-->
-
-        <!--            android:layout_alignEnd="@+id/linearlayout_itemProductCart_sectionOne"-->
-        <!--            android:layout_alignParentBottom="true"-->
-
-
-        <!--            android:layout_marginStart="59dp"-->
-        <!--            android:layout_marginEnd="12dp"-->
-        <!--            android:layout_marginBottom="1dp"-->
-        <!--            android:layout_toEndOf="@+id/linearlayout_productCart_addToCart_sectionOne"-->
-        <!--            android:backgroundTint="@android:color/black"-->
-        <!--            android:gravity="center_vertical|center_horizontal"-->
-        <!--            android:paddingLeft="0dp"-->
-        <!--            android:paddingRight="0dp"-->
-        <!--            android:text="Add to cart"-->
-        <!--            android:textAllCaps="false"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            android:textSize="15sp"-->
-        <!--            tools:ignore="TouchTargetSizeCheck" />-->
 
     </RelativeLayout>
     <com.facebook.shimmer.ShimmerFrameLayout

@@ -121,9 +121,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         java.util.Currency usd = java.util.Currency.getInstance("USD");
         java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.US);
         format.setCurrency(usd);
+        String sPrice =format.format(product.getProduct_price());
         if(product.getDiscount_price() >0){
-            holder.discount.setVisibility(View.VISIBLE);
-            String sPrice =format.format(product.getProduct_price());
             String discountedPrice =format.format(product.getDiscount_price());
 
             holder.price.setText(discountedPrice);
@@ -133,12 +132,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.discount.setText(sPrice);
 
         }else{
-            String sPrice =format.format(product.getProduct_price());
             holder.price.setText(sPrice);
 
         }
         holder.name.setText(product.getProduct_name());
-        loadImage(holder.productImage,imageName,holder.shimmer,holder.name,holder.price);
+        loadImage(holder.productImage,imageName,holder.shimmer,holder.name,holder.price,product,holder.discount);
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if(fUser != null){
@@ -241,7 +239,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     }
 
-    private void loadImage(ImageView image, String imageName,ShimmerFrameLayout shimmer,TextView name,TextView price){
+    private void loadImage(ImageView image, String imageName,ShimmerFrameLayout shimmer,TextView name,TextView price,Product product, TextView discount){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(imageName);
         try {
             File file = File.createTempFile("tmp",".jpg");
@@ -262,6 +260,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     image.setVisibility(View.VISIBLE);
                     name.setVisibility(View.VISIBLE);
                     price.setVisibility(View.VISIBLE);
+
+                    if(product.getDiscount_price() > 0){
+                      discount.setVisibility(View.VISIBLE);
+                    }
 
                 }
             });

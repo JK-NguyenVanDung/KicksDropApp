@@ -258,44 +258,4 @@ public class ProductBrands extends AppCompatActivity implements ProductListAdapt
         });
     }
 
-    private void searchProduct(String key){
-        keySearch = key;
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("product");
-        mProduct =new ArrayList<>();
-
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mProduct.clear();
-                for(DataSnapshot dtShot: snapshot.getChildren()){
-                    Product product = dtShot.getValue(Product.class);
-                    assert product != null;
-
-                    if (product.getProduct_name().toLowerCase().contains(keySearch.toLowerCase())){
-                        product.setProduct_id(dtShot.getKey());
-                        mProduct.add(product);
-                    }
-                }
-                if(mProduct.size() == 0){
-                    noAnyThing.setVisibility(View.VISIBLE);
-                }else {
-                    noAnyThing.setVisibility(View.GONE);
-                }
-
-                if(mProduct.size() <1){
-                    loading.dismissDialog();
-                }
-                productAdapter = new ProductListAdapter(getApplicationContext(),mProduct, ProductBrands.this,loading);
-                recyclerView.setAdapter(productAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-    }
 }

@@ -131,7 +131,7 @@ public class  HomeFragment extends Fragment implements ProductListAdapter.OnProd
                 new ViewModelProvider(this).get(HomeViewModel.class);
         loading = new LoadingScreen(HomeFragment.this);
 
-        //loading.startLoadingScreenFragment();
+        loading.startLoadingScreenFragment();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         tvNumberCart = binding.tvNumberCartHome;
@@ -165,6 +165,8 @@ public class  HomeFragment extends Fragment implements ProductListAdapter.OnProd
         getBrand();
         getCoupon();
         getProduct();
+
+
         final ImageButton chat = binding.homeBtnChat;
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
