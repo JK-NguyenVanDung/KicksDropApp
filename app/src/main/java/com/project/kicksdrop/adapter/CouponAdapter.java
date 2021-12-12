@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder> {
 
@@ -263,7 +264,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 .show();
 
     }
-    private static void getProduct(List<HashMap<String, String>> cartProducts, String brand, int count,  OnCouponListener onCouponListener, int position, View v, String id){
+
+    private static void getProduct(List<HashMap<String, String>> cartProducts, String brand, int count, OnCouponListener onCouponListener, int position, View v, String id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProducts = new ArrayList<>();
@@ -275,23 +277,24 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                     for(DataSnapshot dtShot: snapshot.getChildren()){
                         Product product = dtShot.getValue(Product.class);
                         assert product != null;
-                        product.setProduct_id(snapshot.getKey());
+                        product.setProduct_id(dtShot.getKey());
                         product.getProduct_colors().remove(0);
-                        if(product.getProduct_id().toLowerCase().equals(item.get("productId").toLowerCase())){
+                        String id = product.getProduct_id().toLowerCase();
+                        if(id.equals(Objects.requireNonNull(item.get("productId")).toLowerCase())){
                             if (product.getProduct_brand().equals(brand)){
                                 mProducts.add(product);
                             }
                         }
                     }
                 }
-                if (mProducts.size() >= count){
-
+                int size = mProducts.size();
+                if (size >= count){
                     onCouponListener.onCouponClick(position, v, id,true);
-
                 }else{
                     Toast.makeText(v.getContext(), "Condition is not met!",Toast.LENGTH_SHORT).show();
-
                 }
+
+
 
 
             }
