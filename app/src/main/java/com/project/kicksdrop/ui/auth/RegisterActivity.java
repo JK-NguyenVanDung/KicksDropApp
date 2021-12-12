@@ -205,9 +205,6 @@ public class RegisterActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account");
 
-        myRef.child(userID).child("coupon").child("CP1").setValue("CP1");
-        myRef.child(userID).child("coupon").child("CP2").setValue("CP2");
-
         myRef.child(userID).child("email").setValue(email);
         myRef.child(userID).child("gender").setValue(gender);
         myRef.child(userID).child("mobile").setValue(mobile);
