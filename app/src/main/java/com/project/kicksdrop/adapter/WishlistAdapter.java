@@ -83,6 +83,10 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder holder, int position) {
 
         final Product product = mWishlist.get(holder.getAdapterPosition());
+        if (product.getProduct_quantity()<=0){
+            holder.addCart.setText("Out of stock");
+            holder.addCart.setEnabled(false);
+        }
 
         holder.image.setVisibility(View.INVISIBLE);
         holder.name.setVisibility(View.INVISIBLE);

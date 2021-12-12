@@ -155,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 if(!checkAccept.isChecked()){
                     Toast.makeText(getApplicationContext(),"Please accept our terms and conditions to register",Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
