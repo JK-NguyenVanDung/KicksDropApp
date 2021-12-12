@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class CartOrder extends AppCompatActivity {
 
     FirebaseUser fUser;
     ImageButton prevBtn;
+    RadioGroup groupCheck;
     Button orderBtn;
     TextView  tv_shipmentPartner, tv_couponPercent, tv_shipment, tv_totalPrice, tv_discount, tv_shipmentPrice, tv_totalPayment, tv_couponCode;
     EditText et_address;
@@ -88,7 +90,7 @@ public class CartOrder extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!et_address.getText().toString().equals(" ") && !et_address.getText().toString().equals("") ){
+                if(!et_address.getText().toString().trim().equals("")){
                     createOrder();
                     Intent intent1 = new Intent(getApplicationContext(), OrderCompleted.class);
                     startActivity(intent1);
@@ -168,6 +170,7 @@ public class CartOrder extends AppCompatActivity {
         prevBtn = (ImageButton) findViewById(R.id.order_ibtn_prev);
         orderBtn = (Button) findViewById(R.id.order_btn_makeOrder);
 
+        groupCheck = (RadioGroup) findViewById(R.id.order_rbtn_radioGroup);
         recyclerView = (RecyclerView) findViewById(R.id.order_rv_products);
         et_address = (EditText) findViewById(R.id.order_et_address);
         tv_couponCode = (TextView)findViewById( R.id.order_tv_coupon );
@@ -318,6 +321,7 @@ public class CartOrder extends AppCompatActivity {
                     String sPrice =format.format(shipPrice);
                     String sShipPrice =format.format(shipPrice);
 
+                    tv_couponPercent.setText("");
                     tv_shipment.setText(sPrice);
                     tv_shipmentPrice.setText(sShipPrice);
                 }else {
@@ -336,12 +340,6 @@ public class CartOrder extends AppCompatActivity {
         });
     }
 
-    private void updateProduct(String product_id, int quanity){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("product/"+product_id);
-       myRef.child("product_quantity").setValue(quanity);
-    }
-
     @SuppressLint("SimpleDateFormat")
     private void createOrder(){
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(Calendar.getInstance().getTime());
@@ -349,6 +347,9 @@ public class CartOrder extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("order/"+fUser.getUid()+"/"+timeStamp_id);
         DatabaseReference saveAddress = database.getReference("account/"+fUser.getUid()+"/address");
+        int radioId = groupCheck.getCheckedRadioButtonId();
+        RadioButton groupCheck = findViewById(radioId);
+        String option = groupCheck.getText().toString();
         //
         saveAddress.setValue(et_address.getText().toString().trim());
         myRef.child("address").setValue(et_address.getText().toString().trim());
@@ -358,6 +359,7 @@ public class CartOrder extends AppCompatActivity {
             myRef.child("order_discount").setValue(tv_discount.getText().toString().trim().substring(2));
 
         }
+        myRef.child("payment").setValue(option);
         myRef.child("order_price").setValue(tv_totalPrice.getText().toString().trim().substring(1));
         myRef.child("shipment_partner").setValue(tv_shipmentPartner.getText().toString().trim());
         myRef.child("shipping_price").setValue(tv_shipmentPrice.getText().toString().trim().substring(1));
@@ -368,10 +370,8 @@ public class CartOrder extends AppCompatActivity {
         myRef.child("notification").setValue(true);
         //
         addProductOrder(fUser.getUid());
-        deleteFromCart();
         deleteFromCoupon(coupon_id);
-
-
+        deleteFromCart();
     }
     @SuppressLint("SetTextI18n")
     private void deleteFromCart(){

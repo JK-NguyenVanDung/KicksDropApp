@@ -253,6 +253,7 @@ public class CartListView extends AppCompatActivity {
     private void Discount(String coupon_id){
         if (coupon_id != null){
             String prices = totalPayment.getText().toString().trim();
+
             Log.d("test", prices);
         }
     }

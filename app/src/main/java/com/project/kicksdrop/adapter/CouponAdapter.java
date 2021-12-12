@@ -204,7 +204,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                             }
                             else if (couponDuration < today){
                                 FirebaseUser fUser;
-                                Toast.makeText(v.getContext(), "Can't use now",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(v.getContext(), "Coupon Expired",Toast.LENGTH_SHORT).show();
                                 String coupon_id = mCoupon.get(position).getCoupon_id();
                                 fUser = FirebaseAuth.getInstance().getCurrentUser();
                                 assert fUser != null;
@@ -218,7 +218,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                                 FirebaseUser fUser;
                                 fUser = FirebaseAuth.getInstance().getCurrentUser();
                                 assert fUser != null;
-                                String brand = mCoupon.get(position).getCoupon_condition().substring(2);
+                                String brand = mCoupon.get(position).getCoupon_condition().substring(2).toLowerCase();
                                 int count =Integer.parseInt( mCoupon.get(position).getCoupon_condition().substring(0,1) );
                                 getCart(fUser.getUid(), brand, count, onCouponListener,position,v,id);
                                 noChecked = false;
@@ -281,7 +281,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                         product.getProduct_colors().remove(0);
                         String id = product.getProduct_id().toLowerCase();
                         if(id.equals(Objects.requireNonNull(item.get("productId")).toLowerCase())){
-                            if (product.getProduct_brand().equals(brand)){
+                            if (product.getProduct_brand().toLowerCase().equals(brand)){
                                 mProducts.add(product);
                             }
                         }
