@@ -155,7 +155,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             public void onClick(View v) {
 
                 boolean condition = holder.heart.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(context, R.drawable.ic_heart)).getConstantState();
-                Toast.makeText(context, "!" + getDeviceName(), Toast.LENGTH_LONG).show();
 
                 if(getDeviceName().contentEquals("Samsung"))
                 {  Integer resource = (Integer) holder.heart.getTag();
