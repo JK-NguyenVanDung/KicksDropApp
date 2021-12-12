@@ -29,6 +29,8 @@ import com.project.kicksdrop.R;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,11 +51,15 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private static List<CheckBoxGroup> mCheckbox;
     private static Button apply;
     private static boolean checkCoupon;
+    public static void setCheck(boolean check) {
+        CouponAdapter.check = check;
+    }
 
     private static boolean check;
     public class CheckBoxGroup{
-        public CheckBoxGroup(int adapterPosition, CheckBox couponCheckbox) {
+        public CheckBoxGroup(int adapterPosition, CheckBox couponCheckbox, TextView err) {
             this.pos = adapterPosition;
+            this.err = err;
             this.check = couponCheckbox;
         }
 
@@ -73,6 +79,15 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             this.check = check;
         }
 
+        public TextView getErr() {
+            return err;
+        }
+
+        public void setErr(TextView err) {
+            this.err = err;
+        }
+
+        private TextView err;
         private int pos;
         private CheckBox check;
 
@@ -131,7 +146,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             holder.couponCheckbox.setChecked(true);
         }
 
-        CheckBoxGroup cbg = new CheckBoxGroup(holder.getAdapterPosition(),holder.couponCheckbox);
+        CheckBoxGroup cbg = new CheckBoxGroup(holder.getAdapterPosition(),holder.couponCheckbox, holder.err);
         mCheckbox.add(cbg);
 
         holder.couponCheckbox.setOnClickListener(new View.OnClickListener() {
@@ -168,12 +183,13 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     public static boolean noChecked = true;
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageButton delete;
-        TextView couponContent, couponDate, couponCode;
+        TextView couponContent, couponDate, couponCode, err;
         CheckBox couponCheckbox;
         CouponAdapter.OnCouponListener onCouponListener;
         public ViewHolder(@NonNull View itemView, OnCouponListener onProductListener) {
 
             super(itemView);
+            err = itemView.findViewById( R.id.coupon_tv_err );
             delete = itemView.findViewById(R.id.coupon_ibtn_remove);
             couponContent = itemView.findViewById(R.id.coupon_tv_content);
             couponDate = itemView.findViewById(R.id.coupon_tv_date);
@@ -223,7 +239,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                                 assert fUser != null;
                                 String brand = mCoupon.get(position).getCoupon_condition().substring(2).toLowerCase();
                                 int count =Integer.parseInt( mCoupon.get(position).getCoupon_condition().substring(0,1) );
-                                getCart(fUser.getUid(), brand, count, onCouponListener,position,v,id);
+                                getCart(fUser.getUid(), brand, count, onCouponListener, position, v, id, cb.getErr() );
                                 noChecked = false;
                                 break;
                             }
@@ -268,7 +284,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
 
     }
 
-    private static void getProduct(List<HashMap<String, String>> cartProducts, String brand, int count, OnCouponListener onCouponListener, int position, View v, String id){
+    private static void getProduct(List<HashMap<String, String>> cartProducts, String brand, int count, OnCouponListener onCouponListener, int position, View v, String id, TextView err){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProducts = new ArrayList<>();
@@ -293,10 +309,11 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 int size = mProducts.size();
                 if (size >= count){
                     onCouponListener.onCouponClick(position, v, id,true);
-                    check= true;
+                    check = false;
+                    err.setVisibility(View.INVISIBLE);
                 }else if (check){
-                    Toast.makeText(v.getContext(), "Condition is not met!",Toast.LENGTH_SHORT).show();
-                    check= false;
+                    err.setVisibility(View.VISIBLE);
+                    check = false;
                 }
 
 
@@ -310,7 +327,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         });
     }
 
-    private static void getCart(String user_Id, String brand, int count, OnCouponListener onCouponListener, int position, View v, String id){
+    private static void getCart(String user_Id, String brand, int count, OnCouponListener onCouponListener, int position, View v, String id, TextView err){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
@@ -327,7 +344,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                         item.put("cartProductID", key);
                         productsInCart.add(item);
                     }
-                    getProduct(productsInCart, brand, count, onCouponListener, position, v , id);
+                    getProduct(productsInCart, brand, count, onCouponListener, position, v , id, err);
                 }
             }
 

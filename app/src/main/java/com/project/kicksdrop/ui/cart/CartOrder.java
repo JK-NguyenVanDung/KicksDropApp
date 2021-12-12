@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.kicksdrop.LoadingScreen;
 import com.project.kicksdrop.R;
+import com.project.kicksdrop.adapter.CouponAdapter;
 import com.project.kicksdrop.adapter.OrderProductAdapter;
 import com.project.kicksdrop.model.Coupon;
 import com.project.kicksdrop.model.Product;
@@ -370,6 +371,7 @@ public class CartOrder extends AppCompatActivity {
         myRef.child("notification").setValue(true);
         //
         addProductOrder(fUser.getUid());
+        CouponAdapter.setCheck(true);
         deleteFromCoupon(coupon_id);
         deleteFromCart();
     }
