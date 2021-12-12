@@ -49,6 +49,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
     private static List<CheckBoxGroup> mCheckbox;
     private static Button apply;
     private static boolean checkCoupon;
+
+    private static boolean check;
     public class CheckBoxGroup{
         public CheckBoxGroup(int adapterPosition, CheckBox couponCheckbox) {
             this.pos = adapterPosition;
@@ -83,6 +85,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         CouponAdapter.apply = apply;
         this.mOnCouponListener = onCouponListener;
         mCheckbox = new ArrayList<>();
+        check = true;
     }
 
 
@@ -290,8 +293,10 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 int size = mProducts.size();
                 if (size >= count){
                     onCouponListener.onCouponClick(position, v, id,true);
-                }else{
+                    check= true;
+                }else if (check){
                     Toast.makeText(v.getContext(), "Condition is not met!",Toast.LENGTH_SHORT).show();
+                    check= false;
                 }
 
 
@@ -304,6 +309,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             }
         });
     }
+
     private static void getCart(String user_Id, String brand, int count, OnCouponListener onCouponListener, int position, View v, String id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
