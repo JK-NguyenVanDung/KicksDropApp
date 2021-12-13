@@ -72,6 +72,8 @@ public class CustomerOrder extends AppCompatActivity {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert fUser != null;
         getOrder(fUser.getUid());
     }
 
@@ -80,7 +82,6 @@ public class CustomerOrder extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("order/"+user_Id);
         mOrder = new ArrayList<>();
         DatabaseReference ref = database.getReference("product");
-        //final ArrayList<Product>[] products = new ArrayList[]{new ArrayList<>()};
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,30 +114,6 @@ public class CustomerOrder extends AppCompatActivity {
 
         });
     }
-    private void cleanDBOrder(String user_Id){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("order/"+user_Id);
-        DatabaseReference ref = database.getReference("product");
-        //final ArrayList<Product>[] products = new ArrayList[]{new ArrayList<>()};
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot dtShot: snapshot.getChildren()){
-                    Order order = dtShot.getValue(Order.class);
-                    assert order != null;
-                    if (String.valueOf(order.getNotification()) == null){
-                        myRef.child(dtShot.getKey()).removeValue();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
-    }
 
 }
