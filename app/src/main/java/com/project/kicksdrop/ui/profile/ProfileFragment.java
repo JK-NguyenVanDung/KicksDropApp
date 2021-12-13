@@ -229,7 +229,7 @@ public class ProfileFragment extends Fragment {
         DatabaseReference myRef = database.getReference("order/"+user_Id);
         DatabaseReference ref = database.getReference("product");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
