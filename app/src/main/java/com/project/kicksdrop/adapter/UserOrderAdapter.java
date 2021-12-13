@@ -68,12 +68,16 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
         final Order order = mOrderList.get(holder.getAdapterPosition());
         String totalPayment;
         if(order.getOrder_discount() != null && order.getOrder_price() != null && order.getShipping_price() != null){
-            totalPayment= String.valueOf(
-                    Double.parseDouble(order.getOrder_price()) -
+
+            double total =         Double.parseDouble(order.getOrder_price()) -
                             Double.parseDouble(order.getOrder_discount()) +
-                            Double.parseDouble(order.getShipping_price()));
+                            Double.parseDouble(order.getShipping_price());
+            total= Math.ceil(total * 100) / 100;
+            totalPayment= String.valueOf(total);
             holder.tv_discount.setText("-$" +order.getOrder_discount());
             holder.tv_totalPayment.setText("$" +totalPayment);
+
+
 
         }else{
             holder.tv_discount.setText("$0.00");

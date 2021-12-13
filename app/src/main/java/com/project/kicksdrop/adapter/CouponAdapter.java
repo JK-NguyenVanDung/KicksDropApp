@@ -115,17 +115,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         return new CouponAdapter.ViewHolder(view, mOnCouponListener);
     }
 
-    public void check(String id, int pos){
-        for(Coupon cp : mCoupon){
-            if(cp.getCoupon_id().equals(id)){
-                cp.setCoupon_checked(true);
-//                Toast.makeText(context,String.valueOf(cp.getCoupon_checked()),Toast.LENGTH_SHORT).show();
-            }else{
-                cp.setCoupon_checked(false);
-            }
-
-        }
-    }
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CouponAdapter.ViewHolder holder, int position) {
@@ -251,7 +240,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                         }
                     }
                     if(noChecked){
-                            Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), "Select a coupon to use!",Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -288,7 +277,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProducts = new ArrayList<>();
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProducts.clear();
@@ -310,7 +299,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 if (size >= count){
                     onCouponListener.onCouponClick(position, v, id,true);
                     check = false;
-                    err.setVisibility(View.INVISIBLE);
+                    err.setVisibility(View.GONE);
                 }else if (check){
                     err.setVisibility(View.VISIBLE);
                     check = false;
@@ -331,7 +320,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();

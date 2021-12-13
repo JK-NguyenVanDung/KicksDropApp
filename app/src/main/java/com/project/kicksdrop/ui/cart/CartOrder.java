@@ -117,9 +117,6 @@ public class CartOrder extends AppCompatActivity {
 
         if (!coupon_id.equals("")){
             getCoupon(coupon_id);
-
-        //
-
         }else{
             tv_couponCode.setText(" ");
             tv_couponPercent.setText(" ");
@@ -145,12 +142,12 @@ public class CartOrder extends AppCompatActivity {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("account/" + fUser.getUid());
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) snapshot.getValue();
                 address = Objects.requireNonNull(hashMap.get("address")).toString();
-                if(!address.equals(" ")){
+                if(!address.trim().equals("")){
                     et_address.setText(address);
                 }
             }
@@ -187,7 +184,7 @@ public class CartOrder extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProducts = new ArrayList<>();
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProducts.clear();
@@ -231,7 +228,7 @@ public class CartOrder extends AppCompatActivity {
                                     String sTotalPayment = format.format( total + shipPrice - discount );
                                     tv_totalPayment.setText(sTotalPayment);
                                 }
-                                }
+                            }
 
                         }
 
@@ -253,7 +250,7 @@ public class CartOrder extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<HashMap<String,String>> productsInCart = new ArrayList<HashMap<String,String>>();
@@ -288,7 +285,7 @@ public class CartOrder extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("coupon");
         mCoupon = new ArrayList<>();
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -394,7 +391,7 @@ public class CartOrder extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("product");
         mProducts = new ArrayList<>();
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mProducts.clear();
@@ -460,7 +457,7 @@ public class CartOrder extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("cart/"+user_Id);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 productsInCart = new ArrayList<HashMap<String,String>>();
